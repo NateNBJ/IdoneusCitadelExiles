@@ -1,0 +1,166 @@
+{
+  "bounds": [
+    45,
+    -10.5,
+    -41,
+    -34.5,
+    -51,
+    -32.5,
+    -43,
+    -12.5,
+    -43,
+    12.5,
+    -51,
+    32.5,
+    -41,
+    34.5,
+    45,
+    10.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_flashghast_lights",
+    "SYSTEM": "sun_ice_flashghast_system"
+  },
+  "center": [
+    40,
+    56
+  ],
+  "collisionRadius": 71.043999,
+  "engineSlots": [
+    {
+      "angle": -175.601288,
+      "contrailSize": 14.879107,
+      "length": 53.227371,
+      "location": [
+        -50,
+        19.5
+      ],
+      "style": "SUN_ICE",
+      "width": 14.879107
+    },
+    {
+      "angle": 175.601288,
+      "contrailSize": 14.879107,
+      "length": 53.227371,
+      "location": [
+        -50,
+        -19.5
+      ],
+      "style": "SUN_ICE",
+      "width": 14.879107
+    },
+    {
+      "angle": 180,
+      "contrailSize": 31,
+      "length": 105.5,
+      "location": [
+        -52,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 31
+    }
+  ],
+  "height": 114,
+  "hullId": "sun_ice_flashghast",
+  "hullName": "Flashghast",
+  "hullSize": "FRIGATE",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 71,
+  "spriteName": "graphics/sun_ice/ships/Flashghast.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 9.865807,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        17.5,
+        10
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -9.865807,
+      "arc": 5,
+      "id": "WS0002",
+      "locations": [
+        17.5,
+        -10
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0003",
+      "locations": [
+        49.5,
+        7
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0004",
+      "locations": [
+        49.5,
+        -7
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0005",
+      "locations": [
+        -24,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        1,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
+      "locations": [
+        1,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 80
+}

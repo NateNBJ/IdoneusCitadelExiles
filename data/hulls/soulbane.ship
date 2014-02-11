@@ -1,0 +1,227 @@
+{
+  "bounds": [
+    74,
+    -5.5,
+    88,
+    -7.5,
+    50,
+    -24.5,
+    30,
+    -24.5,
+    4,
+    -11,
+    -7.5,
+    -24,
+    13.5,
+    -47.5,
+    -30,
+    -50,
+    -29.5,
+    -68,
+    -70,
+    -40,
+    -39.5,
+    -33,
+    -83,
+    -11.5,
+    -45,
+    -6.5,
+    -45,
+    6.5,
+    -83,
+    11.5,
+    -39.5,
+    33,
+    -70,
+    40,
+    -29.5,
+    68,
+    -30,
+    50,
+    13.5,
+    47.5,
+    -7.5,
+    24,
+    4,
+    11,
+    30,
+    24.5,
+    50,
+    24.5,
+    88,
+    7.5,
+    74,
+    5.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_soulbane_lights",
+    "SYSTEM": "sun_ice_soulbane_system"
+  },
+  "center": [
+    77,
+    89.5
+  ],
+  "collisionRadius": 98,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 14,
+      "length": 73,
+      "location": [
+        -56,
+        0
+      ],
+      "style": "SUN_ICE",
+      "width": 14
+    },
+    {
+      "angle": -172,
+      "contrailSize": 20,
+      "length": 90,
+      "location": [
+        -56.5,
+        30.5
+      ],
+      "style": "SUN_ICE",
+      "width": 25
+    },
+    {
+      "angle": 172,
+      "contrailSize": 20,
+      "length": 90,
+      "location": [
+        -56.5,
+        -30.5
+      ],
+      "style": "CUSTOM",
+      "styleId": "SUN_ICE",
+      "width": 25
+    }
+  ],
+  "height": 183,
+  "hullId": "sun_ice_soulbane",
+  "hullName": "Soulbane",
+  "hullSize": "DESTROYER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 98,
+  "spriteName": "graphics/sun_ice/ships/Soulbane.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": -10,
+      "arc": 30,
+      "id": "WS0001",
+      "locations": [
+        -21.5,
+        62
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 10,
+      "arc": 30,
+      "id": "WS0002",
+      "locations": [
+        -21.5,
+        -62
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": -10,
+      "arc": 30,
+      "id": "WS0003",
+      "locations": [
+        12,
+        36.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "ENERGY"
+    },
+    {
+      "angle": 10,
+      "arc": 30,
+      "id": "WS0004",
+      "locations": [
+        12,
+        -36.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "ENERGY"
+    },
+    {
+      "angle": 40,
+      "arc": 5,
+      "id": "WS0005",
+      "locations": [
+        1.5,
+        17
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -40,
+      "arc": 5,
+      "id": "WS0006",
+      "locations": [
+        1.5,
+        -17
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0007",
+      "locations": [
+        51.5,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "LARGE",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 154
+}

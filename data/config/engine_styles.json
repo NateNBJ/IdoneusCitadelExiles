@@ -1,0 +1,20 @@
+{
+	"SUN_ICE":{
+		"engineColor":[160,240,220,120],
+		"contrailParticleSizeMult":8,
+		"contrailParticleDuration":3.0,
+		"contrailMaxSpeedMult":0.1f,
+		"contrailAngularVelocityMult":0.1f,
+		"contrailColor":[160,240,220,5],
+		"type":"SMOKE"
+	},
+	"SUN_ICE_MISSILE":{
+		"engineColor":[160,240,220,120],
+		"contrailParticleSizeMult":4,
+		"contrailParticleDuration":6.0,
+		"contrailMaxSpeedMult":0.0f,
+		"contrailAngularVelocityMult":0.0f,
+		"contrailColor":[203,248,235,30],
+		"type":"SMOKE"
+	}
+}

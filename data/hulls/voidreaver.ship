@@ -1,0 +1,350 @@
+{
+  "bounds": [
+    69.5,
+    -4,
+    159,
+    -4,
+    154.5,
+    -14.5,
+    87,
+    -36.5,
+    80,
+    -29.5,
+    62,
+    -37,
+    34,
+    -26.5,
+    34.5,
+    -50,
+    10.5,
+    -57,
+    3.5,
+    -65,
+    -93.5,
+    -96,
+    -93.5,
+    -82.5,
+    -55.5,
+    -57.5,
+    -44.5,
+    -57.5,
+    -44.5,
+    -45.5,
+    -47.5,
+    -32.5,
+    -79,
+    -38,
+    -89,
+    -28,
+    -139,
+    -22,
+    -159.5,
+    -4.5,
+    -33.5,
+    -4,
+    -33.5,
+    4,
+    -159.5,
+    4.5,
+    -139,
+    22,
+    -89,
+    28,
+    -79,
+    38,
+    -47.5,
+    32.5,
+    -44.5,
+    45.5,
+    -44.5,
+    57.5,
+    -55.5,
+    57.5,
+    -93.5,
+    82.5,
+    -93.5,
+    96,
+    3.5,
+    65,
+    10.5,
+    57,
+    34.5,
+    50,
+    34,
+    26.5,
+    62,
+    37,
+    80,
+    29.5,
+    87,
+    36.5,
+    154.5,
+    14.5,
+    159,
+    4,
+    69.5,
+    4
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod",
+    "sun_ice_graviton_deflector"
+  ],
+  "builtInWeapons": {
+    "WS0009": "sun_ice_hypermassdriver",
+    "LIGHTS": "sun_ice_voidreaver_lights",
+    "SYSTEM": "sun_ice_voidreaver_system"
+  },
+  "center": [
+    100,
+    162.5
+  ],
+  "collisionRadius": 178.570007,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 26,
+      "length": 170,
+      "location": [
+        -46.5,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 26
+    },
+    {
+      "angle": -171,
+      "contrailSize": 12,
+      "length": 108,
+      "location": [
+        -61,
+        44
+      ],
+      "style": "SUN_ICE",
+      "width": 19
+    },
+    {
+      "angle": 171,
+      "contrailSize": 12,
+      "length": 108,
+      "location": [
+        -61,
+        -44
+      ],
+      "style": "SUN_ICE",
+      "width": 19
+    },
+    {
+      "angle": -164,
+      "contrailSize": 10,
+      "length": 76,
+      "location": [
+        -70.5,
+        59.5
+      ],
+      "style": "SUN_ICE",
+      "width": 16
+    },
+    {
+      "angle": 164,
+      "contrailSize": 10,
+      "length": 76.100067,
+      "location": [
+        -70.5,
+        -59.5
+      ],
+      "style": "SUN_ICE",
+      "width": 16
+    },
+    {
+      "angle": -158,
+      "contrailSize": 8,
+      "length": 47,
+      "location": [
+        -84,
+        68.5
+      ],
+      "style": "SUN_ICE",
+      "width": 12
+    },
+    {
+      "angle": 158,
+      "contrailSize": 8,
+      "length": 47,
+      "location": [
+        -84,
+        -68.5
+      ],
+      "style": "SUN_ICE",
+      "width": 12
+    },
+    {
+      "angle": -155,
+      "contrailSize": 20,
+      "length": 30,
+      "location": [
+        -97.5,
+        76
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": 155,
+      "contrailSize": 20,
+      "length": 30,
+      "location": [
+        -97.5,
+        -76
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    }
+  ],
+  "height": 325,
+  "hullId": "sun_ice_voidreaver",
+  "hullName": "Voidreaver",
+  "hullSize": "CRUISER",
+  "shieldCenter": [
+    0,
+    0
+  ],
+  "shieldRadius": 0,
+  "spriteName": "graphics/sun_ice/ships/Voidreaver.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 80,
+      "arc": 195,
+      "id": "WS0001",
+      "locations": [
+        -4.5,
+        22
+      ],
+      "mount": "TURRET",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": -80,
+      "arc": 195,
+      "id": "WS0002",
+      "locations": [
+        -4.5,
+        -22
+      ],
+      "mount": "TURRET",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 135,
+      "arc": 100,
+      "id": "WS0003",
+      "locations": [
+        -81.5,
+        31
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": -135,
+      "arc": 100,
+      "id": "WS0004",
+      "locations": [
+        -81.5,
+        -31
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 71.565048,
+      "arc": 180,
+      "id": "WS0005",
+      "locations": [
+        34,
+        47.5
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": -71.565048,
+      "arc": 180,
+      "id": "WS0006",
+      "locations": [
+        34,
+        -47.5
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 71.565048,
+      "arc": 5,
+      "id": "WS0007",
+      "locations": [
+        68.5,
+        35.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -71.565048,
+      "arc": 5,
+      "id": "WS0008",
+      "locations": [
+        68.5,
+        -35.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0009",
+      "locations": [
+        59.5,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "LARGE",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 200
+}

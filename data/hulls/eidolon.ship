@@ -1,0 +1,220 @@
+{
+  "bounds": [
+    78.5,
+    -10.5,
+    115.5,
+    -26.5,
+    91,
+    -41.5,
+    46.5,
+    -41.5,
+    6,
+    -26,
+    -44.5,
+    -48,
+    -107,
+    -47.5,
+    -121,
+    -14,
+    -91.5,
+    -4.5,
+    -91.5,
+    4.5,
+    -121,
+    14,
+    -107,
+    47.5,
+    -44.5,
+    48,
+    6,
+    26,
+    46.5,
+    41.5,
+    91,
+    41.5,
+    115.5,
+    26.5,
+    78.5,
+    10.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_eidolon_lights",
+  },
+  "center": [
+    55,
+    141.5
+  ],
+  "collisionRadius": 140,
+  "engineSlots": [
+    {
+      "angle": -175,
+      "contrailSize": 28,
+      "length": 107,
+      "location": [
+        -111.5,
+        34.5
+      ],
+      "style": "SUN_ICE",
+      "width": 28
+    },
+    {
+      "angle": 175,
+      "contrailSize": 28,
+      "length": 107,
+      "location": [
+        -111.5,
+        -34.5
+      ],
+      "style": "SUN_ICE",
+      "width": 28
+    },
+    {
+      "angle": -175,
+      "contrailSize": 18,
+      "length": 68.5,
+      "location": [
+        -101.5,
+        18.5
+      ],
+      "style": "SUN_ICE",
+      "width": 18
+    },
+    {
+      "angle": 175,
+      "contrailSize": 18,
+      "length": 68.5,
+      "location": [
+        -101.5,
+        -18.5
+      ],
+      "style": "SUN_ICE",
+      "width": 18
+    },
+    {
+      "angle": -175,
+      "contrailSize": 13,
+      "length": 42,
+      "location": [
+        -97,
+        6.5
+      ],
+      "style": "SUN_ICE",
+      "width": 13
+    },
+    {
+      "angle": 175,
+      "contrailSize": 13,
+      "length": 42,
+      "location": [
+        -97,
+        -6.5
+      ],
+      "style": "SUN_ICE",
+      "width": 13
+    }
+  ],
+  "height": 280,
+  "hullId": "sun_ice_eidolon",
+  "hullName": "Eidolon",
+  "hullSize": "CRUISER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 140,
+  "spriteName": "graphics/sun_ice/ships/Eidolon.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "LB 1",
+      "locations": [
+        7.5,
+        27,
+        7.5,
+        -27
+      ],
+      "mount": "HIDDEN",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        65.5,
+        -24.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -0,
+      "arc": 5,
+      "id": "WS0002",
+      "locations": [
+        65.5,
+        24.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -20,
+      "arc": 220,
+      "id": "WS0003",
+      "locations": [
+        93.5,
+        -26.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 20,
+      "arc": 220,
+      "id": "WS0004",
+      "locations": [
+        93.5,
+        26.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0005",
+      "locations": [
+        86,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "LARGE",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        -1.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 110
+}

@@ -1,0 +1,122 @@
+{
+  "bounds": [
+    42,
+    -4.5,
+    -31,
+    -22.5,
+    -40,
+    -0.5,
+    -31,
+    22.5,
+    42,
+    4.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_athame_lights",
+    "WS0001": "sun_ice_fissiondrill"
+  },
+  "center": [
+    24.5,
+    43.5
+  ],
+  "collisionRadius": 54.057838,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 22,
+      "length": 78.5,
+      "location": [
+        -47.5,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 22
+    },
+    {
+      "angle": 174,
+      "contrailSize": 17.029419,
+      "length": 57.70615,
+      "location": [
+        -45,
+        9.5
+      ],
+      "style": "SUN_ICE",
+      "width": 17.029419
+    },
+    {
+      "angle": -174,
+      "contrailSize": 17.029419,
+      "length": 57.70615,
+      "location": [
+        -45,
+        -9.5
+      ],
+      "style": "SUN_ICE",
+      "width": 17.029419
+    },
+    {
+      "angle": 166,
+      "contrailSize": 12.424085,
+      "length": 43.288689,
+      "location": [
+        -42,
+        18
+      ],
+      "style": "SUN_ICE",
+      "width": 12.424085
+    },
+    {
+      "angle": -166,
+      "contrailSize": 12.424085,
+      "length": 43.288689,
+      "location": [
+        -42,
+        -18
+      ],
+      "style": "SUN_ICE",
+      "width": 12.424085
+    }
+  ],
+  "height": 90,
+  "hullId": "sun_ice_athame",
+  "hullName": "Athame",
+  "hullSize": "FRIGATE",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 54.230987,
+  "spriteName": "graphics/sun_ice/ships/Athame.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        41.5,
+        -0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 49
+}

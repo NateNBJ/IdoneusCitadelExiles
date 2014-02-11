@@ -1,0 +1,167 @@
+{
+  "bounds": [
+    54.5,
+    -6.5,
+    21,
+    -20.5,
+    -10,
+    -10,
+    -9,
+    -40,
+    -47.5,
+    -16.5,
+    -32.5,
+    -10,
+    -54.5,
+    0,
+    -56.5,
+    -0,
+    -32.5,
+    10,
+    -47.5,
+    16.5,
+    -9,
+    40,
+    -10,
+    10,
+    21,
+    20.5,
+    54.5,
+    6.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_specter_lights",
+    "SYSTEM": "sun_ice_specter_system"
+  },
+  "center": [
+    46,
+    58
+  ],
+  "collisionRadius": 70,
+  "engineSlots": [
+    {
+      "angle": -177,
+      "contrailSize": 18,
+      "length": 58,
+      "location": [
+        -35.5,
+        10
+      ],
+      "style": "SUN_ICE",
+      "width": 18
+    },
+    {
+      "angle": 177,
+      "contrailSize": 18,
+      "length": 58,
+      "location": [
+        -35.5,
+        -10
+      ],
+      "style": "SUN_ICE",
+      "width": 18
+    }
+  ],
+  "height": 117,
+  "hullId": "sun_ice_specter",
+  "hullName": "Specter",
+  "hullSize": "FRIGATE",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 71,
+  "spriteName": "graphics/sun_ice/ships/Specter.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 54,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        -8.5,
+        11.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -54,
+      "arc": 5,
+      "id": "WS0002",
+      "locations": [
+        -8.5,
+        -11.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0003",
+      "locations": [
+        36,
+        19
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0004",
+      "locations": [
+        36,
+        -19
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0005",
+      "locations": [
+        14,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "MEDIUM",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        0.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
+      "locations": [
+        0.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 92
+}

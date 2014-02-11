@@ -1,0 +1,30 @@
+{
+	"id":"hex_shot",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC_AS_BEAM",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"length":26.0,
+	"hitGlowRadius":4,
+	"width":4.5,
+	"fadeTime":0.3,
+	"fringeColor":[240,240,150,250],
+	"coreColor":[240,240,240,250],
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"bulletSprite":"graphics/sun_ice/missiles/shell_small.png",
+	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",
+		"range":20,
+		"explosionSpec":{"duration":0.1f,
+						 "radius":40,
+						 "coreRadius":30, # full damage within core radius - also equal to proximity fuse range
+						 "collisionClass":PROJECTILE_FF,
+						 "collisionClassByFighter":PROJECTILE_FIGHTER,
+						 "particleSizeMin":3.0,
+						 "particleSizeRange":3.0,
+						 "particleDuration":1,
+						 "particleCount":1,
+						 "particleColor":[128,104,64,255],
+						 "sound":"explosion_flak"}
+	}
+}

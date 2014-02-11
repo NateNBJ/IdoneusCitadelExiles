@@ -1,0 +1,35 @@
+{
+  "displayName": "Stamdard",
+  "fluxCapacitors": 0,
+  "fluxVents": 5,
+  "hullId": "sun_ice_flashghast",
+  "hullMods": [
+    "unstable_injector"
+  ],
+  "variantId": "sun_ice_flashghast_Standard",
+  "weaponGroups": [
+     {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0005": "sun_ice_boomerangpod"
+      }
+    },
+	{
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "sun_ice_lighthexac",
+        "WS0004": "sun_ice_lighthexac",
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0001": "sun_ice_scatterpd",
+        "WS0002": "sun_ice_scatterpd"
+      }
+    }
+  ]
+}

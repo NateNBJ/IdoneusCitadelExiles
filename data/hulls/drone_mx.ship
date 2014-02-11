@@ -1,0 +1,55 @@
+{
+  "bounds": [
+    5.5,
+    -6.5,
+    5.5,
+    6.5,
+    -8.5,
+    -0
+  ],
+  "center": [
+    9,
+    10.5
+  ],
+  "collisionRadius": 12.509996,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 64,
+      "length": 18,
+      "location": [
+        -3,
+        0
+      ],
+      "style": "SUN_ICE",
+      "width": 6
+    }
+  ],
+  "height": 14,
+  "hullId": "sun_ice_drone_mx",
+  "hullName": "Maintenance Drone",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 12.5,
+  "spriteName": "graphics/sun_ice/ships/drones/drone_mx.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "WS 001",
+      "locations": [
+        0,
+        0
+      ],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "ENERGY"
+    }
+  ],
+  "width": 14
+}

@@ -1,0 +1,23 @@
+{
+	"id":"sun_ice_scatterpdhack",  # this id must match what's in the spreadsheet
+	"specClass":"projectile",
+	"type":"BALLISTIC",
+	"size":"MEDIUM",
+	"displayArcRadius":300,
+	"turretSprite":"graphics/sun_ice/invisible.png",
+	"turretGunSprite":"graphics/sun_ice/invisible.png",
+	"hardpointSprite":"graphics/sun_ice/invisible.png",
+	"hardpointGunSprite":"graphics/sun_ice/invisible.png",
+	"renderHints":[RENDER_BARREL_BELOW],
+	"visualRecoil":3.0,  # the gun sprites are only used if this is non-0
+	"turretOffsets":[17, -5, 17, 5],
+	"turretAngleOffsets":[0, 0],
+	"hardpointOffsets":[25, -5, 25, 5],
+	"hardpointAngleOffsets":[0, 0],
+	"specialWeaponGlowWidth":15,
+	"specialWeaponGlowHeight":25,
+	"barrelMode":"ALTERNATING_BURST", # or LINKED.  whether barrels fire at the same time or alternate.
+	"animationType":"NONE",
+	"projectileSpecId":"sun_ice_scatterpdhack",  # projectile that will be fired
+	#"fireSoundTwo":"light_assault_gun_fire"
+}

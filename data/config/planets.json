@@ -1,0 +1,23 @@
+{
+	"brown_dwarf_star":{
+		"name":"Brown Dwarf",
+		"tilt":8, # left-right (>0 tilts to the left)
+		"pitch":-1, # towards-away from the viewer (>0 pitches towards)
+		"rotation":5, # degrees/second
+		"planetColor":[119,107,73,255],
+		"atmosphereThickness":0.7, # as fraction of radius.  Set to 0 for no atmosphere
+		"atmosphereThicknessMin":4, #  minimum thickness in pixels
+		"atmosphereColor":[0,0,0,120],
+		"texture":"graphics/planets/star_yellow-orange.jpg",
+		"icon":"graphics/warroom/icon_star.png",
+		"iconColor":[255,223,128,255],
+		"isStar":true,
+		"lightPosition":[0,0,8], # in planet radii.  Not used for stars.  z > 0 is above the playing field.
+		"starCoronaSprite":"graphics/fx/star_halo.png", # optional, defaults to really bright particle
+		"starCoronaColor":[255,223,128,50], # optional, defaults to white
+		"starCoronaSizeMult":5.5, # required, multiplier for star's radius
+	},
+}
+
+
+

@@ -1,0 +1,88 @@
+{
+  "bounds": [
+    9,
+    -9.5,
+    0,
+    -17,
+    -9.5,
+    -7.5,
+    -9.5,
+    7.5,
+    0,
+    17,
+    9,
+    9.5
+  ],
+  "builtInWeapons": {
+    "WS0001": "heavymg",
+    "WS0002": "heavyburst"
+  },
+  "center": [
+    19,
+    13.5
+  ],
+  "collisionRadius": 20,
+  "engineSlots": [
+    {
+      "angle": -177,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -15,
+        7.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": 177,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -15,
+        -7.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    }
+  ],
+  "height": 27,
+  "hullId": "sun_ice_poltergeist_wing",
+  "hullName": "Poltergeist",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 20,
+  "spriteName": "graphics/sun_ice/ships/Poltergeist.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 20,
+      "id": "WS0001",
+      "locations": [
+        6,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "MEDIUM",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "WS0002",
+      "locations": [
+        -1.5,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "MEDIUM",
+      "type": "BUILT_IN"
+    }
+  ],
+  "width": 38
+}

@@ -1,0 +1,148 @@
+{
+  "bounds": [
+    17,
+    -8,
+    46.5,
+    -23,
+    39.5,
+    -30,
+    -32.5,
+    -44,
+    -39,
+    -37.5,
+    -11,
+    -13,
+    -11,
+    13,
+    -39,
+    37.5,
+    -32.5,
+    44,
+    39.5,
+    30,
+    46.5,
+    23,
+    17,
+    8
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod",
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_nightseer_lights",
+    "SYSTEM": "sun_ice_nightseer_system"
+  },
+  "center": [
+    48,
+    48.5
+  ],
+  "collisionRadius": 65,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 12,
+      "length": 31.5,
+      "location": [
+        -29,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 12
+    },
+    {
+      "angle": -174,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -34.5,
+        14
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": 174,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -34.5,
+        -14
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": -170,
+      "contrailSize": 10,
+      "length": 30.5,
+      "location": [
+        -49,
+        23.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": 170,
+      "contrailSize": 10,
+      "length": 30.5,
+      "location": [
+        -49,
+        -23.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    }
+  ],
+  "height": 100,
+  "hullId": "sun_ice_nightseer",
+  "hullName": "Nightseer",
+  "hullSize": "FRIGATE",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 65.192024,
+  "spriteName": "graphics/sun_ice/ships/Nightseer.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        30.5,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "LARGE",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        1.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
+      "locations": [
+        1.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 96
+}

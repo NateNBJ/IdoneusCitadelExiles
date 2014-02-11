@@ -1,0 +1,73 @@
+{
+  "bounds": [
+    -6,
+    -8.5,
+    -15.5,
+    -7,
+    -15.5,
+    7,
+    -6,
+    8.5,
+    15.5,
+    0.5
+  ],
+  "builtInWeapons": {
+    "WS0001": "sun_ice_hexac"
+  },
+  "center": [
+    15,
+    20
+  ],
+  "collisionRadius": 23,
+  "engineSlots": [
+    {
+      "angle": -177,
+      "contrailSize": 10,
+      "length": 31.5,
+      "location": [
+        -22,
+        6
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": 177,
+      "contrailSize": 10,
+      "length": 31.5,
+      "location": [
+        -22,
+        -6
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    }
+  ],
+  "height": 43,
+  "hullId": "sun_ice_phantom_wing",
+  "hullName": "Phantom",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 23,
+  "spriteName": "graphics/sun_ice/ships/Phantom.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 60,
+      "id": "WS0001",
+      "locations": [
+        -2,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "MEDIUM",
+      "type": "BUILT_IN"
+    }
+  ],
+  "width": 30
+}
