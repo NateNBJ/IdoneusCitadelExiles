@@ -98,7 +98,7 @@
     100,
     162.5
   ],
-  "collisionRadius": 178.570007,
+  "collisionRadius": 178,
   "engineSlots": [
     {
       "angle": 180,
@@ -208,7 +208,7 @@
     0,
     0
   ],
-  "shieldRadius": 0,
+  "shieldRadius": 178,
   "spriteName": "graphics/sun_ice/ships/Voidreaver.png",
   "style": "SUN_ICE",
   "viewOffset": 0,

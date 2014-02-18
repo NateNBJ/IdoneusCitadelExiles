@@ -3,7 +3,6 @@ package data.hullmods;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 
 public class GravimetricSensors extends BaseHullMod {
 	public static final float SIGHT_RADIUS_BONUS = 20f;

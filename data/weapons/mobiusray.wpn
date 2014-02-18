@@ -18,5 +18,5 @@
 	#"interruptibleBurst":true,	
 	"autocharge":false,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
 	"projectileSpecId":"sun_ice_mobiusray",  # projectile that will be fired
-	"fireSoundOne":"tachyon_lance_fire",
+	"fireSoundOne":"mobiusfire",
 }

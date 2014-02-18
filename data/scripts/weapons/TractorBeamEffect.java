@@ -12,6 +12,7 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class TractorBeamEffect implements BeamEffectPlugin {
+    static final float FORCE_MULTIPLIER = 50.0f;
     private IntervalUtil tracker = new IntervalUtil(0.03f, 0.06f);
     
     @Override
@@ -26,7 +27,7 @@ public class TractorBeamEffect implements BeamEffectPlugin {
             return;
 
         Vector2f from = beam.getFrom();
-        float force = 50f * beam.getBrightness();
+        float force = FORCE_MULTIPLIER * beam.getBrightness();
         Vector2f direction = MathUtils.getDirectionalVector(from, beam.getTo());
         
 

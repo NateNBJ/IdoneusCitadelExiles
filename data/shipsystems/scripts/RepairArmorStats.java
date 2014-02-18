@@ -13,7 +13,12 @@ import org.lazywizard.lazylib.MathUtils;
 
 public class RepairArmorStats implements ShipSystemStatsScript
 {
-    private final Color SPARK_COLOR = new Color(160, 240, 220);
+    static final float ARMOR_REPAIR_MULTIPLIER = 0.04f;
+    static final Color SPARK_COLOR = new Color(255, 223, 128);
+    static final float SPARK_DURATION = 0.5f;
+    static final float SPARK_BRIGHTNESS = 0.8f;
+    static final float SPARK_MAX_RADIUS = 10f;
+    static final float SPARK_CHANCE = 1.0f;
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
@@ -49,13 +54,20 @@ public class RepairArmorStats implements ShipSystemStatsScript
 
         if(bestRecord != Float.MAX_VALUE) {
             float current = armorGrid.getArmorValue(leaderX, leaderY);
-            float increase = 0.06f * effectLevel * max * cellCount * Global.getCombatEngine().getElapsedInLastFrame();
+            float increase = ARMOR_REPAIR_MULTIPLIER * effectLevel * cellCount
+                    * max * Global.getCombatEngine().getElapsedInLastFrame();
             armorGrid.setArmorValue(leaderX, leaderY, Math.min(max, current + increase));
 
-            if(Math.random() < 0.5) { // 50% chance to create visual spark at cell
+            if(Math.random() < SPARK_CHANCE) {
                 leaderLoc.x += cellSize * 0.5f - cellSize * (float)Math.random();
                 leaderLoc.y += cellSize * 0.5f - cellSize * (float)Math.random();
-                Global.getCombatEngine().addHitParticle(leaderLoc, ship.getVelocity(), 10 * (float)Math.random() + 10, 0.8f, 0.5f, SPARK_COLOR);
+                Global.getCombatEngine().addHitParticle(
+                        leaderLoc,
+                        ship.getVelocity(),
+                        SPARK_MAX_RADIUS * (float)Math.random() + SPARK_MAX_RADIUS,
+                        SPARK_BRIGHTNESS,
+                        SPARK_DURATION,
+                        SPARK_COLOR);
             }
         }
 

@@ -1,0 +1,25 @@
+{
+	"mobiusfire":[
+		{"file":"sounds/sun_ice/weapons/mobiusray1.ogg","pitch":1.0,"volume":0.94},
+		{"file":"sounds/sun_ice/weapons/mobiusray3.ogg","pitch":1.0,"volume":0.93},
+		{"file":"sounds/sun_ice/weapons/mobiusray4.ogg","pitch":1.0,"volume":0.95},
+		{"file":"sounds/sun_ice/weapons/mobiusray5.ogg","pitch":1.0,"volume":0.98},		
+	],
+	"hexgun":[
+		{"file":"sounds/sun_ice/weapons/ich1.ogg","pitch":1.4,"volume":0.42},
+		{"file":"sounds/sun_ice/weapons/ich2.ogg","pitch":1.4,"volume":0.42},
+		{"file":"sounds/sun_ice/weapons/ich3.ogg","pitch":1.4,"volume":0.42},
+		{"file":"sounds/sun_ice/weapons/ich4.ogg","pitch":1.4,"volume":0.42},		
+	],
+	"hexgun_l":[
+		{"file":"sounds/sun_ice/weapons/ich1.ogg","pitch":1.6,"volume":0.34},
+		{"file":"sounds/sun_ice/weapons/ich2.ogg","pitch":1.6,"volume":0.34},
+		{"file":"sounds/sun_ice/weapons/ich3.ogg","pitch":1.6,"volume":0.34},
+		{"file":"sounds/sun_ice/weapons/ich4.ogg","pitch":1.6,"volume":0.34},		
+	],
+	"system_phasewarp":[
+		{"file":"sounds/sun_ice/systems/phasewarp1.ogg","pitch":1.0,"volume":1.0},
+		{"file":"sounds/sun_ice/systems/phasewarp2.ogg","pitch":1.0,"volume":1.0},
+		{"file":"sounds/sun_ice/systems/phasewarp3.ogg","pitch":1.0,"volume":1.0},
+	],			
+}

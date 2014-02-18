@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
@@ -68,6 +69,10 @@ public class RepairArmorAI implements ShipSystemAIScript
 
     @Override
     public void advance(float amount, Vector2f missileDangerDir, Vector2f collisionDangerDir, ShipAPI target) {
+//        if(!system.isActive() && AIUtils.canUseSystemThisFrame(ship)) {
+//            ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
+//        }
+
         if(!AIUtils.canUseSystemThisFrame(ship)) return;
 
         if(timeOfNextRefresh < Global.getCombatEngine().getTotalElapsedTime(false)) {

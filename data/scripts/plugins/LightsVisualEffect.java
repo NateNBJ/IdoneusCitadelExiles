@@ -3,12 +3,12 @@ package data.scripts.plugins;
 
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
+import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.mission.FleetSide;
 
 public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
-    private static float SECONDS_TO_ACTIVATE = 1;
-    private static float SECONDS_TO_DEACTIVATE = 1;
+    private static float ACTIVATE_SPEED = 5.0f;
+    private static float DEACTIVATE_SPEED = 1.0f;
 
     private float alpha = 0.7f;
 	
@@ -16,15 +16,20 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
 	public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
         if(engine.isPaused()) return;
         
-		boolean on = !weapon.getShip().getSystem().isActive()
-                && weapon.getShip().isAlive()
-                && !weapon.getShip().getFluxTracker().isOverloaded();
+        ShipAPI ship = weapon.getShip();
+        
+		boolean on = !ship.getSystem().isActive()
+                && ship.isAlive()
+                && !ship.getFluxTracker().isOverloaded()
+                && (ship.getPhaseCloak() == null
+                    || !(ship.getPhaseCloak().isActive()
+                        || ship.getPhaseCloak().isCoolingDown()));
 
         if (alpha == 0 && !on) return;
 
         float wave = (float)Math.cos(engine.getTotalElapsedTime(false) * Math.PI);
         wave *= (float)Math.cos(engine.getTotalElapsedTime(false) * Math.E / 3);
-        alpha += engine.getElapsedInLastFrame() * (on ? SECONDS_TO_ACTIVATE : -SECONDS_TO_DEACTIVATE);
+        alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATE_SPEED : -DEACTIVATE_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
         
         weapon.getAnimation().setAlphaMult(alpha * (wave / 3 + 0.66f));

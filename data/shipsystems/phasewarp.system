@@ -23,15 +23,15 @@
 	"engineGlowContrailColor":[200,240,230,30],
 	
 	"soundFilterType":"LOWPASS",
-	"soundFilterGain":0.2,
-	"soundFilterGainHF":0.15,
+	"soundFilterGain":0.6,
+	"soundFilterGainHF":0.55,
 	
 	"shipAlpha":0.15,
 	
-	#"useSound":"system_phase_cloak_activate",
-	#"useSound":"system_phase_skimmer",
-	"useSound":"system_phase_teleporter",	
-	"deactivateSound":"system_phase_cloak_deactivate",
+	"fadeActivationSoundOnChargedown":false,
+	
+	"useSound":"system_phasewarp",	
+	#"deactivateSound":"system_phase_cloak_deactivate",
 	"outOfUsesSound":"system_phase_cloak_collision",
 	
 	"aiHints":{

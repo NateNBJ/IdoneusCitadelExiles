@@ -1,10 +1,8 @@
 package data.scripts;
 
 import com.fs.starfarer.api.BaseModPlugin;
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
-import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -14,9 +12,6 @@ import data.scripts.weapons.MobiusRayAutofireAIPlugin;
 import data.scripts.plugins.MxDroneAI;
 import data.scripts.weapons.ScatterPdMissileAI;
 import data.scripts.world.Ulterius;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class ICEModPlugin extends BaseModPlugin
 {

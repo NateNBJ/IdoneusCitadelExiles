@@ -1,12 +1,12 @@
 {
   "displayName": "Standard",
-  "fluxCapacitors": 1,
-  "fluxVents": 10,
+  "fluxCapacitors": 0,
+  "fluxVents": 9,
   "hullId": "sun_ice_athame",
   "hullMods": [
     "unstable_injector",
-    "heavyarmor",
-    "armoredweapons"
+    "armoredweapons",
+    "reinforcedhull"
   ],
   "variantId": "sun_ice_athame_Standard",
   "weaponGroups": [
