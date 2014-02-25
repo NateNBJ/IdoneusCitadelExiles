@@ -3,6 +3,6 @@
 	"name":"Idoneus Citadel Exiles",
 	"version":"0 RC1",
 	"description":"Coming soon...",
-	"gameVersion":"0.6.1a",
+	"gameVersion":"0.6.2a",
   "modPlugin":"data.scripts.ICEModPlugin"
 }

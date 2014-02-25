@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.WeaponAPI;
 import data.scripts.weapons.BoomerangMissileAI;
 import data.scripts.weapons.MobiusRayAutofireAIPlugin;
 import data.scripts.plugins.MxDroneAI;
+import data.scripts.weapons.HypermassDriverAutofireAIPlugin;
 import data.scripts.weapons.ScatterPdMissileAI;
 import data.scripts.world.Ulterius;
 
@@ -46,6 +47,8 @@ public class ICEModPlugin extends BaseModPlugin
         
         if(id.equals("sun_ice_mobiusray")) {
             return new PluginPick(new MobiusRayAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if(id.equals("sun_ice_hypermassdriver")) {
+            return new PluginPick(new HypermassDriverAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
         
         return super.pickWeaponAutofireAI(weapon);

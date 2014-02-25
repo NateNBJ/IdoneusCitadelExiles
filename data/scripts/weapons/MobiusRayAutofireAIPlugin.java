@@ -16,7 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
     static HashMap autofireMap = new HashMap();
-    static final float SHOULD_FIRE_THRESHOLD = 1.0f;
+    static final float SHOULD_FIRE_THRESHOLD = 1.1f;
     static final float UPDATE_FREQUENCY = 0.5f;
 
     public static MobiusRayAutofireAIPlugin get(WeaponAPI weapon) {

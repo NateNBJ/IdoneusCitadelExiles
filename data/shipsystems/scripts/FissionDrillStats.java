@@ -8,7 +8,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
-import data.scripts.plugins.Utils;
+import data.scripts.plugins.SunUtils;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;

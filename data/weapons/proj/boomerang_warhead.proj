@@ -8,8 +8,8 @@
 	"size":[7,14],	
 	"center":[3.5,7],
 	"collisionRadius":12,
-	"collisionClass":"PROJECTILE_FIGHTER",
-	"collisionClassAfterFlameout":"PROJECTILE_FIGHTER",
+	"collisionClass":"MISSILE_NO_FF",
+	"collisionClassAfterFlameout":"MISSILE_FF",
 	"explosionColor":[255,191,0,140],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":75, # purely visual
 	"maxFlightTime":4,

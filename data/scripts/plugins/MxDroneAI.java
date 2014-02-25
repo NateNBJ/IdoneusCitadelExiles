@@ -132,7 +132,7 @@ public class MxDroneAI implements ShipAIPlugin {
     }
     static float getMxPriority(ShipAPI ship) {
         float priority = 0;
-        float fp = Global.getCombatEngine().getFleetManager(ship.getOwner()).getDeployedFleetMember(ship).getMember().getFleetPointCost();
+        float fp = SunUtils.getFP(ship);
         fp = (ship.isFighter()) ? fp / ship.getWingMembers().size() : fp;
         float peakCrLeft = getSecondsTilCrLoss(ship);
         
@@ -197,7 +197,7 @@ public class MxDroneAI implements ShipAIPlugin {
             if(armorGrid.getArmorValue(cellToFix.x, cellToFix.y) < max) break;
         }
         
-        Vector2f at = Utils.getCellLocation(target, cellToFix.x, cellToFix.y);
+        Vector2f at = SunUtils.getCellLocation(target, cellToFix.x, cellToFix.y);
 
         for(int i = 0; (i < 10) && !CollisionUtils.isPointWithinBounds(at, target); ++i)
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
@@ -278,7 +278,7 @@ public class MxDroneAI implements ShipAIPlugin {
         }
     }
     ShipAPI chooseTarget() {
-        if(drone.getFluxTracker().getFluxLevel() >= 1 || system.getDroneOrders() == DroneOrders.RECALL) {
+        if(needsRefit() || system.getDroneOrders() == DroneOrders.RECALL) {
             returning = true;
             drone.getFluxTracker().setCurrFlux(drone.getFluxTracker().getMaxFlux());
             return mothership;
@@ -363,7 +363,7 @@ public class MxDroneAI implements ShipAIPlugin {
     }
     @Override
     public boolean needsRefit() {
-        return false;
+        return drone.getFluxTracker().getFluxLevel() >= 1;
     }
     @Override
     public void setDoNotFireDelay(float amount) {

@@ -10,7 +10,7 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 
 public class GravitonDeflector extends BaseHullMod {
-    static final float FORCE_MULTIPLIER = 0.5f;
+    static final float FORCE_MULTIPLIER = 1.0f;
     static final float MAX_ANGLE_DIFFERENCE = 20f;
 
     @Override

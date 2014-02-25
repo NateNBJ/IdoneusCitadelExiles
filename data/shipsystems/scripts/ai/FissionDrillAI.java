@@ -9,7 +9,7 @@ import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.scripts.plugins.Utils;
+import data.scripts.plugins.SunUtils;
 import java.util.Iterator;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;

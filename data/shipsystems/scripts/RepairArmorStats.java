@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import org.lwjgl.util.vector.Vector2f;
-import data.scripts.plugins.Utils;
+import data.scripts.plugins.SunUtils;
 import java.awt.Color;
 import java.util.Random;
 import org.lazywizard.lazylib.MathUtils;
@@ -40,7 +40,7 @@ public class RepairArmorStats implements ShipSystemStatsScript
         for(int i = 0; i < candidates; ++i) {
             int x = rng.nextInt(gridWidth);
             int y = rng.nextInt(gridHeight);
-            Vector2f cellLoc = Utils.getCellLocation(ship, x, y);
+            Vector2f cellLoc = SunUtils.getCellLocation(ship, x, y);
             float current = armorGrid.getArmorValue(x, y);
             float dist = MathUtils.getDistance(cellLoc , ship.getMouseTarget());
 

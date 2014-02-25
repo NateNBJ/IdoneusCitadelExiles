@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.OnHitEffectPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.scripts.plugins.Utils;
+import data.scripts.plugins.SunUtils;
 import org.lazywizard.lazylib.combat.DefenseType;
 import org.lazywizard.lazylib.combat.DefenseUtils;
 
@@ -19,6 +19,6 @@ public class SurgeOnHitEffect implements OnHitEffectPlugin {
             ((ShipAPI)target).getFluxTracker().forceOverload(0);
 
         }
-        Utils.print("" + shieldHit);
+        SunUtils.print("" + shieldHit);
 	}
 }
