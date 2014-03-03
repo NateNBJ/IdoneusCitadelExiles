@@ -16,7 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
     static HashMap autofireMap = new HashMap();
-    static final float SHOULD_FIRE_THRESHOLD = 1.1f;
+    static final float SHOULD_FIRE_THRESHOLD = 0.3f;
     static final float UPDATE_FREQUENCY = 0.5f;
 
     public static MobiusRayAutofireAIPlugin get(WeaponAPI weapon) {
@@ -141,12 +141,12 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
         // 0.3f - Target has high flux?
         shouldFire += Math.max(0, target.getFluxTracker().getFluxLevel() - 0.7f);
         
-        // 0.6 - Target defenses ready?
+        // 0.3 - Target defenses ready?
         if(target.getShield() != null) {
-            shouldFire += 0.5f * (1 - target.getShield().getActiveArc() / 360);
+            shouldFire += 0.3f * (1 - target.getShield().getActiveArc() / 360);
         } if(target.getPhaseCloak() != null) {
-            shouldFire *= 3;
-        } else shouldFire += 0.6f;
+            shouldFire *= 2;
+        } else shouldFire += 0.3f;
         
         // 0.2 - Target damaged enough to kill in one shot?
         shouldFire += 0.2f * (Math.min(1200f, target.getHitpoints()) / 1200);

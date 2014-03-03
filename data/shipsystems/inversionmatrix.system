@@ -1,0 +1,16 @@
+{
+	"id":"sun_ice_inversionmatrix",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	
+	"aiScript":"data.shipsystems.scripts.ai.EntropicInversionMatrixAI",
+	"statsScript":"data.shipsystems.scripts.EntropicInversionMatrixStats",
+	
+	"engineGlowColor":[255,223,128,255],
+	"engineGlowContrailColor":[255,223,128,5],
+
+	"useSound":"system_emp_emitter_activate",
+	#"loopSound":"high_intensity_laser_loop",
+	"loopSound":"system_high_energy_focus_loop",
+	"outOfUsesSound":"gun_out_of_ammo",
+}

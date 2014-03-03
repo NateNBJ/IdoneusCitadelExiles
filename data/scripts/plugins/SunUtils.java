@@ -43,12 +43,13 @@ public class SunUtils
         return cellLoc;
     }
     public static void print(String str) {
+        print(Global.getCombatEngine().getPlayerShip(), str);
+    }
+    public static void print(ShipAPI at, String str) {
+        if(at == null) return;
 
-        CombatEngineAPI engine = Global.getCombatEngine();
-        ShipAPI ship = engine.getPlayerShip();
-
-        if(ship != null)
-            Global.getCombatEngine().addFloatingText(ship.getLocation(), str, 40, Color.green, ship, 1, 5);
+        Global.getCombatEngine().addFloatingText(at.getLocation(), str, 40,
+                Color.green, at, 1, 5);
     }
     public static float estimateIncomingDamage(ShipAPI ship) {
         float accumulator = 0f;

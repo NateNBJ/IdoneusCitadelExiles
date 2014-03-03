@@ -23,7 +23,6 @@
   ],
   "builtInMods": [
     "sun_ice_gravitonic_sensors_mod",
-    "sun_ice_reverb_dampeners_mod",
     "advancedoptics",
     "targetingunit"
   ],

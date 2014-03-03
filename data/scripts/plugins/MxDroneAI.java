@@ -44,13 +44,13 @@ public class MxDroneAI implements ShipAIPlugin {
     static float mxPriorityUpdateFrequency = 2f;
     static float timeOfMxPriorityUpdate = 2f;
 
-    static final float circumstanceEvaluationFrequency = 1f;
-    static final float repairRange = 400f;
-    static final float roamRange = 3000f;
-    static final float repairAmount = 0.5f;
-    static final float crPeakTimeRecoveryRate = 1f;
-    static final float fluxPerMxPerformed = 1f;
-    static final float cooldownPerOpOfAmmoRestored = 5f; // In seconds
+    static final float CIRCUMSTANCE_EVALUATION_FREQUENCY = 1f;
+    static final float REPAIR_RANGE = 400f;
+    static final float ROAM_RANGE = 3000f;
+    static final float REPAIR_AMOUNT = 0.5f;
+    static final float CR_PEAK_TIME_RECOVERY_RATE = 3f;
+    static final float FLUX_PER_MX_PERFORMED = 1f;
+    static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 5f; // In seconds
     static final Color ARC_FRINGE_COLOR = new Color(255, 223, 128, 150);
     static final Color ARC_CORE_COLOR = new Color(255, 191, 0, 200);
 
@@ -176,7 +176,7 @@ public class MxDroneAI implements ShipAIPlugin {
         if ((target.getPhaseCloak() == null || !target.getPhaseCloak().isOn())
                 && !returning
                 && !(hpAtLastCheck < drone.getHitpoints())
-                && MathUtils.getDistance(drone, target) < repairRange
+                && MathUtils.getDistance(drone, target) < REPAIR_RANGE
                 && mxPriorities.containsKey(target)
                 && ((Float)mxPriorities.get(target)) > 0) {
 
@@ -187,7 +187,7 @@ public class MxDroneAI implements ShipAIPlugin {
 
         hpAtLastCheck = drone.getHitpoints();
 
-        countdownToCircumstanceEvaluation = (circumstanceEvaluationFrequency / 2) + circumstanceEvaluationFrequency * (float)Math.random();
+        countdownToCircumstanceEvaluation = (CIRCUMSTANCE_EVALUATION_FREQUENCY / 2) + CIRCUMSTANCE_EVALUATION_FREQUENCY * (float)Math.random();
     }
     void performMaintenance() {
         for(int i = 0; i < (1 + cellCount / 5); ++i) {
@@ -203,14 +203,14 @@ public class MxDroneAI implements ShipAIPlugin {
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
 
         Global.getCombatEngine().spawnEmpArc(drone, at, target, drone,
-                DamageType.ENERGY, 0, 0, repairRange,
+                DamageType.ENERGY, 0, 0, REPAIR_RANGE,
                 "tachyon_lance_emp_impact", 12f,
                 ARC_FRINGE_COLOR,
                 ARC_CORE_COLOR);
 
         restoreAmmo();
 
-        drone.getFluxTracker().setCurrFlux(drone.getFluxTracker().getCurrFlux() + fluxPerMxPerformed);
+        drone.getFluxTracker().setCurrFlux(drone.getFluxTracker().getCurrFlux() + FLUX_PER_MX_PERFORMED);
 
         performingMaintenance = true;
     }
@@ -240,7 +240,7 @@ public class MxDroneAI implements ShipAIPlugin {
         ammoToRestore = Math.min(ammoToRestore, winner.getMaxAmmo() - winner.getAmmo());
         //Utils.print("%"+lowestAmmo*100+"   "+winner.getId()+"   "+ammoToRestore);
         winner.setAmmo(winner.getAmmo() + ammoToRestore);
-        dontRestoreAmmoUntil = Global.getCombatEngine().getTotalElapsedTime(false) + cooldownPerOpOfAmmoRestored * ((ammoToRestore / (float)winner.getMaxAmmo()) * op);
+        dontRestoreAmmoUntil = Global.getCombatEngine().getTotalElapsedTime(false) + COOLDOWN_PER_OP_OF_AMMO_RESTORED * ((ammoToRestore / (float)winner.getMaxAmmo()) * op);
     }
     void repairArmor() {
         if(cellToFix == null) return;
@@ -253,7 +253,7 @@ public class MxDroneAI implements ShipAIPlugin {
                 
                 float mult = (float)((3 - Math.abs(x - cellToFix.x) - Math.abs(y - cellToFix.y)) / 3f);
 
-                armorGrid.setArmorValue(x, y, Math.min(max, armorGrid.getArmorValue(x, y) + repairAmount * mult));
+                armorGrid.setArmorValue(x, y, Math.min(max, armorGrid.getArmorValue(x, y) + REPAIR_AMOUNT * mult));
             }
         }
     }   
@@ -270,7 +270,7 @@ public class MxDroneAI implements ShipAIPlugin {
 
             //if(t > 0) Utils.print("CR Loss Stopped!");
 
-            peakTimeRecovered += amount * (crPeakTimeRecoveryRate + target.getHullSpec().getCRLossPerSecond());
+            peakTimeRecovered += amount * (CR_PEAK_TIME_RECOVERY_RATE + target.getHullSpec().getCRLossPerSecond());
             peakTimeRecovered = Math.min(peakTimeRecovered, target.getTimeDeployedForCRReduction());
             target.getMutableStats().getPeakCRDuration().modifyFlat("sun_ice_drone_mx_repair", peakTimeRecovered);
 
