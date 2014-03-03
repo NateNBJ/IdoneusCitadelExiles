@@ -3,7 +3,7 @@
 	"type":"DECORATIVE",
 	"specClass":"projectile",
 	"size":"SMALL",
-	"everyFrameEffect":"data.scripts.plugins.SystemVisualEffect",
+	"everyFrameEffect":"data.scripts.plugins.RepairArmorVisualEffect",
 	"turretSprite":"graphics/sun_ice/weapons/decorative/specter/system/00.png",
 	"hardpointSprite":"graphics/sun_ice/weapons/decorative/specter/system/00.png",	
 	"numFrames":2,	

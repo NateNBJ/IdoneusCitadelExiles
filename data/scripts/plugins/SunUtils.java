@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
+import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
@@ -148,7 +149,10 @@ public class SunUtils
         return retVal;
     }
     public static float getFP(ShipAPI ship) {
-        return Global.getCombatEngine().getFleetManager(ship.getOwner()).getDeployedFleetMember(ship).getMember().getFleetPointCost();
+        DeployedFleetMemberAPI member = Global.getCombatEngine().getFleetManager(ship.getOwner()).getDeployedFleetMember(ship);
+        return (member == null || member.getMember() == null)
+                ? 0
+                : member.getMember().getFleetPointCost();
     }
     public static float getBaseOverloadDuration(ShipAPI ship) {
         return (Float)baseOverloadTimes.get(ship.getHullSize());

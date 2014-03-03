@@ -26,7 +26,7 @@
     8
   ],
   "builtInMods": [
-    "sun_ice_gravitonic_sensors_mod",
+    "sun_ice_gravitonic_sensors_mod"
   ],
   "builtInWeapons": {
     "LIGHTS": "sun_ice_nightseer_lights",
@@ -41,7 +41,7 @@
     {
       "angle": 180,
       "contrailSize": 12,
-      "length": 31.5,
+      "length": 41.5,
       "location": [
         -29,
         -0
@@ -52,7 +52,7 @@
     {
       "angle": -174,
       "contrailSize": 30,
-      "length": 30,
+      "length": 40,
       "location": [
         -34.5,
         14
@@ -63,7 +63,7 @@
     {
       "angle": 174,
       "contrailSize": 30,
-      "length": 30,
+      "length": 40,
       "location": [
         -34.5,
         -14
@@ -74,7 +74,7 @@
     {
       "angle": -170,
       "contrailSize": 10,
-      "length": 30.5,
+      "length": 40.5,
       "location": [
         -49,
         23.5
@@ -85,7 +85,7 @@
     {
       "angle": 170,
       "contrailSize": 10,
-      "length": 30.5,
+      "length": 40.5,
       "location": [
         -49,
         -23.5
@@ -94,7 +94,7 @@
       "width": 10
     }
   ],
-  "height": 100,
+  "height": 103,
   "hullId": "sun_ice_nightseer",
   "hullName": "Nightseer",
   "hullSize": "FRIGATE",
@@ -142,6 +142,78 @@
       "mount": "TURRET",
       "size": "SMALL",
       "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0002",
+      "locations": [
+        47.5,
+        24
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": -0,
+      "arc": 5,
+      "id": "WS0003",
+      "locations": [
+        47.5,
+        -24
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "MISSILE"
+    },
+    {
+      "angle": 80,
+      "arc": 180,
+      "id": "WS0006",
+      "locations": [
+        -2.5,
+        37
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -80,
+      "arc": 180,
+      "id": "WS0007",
+      "locations": [
+        -2.5,
+        -37
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 80,
+      "arc": 180,
+      "id": "WS0004",
+      "locations": [
+        12.5,
+        34
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "ENERGY"
+    },
+    {
+      "angle": -80,
+      "arc": 180,
+      "id": "WS0005",
+      "locations": [
+        12.5,
+        -34
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "ENERGY"
     }
   ],
   "width": 96

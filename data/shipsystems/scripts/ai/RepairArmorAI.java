@@ -18,6 +18,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class RepairArmorAI implements ShipSystemAIScript
 {
+    private static final float ACTIVATION_THRESHOLD = 0.1f;
+    private static final float DEACTIVATION_THRESHOLD = 0.5f;
     private static final float REFRESH_FREQUENCY = 1f;
     private float timeOfNextRefresh = 0;
     private ShipSystemAPI system;
@@ -101,7 +103,7 @@ public class RepairArmorAI implements ShipSystemAIScript
         wantActive *= (1 - danger * enginePerformance);
         wantActive *= (1 - (float)Math.pow(fluxLevel, 2));
 
-        if(!system.isActive() && (wantActive > 0.2f)) ship.useSystem();
-        else if(system.isActive() && (wantActive < 0.05f)) ship.useSystem();
+        if(!system.isActive() && (wantActive > ACTIVATION_THRESHOLD)) ship.useSystem();
+        else if(system.isActive() && (wantActive < DEACTIVATION_THRESHOLD)) ship.useSystem();
     }
 }

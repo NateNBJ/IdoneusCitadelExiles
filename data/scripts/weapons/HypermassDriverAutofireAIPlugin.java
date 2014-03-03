@@ -35,8 +35,8 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
         ShipAPI ally = WeaponUtils.getNearestAllyInArc(weapon);
         ShipAPI enemy = WeaponUtils.getNearestEnemyInArc(weapon);
 
-        target = (ally == null || MathUtils.getDistance(ship, ally) > MathUtils.getDistance(ship, enemy))
-                && (enemy != null && enemy.isAlive())
+        target = enemy != null && enemy.isAlive()
+                && (ally == null || MathUtils.getDistance(ship, ally) > MathUtils.getDistance(ship, enemy))
             ? enemy : null;
 
         return target;
@@ -85,7 +85,7 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
             return false;
 
         float shouldFire = -danger;
-        
+
         if(target.getShield() != null && target.getShield().isWithinArc(weapon.getLocation())) {
             shouldFire += overloadBalance * 4 * fpRatio;
         } else {
@@ -93,8 +93,6 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
         }
 
         shouldFire *= hitChance;
-
-        SunUtils.print(""+shouldFire);
 
         return shouldFire > SHOULD_FIRE_THRESHOLD;
     }

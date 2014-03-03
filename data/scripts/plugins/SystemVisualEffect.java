@@ -7,8 +7,8 @@ import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 
 public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
-    private static float SECONDS_TO_ACTIVATE = 1;
-    private static float SECONDS_TO_DEACTIVATE = 1;
+    private static float ACTIVATION_SPEED = 1;
+    private static float DEACTIVATION_SPEED = 1;
 
     private float alpha = 0;
 	
@@ -26,9 +26,9 @@ public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
 
         weapon.getAnimation().setFrame(1);
         
-        alpha += engine.getElapsedInLastFrame() * (on ? SECONDS_TO_ACTIVATE : -SECONDS_TO_DEACTIVATE);
+        alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
         
-        weapon.getAnimation().setAlphaMult(alpha);// * ((float)(Math.sin(engine.getTotalElapsedTime(false) * Math.PI)) / 4 + 0.75f));
+        weapon.getAnimation().setAlphaMult(alpha);
 	}}
 
