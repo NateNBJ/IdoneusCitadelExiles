@@ -6,48 +6,37 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import java.util.Iterator;
+import data.scripts.plugins.DontPhaseTempAI;
+import data.scripts.plugins.SunUtils;
 import org.lwjgl.util.vector.Vector2f;
-import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 
-public class EntropicInversionMatrixAI implements ShipSystemAIScript
-{
-    private ShipSystemAPI system;
+public class EntropicInversionMatrixAI implements ShipSystemAIScript {
+    private static final float REFRESH_FREQUENCY = 0.25f;
+    private static final float USE_SYSTEM_THRESHOLD = 0.02f;
+
+    private float timeOfNextRefresh = 0;
     private ShipAPI ship;
-    private final float RANGE = 600f;
     
     @Override
     public void init(ShipAPI ship, ShipSystemAPI system, ShipwideAIFlags flags, CombatEngineAPI engine) {
         this.ship = ship;
-        this.system = system;
     }
 
     @Override
     public void advance(float amount, Vector2f missileDangerDir, Vector2f collisionDangerDir, ShipAPI target) {
-        if(system.isActive()) return;
-
-        if(!AIUtils.canUseSystemThisFrame(ship)) return;
-
-        float accumulator = 0f;
-        DamagingProjectileAPI proj;
+        if(timeOfNextRefresh < Global.getCombatEngine().getTotalElapsedTime(false)) {
+            timeOfNextRefresh = Global.getCombatEngine().getTotalElapsedTime(false) + REFRESH_FREQUENCY;
+        } else return;
         
-        for (Iterator iter = Global.getCombatEngine().getProjectiles().iterator(); iter.hasNext();) {
-            proj = (DamagingProjectileAPI) iter.next();
-            
-            
-            if(proj.getOwner() == ship.getOwner()) continue; // Ignore friendly projectiles
-            if(MathUtils.getDistance(proj, ship) > RANGE) continue; // Ignore too-distant projectiles
+        //SunUtils.print("" + SunUtils.estimateIncomingDamage(ship, 1));
 
-            float threat = proj.getDamageAmount();
-            threat *= proj.getDamageType().getArmorMult();
-            threat += proj.getEmpAmount();
+        if(AIUtils.canUseSystemThisFrame(ship) && !ship.getPhaseCloak().isActive()
+                && (SunUtils.estimateIncomingDamage(ship, 1) /
+                (ship.getMaxHitpoints() + ship.getHitpoints())) > USE_SYSTEM_THRESHOLD) {
 
-            accumulator += threat;
+            ship.useSystem();
+            ship.setShipAI(new DontPhaseTempAI(ship));
         }
-        
-        if (accumulator > 1500f) ship.useSystem();
     }
 }

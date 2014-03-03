@@ -22,6 +22,7 @@ public class SunUtils
 {
     private static final Map baseOverloadTimes = new HashMap();
     private static final float SAFE_DISTANCE = 600f;
+    private static final float DEFAULT_DAMAGE_WINDOW = 3f;
     static {
         baseOverloadTimes.put(HullSize.FIGHTER, 10f);
         baseOverloadTimes.put(HullSize.FRIGATE,  4f);
@@ -52,23 +53,32 @@ public class SunUtils
                 Color.green, at, 1, 5);
     }
     public static float estimateIncomingDamage(ShipAPI ship) {
+        return estimateIncomingDamage(ship, DEFAULT_DAMAGE_WINDOW);
+    }
+    public static float estimateIncomingDamage(ShipAPI ship, float damageWindowSeconds) {
         float accumulator = 0f;
         DamagingProjectileAPI proj;
-        
+
         for (Iterator iter = Global.getCombatEngine().getProjectiles().iterator(); iter.hasNext();) {
             proj = (DamagingProjectileAPI) iter.next();
-            
+
             if(proj.getOwner() == ship.getOwner()) continue; // Ignore friendly projectiles
 
-            float safeDistance = SAFE_DISTANCE + ship.getCollisionRadius();
+            //float safeDistance = SAFE_DISTANCE + ship.getCollisionRadius();
             float threat = proj.getDamageAmount();
-            
-            if(ship.getShield() != null && ship.getShield().isWithinArc(proj.getLocation()))
+
+            Vector2f endPoint = new Vector2f(proj.getVelocity());
+            endPoint.scale(damageWindowSeconds);
+            Vector2f.add(endPoint, proj.getLocation(), endPoint);
+
+            if((ship.getShield() != null && ship.getShield().isWithinArc(proj.getLocation()))
+                    || !CollisionUtils.getCollides(proj.getLocation(), endPoint,
+                        new Vector2f(ship.getLocation()), ship.getCollisionRadius()))
                 continue;
 
-            accumulator += threat * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
+            accumulator += threat;// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
         }
-        
+
         return accumulator;
     }
     public static float estimateIncomingMissileDamage(ShipAPI ship) {
@@ -91,9 +101,36 @@ public class SunUtils
 
         return accumulator;
     }
+    public static float getHitChance(DamagingProjectileAPI proj, CombatEntityAPI target) {
+        float estTimeTilHit = MathUtils.getDistance(target, proj.getLocation())
+                / (float)Math.max(1, proj.getWeapon().getProjectileSpeed());
+
+        Vector2f estTargetPosChange = new Vector2f(
+                target.getVelocity().x * estTimeTilHit,
+                target.getVelocity().y * estTimeTilHit);
+
+        float estFacingChange = target.getAngularVelocity() * estTimeTilHit;
+
+        Vector2f projVelocity = proj.getVelocity();
+
+        target.setFacing(target.getFacing() + estFacingChange);
+        Vector2f.add(target.getLocation(), estTargetPosChange, target.getLocation());
+
+        projVelocity.scale(estTimeTilHit * 3);
+        Vector2f.add(projVelocity, proj.getLocation(), projVelocity);
+        Vector2f estHitLoc = CollisionUtils.getCollisionPoint(proj.getLocation(),
+                projVelocity, target);
+        
+        target.setFacing(target.getFacing() - estFacingChange);
+        Vector2f.add(target.getLocation(), (Vector2f)estTargetPosChange.scale(-1),target.getLocation());
+
+        if(estHitLoc == null) return 0;
+
+        return 1;        
+    }
     public static float getHitChance(WeaponAPI weapon, CombatEntityAPI target) {
         float estTimeTilHit = MathUtils.getDistance(target, weapon.getLocation())
-                / weapon.getProjectileSpeed();
+                / (float)Math.max(1, weapon.getProjectileSpeed());
 
         Vector2f estTargetPosChange = new Vector2f(
                 target.getVelocity().x * estTimeTilHit,
