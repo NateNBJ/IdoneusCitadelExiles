@@ -1,0 +1,40 @@
+{
+	"id":"sun_ice_advphasewarp",
+	"type":"PHASE_CLOAK",
+	"aiType":"PHASE_CLOAK",
+	
+	"statsScript":"data.shipsystems.scripts.AdvPhaseWarpStats",
+	
+	#"phaseHighlight":"_glow2",
+	#"phaseDiffuse":"_glow2",
+	
+	#"effectColor1":[160,240,220,250],
+	#"effectColor2":[255,255,255,150],
+	
+	"jitterColor":[200,240,230,255],
+	"jitterCopies":5,
+	"jitterRange":50,
+	"jitterRangeRadiusFraction":0,
+	
+	"clampTurnRateAfter":true,
+	"clampMaxSpeedAfter":true,
+	
+	"engineGlowColor":[200,240,230,0],
+	"engineGlowContrailColor":[200,240,230,30],
+	
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.6,
+	"soundFilterGainHF":0.55,
+	
+	"shipAlpha":0.15,
+	
+	"fadeActivationSoundOnChargedown":false,
+	
+	"useSound":"system_phasewarp",	
+	#"deactivateSound":"system_phase_cloak_deactivate",
+	"outOfUsesSound":"system_phase_cloak_collision",
+	
+	"aiHints":{
+		"averageSpeedIncrease":200,
+	}
+}
