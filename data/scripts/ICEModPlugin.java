@@ -1,6 +1,7 @@
 package data.scripts;
 
 import com.fs.starfarer.api.BaseModPlugin;
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
@@ -19,6 +20,7 @@ public class ICEModPlugin extends BaseModPlugin
     @Override
     public void onNewGame() {
 		new Ulterius().generate();
+        Global.getSector().addScript(new ICEEveryFrameScript());
     }
     @Override
     public PluginPick pickDroneAI(ShipAPI drone, ShipAPI mothership, DroneLauncherShipSystemAPI system) {

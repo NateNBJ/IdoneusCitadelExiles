@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.log4j.Level;
 
 public class Ulterius {
     public static final Map VENDOR_SHIPS = new HashMap();
@@ -27,6 +26,7 @@ public class Ulterius {
     public static final int VENDOR_SUPPLIES = 2000;
     public static final int VENDOR_FUEL = 3000;
     public static final int VENDOR_MARINES = 100;
+    public static SectorEntityToken STATION;
 
     static {
         VENDOR_CREW.put(CrewXPLevel.GREEN, 500);
@@ -72,8 +72,8 @@ public class Ulterius {
 		
 		system.setLightColor(new Color(255, 238, 193)); // light color in entire system, affects all entities
 				
-		SectorEntityToken station = system.addOrbitalStation(star, 76, 700, 30, "Citadel", "sun_ici");
-		initStationCargo(station);
+		STATION = system.addOrbitalStation(star, 76, 700, 30, "Citadel", "sun_ici");
+		initStationCargo();
 
 		system.autogenerateHyperspaceJumpPoints(true, true);
 
@@ -82,13 +82,13 @@ public class Ulterius {
         int systems = sector.getStarSystems().size();
         int fleets = (int)Math.max(1, systems / 6f);
 
-        Global.getLogger(Ulterius.class).log(Level.INFO, "stuffs " + fleets);
+        //Global.getLogger(Ulterius.class).log(Level.INFO, "stuffs " + fleets);
         
-        spawn = new RefugeeSpawnPoint(sector, system, 16f / systems, fleets, station);
+        spawn = new RefugeeSpawnPoint(sector, system, 16f / systems, fleets, STATION);
 		system.addScript(spawn);
 		//spawn.spawnFleet();
 
-        spawn = new BlockadeSpawnPoint(sector, system, 15, 3, station);
+        spawn = new BlockadeSpawnPoint(sector, system, 15, 3, STATION);
         system.addScript(spawn);
         spawn.spawnFleet();
 
@@ -102,9 +102,17 @@ public class Ulterius {
           ici.setRelationship(faction.getId(), -1);
         }
 	}
-	
-	private void initStationCargo(SectorEntityToken station) {
-		CargoAPI cargo = station.getCargo();
+	public static void resetStationCargo() {
+		CargoAPI cargo = Global.getSector().getStarSystem("Ulterius").getEntityByName("Citadel").getCargo();
+
+        cargo.clear();
+        cargo.getMothballedShips().clear();
+
+        initStationCargo();
+    }
+
+	private static void initStationCargo() {
+		CargoAPI cargo = Global.getSector().getStarSystem("Ulterius").getEntityByName("Citadel").getCargo();
 		
 		cargo.addMarines(VENDOR_MARINES);
 		cargo.addSupplies(VENDOR_SUPPLIES);
