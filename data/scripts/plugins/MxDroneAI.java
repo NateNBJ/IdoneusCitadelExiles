@@ -233,14 +233,18 @@ public class MxDroneAI implements ShipAIPlugin {
             }
         }
 
-        if(winner == null) return;
+        if(winner == null) {
+            dontRestoreAmmoUntil = Global.getCombatEngine().getTotalElapsedTime(false) + 1;
+            return;
+        }
         
         float op = winner.getSpec().getOrdnancePointCost(null);
         int ammoToRestore = (int)Math.max(1, Math.floor(winner.getMaxAmmo() / op));
         ammoToRestore = Math.min(ammoToRestore, winner.getMaxAmmo() - winner.getAmmo());
         //Utils.print("%"+lowestAmmo*100+"   "+winner.getId()+"   "+ammoToRestore);
         winner.setAmmo(winner.getAmmo() + ammoToRestore);
-        dontRestoreAmmoUntil = Global.getCombatEngine().getTotalElapsedTime(false) + COOLDOWN_PER_OP_OF_AMMO_RESTORED * ((ammoToRestore / (float)winner.getMaxAmmo()) * op);
+        dontRestoreAmmoUntil = Global.getCombatEngine().getTotalElapsedTime(false)
+                + COOLDOWN_PER_OP_OF_AMMO_RESTORED * ((ammoToRestore / (float)winner.getMaxAmmo()) * op);
     }
     void repairArmor() {
         if(cellToFix == null) return;
