@@ -62,9 +62,9 @@
       },
    },
    "dialogue":{
-      "greetingFriendly":"pending",
-      "greetingNeutral":"pending",
-      "greetingHostileAggressive":"pending",
-      "greetingHostileTimid":"pending",
+      "greetingFriendly":"The resources of the Citadel are at your disposal, commander, but remember; even you can overstay your welcome here. I hope you will forgive us our secrecy.",
+      "greetingNeutral":"Outsiders are not permitted in Ulterius. You should leave before you encounter a Citadel fleet commander less forgiving than I.",
+      "greetingHostileAggressive":"You have trespassed, commander. I don’t know what you’re looking for near the Citadel, but your search ends here.",
+      "greetingHostileTimid":"The fleets of Idonius Citadel do not interfere with the affairs of the sector. I suggest that you don’t interfere with in ours.",
    }   
 },

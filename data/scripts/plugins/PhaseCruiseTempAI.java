@@ -55,6 +55,7 @@ public class PhaseCruiseTempAI implements ShipAIPlugin {
                 ) {
             
             ship.resetDefaultAI();
+            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
 
             //SunUtils.print(ship, "back.");
         }
