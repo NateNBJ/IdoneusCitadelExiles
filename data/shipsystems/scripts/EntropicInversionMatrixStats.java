@@ -12,6 +12,7 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
     static final Color TEXT_COLOR = new Color(0, 255, 100);
 
     float[][] prev = null;
+    float initialFlux = Float.MIN_VALUE;
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
@@ -21,6 +22,9 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
         float max = ship.getArmorGrid().getMaxArmorInCell();
         int gridWidth = now.length;
         int gridHeight = now[0].length;
+
+        if(initialFlux == Float.MIN_VALUE)
+            initialFlux = ship.getFluxTracker().getCurrFlux();
         
         if(prev == null) prev = new float[gridWidth][gridHeight];
         
@@ -39,6 +43,7 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
             }
         }
 
+        ship.getFluxTracker().setCurrFlux(ship.getFluxTracker().getMaxFlux() * 0.9f);
         stats.getHullDamageTakenMult().modifyMult(id, 0);
     }
 
@@ -46,6 +51,8 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
     public void unapply(MutableShipStatsAPI stats, String id) {
         stats.getHullDamageTakenMult().unmodify(id);
         prev = null;
+        ((ShipAPI)stats.getEntity()).getFluxTracker().setCurrFlux(initialFlux);
+        initialFlux = Float.MIN_VALUE;
     }
 
     @Override

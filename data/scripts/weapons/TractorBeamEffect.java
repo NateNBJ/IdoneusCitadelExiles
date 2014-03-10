@@ -13,8 +13,8 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class TractorBeamEffect implements BeamEffectPlugin {
-    //static final float FORCE_MULTIPLIER = 50.0f;
-    static final float FORCE_MULTIPLIER = 5.0f;
+    static final float FORCE_MULTIPLIER = 20.0f;
+    //static final float FORCE_MULTIPLIER = 5.0f;
     IntervalTracker tracker = new IntervalTracker(0.03f);
     
     @Override
@@ -46,6 +46,8 @@ public class TractorBeamEffect implements BeamEffectPlugin {
 //        }
 
         if((id.contains("sun_ice_pentagram") || id.contains("sun_ice_kelpie"))
+                && !ship.getFluxTracker().isOverloadedOrVenting()
+                && !ship.getPhaseCloak().isActive()
                 && ship.getShipAI() != null
                 //&& !MeleeTempAI.isBeingUsedBy(ship)
                 //&& !(ship.getShipAI() instanceof MeleeTempAI)

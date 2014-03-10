@@ -5,9 +5,9 @@ import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
-import data.scripts.IntervalTracker;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 @SuppressWarnings("unchecked")
@@ -54,9 +54,16 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     }
     public void vent() {
         ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
+
+//        return !ship.getFluxTracker().isOverloadedOrVenting()
+//                && ship.getFluxTracker().getCurrFlux() > 0;
     }
-    public void useSystem() {
-        ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
+    public boolean useSystem() {
+        boolean canDo = AIUtils.canUseSystemThisFrame(ship);
+
+        if(canDo) ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
+
+        return canDo;
     }
     public void toggleDefenseSystem() {
         ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);

@@ -95,7 +95,7 @@
     "targetingunit"
   ],
   "builtInWeapons": {
-    "WS0001": "sun_ice_tractorbeam",
+    "WS0020": "sun_ice_tractorbeam",
     "WS0006": "sun_ice_fissionblademini",
     "WS0007": "sun_ice_fissionblademini",
     "WS0008": "sun_ice_fissionblademini",
@@ -200,7 +200,7 @@
     {
       "angle": 0,
       "arc": 50,
-      "id": "WS0001",
+      "id": "WS0020",
       "locations": [
         -40,
         -0

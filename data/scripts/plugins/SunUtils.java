@@ -1,7 +1,7 @@
 package data.scripts.plugins;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.BeamAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
@@ -57,15 +57,23 @@ public class SunUtils
     }
     public static float estimateIncomingDamage(ShipAPI ship, float damageWindowSeconds) {
         float accumulator = 0f;
-        DamagingProjectileAPI proj;
+
+        for (Iterator iter = Global.getCombatEngine().getBeams().iterator(); iter.hasNext();) {
+            BeamAPI beam = (BeamAPI)iter.next();
+
+            if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
+                continue;
+
+            accumulator += beam.getWeapon().getDerivedStats().getDps() * damageWindowSeconds;
+        }
 
         for (Iterator iter = Global.getCombatEngine().getProjectiles().iterator(); iter.hasNext();) {
-            proj = (DamagingProjectileAPI) iter.next();
+            DamagingProjectileAPI proj = (DamagingProjectileAPI)iter.next();
 
             if(proj.getOwner() == ship.getOwner()) continue; // Ignore friendly projectiles
 
             //float safeDistance = SAFE_DISTANCE + ship.getCollisionRadius();
-            float threat = proj.getDamageAmount();
+            //float threat = proj.getDamageAmount();
 
             Vector2f endPoint = new Vector2f(proj.getVelocity());
             endPoint.scale(damageWindowSeconds);
@@ -76,7 +84,7 @@ public class SunUtils
                         new Vector2f(ship.getLocation()), ship.getCollisionRadius()))
                 continue;
 
-            accumulator += threat;// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
+            accumulator += proj.getDamageAmount();// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
         }
 
         return accumulator;

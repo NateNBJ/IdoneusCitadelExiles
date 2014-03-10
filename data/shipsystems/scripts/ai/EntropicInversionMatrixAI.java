@@ -13,7 +13,7 @@ import org.lazywizard.lazylib.combat.AIUtils;
 
 public class EntropicInversionMatrixAI implements ShipSystemAIScript {
     private static final float REFRESH_FREQUENCY = 0.25f;
-    private static final float USE_SYSTEM_THRESHOLD = 0.02f;
+    private static final float USE_SYSTEM_THRESHOLD = 0.03f;
 
     private float timeOfNextRefresh = 0;
     private ShipAPI ship;
@@ -36,7 +36,7 @@ public class EntropicInversionMatrixAI implements ShipSystemAIScript {
                 (ship.getMaxHitpoints() + ship.getHitpoints())) > USE_SYSTEM_THRESHOLD) {
 
             ship.useSystem();
-            ship.setShipAI(new DontPhaseTempAI(ship));
+            //ship.setShipAI(new DontPhaseTempAI(ship));
         }
     }
 }

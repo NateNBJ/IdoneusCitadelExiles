@@ -12,23 +12,46 @@ import org.lazywizard.lazylib.combat.AIUtils;
 public class MeleeTempAI extends BaseShipAI{
     WeaponAPI tractorBeam;
     EntropicInversionMatrixAI systemAI;
+    boolean facingBetterTarget = false;
 
     @Override
     public void evaluateCircumstances() {
         if(ship.getFluxTracker().isOverloadedOrVenting()
                 || !tractorBeam.isFiring()
+                || ship.getPhaseCloak().isActive()
                 || ship.getShipTarget() == null
+                || tractorBeam.getRange() < MathUtils.getDistance(ship.getShipTarget(), tractorBeam.getLocation())
                 || !ship.getShipTarget().isAlive()) {
 
             ship.resetDefaultAI();
             SunUtils.print("Let's reconsider.");
         }
+        
+        if(ship.getSystem().isActive()) return;
 
-        if(!AIUtils.canUseSystemThisFrame(ship)) {
-            // TODO - Consider using phase cloak
+        //boolean inMeleeRange = MathUtils.getDistance(ship, ship.getShipTarget()) <= 0;
+        
+        boolean targetDeathEminent = ship.getShipTarget().getHitpoints()
+                <= SunUtils.estimateIncomingDamage(ship.getShipTarget(), 2f);
+        
+        boolean targetMayDieSoon = targetDeathEminent
+                || ship.getShipTarget().getHitpoints() <= 3000f;
+
+        boolean canPhase = ship.getPhaseCloak() != null
+                && ship.getFluxTracker().getMaxFlux() - ship.getFluxTracker().getCurrFlux()
+                    > ship.getPhaseCloak().getFluxPerUse() * 1.1f;
+
+        float danger = SunUtils.estimateIncomingDamage(ship, 2)
+                / (ship.getHitpoints() + ship.getMaxHitpoints());
+
+        if(danger > 0.12f || targetDeathEminent) {
+            boolean systemUsed = useSystem();
+            if(!systemUsed && canPhase) {
+                this.toggleDefenseSystem();
+            } else if(!systemUsed) vent();
+        } else if (danger > 0.03 && !targetMayDieSoon) {
+            useSystem();
         }
-
-        // TODO - Track hull deterioration of target
     }
 
     public MeleeTempAI() {}

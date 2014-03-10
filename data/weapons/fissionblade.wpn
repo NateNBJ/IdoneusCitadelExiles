@@ -4,6 +4,7 @@
 	"type":"ENERGY",
 	"size":"SMALL",
 	"displayArcRadius":0,
+	"beamEffect":"data.scripts.weapons.FissionBladePushEffect",
 	"turretSprite":"graphics/sun_ice/invisible.png",
 	"turretGlowSprite":"graphics/sun_ice/invisible.png",
 	"hardpointSprite":"graphics/sun_ice/invisible.png",
