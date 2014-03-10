@@ -34,15 +34,15 @@ public class Ulterius {
         VENDOR_CREW.put(CrewXPLevel.VETERAN, 100);
         VENDOR_CREW.put(CrewXPLevel.ELITE, 25);
 
-        VENDOR_SHIPS.put("sun_ice_voidreaver_Standard", 1);
-        VENDOR_SHIPS.put("sun_ice_kelpie_Standard", 2);
-        VENDOR_SHIPS.put("sun_ice_eidolon_Standard", 2);
-        VENDOR_SHIPS.put("sun_ice_soulbane_Standard", 2);
-        VENDOR_SHIPS.put("sun_ice_nightseer_Standard", 1);
-        VENDOR_SHIPS.put("sun_ice_athame_Standard", 2);
-        VENDOR_SHIPS.put("sun_ice_specter_Standard", 3);
-        VENDOR_SHIPS.put("sun_ice_flashghast_Standard", 3);
-        VENDOR_SHIPS.put("sun_ice_pentagram_Standard", 2);
+        VENDOR_SHIPS.put("sun_ice_voidreaver_Hull", 1);
+        VENDOR_SHIPS.put("sun_ice_kelpie_Hull", 2);
+        VENDOR_SHIPS.put("sun_ice_eidolon_Hull", 2);
+        VENDOR_SHIPS.put("sun_ice_soulbane_Hull", 2);
+        VENDOR_SHIPS.put("sun_ice_nightseer_Hull", 1);
+        VENDOR_SHIPS.put("sun_ice_athame_Hull", 2);
+        VENDOR_SHIPS.put("sun_ice_specter_Hull", 3);
+        VENDOR_SHIPS.put("sun_ice_flashghast_Hull", 3);
+        VENDOR_SHIPS.put("sun_ice_pentagram_Hull", 2);
 
         VENDOR_WINGS.put("sun_ice_poltergeist_wing", 3);
         VENDOR_WINGS.put("sun_ice_phantom_wing", 2);

@@ -18,6 +18,7 @@ public class MeleeTempAI extends BaseShipAI{
     public void evaluateCircumstances() {
         if(ship.getFluxTracker().isOverloadedOrVenting()
                 || !tractorBeam.isFiring()
+                || ship.getFluxTracker().getFluxLevel() > 0.9f
                 || ship.getPhaseCloak().isActive()
                 || ship.getShipTarget() == null
                 || tractorBeam.getRange() < MathUtils.getDistance(ship.getShipTarget(), tractorBeam.getLocation())

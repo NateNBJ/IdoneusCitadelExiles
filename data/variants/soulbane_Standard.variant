@@ -1,13 +1,12 @@
 {
   "displayName": "Standard",
   "fluxCapacitors": 0,
-  "fluxVents": 16,
+  "fluxVents": 17,
   "hullId": "sun_ice_soulbane",
   "hullMods": [
     "heavyarmor",
     "unstable_injector",
     "insulatedengine",
-	"armoredweapons",
   ],
   "variantId": "sun_ice_soulbane_Standard",
   "weaponGroups": [

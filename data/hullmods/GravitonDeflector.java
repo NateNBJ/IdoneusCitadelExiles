@@ -35,11 +35,13 @@ public class GravitonDeflector extends BaseHullMod {
             float distance = MathUtils.getDistance(ship.getLocation(), proj.getLocation());
             float force = (float)Math.pow(1 - Math.abs(angleDif) / MAX_ANGLE_DIFFERENCE, 2)
                     * (ship.getCollisionRadius() / distance) * FORCE_MULTIPLIER;
-            float dAngle = -angleDif * amount * force * (0.3f + (1 - ship.getFluxTracker().getFluxLevel()) * 0.7f);
+            float dAngle = -angleDif * amount * force
+                    * (0.3f + (1 - ship.getFluxTracker().getFluxLevel()) * 0.7f)
+                    * (float)(180 / Math.PI);
 
 
             VectorUtils.rotate(proj.getVelocity(), dAngle, proj.getVelocity());
-            proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle * (float)(180 / Math.PI)));
+            proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle));
         }
     }
 

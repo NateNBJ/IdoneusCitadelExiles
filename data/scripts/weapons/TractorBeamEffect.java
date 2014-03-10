@@ -49,6 +49,7 @@ public class TractorBeamEffect implements BeamEffectPlugin {
                 && !ship.getFluxTracker().isOverloadedOrVenting()
                 && !ship.getPhaseCloak().isActive()
                 && ship.getShipAI() != null
+                && ship.getFluxTracker().getFluxLevel() < 0.8f
                 //&& !MeleeTempAI.isBeingUsedBy(ship)
                 //&& !(ship.getShipAI() instanceof MeleeTempAI)
                 && !ship.getShipAI().needsRefit() // MeleeTempAI returns true...

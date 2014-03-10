@@ -6,10 +6,10 @@ import com.fs.starfarer.api.combat.ShipAPI;
 
 public class ReverbDampeners extends BaseHullMod {
 
-    @Override
-    public void advanceInCombat(ShipAPI ship, float amount) {
-        super.advanceInCombat(ship, amount);
-
+//    @Override
+//    public void advanceInCombat(ShipAPI ship, float amount) {
+//        super.advanceInCombat(ship, amount);
+//
 //        if(ship.getShipAI() != null
 //                && (ship.getHullSpec().getHullId().contains("sun_ice_kelpie")
 //                || ship.getHullSpec().getHullId().contains("sun_ice_pentagram")))
@@ -56,24 +56,22 @@ public class ReverbDampeners extends BaseHullMod {
 //                ship.giveCommand(ShipCommand.SELECT_GROUP, null, 0);
 //                ship.giveCommand(ShipCommand.USE_SELECTED_GROUP, ship.getMouseTarget(), 0);
 //        }
-    }
+//    }
 
-	public static final float SIGHT_RADIUS_BONUS = 20f;
-	public static final float TRACKING_PENALTY = -50f;
     @Override
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
             //stats.getEnergyWeaponDamageMult().modifyMult(id, 100);
 
-        stats.getHullDamageTakenMult().modifyMult(id, 0.5f);
-        stats.getArmorDamageTakenMult().modifyMult(id, 0.5f);
+//        stats.getHullDamageTakenMult().modifyMult(id, 0.5f);
+//        stats.getArmorDamageTakenMult().modifyMult(id, 0.5f);
 
 //        stats.getEnergyDamageTakenMult().modifyMult(id, 100);
 //        stats.getFragmentationDamageTakenMult().modifyMult(id, 100);
-//        stats.getKineticDamageTakenMult().modifyMult(id, 100);
+        stats.getKineticDamageTakenMult().modifyMult(id, 0.25f);
 
         //stats.getProjectileDamageTakenMult().modifyMult(id, 100);
-        stats.getMissileDamageTakenMult().modifyMult(id, 4);
-        stats.getBeamDamageTakenMult().modifyMult(id, 4);
+//        stats.getMissileDamageTakenMult().modifyMult(id, 4);
+//        stats.getBeamDamageTakenMult().modifyMult(id, 4);
 	}
 
     @Override
@@ -86,9 +84,6 @@ public class ReverbDampeners extends BaseHullMod {
     public boolean isApplicableToShip(ShipAPI ship)
     {
         return false;
-        // Allows any ship with a ICE hull id
-//        return ( ship.getHullSpec().getHullId().startsWith("sun_ice_") &&
-//        !ship.getVariant().getHullMods().contains("sun_ice_reverb_dampeners_mod"));
     }
 
 }
