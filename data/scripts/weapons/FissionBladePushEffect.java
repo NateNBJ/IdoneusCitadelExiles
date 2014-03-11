@@ -6,9 +6,8 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.scripts.IntervalTracker;
-//import data.scripts.plugins.MeleeTempAI;
-import data.scripts.plugins.MeleeTempAI;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -31,7 +30,7 @@ public class FissionBladePushEffect implements BeamEffectPlugin {
                 * beam.getBrightness()
                 * (ship.getCollisionRadius() / target.getCollisionRadius())
                 * (range / (MathUtils.getDistance(beam.getFrom(), beam.getTo()) + (range * 0.2f)));
-        Vector2f direction = MathUtils.getDirectionalVector(from, beam.getTo());
+        Vector2f direction = VectorUtils.getDirectionalVector(from, beam.getTo());
         
         CombatUtils.applyForce(target, direction, force);
         direction.scale(-1);

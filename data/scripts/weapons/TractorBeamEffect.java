@@ -6,9 +6,8 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.scripts.IntervalTracker;
-//import data.scripts.plugins.MeleeTempAI;
 import data.scripts.plugins.MeleeTempAI;
-import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -28,7 +27,7 @@ public class TractorBeamEffect implements BeamEffectPlugin {
 
         Vector2f from = beam.getFrom();
         float force = FORCE_MULTIPLIER * beam.getBrightness();
-        Vector2f direction = MathUtils.getDirectionalVector(from, beam.getTo());
+        Vector2f direction = VectorUtils.getDirectionalVector(from, beam.getTo());
         
         String id = beam.getSource().getHullSpec().getHullId();
 
