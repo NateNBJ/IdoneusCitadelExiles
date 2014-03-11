@@ -74,7 +74,6 @@ public class MunitionsAutoFac extends BaseHullMod {
 
     @Override
     public boolean isApplicableToShip(ShipAPI ship) {
-        return ship.getHullSpec().getHullId().startsWith("sun_ice_")
-                && !ship.getVariant().getHullMods().contains("sun_ice_munitions_autofac");
+        return ship.getHullSpec().getHullId().startsWith("sun_ice_");
     }
 }

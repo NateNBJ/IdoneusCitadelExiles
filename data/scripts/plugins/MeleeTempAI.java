@@ -25,7 +25,7 @@ public class MeleeTempAI extends BaseShipAI{
                 || !ship.getShipTarget().isAlive()) {
 
             ship.resetDefaultAI();
-            SunUtils.print("Let's reconsider.");
+            //SunUtils.print("Let's reconsider.");
         }
         
         if(ship.getSystem().isActive()) return;
@@ -64,7 +64,7 @@ public class MeleeTempAI extends BaseShipAI{
 
         systemAI.init(ship, ship.getSystem(), null, Global.getCombatEngine());
         circumstanceEvaluationTimer.setInterval(0.1f);
-        SunUtils.print("Gobble time!");
+        //SunUtils.print("Gobble time!");
 
         // TODO - find tractor beam group
         //selectWeaponGroup(0);
