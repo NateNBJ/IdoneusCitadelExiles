@@ -9,7 +9,7 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
 		if (state == ShipSystemStatsScript.State.OUT) {
 			stats.getMaxSpeed().unmodify(id);
 		} else {
-			stats.getMaxSpeed().modifyFlat(id, 600f * effectLevel);
+			stats.getMaxSpeed().modifyFlat(id, 500f * effectLevel);
 			stats.getAcceleration().modifyFlat(id, 2000f * effectLevel);
 			stats.getDeceleration().modifyFlat(id, 500f * effectLevel);
 		}

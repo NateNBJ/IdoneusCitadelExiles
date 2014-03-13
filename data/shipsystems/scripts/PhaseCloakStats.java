@@ -9,7 +9,7 @@ public class PhaseCloakStats implements ShipSystemStatsScript {
 		if (state == ShipSystemStatsScript.State.OUT) {
 			stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
 		} else {
-			stats.getMaxSpeed().modifyFlat(id, 150f * effectLevel);
+			stats.getMaxSpeed().modifyFlat(id, 100f * effectLevel);
 			stats.getAcceleration().modifyMult(id, 0.2f * effectLevel);
 			stats.getDeceleration().modifyMult(id, 0.2f * effectLevel);
 		}
@@ -20,7 +20,8 @@ public class PhaseCloakStats implements ShipSystemStatsScript {
 		stats.getAcceleration().unmodify(id);
 		stats.getDeceleration().unmodify(id);
 	}
-	@Override
+	
+    @Override
 	public StatusData getStatusData(int index, State state, float effectLevel) {
         if (index == 0) {
 			return new StatusData("increased max speed", false);

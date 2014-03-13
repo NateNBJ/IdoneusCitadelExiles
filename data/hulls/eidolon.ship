@@ -136,6 +136,16 @@
       "locations": [
         7.5,
         27,
+      ],
+      "mount": "HIDDEN",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY"
+    },
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "LB 2",
+      "locations": [
         7.5,
         -27
       ],
