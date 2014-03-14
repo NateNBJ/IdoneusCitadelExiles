@@ -87,9 +87,9 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
         float shouldFire = -danger;
 
         if(target.getShield() != null && target.getShield().isWithinArc(weapon.getLocation())) {
-            shouldFire += overloadBalance * 4 * fpRatio;
+            shouldFire += overloadBalance * 8 * fpRatio;
         } else {
-            shouldFire += Math.min(1, weapon.getDerivedStats().getDamagePerShot() / target.getHitpoints()) * 10 * fpRatio;
+            shouldFire += Math.min(1, weapon.getDerivedStats().getDamagePerShot() / target.getHitpoints()) * 16 * fpRatio;
         }
 
         shouldFire *= hitChance;

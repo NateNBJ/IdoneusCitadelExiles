@@ -30,6 +30,15 @@ public class IntervalTracker {
         init(minIntervalDuration, maxIntervalDuration, includePausedTime);
     }
 
+    public boolean intervalIsFixed() {
+        return min == max;
+    }
+    public float getMinimumInterval() {
+        return min;
+    }
+    public float getMaximumInterval() {
+        return max;
+    }
     public void setInterval(float intervalDuration) {
         min = max = intervalDuration;
     }

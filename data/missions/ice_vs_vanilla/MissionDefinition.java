@@ -35,12 +35,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
 		if (side == FleetSide.PLAYER) {
 			String [] choices = {
-                    "sun_ice_eidolon_Standard",
+                    //"sun_ice_eidolon_Standard",
                     "sun_ice_soulbane_Standard",
                     //"sun_ice_flashghast_Standard",
                     //"sun_ice_specter_Standard",
-                    //"sun_ice_nightseer_Standard",
-                    "sun_ice_athame_Standard",
+                    "sun_ice_nightseer_Standard",
+                    //"sun_ice_athame_Standard",
                     "sun_ice_kelpie_Standard",
                     "sun_ice_voidreaver_Standard"
 			};
