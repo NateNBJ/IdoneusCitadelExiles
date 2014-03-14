@@ -44,19 +44,16 @@ public class PhaseCruiseTempAI implements ShipAIPlugin {
 //
     void evaluateCircumstances() {
         ShipSystemAPI cloak = ship.getPhaseCloak();
-        BattleObjectiveAPI obj = AIUtils.getNearestObjective(ship);
 
         if(cloak == null || ship.getFluxTracker().getFluxLevel() > 0.75f
+                || ship.getPhaseCloak().isCoolingDown()
                 || AIUtils.getNearbyEnemies(ship, 1800).size() > 0
-                //|| assignmentHasChanged()
-                //|| (obj != null && MathUtils.getDistance(ship, obj) <= 700)
                 || (task != null && task.getTarget() != null
                     && MathUtils.getDistance(ship, task.getTarget().getLocation()) < 700)
                 ) {
             
-            ship.resetDefaultAI();
             ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
-
+            ship.resetDefaultAI();
             //SunUtils.print(ship, "back.");
         }
 

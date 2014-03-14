@@ -10,8 +10,8 @@ public class PhaseWarpStats implements ShipSystemStatsScript {
 			stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
 		} else {
 			stats.getMaxSpeed().modifyFlat(id, 250f * effectLevel);
-			stats.getAcceleration().modifyFlat(id, 1000f * effectLevel);
-			stats.getDeceleration().modifyFlat(id, 250f * effectLevel);
+			stats.getAcceleration().modifyFlat(id, 2000f * effectLevel);
+			stats.getDeceleration().modifyFlat(id, 500f * effectLevel);
 		}
 	}
 	@Override

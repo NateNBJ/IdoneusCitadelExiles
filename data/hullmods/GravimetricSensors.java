@@ -58,7 +58,7 @@ public class GravimetricSensors extends BaseHullMod {
 
             ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
 
-            if(cloak.getId().contains("sun_ice_phasecloak"))
+            //if(cloak.getId().contains("sun_ice_phasecloak"))
                 ship.setShipAI(new PhaseCruiseTempAI(ship));
         }
     }
