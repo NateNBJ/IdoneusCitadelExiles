@@ -33,6 +33,9 @@ public class IntervalTracker {
     public boolean intervalIsFixed() {
         return min == max;
     }
+    public float getAverageInterval() {
+        return (min + max) / 2;
+    }
     public float getMinimumInterval() {
         return min;
     }

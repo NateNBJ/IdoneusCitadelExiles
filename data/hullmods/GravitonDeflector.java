@@ -12,7 +12,8 @@ import org.lazywizard.lazylib.VectorUtils;
 public class GravitonDeflector extends BaseHullMod {
     static final float FORCE_MULTIPLIER = 0.5f;
     static final float MAX_ANGLE_DIFFERENCE = 20f;
-    static final IntervalTracker tracker = new IntervalTracker(5f / 60f);
+
+    IntervalTracker tracker = new IntervalTracker(5f / 60f);
 
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
