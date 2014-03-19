@@ -19,6 +19,8 @@ public class EvasionJetsStats implements ShipSystemStatsScript {
         ShipAPI ship = (ShipAPI)stats.getEntity();
         ship.setCollisionClass(CollisionClass.SHIP);
 
+        //(ship.getNumFlameouts() == ship.getEngineController().getShipEngines().size());
+
         if(!started) {
             Global.getSoundPlayer().playSound("engine_accelerate", 1.6f, 4,
                     ship.getLocation(), ship.getVelocity());
