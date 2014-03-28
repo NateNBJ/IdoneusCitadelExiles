@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.apache.log4j.Priority;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
@@ -42,6 +43,9 @@ public class SunUtils
         cellLoc.y = (float)(x * Math.sin(theta) + y * Math.cos(theta)) * cellSize + ship.getLocation().y;
 
         return cellLoc;
+    }
+    public static void log(String str) {
+        Global.getLogger(SunUtils.class).debug(str);
     }
     public static void print(String str) {
         print(Global.getCombatEngine().getPlayerShip(), str);

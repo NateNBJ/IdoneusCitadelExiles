@@ -6,6 +6,7 @@ import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.scripts.plugins.SunUtils;
 import java.util.Iterator;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
@@ -30,27 +31,37 @@ public class RicochetEffect implements EveryFrameWeaponEffectPlugin {
                         || shield == null
                         || shield.isOff()
                         || !shield.isWithinArc(proj.getLocation())
-                        || MathUtils.getDistance(proj, shield.getLocation()) >= shield.getRadius() - 10)
+                        || MathUtils.getDistance(proj, shield.getLocation()) > shield.getRadius() * 0.9f
+                        || MathUtils.getDistance(proj, shield.getLocation()) < shield.getRadius() * 0.7f)
                     continue;
 
 //                if(DefenseUtils.getDefenseAtPoint(ship, proj.getLocation()) != DefenseType.SHIELD)
 //                    continue;
+
+//                if(proj.isFading()) return;
+//                engine.removeEntity(proj);
                     
-                float angle = VectorUtils.getAngle(proj.getLocation(), shield.getLocation());
+                //float angle = VectorUtils.getAngle(proj.getLocation(), shield.getLocation());
+                float angle = VectorUtils.getAngle(shield.getLocation(), proj.getLocation());
                 float shortestRotation = MathUtils.getShortestRotation(proj.getFacing(), angle);
 
-                if(Math.abs(shortestRotation) > 90) continue;
+                //SunUtils.print(proj.getFacing() + ", " + angle + " = " + shortestRotation);
 
-                float newAngle = MathUtils.clampAngle(proj.getFacing() + shortestRotation * 2);
+                
+                if(Math.abs(shortestRotation) < 90) continue;
 
-                newAngle = MathUtils.clampAngle(proj.getFacing() + 180);
+                float newAngle = MathUtils.clampAngle(proj.getFacing() + shortestRotation * 2 + 180);
+                
+                //SunUtils.print("\n\n" + newAngle + "       " + proj.getFacing() + " + " + shortestRotation + " * 2 = " + (proj.getFacing() + shortestRotation * 2));
+
+                //newAngle = MathUtils.clampAngle(proj.getFacing() + 180);
 
                 engine.spawnProjectile(ship, weapon, weapon.getId(),
                         proj.getLocation(), newAngle, ship.getVelocity());
 
                 engine.applyDamage(target, proj.getLocation(),
                         proj.getDamageAmount(), proj.getDamageType(),
-                        proj.getEmpAmount(), false, true, ship);
+                        proj.getEmpAmount(), false, false, ship);
                 
                 engine.removeEntity(proj);
             }

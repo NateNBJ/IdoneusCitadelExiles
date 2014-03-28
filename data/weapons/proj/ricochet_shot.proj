@@ -4,15 +4,15 @@
 	"spawnType":"BALLISTIC_AS_BEAM",
 	"collisionClass":"NONE",
 	"collisionClassByFighter":"NONE",
-	"length":45.0,
-	"width":7,
-	"fadeTime":0.3,
+	"length":15,
+	"width":15,
+	"fadeTime":0.5,
 	"fringeColor":[100,100,255,255],
 	"coreColor":[255,255,255,255],
 	"glowColor":[100,100,255,75],
-	"glowRadius":35,
+	"glowRadius":0,
 	"hitGlowRadius":75,	
-	"textureScrollSpeed":64.0,
+	#"textureScrollSpeed":64.0,
 	"pixelsPerTexel":5.0,
-	"bulletSprite":"graphics/missiles/shell_gauss_cannon.png"	
+	"bulletSprite":"graphics/fx/shields64.png"	
 }

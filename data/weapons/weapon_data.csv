@@ -9,7 +9,7 @@ Boomerang SRM Pod,sun_ice_boomerangpod,1,1600,1200,,600,100,50,10,10,12,,HIGH_EX
 Mobius Ray,sun_ice_mobiusray,3,23000,800,,60,,0,0,25,,,HIGH_EXPLOSIVE,60,,0,4,20,0.025,,,,,,700,,,,DO_NOT_AIM,
 Tractor Beam,sun_ice_tractorbeam,2,12000,1000,1,,,0,100,12,,,ENERGY,,550,1,1.5,,,,,,,3000,,,,,"STRIKE,USE_VS_FRIGATES",
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Ricochet,sun_ice_ricochet,3,20000,700,,1,,500,10,30,,,HIGH_EXPLOSIVE,1200,,,2,1,,,,,,,750,,,500,,
+Ricochet,sun_ice_ricochet,3,20000,700,,1000,,500,10,30,,,HIGH_EXPLOSIVE,1200,,,2,1,,,,,,,750,,,500,,
 PD Drone Pod,sun_ice_pddrone,1,900,10000,,500,,75,10,10,30,,FRAGMENTATION,0,,0,15,3,0.4,0,0,0,0,,200,100,50,125,DO_NOT_AIM,
 Mines,sun_ice_mines,1,7500,3000,,500,,100,10,25,10,,HIGH_EXPLOSIVE,0,,0,10,1,,0,0,0,0,,250,50,20,200,DO_NOT_AIM,
 Arbalest LRM,sun_ice_arbalest,1,7500,10000,,500,,100,10,25,10,,HIGH_EXPLOSIVE,0,,0,10,1,,0,0,0,0,,250,50,20,200,DO_NOT_AIM,
