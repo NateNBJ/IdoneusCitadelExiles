@@ -17,7 +17,7 @@
 	"coreColor":[255,255,255,255],
 	"glowColor":[160,240,220,100],
 	"width":28.0,
-	"textureType":["graphics/sun_ice/fx/beam_rectangle_core.png", "graphics/fx/beamcore.png"],
+	"textureType":["graphics/sun_ice/fx/beam_rectangle_fringe.png", "graphics/fx/beamcore.png"],
 	"textureScrollSpeed":-300,
 	"pixelsPerTexel":1.0,
 	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF,FIGHTER],
