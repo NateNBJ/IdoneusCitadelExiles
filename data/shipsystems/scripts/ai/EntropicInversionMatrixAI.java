@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import data.scripts.plugins.DontPhaseTempAI;
+//import data.scripts.plugins.DontPhaseTempAI;
 import data.scripts.plugins.SunUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lazywizard.lazylib.combat.AIUtils;

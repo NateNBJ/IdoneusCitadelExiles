@@ -1,18 +1,28 @@
 package data.scripts.weapons;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.scripts.plugins.SunUtils;
 import java.util.Iterator;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 
 public class RicochetEffect implements EveryFrameWeaponEffectPlugin {
+
+    void hit(DamagingProjectileAPI proj, CombatEntityAPI target) {
+        Global.getCombatEngine().applyDamage(target, proj.getLocation(),
+                proj.getDamageAmount(), proj.getDamageType(),
+                proj.getEmpAmount(), false, true, proj.getSource());
+
+        Global.getCombatEngine().removeEntity(proj);
+    }
 
     @Override
     public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
@@ -28,42 +38,44 @@ public class RicochetEffect implements EveryFrameWeaponEffectPlugin {
                 ShieldAPI shield = target.getShield();
                 
                 if(!CollisionUtils.isPointWithinCollisionCircle(proj.getLocation(), target)
-                        || shield == null
-                        || shield.isOff()
-                        || !shield.isWithinArc(proj.getLocation())
-                        || MathUtils.getDistance(proj, shield.getLocation()) > shield.getRadius() * 0.9f
-                        || MathUtils.getDistance(proj, shield.getLocation()) < shield.getRadius() * 0.7f)
+                        || target == proj.getSource())
+//                        || shield == null
+//                        || shield.isOff()
+//                        || !shield.isWithinArc(proj.getLocation())
+//                        || MathUtils.getDistance(proj, shield.getLocation()) > shield.getRadius() * 0.9f)
                     continue;
-
-//                if(DefenseUtils.getDefenseAtPoint(ship, proj.getLocation()) != DefenseType.SHIELD)
-//                    continue;
-
-//                if(proj.isFading()) return;
-//                engine.removeEntity(proj);
-                    
-                //float angle = VectorUtils.getAngle(proj.getLocation(), shield.getLocation());
-                float angle = VectorUtils.getAngle(shield.getLocation(), proj.getLocation());
-                float shortestRotation = MathUtils.getShortestRotation(proj.getFacing(), angle);
-
-                //SunUtils.print(proj.getFacing() + ", " + angle + " = " + shortestRotation);
-
                 
-                if(Math.abs(shortestRotation) < 90) continue;
+                if (shield != null && !shield.isOff()
+                        && shield.isWithinArc(proj.getLocation())
+                        && MathUtils.getDistance(proj, shield.getLocation()) < shield.getRadius() * 0.9f) {
 
-                float newAngle = MathUtils.clampAngle(proj.getFacing() + shortestRotation * 2 + 180);
-                
-                //SunUtils.print("\n\n" + newAngle + "       " + proj.getFacing() + " + " + shortestRotation + " * 2 = " + (proj.getFacing() + shortestRotation * 2));
+                    float angle = VectorUtils.getAngle(shield.getLocation(), proj.getLocation());
+                    float shortestRotation = MathUtils.getShortestRotation(proj.getFacing(), angle);
+                    if(Math.abs(shortestRotation) < 90) continue;
 
-                //newAngle = MathUtils.clampAngle(proj.getFacing() + 180);
+                    float newAngle = MathUtils.clampAngle(proj.getFacing() + shortestRotation * 2 + 180);
 
-                engine.spawnProjectile(ship, weapon, weapon.getId(),
-                        proj.getLocation(), newAngle, ship.getVelocity());
+                    engine.spawnProjectile(ship, weapon, weapon.getId(),
+                            proj.getLocation(), newAngle, ship.getVelocity());
 
-                engine.applyDamage(target, proj.getLocation(),
-                        proj.getDamageAmount(), proj.getDamageType(),
-                        proj.getEmpAmount(), false, false, ship);
-                
-                engine.removeEntity(proj);
+                    hit(proj, target);
+
+//                    engine.applyDamage(target, proj.getLocation(),
+//                            proj.getDamageAmount(), proj.getDamageType(),
+//                            proj.getEmpAmount(), false, true, ship);
+//
+//                    engine.removeEntity(proj);
+                } else if (CollisionUtils.isPointWithinBounds(proj.getLocation(), target)) {
+                    hit(proj, target);
+                }
+            }
+
+            for(Iterator s = engine.getAsteroids().iterator(); s.hasNext();) {
+                CombatEntityAPI target = (CombatEntityAPI)s.next();
+
+                if(CollisionUtils.isPointWithinCollisionCircle(proj.getLocation(), target)) {
+                    hit(proj, target);
+                }
             }
         }
     }

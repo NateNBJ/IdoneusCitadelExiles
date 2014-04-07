@@ -46,6 +46,9 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     public void turnLeft() {
         ship.giveCommand(ShipCommand.TURN_LEFT, null, 0);
     }
+    public void turnRight() {
+        ship.giveCommand(ShipCommand.TURN_RIGHT, null, 0);
+    }
     public void strafeLeft() {
         ship.giveCommand(ShipCommand.STRAFE_LEFT, null, 0);
     }

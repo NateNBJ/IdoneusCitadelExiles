@@ -5,10 +5,10 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI.DroneOrders;
-import com.fs.starfarer.api.combat.ShipAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.scripts.BaseShipAI;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.HashMap;
@@ -20,8 +20,7 @@ import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 
-public class MxDroneAI implements ShipAIPlugin {
-    ShipAPI drone;
+public class MxDroneAI extends BaseShipAI {
     ShipAPI mothership;
     ShipAPI target;
     DroneLauncherShipSystemAPI system;
@@ -34,7 +33,6 @@ public class MxDroneAI implements ShipAIPlugin {
     int gridWidth, gridHeight, cellCount;
     boolean performingMaintenance = false;
     boolean returning = false;
-    float dontFireUntil = 0;
     float dontRestoreAmmoUntil = 0;
     float hpAtLastCheck;
 
@@ -150,7 +148,8 @@ public class MxDroneAI implements ShipAIPlugin {
         return priority;
     }
 
-    void evaluateCircumstances() {
+    @Override
+    public void evaluateCircumstances() {
         if(!mothership.isAlive()) die();
         
         if(timeOfMxPriorityUpdate <= Global.getCombatEngine().getTotalElapsedTime(false)
@@ -160,7 +159,7 @@ public class MxDroneAI implements ShipAIPlugin {
 
         setTarget(chooseTarget());
 
-        if(returning) destination = system.getLandingLocation(drone);
+        if(returning) destination = system.getLandingLocation(ship);
         else destination = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius() / 2f);
       
         //destination.x -= target.getLocation().x;
@@ -175,17 +174,17 @@ public class MxDroneAI implements ShipAIPlugin {
 
         if ((target.getPhaseCloak() == null || !target.getPhaseCloak().isOn())
                 && !returning
-                && !(hpAtLastCheck < drone.getHitpoints())
-                && MathUtils.getDistance(drone, target) < REPAIR_RANGE
+                && !(hpAtLastCheck < ship.getHitpoints())
+                && MathUtils.getDistance(ship, target) < REPAIR_RANGE
                 && mxPriorities.containsKey(target)
                 && ((Float)mxPriorities.get(target)) > 0) {
 
             performMaintenance();
         } else performingMaintenance = false;
         
-        if(performingMaintenance == drone.getPhaseCloak().isOn()) drone.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+        if(performingMaintenance == ship.getPhaseCloak().isOn()) ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
 
-        hpAtLastCheck = drone.getHitpoints();
+        hpAtLastCheck = ship.getHitpoints();
 
         countdownToCircumstanceEvaluation = (CIRCUMSTANCE_EVALUATION_FREQUENCY / 2) + CIRCUMSTANCE_EVALUATION_FREQUENCY * (float)Math.random();
     }
@@ -202,7 +201,7 @@ public class MxDroneAI implements ShipAIPlugin {
         for(int i = 0; (i < 10) && !CollisionUtils.isPointWithinBounds(at, target); ++i)
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
 
-        Global.getCombatEngine().spawnEmpArc(drone, at, target, drone,
+        Global.getCombatEngine().spawnEmpArc(ship, at, target, ship,
                 DamageType.ENERGY, 0, 0, REPAIR_RANGE,
                 "tachyon_lance_emp_impact", 12f,
                 ARC_FRINGE_COLOR,
@@ -210,7 +209,7 @@ public class MxDroneAI implements ShipAIPlugin {
 
         restoreAmmo();
 
-        drone.getFluxTracker().setCurrFlux(drone.getFluxTracker().getCurrFlux() + FLUX_PER_MX_PERFORMED);
+        ship.getFluxTracker().setCurrFlux(ship.getFluxTracker().getCurrFlux() + FLUX_PER_MX_PERFORMED);
 
         performingMaintenance = true;
     }
@@ -284,7 +283,7 @@ public class MxDroneAI implements ShipAIPlugin {
     ShipAPI chooseTarget() {
         if(needsRefit() || system.getDroneOrders() == DroneOrders.RECALL) {
             returning = true;
-            drone.getFluxTracker().setCurrFlux(drone.getFluxTracker().getMaxFlux());
+            ship.getFluxTracker().setCurrFlux(ship.getFluxTracker().getMaxFlux());
             return mothership;
         } else returning = false;
         
@@ -300,10 +299,10 @@ public class MxDroneAI implements ShipAIPlugin {
         for(Iterator iter = mxPriorities.keySet().iterator(); iter.hasNext();) {
             ShipAPI ship = (ShipAPI)iter.next();
 
-            if(ship.getOwner() != drone.getOwner()) continue;
+            if(ship.getOwner() != this.ship.getOwner()) continue;
             if(ship.isDrone()) continue;
 
-            float score = (Float)mxPriorities.get(ship) / (500 + MathUtils.getDistance(drone, ship));
+            float score = (Float)mxPriorities.get(ship) / (500 + MathUtils.getDistance(this.ship, ship));
 
             if(score > record) {
                 record = score;
@@ -315,62 +314,63 @@ public class MxDroneAI implements ShipAIPlugin {
     }
     void setTarget(ShipAPI ship) {
         if(target == ship) return;
-        drone.setShipTarget(target = ship);
+        this.ship.setShipTarget(target = ship);
     }
     void goToDestination() {
         Vector2f to = destination;
         //to.x += target.getLocation().x;
         //to.y += target.getLocation().y;
 
-        float angleDif = MathUtils.getShortestRotation(drone.getFacing(), VectorUtils.getAngle(drone.getLocation(), to));
+        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), VectorUtils.getAngle(ship.getLocation(), to));
 
         if(Math.abs(angleDif) < 30){
-            drone.giveCommand(ShipCommand.ACCELERATE, to, 0);
+            accelerate();
+
+//            drone.giveCommand(ShipCommand.ACCELERATE, to, 0);
         } else {
-            ShipCommand direction = (angleDif > 0) ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
-            drone.giveCommand(direction, to, 0);
-            drone.giveCommand(ShipCommand.DECELERATE, to, 0);
+            if(angleDif > 0) turnLeft();
+            else turnRight();
+
+            decelerate();
+
+//            ShipCommand direction = (angleDif > 0) ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
+//            drone.giveCommand(direction, to, 0);
+//            drone.giveCommand(ShipCommand.DECELERATE, to, 0);
         }        
     }
     void die() {
-        drone.setHitpoints(0);
+        ship.setHitpoints(0);
     }
 
     public MxDroneAI() {}
     public MxDroneAI(ShipAPI drone, ShipAPI mothership, DroneLauncherShipSystemAPI system) {
-        this.drone = drone;
+        this.ship = drone;
         this.mothership = mothership;
         this.system = system;
 
         hpAtLastCheck = drone.getHitpoints();
+        circumstanceEvaluationTimer.setInterval(0.8f, 1.2f);
     }
 
     @Override
     public void advance(float amount) {
-        countdownToCircumstanceEvaluation -= amount;
-
-        if(countdownToCircumstanceEvaluation < 0) evaluateCircumstances();
+        super.advance(amount);
+//        countdownToCircumstanceEvaluation -= amount;
+//
+//        if(countdownToCircumstanceEvaluation < 0) evaluateCircumstances();
         
         if(target == null) return;
         
         if (performingMaintenance) {
             repairArmor();
             maintainCR(amount);
-        } else if(returning && !drone.isLanding() && MathUtils.getDistance(drone, mothership) < mothership.getCollisionRadius())
-            drone.beginLandingAnimation(mothership);
+        } else if(returning && !ship.isLanding() && MathUtils.getDistance(ship, mothership) < mothership.getCollisionRadius())
+            ship.beginLandingAnimation(mothership);
 
         goToDestination();
     }
     @Override
-    public void forceCircumstanceEvaluation() {
-        evaluateCircumstances();
-    }
-    @Override
     public boolean needsRefit() {
-        return drone.getFluxTracker().getFluxLevel() >= 1;
-    }
-    @Override
-    public void setDoNotFireDelay(float amount) {
-        dontFireUntil = amount + Global.getCombatEngine().getTotalElapsedTime(false);
+        return ship.getFluxTracker().getFluxLevel() >= 1;
     }
 }

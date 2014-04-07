@@ -45,6 +45,10 @@ public class IntervalTracker {
     public void setInterval(float intervalDuration) {
         min = max = intervalDuration;
     }
+    public void setInterval(float minIntervalDuration, float maxIntervalDuration) {
+        min = Math.min(minIntervalDuration, maxIntervalDuration);
+        max = Math.max(minIntervalDuration, maxIntervalDuration);
+    }
     public boolean intervalElapsed() {
         float time = Global.getCombatEngine().getTotalElapsedTime(includePausedTime);
         

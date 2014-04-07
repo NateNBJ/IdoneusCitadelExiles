@@ -9,7 +9,7 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 
-public class MeleeTempAI extends BaseShipAI{
+public class MeleeTempAI extends BaseShipAI {
     WeaponAPI tractorBeam;
     EntropicInversionMatrixAI systemAI;
     boolean facingBetterTarget = false;
