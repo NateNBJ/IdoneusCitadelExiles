@@ -2,63 +2,38 @@
 package data.scripts.weapons;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipCommand;
+import data.scripts.BaseMissileAI;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
-import org.lazywizard.lazylib.combat.AIUtils;
 
-public class ArbalestMissileAI implements MissileAIPlugin {
+public class ArbalestMissileAI extends BaseMissileAI {
     static final float[] STAGE_DURATION = { 3, 1.5f, 3600 };
     static final String SOUND_ID = "engine_accelerate";
     static final float SOUND_PITCH = 0.5f;
     static final float SOUND_VOLUME = 3.0f;
     static final float FAKE_TURN_MODIFIER = 0.1f;
     
-    MissileAPI missile;
     int stage = 0; // 0:Drift, 1:Burn, 2:Cruise
-    ShipAPI target;
     float duration = STAGE_DURATION[stage];
     int tick = 0;
 
     public ArbalestMissileAI() {}
     public ArbalestMissileAI(MissileAPI missile) {
         this.missile = missile;
+        findTarget();
     }
 
-    public void findTarget() {
-        target = missile.getSource().getShipTarget();
-        
-        if(target == null
-                || !target.isAlive()
-                || target.getOwner() == missile.getOwner()) {
-            target = AIUtils.getNearestEnemy(missile);
-        }
-    }
-    public void turn() {
-        float degreeAngle = VectorUtils.getAngle(missile.getLocation(), target.getLocation());
-    
-        float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);
-
-        //if(Math.abs(angleDif) < 2) return;
-
-        if(angleDif > 0) {
-            missile.giveCommand(ShipCommand.TURN_LEFT);
-            //missile.giveCommand(ShipCommand.STRAFE_LEFT);
-        } else {
-            missile.giveCommand(ShipCommand.TURN_RIGHT);
-            //missile.giveCommand(ShipCommand.STRAFE_RIGHT);
-        }
+    @Override
+    public void evaluateCircumstances() {
+        if(target == null) findTarget();
     }
     
     @Override
     public void advance(float amount) {
-        if(target == null) {
-            findTarget();
-            return;
-        }
+        super.advance(amount);
+
+        if(target == null) return;
 
         duration -= amount;
 
@@ -72,11 +47,11 @@ public class ArbalestMissileAI implements MissileAIPlugin {
             }
         }
 
-        if(stage == 1) {
-            missile.giveCommand(ShipCommand.ACCELERATE);
-        } else if(stage < 2) {
-            turn();
-        } else if(stage == 2) {
+        if(stage == 1) accelerate();
+
+        if(stage < 2) {
+            turnToward(target);
+        } else {
             float angleDif = MathUtils.getShortestRotation(missile.getFacing(),
                     VectorUtils.getAngle(missile.getLocation(), target.getLocation()));
 
@@ -86,5 +61,4 @@ public class ArbalestMissileAI implements MissileAIPlugin {
             missile.setFacing(MathUtils.clampAngle(missile.getFacing() + dAngle * (float)(180 / Math.PI)));
         }
     }
-
 }

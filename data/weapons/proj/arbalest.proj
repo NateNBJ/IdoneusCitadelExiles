@@ -15,7 +15,7 @@
 				  "dec":50},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-14, 0],
-				    "style":"MISSILE_MIDLINE",
+				    "style":"SUN_ICE_MISSILE",
 				    "width":32.0,
 				    "length":120.0,
 				    "angle":180.0}],			    
