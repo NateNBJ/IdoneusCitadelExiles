@@ -15,8 +15,6 @@ import org.lwjgl.util.vector.Vector2f;
 public class BoomerangMissileAI implements MissileAIPlugin {
     MissileAPI missile;
 
-    static final Random rand = new Random();
-
     public BoomerangMissileAI() {}
     public BoomerangMissileAI(MissileAPI missile) {
         this.missile = missile;

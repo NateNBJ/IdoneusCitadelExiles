@@ -18,6 +18,22 @@ public abstract class BaseShipAI implements ShipAIPlugin {
 
     public void evaluateCircumstances() { }
 
+    public ShipCommand strafeToward(float degreeAngle) {
+        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
+
+        if(Math.abs(angleDif) < 5) return null;
+
+        ShipCommand direction = (angleDif > 0) ? ShipCommand.STRAFE_LEFT : ShipCommand.STRAFE_RIGHT;
+        ship.giveCommand(direction, null, 0);
+
+        return direction;
+    }
+    public ShipCommand strafeToward(Vector2f location) {
+        return turnToward(VectorUtils.getAngle(ship.getLocation(), location));
+    }
+    public ShipCommand strafeToward(CombatEntityAPI entity) {
+        return turnToward(entity.getLocation());
+    }
     public ShipCommand turnToward(float degreeAngle) {
         float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
         
@@ -32,6 +48,22 @@ public abstract class BaseShipAI implements ShipAIPlugin {
         return turnToward(VectorUtils.getAngle(ship.getLocation(), location));
     }
     public ShipCommand turnToward(CombatEntityAPI entity) {
+        return turnToward(entity.getLocation());
+    }
+    public ShipCommand turnAway(float degreeAngle) {
+        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
+
+        if(Math.abs(angleDif) < 5) return null;
+
+        ShipCommand direction = (angleDif <= 0) ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
+        ship.giveCommand(direction, null, 0);
+
+        return direction;
+    }
+    public ShipCommand turnAway(Vector2f location) {
+        return turnToward(VectorUtils.getAngle(ship.getLocation(), location));
+    }
+    public ShipCommand turnAway(CombatEntityAPI entity) {
         return turnToward(entity.getLocation());
     }
     public void accelerate() {

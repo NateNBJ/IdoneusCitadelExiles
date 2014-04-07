@@ -43,7 +43,7 @@ public class GravitonDeflector extends BaseHullMod {
 
 
             VectorUtils.rotate(proj.getVelocity(), dAngle, proj.getVelocity());
-            proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle* (float)(180 / Math.PI)));
+            proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle * (float)(180 / Math.PI)));
         }
     }
 

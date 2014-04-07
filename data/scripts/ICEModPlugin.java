@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.WeaponAPI;
 import data.scripts.weapons.BoomerangMissileAI;
 import data.scripts.weapons.MobiusRayAutofireAIPlugin;
 import data.scripts.plugins.MxDroneAI;
+import data.scripts.weapons.ArbalestMissileAI;
 import data.scripts.weapons.HypermassDriverAutofireAIPlugin;
 import data.scripts.weapons.ScatterPdMissileAI;
 import data.scripts.world.Ulterius;
@@ -39,6 +40,8 @@ public class ICEModPlugin extends BaseModPlugin
             return new PluginPick(new ScatterPdMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if(id.equals("sun_ice_boomerang")) {
             return new PluginPick(new BoomerangMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if(id.equals("sun_ice_arbalest")) {
+            return new PluginPick(new ArbalestMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickMissileAI(missile, launchingShip);

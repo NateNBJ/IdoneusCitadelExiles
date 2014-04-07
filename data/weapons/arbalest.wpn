@@ -28,6 +28,6 @@
 				 "blowbackLength":30.0,
 				 "blowbackSpread":10.0,
 				 "particleColor":[100,100,100,200]},
-	"projectileSpecId":"type_1_mirv",
+	"projectileSpecId":"sun_ice_arbalest",
 	"fireSoundTwo":"hurricane_mirv_fire",
 }
