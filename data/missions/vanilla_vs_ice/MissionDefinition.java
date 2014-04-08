@@ -180,7 +180,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.setFleetTagline(FleetSide.PLAYER, "Your forces");
 		api.setFleetTagline(FleetSide.ENEMY, "Enemy forces");
 
-        int size = 25 + (int)((float) Math.random() * 175);
+        int size = 30 + (int)((float) Math.random() * 170);
 
 		int playerFP = generateFleet(size, FleetSide.PLAYER, vanilla, api);
 		int enemyFP = generateFleet(size, FleetSide.ENEMY, ice, api);

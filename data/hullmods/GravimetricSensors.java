@@ -23,17 +23,6 @@ public class GravimetricSensors extends BaseHullMod {
     private Map timeOfNextRefresh = new WeakHashMap();
 
     @Override
-    public void advanceInCampaign(FleetMemberAPI member, float amount) {
-        // ICE armor is repaired instantly in campaign
-//        float hull = member.getStatus().getHullFraction();
-//
-//        if(hull < 1) {
-//            member.getStatus().repairFully();
-//            member.getStatus().applyHullFractionDamage(1 - hull);
-//        }
-    }
-
-    @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
         super.advanceInCombat(ship, amount);
 
@@ -57,9 +46,7 @@ public class GravimetricSensors extends BaseHullMod {
                 ) {
 
             ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
-
-            //if(cloak.getId().contains("sun_ice_phasecloak"))
-                ship.setShipAI(new PhaseCruiseTempAI(ship));
+            ship.setShipAI(new PhaseCruiseTempAI(ship));
         }
     }
 
@@ -69,44 +56,13 @@ public class GravimetricSensors extends BaseHullMod {
         
 		stats.getBallisticWeaponRangeBonus().modifyFlat(id, 300);
 		stats.getBallisticWeaponRangeBonus().modifyPercent(id, -50f);
-		
-//		stats.getEnergyWeaponRangeBonus().modifyFlat(id, 300);
-//		stats.getEnergyWeaponRangeBonus().modifyPercent(id, -50f);
-
-        //stats.getWeaponTurnRateBonus().modifyPercent(id, TRACKING_PENALTY);
 
         stats.getSightRadiusMod().modifyPercent(id, SIGHT_RADIUS_BONUS);
-
-
-        
-//        stats.getArmorDamageTakenMult().modifyMult(id, 0.01f);
-//
-//            stats.getEnergyWeaponDamageMult().modifyMult(id, 100);
-//
-//        stats.getHighExplosiveDamageTakenMult().modifyMult(id, 100);
-
-//        stats.getEnergyDamageTakenMult().modifyMult(id, 100);
-//        stats.getFragmentationDamageTakenMult().modifyMult(id, 100);
-//        stats.getKineticDamageTakenMult().modifyMult(id, 100);
-//
-//        stats.getProjectileDamageTakenMult().modifyMult(id, 100);
-//        stats.getMissileDamageTakenMult().modifyMult(id, 100);
-//        stats.getBeamDamageTakenMult().modifyMult(id, 100);
-	}
-
-    @Override
-	public String getDescriptionParam(int index, HullSize hullSize) {
-		//if (index == 0) return "" + 0.5f;
-		return null;
 	}
 	
     @Override
-    public boolean isApplicableToShip(ShipAPI ship)
-    {
+    public boolean isApplicableToShip(ShipAPI ship){
         return false;
-        // Allows any ship with a ICE hull id
-//        return ( ship.getHullSpec().getHullId().startsWith("sun_ice_") &&
-//        !ship.getVariant().getHullMods().contains("sun_ice_gravitonic_sensors_mod"));
     }
 
 }

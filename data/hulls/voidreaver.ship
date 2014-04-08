@@ -87,7 +87,7 @@
   ],
   "builtInMods": [
     "sun_ice_gravitonic_sensors_mod",
-    "sun_ice_graviton_deflector"
+    "sun_ice_graviton_deflector_mod"
   ],
   "builtInWeapons": {
     "WS0009": "sun_ice_hypermassdriver",

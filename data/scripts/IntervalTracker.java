@@ -30,6 +30,9 @@ public class IntervalTracker {
         init(minIntervalDuration, maxIntervalDuration, includePausedTime);
     }
 
+    public void reset() {
+        incrementInterval(Global.getCombatEngine().getTotalElapsedTime(includePausedTime));
+    }
     public boolean intervalIsFixed() {
         return min == max;
     }
