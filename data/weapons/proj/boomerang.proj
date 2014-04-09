@@ -1,8 +1,8 @@
 {
 	"id":"sun_ice_boomerang",
 	"specClass":"missile",	
-	"missileType":"NO_AI",
-	"sprite":"graphics/sun_ice/missiles/missile_cyclone.png",
+	"missileType":"MISSILE",
+	"sprite":"graphics/sun_ice/missiles/missile_boomerang.png",
 	"size":[11,22],	
 	"center":[5.5,11],
 	"collisionRadius":16,

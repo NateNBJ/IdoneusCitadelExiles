@@ -124,7 +124,7 @@ public abstract class BaseMissileAI implements MissileAIPlugin {
     }
 
     public BaseMissileAI() {}
-    public BaseMissileAI(MissileAPI ship) { this.missile = ship; }
+    public BaseMissileAI(MissileAPI missile) { this.missile = missile; }
 
     @Override
     public void advance(float amount) {

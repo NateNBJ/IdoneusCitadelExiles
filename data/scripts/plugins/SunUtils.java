@@ -56,6 +56,11 @@ public class SunUtils
         Global.getCombatEngine().addFloatingText(at.getLocation(), str, 40,
                 Color.green, at, 1, 5);
     }
+    public static void destroy(CombatEntityAPI entity) {
+        Global.getCombatEngine().applyDamage(entity, entity.getLocation(),
+                entity.getMaxHitpoints() * 10f, DamageType.HIGH_EXPLOSIVE, 0,
+                true, true, entity);
+    }
     public static float estimateIncomingDamage(ShipAPI ship) {
         return estimateIncomingDamage(ship, DEFAULT_DAMAGE_WINDOW);
     }
