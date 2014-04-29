@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
+    static final boolean CHOSE_PREDEFINED_FLAGSHIP = false;
 
     List ice = new ArrayList();
     List vanilla = new ArrayList();
@@ -33,11 +34,13 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
 	int generateFleet(int maxFP, FleetSide side, List ships, MissionDefinitionAPI api) {
 		int currFP = 0;
+        boolean needChooseFlagship = true;
 
-		if (side == FleetSide.PLAYER) {
+		if (CHOSE_PREDEFINED_FLAGSHIP && side == FleetSide.PLAYER) {
 			String flagship = flagshipChoices[(int) (Math.random() * (float) flagshipChoices.length)];
 			api.addToFleet(side, flagship, FleetMemberType.SHIP, true);
 			currFP += api.getFleetPointCost(flagship);
+            needChooseFlagship = false;
 		}
         
         TreeMap fpMap = new TreeMap();
@@ -74,7 +77,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
                     if (variantID.endsWith("_wing")) {
                         api.addToFleet(side, variantID, FleetMemberType.FIGHTER_WING, false);
                     } else {
-                        api.addToFleet(side, variantID, FleetMemberType.SHIP, false);
+                        api.addToFleet(side, variantID, FleetMemberType.SHIP, needChooseFlagship);
+                        needChooseFlagship = false;
                     }
                 }
             }

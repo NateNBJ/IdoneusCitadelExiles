@@ -24,10 +24,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class PhaseCruiseTempAI extends BaseShipAI {
     CombatFleetManagerAPI fleet;
     AssignmentInfo task;
-//    float countdownToCircumstanceEvaluation = 0f;
 
-//    static final float CIRCUMSTANCE_EVALUATION_FREQUENCY = 0.5f;
-    
 //    boolean assignmentHasChanged() {
 //        //return initialAssignment != fleet.getAssignmentFor(ship);
 //        AssignmentInfo currentAssignment = fleet.getAssignmentFor(ship);
@@ -88,11 +85,9 @@ public class PhaseCruiseTempAI extends BaseShipAI {
         
         task = fleet.getAssignmentFor(ship);
         if(task != null && task.getTarget() != null) {
-            goToDestination(task.getTarget().getLocation());
-        } else ship.giveCommand(ShipCommand.ACCELERATE, null, 0);
-
-//        countdownToCircumstanceEvaluation -= amount;
-//
-//        if(countdownToCircumstanceEvaluation < 0) evaluateCircumstances();
+            //goToDestination(task.getTarget().getLocation());
+            this.turnToward(task.getTarget().getLocation());
+            this.strafeToward(task.getTarget().getLocation());
+        }
     }
 }

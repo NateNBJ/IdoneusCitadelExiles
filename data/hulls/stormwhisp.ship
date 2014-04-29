@@ -1,0 +1,130 @@
+{
+  "bounds": [
+    17.5,
+    3,
+    -8.5,
+    15.5,
+    -16.5,
+    5.5,
+    -16.5,
+    -5.5,
+    -8.5,
+    -15.5,
+    17.5,
+    -3
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_stormwhisp_lights",
+    "WS0001": "lightag",
+    "WS0002": "sun_ice_falx",
+    "WS0003": "harpoon_single",
+    "WS0004": "harpoon_single"
+  },
+  "center": [
+    19,
+    21
+  ],
+  "collisionRadius": 23.632605,
+  "engineSlots": [
+    {
+      "angle": -178.02507,
+      "contrailSize": 16.817585,
+      "length": 40.734409,
+      "location": [
+        -17.5,
+        9
+      ],
+      "style": "SUN_ICE",
+      "width": 16.817585
+    },
+    {
+      "angle": 178.02507,
+      "contrailSize": 16.817585,
+      "length": 40.734409,
+      "location": [
+        -17.5,
+        -9
+      ],
+      "style": "SUN_ICE",
+      "width": 16.817585
+    }
+  ],
+  "height": 42,
+  "hullId": "sun_ice_stormwhisp_wing",
+  "hullName": "Stormwhisp",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 23.632605,
+  "spriteName": "graphics/sun_ice/ships/Stormwhisp.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 60,
+      "id": "WS0001",
+      "locations": [
+        11,
+        6
+      ],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 60,
+      "id": "WS0002",
+      "locations": [
+        11,
+        -6
+      ],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0003",
+      "locations": [
+        -8.5,
+        16.5
+      ],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0004",
+      "locations": [
+        -8.5,
+        -16.5
+      ],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        0,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 38
+}

@@ -1,0 +1,120 @@
+{
+  "bounds": [
+    78,
+    -4.5,
+    66.5,
+    -41,
+    -42.5,
+    -40.5,
+    -74,
+    -28,
+    -74,
+    28,
+    -42.5,
+    40.5,
+    66.5,
+    41,
+    78,
+    4.5
+  ],
+  "center": [
+    44,
+    82.5
+  ],
+  "collisionRadius": 92.5,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 16,
+      "length": 37,
+      "location": [
+        -84.5,
+        -6.5
+      ],
+      "style": "SUN_ICE",
+      "width": 16
+    },
+    {
+      "angle": -180,
+      "contrailSize": 16,
+      "length": 37,
+      "location": [
+        -84.5,
+        6.5
+      ],
+      "style": "SUN_ICE",
+      "width": 16
+    },
+    {
+      "angle": 180,
+      "contrailSize": 15,
+      "length": 30.5,
+      "location": [
+        -83.5,
+        -15.5
+      ],
+      "style": "SUN_ICE",
+      "width": 15
+    },
+    {
+      "angle": -180,
+      "contrailSize": 15,
+      "length": 30.5,
+      "location": [
+        -83.5,
+        15.5
+      ],
+      "style": "SUN_ICE",
+      "width": 15
+    },
+    {
+      "angle": 180,
+      "contrailSize": 14,
+      "length": 20.5,
+      "location": [
+        -82.5,
+        -24.5
+      ],
+      "style": "SUN_ICE",
+      "width": 14
+    },
+    {
+      "angle": -180,
+      "contrailSize": 14,
+      "length": 20.5,
+      "location": [
+        -82.5,
+        24.5
+      ],
+      "style": "SUN_ICE",
+      "width": 14
+    }
+  ],
+  "height": 165,
+  "hullId": "sun_ice_denizen_f",
+  "hullName": "Denizen",
+  "hullSize": "DESTROYER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 92.512161,
+  "spriteName": "graphics/sun_ice/ships/DenizenF.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 180,
+      "id": "WS0001",
+      "locations": [
+        64.5,
+        -0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    }
+  ],
+  "width": 88
+}

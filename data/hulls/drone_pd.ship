@@ -1,0 +1,60 @@
+{
+  "bounds": [
+    -8,
+    -7,
+    8,
+    -7,
+    8,
+    7,
+    -8,
+    7
+  ],
+  "builtInWeapons": {
+    "WS0001": "pdburst"
+  },
+  "center": [
+    8,
+    9
+  ],
+  "collisionRadius": 10.012492,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 22,
+      "length": 30.5,
+      "location": [
+        -8.5,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 22
+    }
+  ],
+  "height": 18,
+  "hullId": "sun_ice_drone_pd_wing",
+  "hullName": "PD Drone",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 10,
+  "spriteName": "graphics/sun_ice/ships/drones/drone_pd.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 280,
+      "id": "WS0001",
+      "locations": [
+        0.5,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    }
+  ],
+  "width": 16
+}

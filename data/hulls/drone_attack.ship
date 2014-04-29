@@ -1,0 +1,62 @@
+{
+  "bounds": [
+    0,
+    -11,
+    8.5,
+    -7,
+    8.5,
+    7,
+    0,
+    11,
+    -8.5,
+    -0
+  ],
+  "builtInWeapons": {
+    "WS0001": "sun_ice_pulserepeater"
+  },
+  "center": [
+    12,
+    12
+  ],
+  "collisionRadius": 13,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 17,
+      "length": 25.5,
+      "location": [
+        -8.5,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 17
+    }
+  ],
+  "height": 24,
+  "hullId": "sun_ice_drone_attack_wing",
+  "hullName": "Attack Drone",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 13,
+  "spriteName": "graphics/sun_ice/ships/drones/drone_attack.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 30,
+      "id": "WS0001",
+      "locations": [
+        6,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "BUILT_IN"
+    }
+  ],
+  "width": 24
+}

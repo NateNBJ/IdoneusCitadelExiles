@@ -70,7 +70,10 @@ public class PdDroneMissileAI extends BaseMissileAI {
     public void evaluateCircumstances() {
         super.evaluateCircumstances();
 
-        if(target == null || !target.isAlive()) findTarget();
+        if(target == null || !target.isAlive()) {
+            findTarget();
+            return;
+        }
         
         Vector2f.sub(MathUtils.getRandomPointInCircle(target.getLocation(),
                 target.getCollisionRadius()), target.getLocation(), destOffset);
@@ -89,6 +92,8 @@ public class PdDroneMissileAI extends BaseMissileAI {
         
         weaponCooldown = Math.max(0, weaponCooldown - amount);
 
+        if(target == null) return;
+        
         Vector2f.add(destOffset, target.getLocation(), dest);
         
         accelerate();
@@ -100,8 +105,6 @@ public class PdDroneMissileAI extends BaseMissileAI {
             
             for(int i = 0; i < potentialTargets.size(); ++i) {
                 CombatEntityAPI m = (CombatEntityAPI)potentialTargets.get(i);
-                
-                //if(m.didDamage()) continue;
 
                 float dist2 = MathUtils.getDistanceSquared(missile, m);
 

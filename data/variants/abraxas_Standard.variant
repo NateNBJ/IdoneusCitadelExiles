@@ -1,0 +1,61 @@
+{
+  "displayName": "Standard",
+  "fluxCapacitors": 0,
+  "fluxVents": 22,
+  "hullId": "sun_ice_abraxas",
+  "hullMods": [
+    "heavyarmor",
+    "unstable_injector",
+    "targetingunit"
+  ],
+  "variantId": "sun_ice_abraxas_Standard",
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0004": "mjolnir",
+        "WS0005": "mjolnir"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0006": "sun_ice_flamebolt",
+        "WS0007": "sun_ice_flamebolt"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "tachyonlance",
+        "WS0002": "sun_ice_nos"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "sun_ice_mobiusray"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0008": "vulcan",
+        "WS0009": "vulcan",
+        "WS0010": "sun_ice_lighthexac",
+        "WS0011": "sun_ice_lighthexac",
+        "WS0012": "sun_ice_hexac",
+        "WS0013": "sun_ice_hexac",
+        "WS0014": "vulcan",
+        "WS0015": "vulcan",
+        "WS0016": "sun_ice_lighthexac",
+        "WS0017": "sun_ice_lighthexac"
+      }
+    }
+  ]
+}

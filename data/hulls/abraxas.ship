@@ -1,0 +1,510 @@
+{
+  "bounds": [
+    36,
+    -9.5,
+    23,
+    -18,
+    -135,
+    -18.5,
+    -144.5,
+    -31.5,
+    -48,
+    -51,
+    -47.5,
+    -72.5,
+    -109,
+    -105.5,
+    -135,
+    -88.5,
+    -173,
+    -88.5,
+    -181,
+    -97.5,
+    -150,
+    -143,
+    -108,
+    -137.5,
+    -37,
+    -109.5,
+    -12,
+    -114.5,
+    -11.5,
+    -145.5,
+    42,
+    -135.5,
+    39,
+    -93.5,
+    174.5,
+    -61.5,
+    165,
+    -38.5,
+    58,
+    -51,
+    71,
+    -29,
+    122,
+    -30,
+    114.5,
+    -17,
+    56,
+    -14,
+    56,
+    14,
+    114.5,
+    17,
+    122,
+    30,
+    71,
+    29,
+    58,
+    51,
+    165,
+    38.5,
+    174.5,
+    61.5,
+    39,
+    93.5,
+    42,
+    135.5,
+    -11.5,
+    145.5,
+    -12,
+    114.5,
+    -37,
+    109.5,
+    -108,
+    137.5,
+    -150,
+    143,
+    -181,
+    97.5,
+    -173,
+    88.5,
+    -135,
+    88.5,
+    -109,
+    105.5,
+    -47.5,
+    72.5,
+    -48,
+    51,
+    -144.5,
+    31.5,
+    -135,
+    18.5,
+    23,
+    18,
+    36,
+    9.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_abraxas_lights",
+    "WS0001": "tachyonlance"
+  },
+  "center": [
+    153,
+    187
+  ],
+  "collisionRadius": 223.143448,
+  "engineSlots": [
+    {
+      "angle": 180,
+      "contrailSize": 36,
+      "length": 205.5,
+      "location": [
+        16,
+        -0
+      ],
+      "style": "SUN_ICE",
+      "width": 36
+    },
+    {
+      "angle": -173.440796,
+      "contrailSize": 23.494228,
+      "length": 152.551651,
+      "location": [
+        -64,
+        61
+      ],
+      "style": "SUN_ICE",
+      "width": 23.494228
+    },
+    {
+      "angle": 173.440796,
+      "contrailSize": 23.494228,
+      "length": 152.551651,
+      "location": [
+        -64,
+        -61
+      ],
+      "style": "SUN_ICE",
+      "width": 23.494228
+    },
+    {
+      "angle": -170.607544,
+      "contrailSize": 19.420345,
+      "length": 126.105957,
+      "location": [
+        -78,
+        76.5
+      ],
+      "style": "SUN_ICE",
+      "width": 19.420345
+    },
+    {
+      "angle": 170.607544,
+      "contrailSize": 19.420345,
+      "length": 126.105957,
+      "location": [
+        -78,
+        -76.5
+      ],
+      "style": "SUN_ICE",
+      "width": 19.420345
+    },
+    {
+      "angle": -167.74498,
+      "contrailSize": 17.089191,
+      "length": 95.870949,
+      "location": [
+        -100,
+        85.5
+      ],
+      "style": "SUN_ICE",
+      "width": 17.089191
+    },
+    {
+      "angle": 167.74498,
+      "contrailSize": 17.089191,
+      "length": 95.870949,
+      "location": [
+        -100,
+        -85.5
+      ],
+      "style": "SUN_ICE",
+      "width": 17.089191
+    },
+    {
+      "angle": -160.935455,
+      "contrailSize": 16.55405,
+      "length": 52.587933,
+      "location": [
+        -186,
+        86
+      ],
+      "style": "SUN_ICE",
+      "width": 16.55405
+    },
+    {
+      "angle": 160.935455,
+      "contrailSize": 16.55405,
+      "length": 52.587933,
+      "location": [
+        -186,
+        -86
+      ],
+      "style": "SUN_ICE",
+      "width": 16.55405
+    },
+    {
+      "angle": -158.014755,
+      "contrailSize": 16.236046,
+      "length": 45.335941,
+      "location": [
+        -177,
+        107
+      ],
+      "style": "SUN_ICE",
+      "width": 16.236046
+    },
+    {
+      "angle": 158.014755,
+      "contrailSize": 16.236046,
+      "length": 45.335941,
+      "location": [
+        -177,
+        -107
+      ],
+      "style": "SUN_ICE",
+      "width": 16.236046
+    },
+    {
+      "angle": -170.607544,
+      "contrailSize": 26.044582,
+      "length": 28.507366,
+      "location": [
+        -19,
+        124
+      ],
+      "style": "SUN_ICE",
+      "width": 26.044582
+    },
+    {
+      "angle": 170.607544,
+      "contrailSize": 26.044582,
+      "length": 28.507366,
+      "location": [
+        -19,
+        -124
+      ],
+      "style": "SUN_ICE",
+      "width": 26.044582
+    },
+    {
+      "angle": -170.607544,
+      "contrailSize": 25.414051,
+      "length": 39.604691,
+      "location": [
+        -24,
+        135
+      ],
+      "style": "SUN_ICE",
+      "width": 25.414051
+    },
+    {
+      "angle": 170.607544,
+      "contrailSize": 25.414051,
+      "length": 39.604691,
+      "location": [
+        -24,
+        -135
+      ],
+      "style": "SUN_ICE",
+      "width": 25.414051
+    }
+  ],
+  "height": 385,
+  "hullId": "sun_ice_abraxas",
+  "hullName": "Abraxas",
+  "hullSize": "CAPITAL_SHIP",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 200,
+  "spriteName": "graphics/sun_ice/ships/Abraxas.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        96,
+        -0
+      ],
+      "mount": "HARDPOINT",
+      "size": "LARGE",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 55,
+      "id": "WS0002",
+      "locations": [
+        64,
+        -0
+      ],
+      "mount": "TURRET",
+      "size": "MEDIUM",
+      "type": "ENERGY"
+    },
+    {
+      "angle": -80,
+      "arc": 180,
+      "id": "WS0003",
+      "locations": [
+        -23.5,
+        -67
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "ENERGY"
+    },
+    {
+      "angle": 16,
+      "arc": 60,
+      "id": "WS0004",
+      "locations": [
+        34,
+        111
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -16,
+      "arc": 60,
+      "id": "WS0005",
+      "locations": [
+        34,
+        -111
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0006",
+      "locations": [
+        170.5,
+        -44
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0007",
+      "locations": [
+        170.5,
+        44
+      ],
+      "mount": "HARDPOINT",
+      "size": "MEDIUM",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 90,
+      "arc": 180,
+      "id": "WS0008",
+      "locations": [
+        98,
+        -49.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -90,
+      "arc": 180,
+      "id": "WS0009",
+      "locations": [
+        98,
+        49.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 90,
+      "arc": 130,
+      "id": "WS0010",
+      "locations": [
+        -48,
+        113.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -90,
+      "arc": 130,
+      "id": "WS0011",
+      "locations": [
+        -48,
+        -113.5
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 135,
+      "arc": 180,
+      "id": "WS0012",
+      "locations": [
+        -149,
+        132.5
+      ],
+      "mount": "TURRET",
+      "size": "MEDIUM",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -135,
+      "arc": 180,
+      "id": "WS0013",
+      "locations": [
+        -149,
+        -132.5
+      ],
+      "mount": "TURRET",
+      "size": "MEDIUM",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 90,
+      "arc": 180,
+      "id": "WS0014",
+      "locations": [
+        -77,
+        42
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -90,
+      "arc": 180,
+      "id": "WS0015",
+      "locations": [
+        -77,
+        -42
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 80,
+      "arc": 180,
+      "id": "WS0016",
+      "locations": [
+        23.5,
+        74
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": -80,
+      "arc": 180,
+      "id": "WS0017",
+      "locations": [
+        23.5,
+        -74
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "BALLISTIC"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        6,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 306
+}

@@ -1,0 +1,78 @@
+{
+  "bounds": [
+    26.5,
+    3.5,
+    -10.5,
+    14.5,
+    -27,
+    7,
+    -27,
+    -7,
+    -10.5,
+    -14.5,
+    26.5,
+    -3.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod"
+  ],
+  "builtInWeapons": {
+    "WS0001": "sun_ice_hypermassbomb"
+  },
+  "center": [
+    15,
+    28.5
+  ],
+  "collisionRadius": 34.5,
+  "engineSlots": [
+    {
+      "angle": -178.712677,
+      "contrailSize": 17.422558,
+      "length": 53.817875,
+      "location": [
+        -29.5,
+        7
+      ],
+      "style": "SUN_ICE",
+      "width": 17.422558
+    },
+    {
+      "angle": 178.712677,
+      "contrailSize": 17.422558,
+      "length": 53.817875,
+      "location": [
+        -29.5,
+        -7
+      ],
+      "style": "SUN_ICE",
+      "width": 17.422558
+    }
+  ],
+  "height": 57,
+  "hullId": "sun_ice_umbra_wing",
+  "hullName": "Umbra",
+  "hullSize": "FIGHTER",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 34.532593,
+  "spriteName": "graphics/sun_ice/ships/Umbra.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        -4.5,
+        -0
+      ],
+      "mount": "HIDDEN",
+      "size": "MEDIUM",
+      "type": "BUILT_IN"
+    }
+  ],
+  "width": 30
+}

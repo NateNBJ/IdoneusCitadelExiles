@@ -1,0 +1,13 @@
+{
+  "displayName": "Standard",
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "hullId": "sun_ice_seraph",
+  "hullMods": [
+    "unstable_injector",
+    "hardened_subsystems",
+    "fluxbreakers"
+  ],
+  "variantId": "sun_ice_seraph_Standard",
+  "weaponGroups": []
+}

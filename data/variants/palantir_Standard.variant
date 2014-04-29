@@ -1,0 +1,11 @@
+{
+  "displayName": "Standard",
+  "fluxCapacitors": 0,
+  "fluxVents": 2,
+  "hullId": "sun_ice_palantir",
+  "hullMods": [
+    "unstable_injector"
+  ],
+  "variantId": "sun_ice_palantir_Standard",
+  "weaponGroups": []
+}

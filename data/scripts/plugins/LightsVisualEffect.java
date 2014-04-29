@@ -18,7 +18,8 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
         
         ShipAPI ship = weapon.getShip();
         
-		boolean on = !ship.getSystem().isActive()
+		boolean on = (ship.getSystem() == null
+                    || !ship.getSystem().isActive())
                 && ship.isAlive()
                 && !ship.getFluxTracker().isOverloaded()
                 && (ship.getPhaseCloak() == null

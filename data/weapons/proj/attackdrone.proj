@@ -9,8 +9,8 @@
 	"collisionClass":"NONE",
 	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":125, # purely visual
-	"engineSpec":{"turnAcc":150,
-				  "turnRate":170,
+	"engineSpec":{"turnAcc":100,
+				  "turnRate":120,
 				  "acc":150,
 				  "dec":125},
 	"engineSlots":[{"id":"ES1",

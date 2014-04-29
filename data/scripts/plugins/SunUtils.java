@@ -33,6 +33,11 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static void setLocation(CombatEntityAPI entity, Vector2f location) {
+        Vector2f dif = new Vector2f(location);
+        Vector2f.sub(location, entity.getLocation(), dif);
+        Vector2f.add(entity.getLocation(), dif, entity.getLocation());
+    }
     public static Vector2f getCellLocation(ShipAPI ship, float x, float y) {
         x -= ship.getArmorGrid().getGrid().length / 2f;
         y -= ship.getArmorGrid().getGrid()[0].length / 2f;

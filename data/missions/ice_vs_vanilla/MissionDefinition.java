@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
+    static final boolean CHOSE_PREDEFINED_FLAGSHIP = false;
 
     List ice = new ArrayList();
     List vanilla = new ArrayList();
@@ -32,8 +33,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
 	int generateFleet(int maxFP, FleetSide side, List ships, MissionDefinitionAPI api) {
 		int currFP = 0;
+        boolean needChooseFlagship = true;
 
-		if (side == FleetSide.PLAYER) {
+		if (CHOSE_PREDEFINED_FLAGSHIP && side == FleetSide.PLAYER) {
 			String [] choices = {
                     //"sun_ice_eidolon_Standard",
                     "sun_ice_soulbane_Standard",
@@ -47,6 +49,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 			String flagship = choices[(int) (Math.random() * (float) choices.length)];
 			api.addToFleet(side, flagship, FleetMemberType.SHIP, true);
 			currFP += api.getFleetPointCost(flagship);
+            needChooseFlagship = false;
 		}
 
         TreeMap fpMap = new TreeMap();
@@ -83,7 +86,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
                     if (variantID.endsWith("_wing")) {
                         api.addToFleet(side, variantID, FleetMemberType.FIGHTER_WING, false);
                     } else {
-                        api.addToFleet(side, variantID, FleetMemberType.SHIP, false);
+                        api.addToFleet(side, variantID, FleetMemberType.SHIP, needChooseFlagship);
+                        needChooseFlagship = false;
                     }
                 }
             }
@@ -156,17 +160,26 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         
         ships = ice;
 
-        addShip("sun_ice_voidreaver_Standard", 1);
-        addShip("sun_ice_eidolon_Standard", 2);
-        addShip("sun_ice_soulbane_Standard", 3);
-        addShip("sun_ice_specter_Standard", 5);
-        addShip("sun_ice_flashghast_Standard", 4);
-        addShip("sun_ice_poltergeist_wing", 3);
-        addShip("sun_ice_phantom_wing", 3);
-        addShip("sun_ice_athame_Standard", 1);
-        addShip("sun_ice_nightseer_Standard", 1);
-        addShip("sun_ice_pentagram_Standard", 3);
-        addShip("sun_ice_kelpie_Standard", 1);
+//        addShip("sun_ice_voidreaver_Standard", 1);
+//        addShip("sun_ice_eidolon_Standard", 2);
+//        addShip("sun_ice_soulbane_Standard", 3);
+//        addShip("sun_ice_specter_Standard", 5);
+//        addShip("sun_ice_flashghast_Standard", 4);
+//        addShip("sun_ice_poltergeist_wing", 3);
+//        addShip("sun_ice_phantom_wing", 3);
+//        addShip("sun_ice_athame_Standard", 1);
+//        addShip("sun_ice_nightseer_Standard", 1);
+//        addShip("sun_ice_pentagram_Standard", 3);
+//        addShip("sun_ice_kelpie_Standard", 1);
+
+        addShip("sun_ice_abraxas_Standard", 1);
+        addShip("sun_ice_shiekwraith_Standard", 2);
+        //addShip("sun_ice_denizen_f_Standard", 2);
+        //addShip("sun_ice_denizen_t_Standard", 2);
+        addShip("sun_ice_seraph_Standard", 3);
+        addShip("sun_ice_stormwhisp_wing", 3);
+        addShip("sun_ice_umbra_wing", 3);
+        addShip("sun_ice_palantir_Standard", 3);
 
 		api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 5);
 		api.initFleet(FleetSide.ENEMY, "ISS", FleetGoal.ATTACK, true, 5);

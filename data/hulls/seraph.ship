@@ -1,0 +1,131 @@
+{
+  "bounds": [
+    25.5,
+    -4.5,
+    34,
+    -7,
+    28.5,
+    -15.5,
+    16,
+    -23.5,
+    -16.5,
+    -36,
+    -19.5,
+    -33.5,
+    -18,
+    -27.5,
+    -2,
+    -17,
+    -6.5,
+    -8.5,
+    -14,
+    -9.5,
+    -33.5,
+    -0,
+    -14,
+    9.5,
+    -6.5,
+    8.5,
+    -2,
+    17,
+    -18,
+    27.5,
+    -19.5,
+    33.5,
+    -16.5,
+    36,
+    16,
+    23.5,
+    28.5,
+    15.5,
+    34,
+    7,
+    25.5,
+    4.5
+  ],
+  "builtInMods": [
+    "sun_ice_gravitonic_sensors_mod",
+    "tow_cable"
+  ],
+  "builtInWeapons": {
+    "LIGHTS": "sun_ice_seraph_lights"
+  },
+  "center": [
+    38,
+    36
+  ],
+  "collisionRadius": 43.142208,
+  "engineSlots": [
+    {
+      "angle": 153.434952,
+      "contrailSize": 14.758053,
+      "length": 34.435448,
+      "location": [
+        -15.5,
+        -19
+      ],
+      "style": "SUN_ICE",
+      "width": 14.758053
+    },
+    {
+      "angle": -153.434952,
+      "contrailSize": 14.758053,
+      "length": 34.435448,
+      "location": [
+        -15.5,
+        19
+      ],
+      "style": "SUN_ICE",
+      "width": 14.758053
+    },
+    {
+      "angle": 152.318939,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -20.5,
+        -23.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    },
+    {
+      "angle": -152.318939,
+      "contrailSize": 30,
+      "length": 30,
+      "location": [
+        -20.5,
+        23.5
+      ],
+      "style": "SUN_ICE",
+      "width": 10
+    }
+  ],
+  "height": 72,
+  "hullId": "sun_ice_seraph",
+  "hullName": "Seraph",
+  "hullSize": "FRIGATE",
+  "shieldCenter": [
+    0,
+    -0
+  ],
+  "shieldRadius": 43.026154,
+  "spriteName": "graphics/sun_ice/ships/Seraph.png",
+  "style": "SUN_ICE",
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "LIGHTS",
+      "locations": [
+        0,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    }
+  ],
+  "width": 76
+}
