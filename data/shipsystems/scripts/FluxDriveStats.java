@@ -1,13 +1,7 @@
 package data.shipsystems.scripts;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
-import java.awt.Color;
-import java.util.Iterator;
-import org.lwjgl.util.vector.Vector2f;
 
 public class FluxDriveStats implements ShipSystemStatsScript {
     @Override

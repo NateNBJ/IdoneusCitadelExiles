@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.BeamEffectPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import data.scripts.plugins.SunUtils;
 
 public class FalxBeamEffect implements BeamEffectPlugin {
     static final float MAX_ARC_REDUCTION_PER_SECOND = 50.0f;
@@ -14,7 +15,8 @@ public class FalxBeamEffect implements BeamEffectPlugin {
     {
         if(!(beam.getDamageTarget() instanceof ShipAPI)) return;
 
-        ShieldAPI shield = ((ShipAPI)beam.getDamageTarget()).getShield();
+        ShipAPI target = ((ShipAPI)beam.getDamageTarget());
+        ShieldAPI shield = target.getShield();
 
         if(shield == null || !shield.isWithinArc(beam.getTo())) return;
 
@@ -23,5 +25,12 @@ public class FalxBeamEffect implements BeamEffectPlugin {
                 * MAX_ARC_REDUCTION_PER_SECOND;
 
         shield.setActiveArc(arc);
+        
+        // Refund shield upkeep in proportion to arc reducion
+        //target.getFluxTracker().decreaseFlux(amount * target.getMutableStats().getShieldUpkeepMult().getModifiedValue() * (1 - arc / shield.getArc()));
+
+        // TODO - Need Alex to implement a getShieldUpkeep method =[
+
+        //SunUtils.print(target, "" + target.getMutableStats().getShieldUpkeepMult().getModifiedValue());
     }
 }

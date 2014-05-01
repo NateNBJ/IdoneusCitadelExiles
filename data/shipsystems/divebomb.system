@@ -1,0 +1,25 @@
+{
+	"id":"sun_ice_divebomb",
+	"type":"ENGINE_MOD",
+	"aiType":"CUSTOM",
+	
+	"aiScript":"data.shipsystems.scripts.ai.DiveBombAI",
+	"statsScript":"data.shipsystems.scripts.FluxDriveStats",
+	
+	"engineGlowColor":[255,223,128,255],
+	"engineGlowContrailColor":[255,223,128,5],
+	"engineGlowLengthMult":2,
+	"engineGlowWidthMult":2,
+	"engineGlowGlowMult":2,
+	
+	"alwaysAccelerate":true,
+
+	"useSound":"system_burn_drive_activate",
+	"loopSound":"system_burn_drive_loop",
+	"deactivateSound":"system_burn_drive_deactivate",
+	"outOfUsesSound":"engine_disabled",
+	
+	"aiHints":{
+		"averageSpeedIncrease":100,
+	}
+}

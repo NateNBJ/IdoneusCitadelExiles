@@ -17,7 +17,9 @@
     "sun_ice_gravitonic_sensors_mod"
   ],
   "builtInWeapons": {
-    "WS0001": "sun_ice_hypermassbomb"
+    "WS0001": "sun_ice_hypermassbomb",
+    "WS0002": "sun_ice_umbra_shell_left",
+    "WS0003": "sun_ice_umbra_shell_right"
   },
   "center": [
     15,
@@ -66,11 +68,35 @@
       "arc": 5,
       "id": "WS0001",
       "locations": [
-        -4.5,
+        -0.5,
         -0
       ],
       "mount": "HIDDEN",
       "size": "MEDIUM",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "WS0002",
+      "locations": [
+        -14.5,
+        -0
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "BUILT_IN"
+    },
+    {
+      "angle": 0,
+      "arc": 360,
+      "id": "WS0003",
+      "locations": [
+        -14.5,
+        -0
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
       "type": "BUILT_IN"
     }
   ],
