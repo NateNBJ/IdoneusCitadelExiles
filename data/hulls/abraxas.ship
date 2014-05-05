@@ -98,7 +98,8 @@
     9.5
   ],
   "builtInMods": [
-    "sun_ice_gravitonic_sensors_mod"
+    "sun_ice_gravitonic_sensors_mod",
+	"sun_ice_nova_reactor"
   ],
   "builtInWeapons": {
     "LIGHTS": "sun_ice_abraxas_lights",
@@ -284,7 +285,7 @@
     0,
     -0
   ],
-  "shieldRadius": 200,
+  "shieldRadius": 230,
   "spriteName": "graphics/sun_ice/ships/Abraxas.png",
   "style": "SUN_ICE",
   "viewOffset": 0,

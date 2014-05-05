@@ -94,6 +94,7 @@ public class RepairArmorStats implements ShipSystemStatsScript
                 if(Math.random() < SPARK_CHANCE) {
                     leaderLoc.x += cellSize * 0.5f - cellSize * (float)Math.random();
                     leaderLoc.y += cellSize * 0.5f - cellSize * (float)Math.random();
+                    
                     Vector2f vel = new Vector2f(ship.getVelocity());
                     vel.x += (Math.random() - 0.5f) * SPARK_SPEED_MULTIPLIER;
                     vel.y += (Math.random() - 0.5f) * SPARK_SPEED_MULTIPLIER;
@@ -138,9 +139,6 @@ public class RepairArmorStats implements ShipSystemStatsScript
 		stats.getDeceleration().unmodify(id);
 
         potencies.remove(stats.getEntity());
-
-        //ShipAPI ship = (ShipAPI)stats.getEntity();
-        //ship.setSprite("sun_ice_ships", ship.getHullSpec().getHullId());
     }
 
     @Override

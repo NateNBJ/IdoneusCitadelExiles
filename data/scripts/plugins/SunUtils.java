@@ -1,6 +1,7 @@
 package data.scripts.plugins;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.BeamAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamageType;
@@ -13,7 +14,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.log4j.Priority;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
@@ -33,6 +33,17 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static void setArmorPercentage(ShipAPI ship, float armorPercent) {
+        ArmorGridAPI armorGrid = ship.getArmorGrid();
+
+        armorPercent = Math.min(1, Math.max(0, armorPercent));
+        
+        for(int x = 0; x < armorGrid.getGrid().length; ++x) {
+            for(int y = 0; y < armorGrid.getGrid()[0].length; ++y) {
+                armorGrid.setArmorValue(x, y, armorGrid.getMaxArmorInCell() * armorPercent);
+            }           
+        }
+    }
     public static void setLocation(CombatEntityAPI entity, Vector2f location) {
         Vector2f dif = new Vector2f(location);
         Vector2f.sub(location, entity.getLocation(), dif);

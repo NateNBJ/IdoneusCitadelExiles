@@ -181,14 +181,17 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         addShip("sun_ice_umbra_wing", 3);
         addShip("sun_ice_palantir_Standard", 1);
 
+        addShip("sun_ice_eidolon_Standard", 1);
+        addShip("sun_ice_soulbane_Standard", 2);
+
 		api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 5);
 		api.initFleet(FleetSide.ENEMY, "ISS", FleetGoal.ATTACK, true, 5);
 
 		api.setFleetTagline(FleetSide.PLAYER, "Your forces");
 		api.setFleetTagline(FleetSide.ENEMY, "Enemy forces");
 
-        int size = 30 + (int)((float) Math.random() * 50);
-        //int size = 30 + (int)((float) Math.random() * 170);
+        //int size = 30 + (int)((float) Math.random() * 50);
+        int size = 30 + (int)((float) Math.random() * 170);
 
 		int playerFP = generateFleet(size, FleetSide.PLAYER, ice, api);
 		int enemyFP = generateFleet(size, FleetSide.ENEMY, vanilla, api);
