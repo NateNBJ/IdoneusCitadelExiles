@@ -3,6 +3,7 @@ package data.hullmods;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
+import com.fs.starfarer.api.combat.ShipCommand;
 import data.scripts.plugins.SunUtils;
 import java.awt.Color;
 import java.util.Map;
@@ -91,6 +92,14 @@ public class NovaReactor extends BaseHullMod
         super.advanceInCombat(ship, amount);
         
         if(Global.getCombatEngine().isPaused()) return;
+
+        // Force AI to Take advantage of turn rate bonus from venting
+        if(ship.getAngularVelocity() > 0.9f * ship.getMutableStats().getMaxTurnRate().getModifiedValue()
+                && ship.getShipAI() != null
+                && !ship.getSystem().isActive()
+                && ship.getFluxTracker().getFluxLevel() > 0.4f) {
+            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
+        }
 
         for (int i = 0; i < 3; ++i) repairArmor(ship, amount);
         preventHardFluxDissapation(ship);

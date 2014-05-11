@@ -32,11 +32,11 @@ public class GravimetricSensors extends BaseHullMod {
     public void advanceInCombat(ShipAPI ship, float amount) {
         super.advanceInCombat(ship, amount);
 
-        ShipSystemAPI cloak = ship.getPhaseCloak();
+        ShipSystemAPI cloak = (ship.getHullSpec().getHullId().equals("sun_ice_abraxas"))
+            ? ship.getSystem()
+            : ship.getPhaseCloak();
         
         if (cloak == null) return;
-
-        SunUtils.print(ship, "BaNG");
 
         if(cloak.isActive() && cloak.getFluxPerSecond() == 0) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
