@@ -1,7 +1,6 @@
 package data.hullmods;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI.AssignmentInfo;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
@@ -9,8 +8,8 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import data.scripts.plugins.PhaseCruiseTempAI;
+import data.scripts.plugins.SunUtils;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.lazywizard.lazylib.MathUtils;
@@ -36,6 +35,8 @@ public class GravimetricSensors extends BaseHullMod {
         ShipSystemAPI cloak = ship.getPhaseCloak();
         
         if (cloak == null) return;
+
+        SunUtils.print(ship, "BaNG");
 
         if(cloak.isActive() && cloak.getFluxPerSecond() == 0) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
@@ -69,7 +70,9 @@ public class GravimetricSensors extends BaseHullMod {
                 && (task == null || task.getTarget() == null || MathUtils.getDistance(ship, task.getTarget().getLocation()) > 800)
                 ) {
 
-            ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+            if(ship.getHullSpec().getHullId().equals("sun_ice_abraxas")) ship.useSystem();
+            else ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+
             ship.setShipAI(new PhaseCruiseTempAI(ship));
         }
     }

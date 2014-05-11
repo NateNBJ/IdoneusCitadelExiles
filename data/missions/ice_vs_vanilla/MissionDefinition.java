@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
-    static final boolean CHOSE_PREDEFINED_FLAGSHIP = true;
+    static final boolean CHOSE_PREDEFINED_FLAGSHIP = false;
 
     List ice = new ArrayList();
     List vanilla = new ArrayList();
