@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
-    static final boolean CHOSE_PREDEFINED_FLAGSHIP = false;
+    static final boolean CHOSE_PREDEFINED_FLAGSHIP = true;
 
     List ice = new ArrayList();
     List vanilla = new ArrayList();
@@ -38,13 +38,14 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		if (CHOSE_PREDEFINED_FLAGSHIP && side == FleetSide.PLAYER) {
 			String [] choices = {
                     //"sun_ice_eidolon_Standard",
-                    "sun_ice_soulbane_Standard",
+                    //"sun_ice_soulbane_Standard",
                     //"sun_ice_flashghast_Standard",
                     //"sun_ice_specter_Standard",
-                    "sun_ice_nightseer_Standard",
+                    //"sun_ice_nightseer_Standard",
                     //"sun_ice_athame_Standard",
-                    "sun_ice_kelpie_Standard",
-                    "sun_ice_voidreaver_Standard"
+                    //"sun_ice_kelpie_Standard",
+                    //"sun_ice_voidreaver_Standard"
+                    "sun_ice_shalom_Standard",
 			};
 			String flagship = choices[(int) (Math.random() * (float) choices.length)];
 			api.addToFleet(side, flagship, FleetMemberType.SHIP, true);
@@ -190,8 +191,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.setFleetTagline(FleetSide.PLAYER, "Your forces");
 		api.setFleetTagline(FleetSide.ENEMY, "Enemy forces");
 
-        //int size = 30 + (int)((float) Math.random() * 50);
-        int size = 30 + (int)((float) Math.random() * 170);
+        int size = 30 + (int)((float) Math.random() * 50);
+        //int size = 30 + (int)((float) Math.random() * 170);
 
 		int playerFP = generateFleet(size, FleetSide.PLAYER, ice, api);
 		int enemyFP = generateFleet(size, FleetSide.ENEMY, vanilla, api);

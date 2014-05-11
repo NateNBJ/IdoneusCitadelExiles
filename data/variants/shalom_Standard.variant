@@ -1,0 +1,12 @@
+{
+  "displayName": "Standard",
+  "fluxCapacitors": 0,
+  "fluxVents": 5,
+  "hullId": "sun_ice_shalom",
+  "hullMods": [
+    "unstable_injector",
+    "fluxbreakers"
+  ],
+  "variantId": "sun_ice_shalom_Standard",
+  "weaponGroups": []
+}
