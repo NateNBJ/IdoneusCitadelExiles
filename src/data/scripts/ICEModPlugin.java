@@ -17,9 +17,27 @@ import data.scripts.weapons.HypermassDriverAutofireAIPlugin;
 import data.scripts.weapons.PdDroneMissileAI;
 import data.scripts.weapons.ScatterPdMissileAI;
 import data.scripts.world.Ulterius;
+import org.dark.shaders.light.LightData;
+import org.dark.shaders.util.ShaderLib;
 
 public class ICEModPlugin extends BaseModPlugin
 {
+    public static boolean SHADER_LIB_AVAILABLE = false;
+    public static void tryToEnableLighting() {
+        try {  
+            Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");  
+        } catch (ClassNotFoundException ex) {  
+            return;  
+        }  
+        ShaderLib.init();  
+        LightData.readLightDataCSV("data/lights/light_data.csv");
+
+        SHADER_LIB_AVAILABLE = true;
+    }
+    @Override  
+    public void onApplicationLoad() {
+        tryToEnableLighting();
+    } 
     @Override
     public void onNewGame() {
 		new Ulterius().generate();
