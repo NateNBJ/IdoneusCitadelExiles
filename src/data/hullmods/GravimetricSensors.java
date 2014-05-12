@@ -16,12 +16,6 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 
 public class GravimetricSensors extends BaseHullMod {    
-//    @Override
-//    public void advanceInCampaign(FleetMemberAPI member, float amount) {
-//        CampaignFleetAPI fleet = member.getFleetData().getFleet();
-//        fleet.getCargo().addSupplies(fleet.getLogistics().getPersonnelSuppliesPerDay() / 2);
-//        // Refunds half the supplies used by personell each day. Don't ask how.
-//    }
 	public static final float PALANTIR_CLOAK_SECONDS = 10f;
 	public static final float SIGHT_RADIUS_BONUS = 20f;
 	public static final float TRACKING_PENALTY = -50f;

@@ -80,7 +80,8 @@
     -166.5
   ],
   "builtInMods": [
-    "sun_ice_gravitonic_sensors_mod"
+    "sun_ice_gravitonic_sensors_mod",
+	"sun_ice_nutrition_resynth"
   ],
   "builtInWeapons": {
     "LIGHTS1": "sun_ice_shalom_lights1",

@@ -23,6 +23,7 @@ import org.dark.shaders.util.ShaderLib;
 public class ICEModPlugin extends BaseModPlugin
 {
     public static boolean SHADER_LIB_AVAILABLE = false;
+    
     public static void tryToEnableLighting() {
         try {  
             Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");  
@@ -34,7 +35,8 @@ public class ICEModPlugin extends BaseModPlugin
 
         SHADER_LIB_AVAILABLE = true;
     }
-    @Override  
+    
+    @Override
     public void onApplicationLoad() {
         tryToEnableLighting();
     } 

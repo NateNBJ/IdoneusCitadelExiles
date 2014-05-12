@@ -10,7 +10,6 @@ public class ICEEveryFrameScript implements EveryFrameScript {
 
     @Override
     public void advance(float amount) {
-        //Global.getLogger(ICEEveryFrameScript.class).debug("Poosticks " + timeSinceLastCheck);
         if((timeSinceLastCheck += amount) >= INTERVAL) {
             Ulterius.resetStationCargo();
             timeSinceLastCheck = 0;
