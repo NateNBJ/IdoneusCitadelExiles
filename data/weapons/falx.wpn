@@ -4,7 +4,7 @@
 	"type":"ENERGY",
 	"size":"SMALL",
 	"displayArcRadius":500,
-	"beamEffect":"data.scripts.weapons.FalxBeamEffect",
+	"beamEffect":"data.weapons.beam.FalxBeamEffect",
 	"turretSprite":"graphics/weapons/tactical_laser_turret.png",
 	"turretGlowSprite":"graphics/weapons/tactical_laser_turret_glow.png",
 	"hardpointSprite":"graphics/weapons/tactical_laser_hardpoint.png",

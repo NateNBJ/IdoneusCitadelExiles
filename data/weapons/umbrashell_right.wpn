@@ -4,7 +4,7 @@
 	"type":"DECORATIVE",
 	"size":"LARGE",
 	#"renderBelowAllWeapons":true,
-	"everyFrameEffect":"data.scripts.weapons.UmbraShellEffect",
+	"everyFrameEffect":"data.weapons.decorative.UmbraShellEffect",
 	"turretSprite":"graphics/sun_ice/weapons/decorative/umbra/shell_right.png",
 	"hardpointSprite":"graphics/sun_ice/weapons/decorative/umbra/shell_right.png",
 	"turretOffsets":[10, 0],

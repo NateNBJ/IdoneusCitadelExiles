@@ -3,7 +3,7 @@ package data.hullmods;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.StatBonus;
-import data.scripts.IntervalTracker;
+import data.tools.IntervalTracker;
 import java.util.Iterator;
 import java.util.List;
 

@@ -3,7 +3,7 @@
 	"specClass":"missile",
 	"missileType":"BOMB",
 	"sprite":"graphics/sun_ice/missiles/bomb_HE.png",
-    "onHitEffect":"data.scripts.weapons.HypermassOnHitEffect",
+    #"onHitEffect":"data.weapons.onhit.HypermassOnHitEffect",
 	"size":[24,24],	
 	"center":[12,12],
 	"collisionRadius":16,

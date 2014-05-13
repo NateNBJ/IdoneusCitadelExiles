@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.scripts.plugins.SunUtils;
+import data.tools.SunUtils;
 import java.util.HashMap;
 import java.util.Iterator;
 

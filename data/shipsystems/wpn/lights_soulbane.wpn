@@ -3,7 +3,7 @@
 	"type":"DECORATIVE",
 	"specClass":"projectile",
 	"size":"SMALL",
-	"everyFrameEffect":"data.scripts.plugins.LightsVisualEffect",
+	"everyFrameEffect":"data.weapons.decorative.LightsVisualEffect",
 	"turretSprite":"graphics/sun_ice/weapons/decorative/soulbane/lights/00.png",
 	"hardpointSprite":"graphics/sun_ice/weapons/decorative/soulbane/lights/00.png",	
 	"numFrames":2,	

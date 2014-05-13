@@ -5,8 +5,8 @@
 	
 	#"weaponDataId":"sun_ice_soulbane_repair",
 	
-	"aiScript":"data.shipsystems.scripts.ai.RepairArmorAI",
-	"statsScript":"data.shipsystems.scripts.RepairArmorStats",
+	"aiScript":"data.shipsystems.ai.RepairArmorAI",
+	"statsScript":"data.shipsystems.RepairArmorStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

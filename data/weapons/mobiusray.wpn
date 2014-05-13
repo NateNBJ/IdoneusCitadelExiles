@@ -3,7 +3,7 @@
 	"specClass":"projectile",
 	"type":"ENERGY",
 	"size":"LARGE",
-	"everyFrameEffect":"data.scripts.weapons.MobiusRayEffect",
+	"everyFrameEffect":"data.weapons.MobiusRayEffect",
 	"turretSprite":"graphics/sun_ice/weapons/fissionbeam_turret_base.png",
 	"turretGlowSprite":"graphics/sun_ice/weapons/fissionbeam_turret_glow.png",
 	"hardpointSprite":"graphics/sun_ice/weapons/fissionbeam_hardpoint_base.png",

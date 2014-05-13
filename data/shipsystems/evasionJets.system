@@ -3,7 +3,7 @@
 	"type":"PHASE_CLOAK",
 	"aiType":"PHASE_CLOAK",
 	
-	"statsScript":"data.shipsystems.scripts.EvasionJetsStats",
+	"statsScript":"data.shipsystems.EvasionJetsStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

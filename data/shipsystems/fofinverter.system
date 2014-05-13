@@ -3,8 +3,8 @@
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
 	
-	"aiScript":"data.shipsystems.scripts.ai.FoFInverterAI",
-	"statsScript":"data.shipsystems.scripts.FoFInverterStats",
+	"aiScript":"data.shipsystems.ai.FoFInverterAI",
+	"statsScript":"data.shipsystems.FoFInverterStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

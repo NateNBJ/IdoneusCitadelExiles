@@ -6,5 +6,5 @@
 	"description":"Adds the Idoneus Citadel Exiles faction to the game. ICE ships and weapons feature unconventional gimmicks centered around mobility, phase cloaks, armor repair, and ammo regeneration.",
 	"gameVersion":"0.6.2a",
 	"jars":["jars/ICE.jar"],
-	"modPlugin":"data.scripts.ICEModPlugin"
+	"modPlugin":"data.ICEModPlugin"
 }

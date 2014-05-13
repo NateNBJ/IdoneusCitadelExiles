@@ -3,8 +3,8 @@
 	"type":"ENGINE_MOD",
 	"aiType":"CUSTOM",
 	
-	"aiScript":"data.shipsystems.scripts.ai.DiveBombAI",
-	"statsScript":"data.shipsystems.scripts.FluxDriveStats",
+	"aiScript":"data.shipsystems.ai.DiveBombAI",
+	"statsScript":"data.shipsystems.FluxDriveStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

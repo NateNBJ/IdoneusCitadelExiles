@@ -4,7 +4,7 @@
 	"type":"ENERGY",
 	"size":"MEDIUM",
 	"displayArcRadius":500,
-	"beamEffect":"data.scripts.weapons.NosBeamEffect",
+	"beamEffect":"data.weapons.beam.NosBeamEffect",
 	"turretSprite":"graphics/weapons/phase_beam_turret.png",
 	"turretGlowSprite":"graphics/weapons/phase_beam_turret_glow.png",
 	"hardpointSprite":"graphics/weapons/phase_beam_hardpoint.png",

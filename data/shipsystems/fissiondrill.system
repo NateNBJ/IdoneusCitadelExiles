@@ -3,8 +3,8 @@
 	"type":"ENGINE_MOD",
 	"aiType":"CUSTOM",
 	
-	"aiScript":"data.shipsystems.scripts.ai.FissionDrillAI",
-	"statsScript":"data.shipsystems.scripts.FissionDrillStats",
+	"aiScript":"data.shipsystems.ai.FissionDrillAI",
+	"statsScript":"data.shipsystems.FissionDrillStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

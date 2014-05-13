@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
-import data.scripts.plugins.SunUtils;
+import data.tools.SunUtils;
 import java.awt.Color;
 import java.util.Map;
 import java.util.Random;

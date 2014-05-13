@@ -3,7 +3,7 @@
 	"type":"DECORATIVE",
 	"specClass":"projectile",
 	"size":"SMALL",
-	"everyFrameEffect":"data.scripts.plugins.RepairArmorVisualEffect",
+	"everyFrameEffect":"data.weapons.decorative.RepairArmorVisualEffect",
 	"turretSprite":"graphics/sun_ice/weapons/decorative/voidreaver/system/00.png",
 	"hardpointSprite":"graphics/sun_ice/weapons/decorative/voidreaver/system/00.png",	
 	"numFrames":2,	

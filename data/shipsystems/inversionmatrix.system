@@ -3,8 +3,8 @@
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
 	
-	"aiScript":"data.shipsystems.scripts.ai.EntropicInversionMatrixAI",
-	"statsScript":"data.shipsystems.scripts.EntropicInversionMatrixStats",
+	"aiScript":"data.shipsystems.ai.EntropicInversionMatrixAI",
+	"statsScript":"data.shipsystems.EntropicInversionMatrixStats",
 	
 	"engineGlowColor":[255,223,128,255],
 	"engineGlowContrailColor":[255,223,128,5],

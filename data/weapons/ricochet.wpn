@@ -3,7 +3,7 @@
 	"specClass":"projectile",
 	"type":"ENERGY",
 	"size":"LARGE",
-	"everyFrameEffect":"data.scripts.weapons.RicochetEffect",
+	"everyFrameEffect":"data.weapons.RicochetEffect",
 	"turretSprite":"graphics/weapons/plasma_cannon_turret_base.png",
 	"turretGlowSprite":"graphics/weapons/plasma_cannon_turret_glow.png",
 	"hardpointSprite":"graphics/weapons/plasma_cannon_hardpoint_base.png",
