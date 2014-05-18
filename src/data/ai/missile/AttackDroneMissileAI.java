@@ -51,7 +51,7 @@ public class AttackDroneMissileAI extends BaseMissileAI {
             }
         }
 
-        missile.setCollisionClass(CollisionClass.FIGHTER);
+        //missile.setCollisionClass(CollisionClass.FIGHTER);
     }
 
 //    @Override

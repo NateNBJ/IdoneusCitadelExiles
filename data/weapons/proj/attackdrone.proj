@@ -2,11 +2,11 @@
 	"id":"sun_ice_attackdrone",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/missile_LRM.png",
-	"size":[6,24],	
-	"center":[3,12],
+	"sprite":"graphics/sun_ice/ships/drones/drone_attack.png",
+	"size":[24,24],	
+	"center":[12,12],
 	"collisionRadius":32,
-	"collisionClass":"NONE",
+	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":125, # purely visual
 	"engineSpec":{"turnAcc":100,

@@ -51,7 +51,7 @@ public class PdDroneMissileAI extends BaseMissileAI {
             }
         }
 
-        missile.setCollisionClass(CollisionClass.FIGHTER);
+        //missile.setCollisionClass(CollisionClass.FIGHTER);
     }
 
     @Override
