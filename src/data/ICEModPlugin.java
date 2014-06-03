@@ -15,6 +15,7 @@ import data.ai.missile.AttackDroneMissileAI;
 import data.ai.missile.BoomerangMissileAI;
 import data.ai.missile.PdDroneMissileAI;
 import data.ai.missile.ScatterPdMissileAI;
+import data.ai.missile.SpitfireMissileAI;
 import data.ai.weapon.MobiusRayAutofireAIPlugin;
 import data.ai.weapon.HypermassDriverAutofireAIPlugin;
 import data.world.Ulterius;
@@ -68,6 +69,8 @@ public class ICEModPlugin extends BaseModPlugin
             return new PluginPick(new AttackDroneMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if(id.equals("sun_ice_pddrone")) {
             return new PluginPick(new PdDroneMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if(id.equals("sun_ice_spitfire")) {
+            return new PluginPick(new SpitfireMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickMissileAI(missile, launchingShip);

@@ -1,0 +1,11 @@
+{
+	"id":"sun_ice_gravity",
+	"specClass":"projectile",
+	"spawnType":"PLASMA",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"width":35.0,
+	"fadeTime":0.4,
+	"fringeColor":[144,219,209,255],
+	"coreColor":[255,238,191,255],
+}

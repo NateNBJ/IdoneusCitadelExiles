@@ -15,9 +15,9 @@ public class NovaReactor extends BaseHullMod
 {
     static final String id = "sun_ice_nova_reactor";
     static final Random rand = new Random();
-    static final float ARMOR_REPAIR_MULTIPLIER = 100000.0f;
+    static final float ARMOR_REPAIR_MULTIPLIER = 1000.0f;
     static final float TURN_ACCEL_MULTIPLIER = 4.0f;
-    static final float TURN_SPEED_MULTIPLIER = 40.0f;
+    static final float TURN_SPEED_MULTIPLIER = 8.0f;
     static Map hardFlux = new WeakHashMap();
     
     static final Color SPARK_COLOR = new Color(255, 223, 128);
@@ -28,7 +28,8 @@ public class NovaReactor extends BaseHullMod
     static final float SPARK_SPEED_MULTIPLIER = 100.0f;
     
     void repairArmor(ShipAPI ship, float amount) {
-        if(ship.getFluxTracker().isOverloaded()) return;
+        if(ship.getFluxTracker().isOverloadedOrVenting()
+                || !ship.isAlive()) return;
   
         ArmorGridAPI armorGrid = ship.getArmorGrid();
         int width = armorGrid.getGrid().length;
@@ -67,15 +68,19 @@ public class NovaReactor extends BaseHullMod
         }    
     }
     void preventHardFluxDissapation(ShipAPI ship) {
-        float topHf = (Float)hardFlux.get(ship);
-        float hf = ship.getFluxTracker().getHardFlux();
-
-        if(ship.getFluxTracker().isVenting()) hardFlux.put(ship, 0f);
-        else if (topHf < hf) hardFlux.put(ship, hf);
-        else if (topHf > hf) {
-            ship.getFluxTracker().setHardFlux(topHf);
-            //SunUtils.print(ship, "" + topHf);
-        }
+        ship.getFluxTracker().setHardFlux(1000);
+        ship.getFluxTracker().setCurrFlux(1500);
+        //SunUtils.print("poo");
+        
+//        float topHf = (Float)hardFlux.get(ship);
+//        float hf = ship.getFluxTracker().getHardFlux();
+//
+//        if(ship.getFluxTracker().isVenting()) hardFlux.put(ship, 0f);
+//        else if (topHf < hf) hardFlux.put(ship, hf);
+//        else if (topHf > hf) {
+//            ship.getFluxTracker().setHardFlux(topHf);
+//            //SunUtils.print(ship, "" + topHf);
+//        }
     }
     void provideManueverabilityBoostDuringVent(ShipAPI ship) {
         if(ship.getFluxTracker().isVenting()) {
@@ -102,8 +107,10 @@ public class NovaReactor extends BaseHullMod
         }
 
         for (int i = 0; i < 3; ++i) repairArmor(ship, amount);
-        preventHardFluxDissapation(ship);
+        //preventHardFluxDissapation(ship);
         provideManueverabilityBoostDuringVent(ship);
+        
+        //Global.getSettings().loadCSV("eaf").
     }
 
 

@@ -1,7 +1,7 @@
 {
   "bounds": [
-    36,
-    -9.5,
+    14,
+    -6.5,
     23,
     -18,
     -135,
@@ -94,16 +94,16 @@
     18.5,
     23,
     18,
-    36,
-    9.5
+    14,
+    6.5
   ],
   "builtInMods": [
     "sun_ice_gravitonic_sensors_mod",
-	"sun_ice_nova_reactor"
+    "sun_ice_nova_reactor"
   ],
   "builtInWeapons": {
     "LIGHTS": "sun_ice_abraxas_lights",
-    "WS0001": "tachyonlance"
+    "WS0001": "sun_ice_nova"
   },
   "center": [
     153,
@@ -113,14 +113,14 @@
   "engineSlots": [
     {
       "angle": 180,
-      "contrailSize": 36,
-      "length": 205.5,
+      "contrailSize": 52,
+      "length": 212,
       "location": [
         16,
         -0
       ],
       "style": "SUN_ICE",
-      "width": 36
+      "width": 52
     },
     {
       "angle": -173.440796,
@@ -190,91 +190,91 @@
     },
     {
       "angle": -160.935455,
-      "contrailSize": 16.55405,
-      "length": 52.587933,
+      "contrailSize": 12.224422,
+      "length": 48.136688,
       "location": [
         -186,
         86
       ],
       "style": "SUN_ICE",
-      "width": 16.55405
+      "width": 12.224422
     },
     {
       "angle": 160.935455,
-      "contrailSize": 16.55405,
-      "length": 52.587933,
+      "contrailSize": 12.224422,
+      "length": 48.136688,
       "location": [
         -186,
         -86
       ],
       "style": "SUN_ICE",
-      "width": 16.55405
+      "width": 12.224422
     },
     {
       "angle": -158.014755,
-      "contrailSize": 16.236046,
-      "length": 45.335941,
+      "contrailSize": 13.488762,
+      "length": 39.389255,
       "location": [
         -177,
         107
       ],
       "style": "SUN_ICE",
-      "width": 16.236046
+      "width": 13.488762
     },
     {
       "angle": 158.014755,
-      "contrailSize": 16.236046,
-      "length": 45.335941,
+      "contrailSize": 13.488762,
+      "length": 39.389255,
       "location": [
         -177,
         -107
       ],
       "style": "SUN_ICE",
-      "width": 16.236046
+      "width": 13.488762
     },
     {
       "angle": -170.607544,
-      "contrailSize": 26.044582,
-      "length": 28.507366,
+      "contrailSize": 10.251667,
+      "length": 24.160419,
       "location": [
         -19,
         124
       ],
       "style": "SUN_ICE",
-      "width": 26.044582
+      "width": 10.251667
     },
     {
       "angle": 170.607544,
-      "contrailSize": 26.044582,
-      "length": 28.507366,
+      "contrailSize": 10.251667,
+      "length": 24.160419,
       "location": [
         -19,
         -124
       ],
       "style": "SUN_ICE",
-      "width": 26.044582
+      "width": 10.251667
     },
     {
       "angle": -170.607544,
-      "contrailSize": 25.414051,
-      "length": 39.604691,
+      "contrailSize": 11.423709,
+      "length": 32.872856,
       "location": [
         -24,
         135
       ],
       "style": "SUN_ICE",
-      "width": 25.414051
+      "width": 11.423709
     },
     {
       "angle": 170.607544,
-      "contrailSize": 25.414051,
-      "length": 39.604691,
+      "contrailSize": 11.423709,
+      "length": 32.872856,
       "location": [
         -24,
         -135
       ],
       "style": "SUN_ICE",
-      "width": 25.414051
+      "width": 11.423709
     }
   ],
   "height": 385,
@@ -282,10 +282,10 @@
   "hullName": "Abraxas",
   "hullSize": "CAPITAL_SHIP",
   "shieldCenter": [
-    0,
+    24.5,
     -0
   ],
-  "shieldRadius": 230,
+  "shieldRadius": 196.000641,
   "spriteName": "graphics/sun_ice/ships/Abraxas.png",
   "style": "SUN_ICE",
   "viewOffset": 0,
@@ -423,8 +423,8 @@
       "type": "BALLISTIC"
     },
     {
-      "angle": 135,
-      "arc": 180,
+      "angle": 115,
+      "arc": 145,
       "id": "WS0012",
       "locations": [
         -149,
@@ -435,8 +435,8 @@
       "type": "BALLISTIC"
     },
     {
-      "angle": -135,
-      "arc": 180,
+      "angle": -115,
+      "arc": 145,
       "id": "WS0013",
       "locations": [
         -149,

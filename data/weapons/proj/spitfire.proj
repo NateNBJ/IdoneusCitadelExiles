@@ -1,0 +1,24 @@
+{
+	"id":"sun_ice_spitfire",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"sprite":"graphics/sun_ice/missiles/missile_scatterpd.png",
+	"size":[4,18],	
+	"center":[2,9],
+	"collisionRadius":15,
+	#"collisionClass":"MISSILE_FF",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"explosionColor":[255,223,128,200],
+	"explosionRadius":75, # purely visual	
+	"engineSpec":{"turnAcc":80,
+				  "turnRate":50,
+				  "acc":300,
+				  "dec":300},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-11, 0],
+				    "style":"SUN_ICE_SYSTEM",
+				    "width":18.0,
+				    "length":30.0,
+				    "angle":180.0}]
+}

@@ -11,9 +11,13 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
@@ -21,9 +25,10 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class SunUtils
 {
-    private static final Map baseOverloadTimes = new HashMap();
-    private static final float SAFE_DISTANCE = 600f;
-    private static final float DEFAULT_DAMAGE_WINDOW = 3f;
+    static Map<String, Float> shieldUpkeeps;
+    static final Map baseOverloadTimes = new HashMap();
+    static final float SAFE_DISTANCE = 600f;
+    static final float DEFAULT_DAMAGE_WINDOW = 3f;
     static {
         baseOverloadTimes.put(HullSize.FIGHTER, 10f);
         baseOverloadTimes.put(HullSize.FRIGATE,  4f);
@@ -33,6 +38,23 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+//    public static float getShieldUpkeep(ShipAPI ship) {
+//        if(shieldUpkeeps == null) {
+//            shieldUpkeeps  = new HashMap();
+//            
+//            try {
+//                JSONArray j = Global.getSettings().loadCSV("data/hulls/ship_data.csv");
+//                for(int i = 0; i < j.length(); ++i) {
+//                    JSONObject s = j.getJSONObject(i);
+//                    String id = s.getString("id");
+//                    float upkeep = (float)s.getDouble("shield upkeep");
+//                    shieldUpkeeps.put(s.getString("id"), (float)s.getDouble("shield upkeep"));
+//                }
+//            } catch (Exception e) { }
+//        }
+//        
+//        return shieldUpkeeps.get(ship.getHullSpec().getHullId());
+//    }
     public static void setArmorPercentage(ShipAPI ship, float armorPercent) {
         ArmorGridAPI armorGrid = ship.getArmorGrid();
 
@@ -44,6 +66,21 @@ public class SunUtils
             }           
         }
     }
+    public static List getCellLocations(ShipAPI ship) {
+        int width = ship.getArmorGrid().getGrid().length;
+        int height = ship.getArmorGrid().getGrid()[0].length;
+        //List cellLocations = new ArrayList(width * height);
+        // Not sure if above works the way I think it does.
+        List cellLocations = new ArrayList();
+        
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                cellLocations.add(getCellLocation(ship, x, y));
+            }           
+        }
+        
+        return cellLocations;
+    }
     public static void setLocation(CombatEntityAPI entity, Vector2f location) {
         Vector2f dif = new Vector2f(location);
         Vector2f.sub(location, entity.getLocation(), dif);
@@ -54,7 +91,7 @@ public class SunUtils
         y -= ship.getArmorGrid().getGrid()[0].length / 2f;
         float cellSize = ship.getArmorGrid().getCellSize();
         Vector2f cellLoc = new Vector2f();
-        float theta = (float)(((ship.getFacing() - 90) / 350f) * (Math.PI * 2));
+        float theta = (float)(((ship.getFacing() - 90) / 360f) * (Math.PI * 2));
         cellLoc.x = (float)(x * Math.cos(theta) - y * Math.sin(theta)) * cellSize + ship.getLocation().x;
         cellLoc.y = (float)(x * Math.sin(theta) + y * Math.cos(theta)) * cellSize + ship.getLocation().y;
 

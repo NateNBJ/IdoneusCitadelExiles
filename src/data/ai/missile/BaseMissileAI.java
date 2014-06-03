@@ -31,7 +31,7 @@ public abstract class BaseMissileAI implements MissileAIPlugin {
     public ShipCommand strafe(float degreeAngle, boolean strafeAway) {
         float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 1) return null;
+        if(Math.abs(angleDif) < 3) return null;
 
         ShipCommand direction = (angleDif > 0 ^ strafeAway)
                 ? ShipCommand.STRAFE_LEFT
@@ -51,7 +51,7 @@ public abstract class BaseMissileAI implements MissileAIPlugin {
         return strafe(degreeAngle, false);
     }
     public ShipCommand strafeToward(Vector2f location) {
-        return strafeAway(VectorUtils.getAngle(missile.getLocation(), location));
+        return strafeToward(VectorUtils.getAngle(missile.getLocation(), location));
     }
     public ShipCommand strafeToward(CombatEntityAPI entity) {
         return strafeToward(entity.getLocation());
@@ -68,7 +68,7 @@ public abstract class BaseMissileAI implements MissileAIPlugin {
     public ShipCommand turn(float degreeAngle, boolean turnAway) {
         float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 1) return null;
+        if(Math.abs(angleDif) < 3) return null;
 
         ShipCommand direction = (angleDif > 0 ^ turnAway)
                 ? ShipCommand.TURN_LEFT

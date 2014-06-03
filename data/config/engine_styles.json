@@ -16,5 +16,14 @@
 		"contrailAngularVelocityMult":0.0f,
 		"contrailColor":[203,248,235,30],
 		"type":"SMOKE"
+	},
+	"SUN_ICE_SYSTEM":{
+		"engineColor":[255,221,127,120],
+		"contrailParticleSizeMult":4,
+		"contrailParticleDuration":6.0,
+		"contrailMaxSpeedMult":0.0f,
+		"contrailAngularVelocityMult":0.0f,
+		"contrailColor":[180,180,180,30],
+		"type":"SMOKE"
 	}
 }

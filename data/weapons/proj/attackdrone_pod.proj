@@ -1,0 +1,22 @@
+{
+	"id":"sun_ice_attackdrone_pod",
+	"specClass":"missile",	
+	"missileType":"MISSILE",
+	"sprite":"graphics/sun_ice/ships/drones/drone_attack.png",
+	"size":[24,24],	
+	"center":[12,12],
+	"collisionRadius":32,
+	"collisionClass":"MISSILE_NO_FF",
+	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":125, # purely visual
+	"engineSpec":{"turnAcc":100,
+				  "turnRate":120,
+				  "acc":150,
+				  "dec":125},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-12, 0],
+				    "style":"SUN_ICE_MISSILE",
+				    "width":8.0,
+				    "length":20.0,
+				    "angle":180.0}]
+}

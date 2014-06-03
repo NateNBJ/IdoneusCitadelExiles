@@ -5,6 +5,7 @@
   "hullId": "sun_ice_shiekwraith",
   "hullMods": [
     "unstable_injector",
+    "advancedoptics",
     "heavyarmor"
   ],
   "variantId": "sun_ice_shiekwraith_Standard",
