@@ -13,6 +13,8 @@ import data.ai.drone.MxDroneAI;
 import data.ai.missile.ArbalestMissileAI;
 import data.ai.missile.AttackDroneMissileAI;
 import data.ai.missile.BoomerangMissileAI;
+import data.ai.missile.MineAI;
+import data.ai.missile.MinePodAI;
 import data.ai.missile.PdDroneMissileAI;
 import data.ai.missile.ScatterPdMissileAI;
 import data.ai.missile.SpitfireMissileAI;
@@ -71,6 +73,10 @@ public class ICEModPlugin extends BaseModPlugin
             return new PluginPick(new PdDroneMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if(id.equals("sun_ice_spitfire")) {
             return new PluginPick(new SpitfireMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if(id.equals("sun_ice_mine_pod")) {
+            return new PluginPick(new MinePodAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if(id.equals("sun_ice_mine")) {
+            return new PluginPick(new MineAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickMissileAI(missile, launchingShip);

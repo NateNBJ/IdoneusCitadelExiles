@@ -23,7 +23,7 @@
 		"contrailParticleDuration":6.0,
 		"contrailMaxSpeedMult":0.0f,
 		"contrailAngularVelocityMult":0.0f,
-		"contrailColor":[180,180,180,30],
+		"contrailColor":[255,255,255,35],
 		"type":"SMOKE"
 	}
 }

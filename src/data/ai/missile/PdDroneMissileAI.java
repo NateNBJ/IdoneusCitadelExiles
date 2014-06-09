@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
 import data.tools.SunUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,23 +56,26 @@ public class PdDroneMissileAI extends BaseMissileAI {
     }
 
     @Override
-    public void findTarget() {
+    public CombatEntityAPI findTarget() {
         target = missile.getSource().getShipTarget();
         
         if(target == null || target.getOwner() != missile.getOwner())
             target = missile.getSource();
 
-        if(!target.isAlive())  target = AIUtils.getNearestAlly(missile);
+        if((!(target instanceof ShipAPI) || !((ShipAPI)target).isAlive()))
+            target = AIUtils.getNearestAlly(missile);
+        
+        return target;
     }
 
     @Override
     public void evaluateCircumstances() {
         super.evaluateCircumstances();
 
-        if(target == null || !target.isAlive()) {
-            findTarget();
-            return;
-        }
+//        if(target == null || (!(target instanceof ShipAPI) || !((ShipAPI)target).isAlive())) {
+//            findTarget();
+//            return;
+//        }
         
         Vector2f.sub(MathUtils.getRandomPointInCircle(target.getLocation(),
                 target.getCollisionRadius()), target.getLocation(), destOffset);

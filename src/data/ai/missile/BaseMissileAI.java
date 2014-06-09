@@ -1,32 +1,84 @@
 package data.ai.missile;
 
 import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.GuidedMissileAI;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.IntervalTracker;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 @SuppressWarnings("unchecked")
-public abstract class BaseMissileAI implements MissileAIPlugin {
+public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI {
+    static final float DEFAULT_FLARE_VULNERABILITY_RANGE = 800;
+    static final float DEFAULT_FACING_THRESHHOLD = 5;
+
+    @Override
+    public CombatEntityAPI getTarget() {
+        return target;
+    }
+
+    @Override
+    public void setTarget(CombatEntityAPI target) {
+        this.target = target;
+    }
     protected MissileAPI missile;
-    protected ShipAPI target;
+    protected CombatEntityAPI target;
     protected IntervalTracker circumstanceEvaluationTimer = new IntervalTracker(0.05f, 0.15f);
 
-    public void findTarget() {
+    public CombatEntityAPI findFlareTarget(float range) {
+        List<MissileAPI> flares = new ArrayList();
+        
+        for(MissileAPI m :  AIUtils.getNearbyEnemyMissiles(missile, range)) {
+            if(m.isFlare()) flares.add(m);
+        }
+        
+        return target = (flares.isEmpty()) ? target : flares.get((new Random()).nextInt(flares.size()));
+        
+    }
+    public CombatEntityAPI findTarget() {
+        findFlareTarget(DEFAULT_FLARE_VULNERABILITY_RANGE);
+        
+        if(targetIsFlare()) return target;
+        
         target = missile.getSource().getShipTarget();
 
         if(target == null
-                || !target.isAlive()
+                || (!(target instanceof ShipAPI) || !((ShipAPI)target).isAlive())
                 || target.getOwner() == missile.getOwner()) {
             target = AIUtils.getNearestEnemy(missile);
         }
+        
+        return target;
     }
-    public void evaluateCircumstances() { }
+    public boolean isFacing(CombatEntityAPI target) {
+        return isFacing(target.getLocation(), DEFAULT_FACING_THRESHHOLD);
+    }
+    public boolean isFacing(CombatEntityAPI target, float threshholdDegrees) {
+        return isFacing(target.getLocation(), threshholdDegrees);
+    }
+    public boolean isFacing(Vector2f point) {
+        return isFacing(point, DEFAULT_FACING_THRESHHOLD);
+    }
+    public boolean isFacing(Vector2f point, float threshholdDegrees) {
+        float angleTo = VectorUtils.getAngle(missile.getLocation(), point);
+        float angleDif = MathUtils.getShortestRotation(missile.getFacing(), angleTo);
+
+        return (Math.abs(angleDif) <= threshholdDegrees);
+    }
+    public boolean targetIsFlare() {
+        return (target instanceof MissileAPI) && ((MissileAPI)target).isFlare();
+    }
+    public void evaluateCircumstances() {
+        findTarget();
+    }
 
     public ShipCommand strafe(float degreeAngle, boolean strafeAway) {
         float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);

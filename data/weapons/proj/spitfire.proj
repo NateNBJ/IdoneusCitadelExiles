@@ -11,14 +11,14 @@
 	"collisionClassByFighter":"PROJECTILE_FIGHTER",
 	"explosionColor":[255,223,128,200],
 	"explosionRadius":75, # purely visual	
-	"engineSpec":{"turnAcc":80,
-				  "turnRate":50,
+	"engineSpec":{"turnAcc":120,
+				  "turnRate":70,
 				  "acc":300,
 				  "dec":300},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-11, 0],
 				    "style":"SUN_ICE_SYSTEM",
-				    "width":18.0,
+				    "width":12.0,
 				    "length":30.0,
 				    "angle":180.0}]
 }

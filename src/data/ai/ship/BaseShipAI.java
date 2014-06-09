@@ -16,12 +16,28 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     protected ShipAPI ship;
     protected float dontFireUntil = 0f;
     protected IntervalTracker circumstanceEvaluationTimer = new IntervalTracker(0.05f, 0.15f);
+    static final float DEFAULT_FACING_THRESHHOLD = 5;
 
     public boolean mayFire() {
         return dontFireUntil <= Global.getCombatEngine().getTotalElapsedTime(false);
     }
     public void evaluateCircumstances() { }
+    public boolean isFacing(CombatEntityAPI target) {
+        return isFacing(target.getLocation(), DEFAULT_FACING_THRESHHOLD);
+    }
+    public boolean isFacing(CombatEntityAPI target, float threshholdDegrees) {
+        return isFacing(target.getLocation(), threshholdDegrees);
+    }
+    public boolean isFacing(Vector2f point) {
+        return isFacing(point, DEFAULT_FACING_THRESHHOLD);
+    }
+    public boolean isFacing(Vector2f point, float threshholdDegrees) {
+        float angleTo = VectorUtils.getAngle(ship.getLocation(), point);
+        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), angleTo);
 
+        return (Math.abs(angleDif) <= threshholdDegrees);
+    }
+    
     public ShipCommand strafe(float degreeAngle, boolean strafeAway) {
         float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
 
