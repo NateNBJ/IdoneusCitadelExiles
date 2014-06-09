@@ -1,19 +1,27 @@
 package data.ai.missile;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import java.awt.Color;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MineAI extends BaseMissileAI {
     static final float ATTACK_RANGE = 600f;
     static final float BASE_FUEL = 0.5f;
-    static final float LEAD_TIME_PER_DISTANCE = 2f / ATTACK_RANGE; // in seconds
+    static final float LEAD_TIME_PER_DISTANCE = 1.2f / ATTACK_RANGE; // in seconds
+    static final Color PING_COLOR = new Color(0, 250, 220, 255);
     
     float fuel = BASE_FUEL;
     boolean stopped = false;
     boolean attacking = false;
+    
+    void ping() {
+        Global.getCombatEngine().addHitParticle(missile.getLocation(),
+                missile.getVelocity(), 60, 1.5f, 0.1f, PING_COLOR);
+    }
     
     public MineAI() {}
     public MineAI(MissileAPI missile) {
@@ -24,14 +32,18 @@ public class MineAI extends BaseMissileAI {
     public void advance(float amount) {
         if(!stopped) {
             if(Math.abs(missile.getVelocity().x) < 0.0001
-                    && Math.abs(missile.getVelocity().y) < 0.0001)
+                    && Math.abs(missile.getVelocity().y) < 0.0001) {
                 stopped = true;
+                ping();
+            }
             
             decelerate();
             return;
         }
         
         super.advance(amount);
+        
+        if(Math.random() < amount * 0.9f) ping();
         
         if(!(target instanceof ShipAPI)) return;
 

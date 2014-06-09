@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.IntervalTracker;
+import data.tools.SunUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +30,7 @@ public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI 
     public void setTarget(CombatEntityAPI target) {
         this.target = target;
     }
+    
     protected MissileAPI missile;
     protected CombatEntityAPI target;
     protected IntervalTracker circumstanceEvaluationTimer = new IntervalTracker(0.05f, 0.15f);
@@ -68,13 +70,21 @@ public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI 
         return isFacing(point, DEFAULT_FACING_THRESHHOLD);
     }
     public boolean isFacing(Vector2f point, float threshholdDegrees) {
-        float angleTo = VectorUtils.getAngle(missile.getLocation(), point);
-        float angleDif = MathUtils.getShortestRotation(missile.getFacing(), angleTo);
-
-        return (Math.abs(angleDif) <= threshholdDegrees);
+        return (Math.abs(getAngleTo(point)) <= threshholdDegrees);
     }
+    public float getAngleTo(CombatEntityAPI entity) {
+        return getAngleTo(entity.getLocation());
+    }
+    public float getAngleTo(Vector2f point) {
+        float angleTo = VectorUtils.getAngle(missile.getLocation(), point);
+        return MathUtils.getShortestRotation(missile.getFacing(), angleTo);
+    }
+    
     public boolean targetIsFlare() {
-        return (target instanceof MissileAPI) && ((MissileAPI)target).isFlare();
+        return (target instanceof MissileAPI)
+                && ((MissileAPI)target).isFlare()
+                && !((MissileAPI)target).isFizzling()
+                && !((MissileAPI)target).isFading();
     }
     public void evaluateCircumstances() {
         findTarget();
@@ -83,7 +93,9 @@ public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI 
     public ShipCommand strafe(float degreeAngle, boolean strafeAway) {
         float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 3) return null;
+        if((!strafeAway && Math.abs(angleDif) < DEFAULT_FACING_THRESHHOLD)
+                || (strafeAway && Math.abs(angleDif) > 180 - DEFAULT_FACING_THRESHHOLD))
+            return null;
 
         ShipCommand direction = (angleDif > 0 ^ strafeAway)
                 ? ShipCommand.STRAFE_LEFT
@@ -120,7 +132,9 @@ public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI 
     public ShipCommand turn(float degreeAngle, boolean turnAway) {
         float angleDif = MathUtils.getShortestRotation(missile.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 3) return null;
+        if((!turnAway && Math.abs(angleDif) < DEFAULT_FACING_THRESHHOLD)
+                || (turnAway && Math.abs(angleDif) > 180 - DEFAULT_FACING_THRESHHOLD))
+            return null;
 
         ShipCommand direction = (angleDif > 0 ^ turnAway)
                 ? ShipCommand.TURN_LEFT
@@ -149,10 +163,10 @@ public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI 
         return turn(degreeAngle, true);
     }
     public ShipCommand turnAway(Vector2f location) {
-        return turnToward(VectorUtils.getAngle(missile.getLocation(), location));
+        return turnAway(VectorUtils.getAngle(missile.getLocation(), location));
     }
     public ShipCommand turnAway(CombatEntityAPI entity) {
-        return turnToward(entity.getLocation());
+        return turnAway(entity.getLocation());
     }
     public void accelerate() {
         missile.giveCommand(ShipCommand.ACCELERATE);

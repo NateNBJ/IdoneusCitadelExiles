@@ -19,7 +19,7 @@ public class ArbalestMissileAI extends BaseMissileAI {
     public ArbalestMissileAI() {}
     public ArbalestMissileAI(MissileAPI missile) {
         this.missile = missile;
-        findTarget();
+        this.findTarget();
     }
 
     @Override

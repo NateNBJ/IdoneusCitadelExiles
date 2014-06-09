@@ -16,7 +16,7 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     protected ShipAPI ship;
     protected float dontFireUntil = 0f;
     protected IntervalTracker circumstanceEvaluationTimer = new IntervalTracker(0.05f, 0.15f);
-    static final float DEFAULT_FACING_THRESHHOLD = 5;
+    static final float DEFAULT_FACING_THRESHHOLD = 3;
 
     public boolean mayFire() {
         return dontFireUntil <= Global.getCombatEngine().getTotalElapsedTime(false);
@@ -32,16 +32,22 @@ public abstract class BaseShipAI implements ShipAIPlugin {
         return isFacing(point, DEFAULT_FACING_THRESHHOLD);
     }
     public boolean isFacing(Vector2f point, float threshholdDegrees) {
+        return (Math.abs(getAngleTo(point)) <= threshholdDegrees);
+    }
+    public float getAngleTo(CombatEntityAPI entity) {
+        return getAngleTo(entity.getLocation());
+    }
+    public float getAngleTo(Vector2f point) {
         float angleTo = VectorUtils.getAngle(ship.getLocation(), point);
-        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), angleTo);
-
-        return (Math.abs(angleDif) <= threshholdDegrees);
+        return MathUtils.getShortestRotation(ship.getFacing(), angleTo);
     }
     
     public ShipCommand strafe(float degreeAngle, boolean strafeAway) {
         float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 1) return null;
+        if((!strafeAway && Math.abs(angleDif) < DEFAULT_FACING_THRESHHOLD)
+                || (strafeAway && Math.abs(angleDif) > 180 - DEFAULT_FACING_THRESHHOLD))
+            return null;
 
         ShipCommand direction = (angleDif > 0 ^ strafeAway)
                 ? ShipCommand.STRAFE_LEFT
@@ -86,7 +92,9 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     public ShipCommand turn(float degreeAngle, boolean turnAway) {
         float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
 
-        if(Math.abs(angleDif) < 5) return null;
+        if((!turnAway && Math.abs(angleDif) < DEFAULT_FACING_THRESHHOLD)
+                || (turnAway && Math.abs(angleDif) > 180 - DEFAULT_FACING_THRESHHOLD))
+            return null;
 
         ShipCommand direction = (angleDif > 0 ^ turnAway)
                 ? ShipCommand.TURN_LEFT
@@ -131,10 +139,10 @@ public abstract class BaseShipAI implements ShipAIPlugin {
 //        return direction;
     }
     public ShipCommand turnAway(Vector2f location) {
-        return turnToward(VectorUtils.getAngle(ship.getLocation(), location));
+        return turnAway(VectorUtils.getAngle(ship.getLocation(), location));
     }
     public ShipCommand turnAway(CombatEntityAPI entity) {
-        return turnToward(entity.getLocation());
+        return turnAway(entity.getLocation());
     }
     public void accelerate() {
         ship.giveCommand(ShipCommand.ACCELERATE, null, 0);
