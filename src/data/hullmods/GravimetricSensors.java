@@ -9,30 +9,27 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import data.ai.ship.PhaseCruiseTempAI;
+import data.tools.IntervalTracker;
+import data.tools.SunUtils;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 
 public class GravimetricSensors extends BaseHullMod {
-
     public static final float PALANTIR_CLOAK_SECONDS = 10f;
     public static final float SIGHT_RADIUS_BONUS = 20f;
     public static final float TRACKING_PENALTY = -50f;
     private static final float REFRESH_FREQUENCY = 0.5f;
     private Map timeOfNextRefresh = new WeakHashMap();
-
-    @Override
-    public void advanceInCombat(ShipAPI ship, float amount) {
-        super.advanceInCombat(ship, amount);
-
+    private Map<ShipAPI, IntervalTracker> intervalTrackers = new WeakHashMap();
+    
+    void doPhaseGlideAiHack(ShipAPI ship, float amount) {
         ShipSystemAPI cloak = (ship.getHullSpec().getHullId().equals("sun_ice_abraxas"))
                 ? ship.getSystem()
                 : ship.getPhaseCloak();
 
-        if (cloak == null) {
-            return;
-        }
+        if (cloak == null) return;
 
         if (cloak.isActive() && cloak.getFluxPerSecond() == 0) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
@@ -75,10 +72,24 @@ public class GravimetricSensors extends BaseHullMod {
             ship.setShipAI(new PhaseCruiseTempAI(ship));
         }
     }
+    void doEmpDeathThrows(ShipAPI ship, float amount) {
+        if(intervalTrackers.get(ship).intervalElapsed()) {
+            SunUtils.print(ship, "pap");
+        }
+    }
+    
+    @Override
+    public void advanceInCombat(ShipAPI ship, float amount) {
+        super.advanceInCombat(ship, amount);
+        
+        if(ship.isAlive()) doPhaseGlideAiHack(ship, amount);
+        else if(ship.isHulk()) doEmpDeathThrows(ship, amount);
+    }
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
         timeOfNextRefresh.put(stats.getEntity(), 0.0f);
+        intervalTrackers.put((ShipAPI)stats.getEntity(), new IntervalTracker(REFRESH_FREQUENCY));
 
         stats.getBallisticWeaponRangeBonus().modifyFlat(id, 300);
         stats.getBallisticWeaponRangeBonus().modifyPercent(id, -50f);
