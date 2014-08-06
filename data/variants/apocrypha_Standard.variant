@@ -1,0 +1,56 @@
+{
+  "displayName": "Standard",
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "hullId": "sun_ice_apocrypha",
+  "hullMods": [
+    "unstable_injector"
+  ],
+  "variantId": "sun_ice_apocrypha_Standard",
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0011": "sun_ice_arbalest",
+        "WS0012": "sun_ice_arbalest"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0014": "sun_ice_recall"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "pilum",
+        "WS0004": "pilum",
+        "WS0009": "sun_ice_pddrone",
+        "WS0010": "sun_ice_pddrone"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0007": "sun_ice_boomerang",
+        "WS0008": "sun_ice_boomerang"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "sun_ice_lighthexac",
+        "WS0002": "sun_ice_lighthexac",
+        "WS0005": "sun_ice_lighthexac",
+        "WS0006": "sun_ice_lighthexac",
+        "WS0013": "sun_ice_lighthexac"
+      }
+    }
+  ]
+}

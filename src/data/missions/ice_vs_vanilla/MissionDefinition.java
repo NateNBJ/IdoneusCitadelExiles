@@ -16,7 +16,7 @@ import java.util.TreeMap;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
 
-    static final boolean CHOSE_PREDEFINED_FLAGSHIP = false;
+    static final boolean CHOSE_PREDEFINED_FLAGSHIP = true;
 
     List ice = new ArrayList();
     List vanilla = new ArrayList();
@@ -49,7 +49,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
                 //"sun_ice_athame_Standard",
                 //"sun_ice_kelpie_Standard",
                 //"sun_ice_voidreaver_Standard"
-                "sun_ice_shalom_Standard",
+                //"sun_ice_shalom_Standard",
+                "sun_ice_athame_Standard",
             };
             String flagship = choices[(int) (Math.random() * (float) choices.length)];
             api.addToFleet(side, flagship, FleetMemberType.SHIP, true);

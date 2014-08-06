@@ -151,7 +151,7 @@ public class MxDroneAI extends BaseShipAI {
 
     @Override
     public void evaluateCircumstances() {
-        if(!mothership.isAlive()) die();
+        if(!mothership.isAlive()) SunUtils.destroy(ship);
         
         if(timeOfMxPriorityUpdate <= Global.getCombatEngine().getTotalElapsedTime(false)
                 || timeOfMxPriorityUpdate > Global.getCombatEngine().getTotalElapsedTime(false) + mxPriorityUpdateFrequency)
@@ -339,9 +339,6 @@ public class MxDroneAI extends BaseShipAI {
 //            drone.giveCommand(ShipCommand.DECELERATE, to, 0);
         }        
     }
-    void die() {
-        ship.setHitpoints(0);
-    }
 
     public MxDroneAI() {}
     public MxDroneAI(ShipAPI drone, ShipAPI mothership, DroneLauncherShipSystemAPI system) {
@@ -356,9 +353,6 @@ public class MxDroneAI extends BaseShipAI {
     @Override
     public void advance(float amount) {
         super.advance(amount);
-//        countdownToCircumstanceEvaluation -= amount;
-//
-//        if(countdownToCircumstanceEvaluation < 0) evaluateCircumstances();
         
         if(target == null) return;
         

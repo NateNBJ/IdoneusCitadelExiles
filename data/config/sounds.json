@@ -21,5 +21,9 @@
 		{"file":"sounds/sun_ice/systems/phasewarp1.ogg","pitch":1.0,"volume":1.0},
 		{"file":"sounds/sun_ice/systems/phasewarp2.ogg","pitch":1.0,"volume":1.0},
 		{"file":"sounds/sun_ice/systems/phasewarp3.ogg","pitch":1.0,"volume":1.0},
-	],			
+	],
+	
+	"sun_ice_deploy_mine_pod":[
+		{"file":"sounds/sfx_interface/wr_remove_marker.ogg","pitch":1.0,"volume":1.0},
+	],
 }

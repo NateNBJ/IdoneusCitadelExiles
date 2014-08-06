@@ -3,9 +3,9 @@
 	"specClass":"missile",	
 	"missileType":"MISSILE",
 	"sprite":"graphics/sun_ice/missiles/mine.png",
-	"size":[24,24],	
-	"center":[12,12],
-	"collisionRadius":16,
+	"size":[18,18],	
+	"center":[9,9],
+	"collisionRadius":9,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[124, 249, 233, 255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":125, # purely visual
@@ -16,7 +16,7 @@
 	"engineSlots":[{"id":"ES1",
 					"loc":[0, 0],
 				    "style":"SUN_ICE_MISSILE",
-				    "width":16.0,
+				    "width":12.0,
 				    "length":30.0,
 				    "angle":180.0}],
 	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",

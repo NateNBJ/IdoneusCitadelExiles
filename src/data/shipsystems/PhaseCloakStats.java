@@ -8,11 +8,11 @@ public class PhaseCloakStats implements ShipSystemStatsScript {
     @Override
 	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
 		if (state == ShipSystemStatsScript.State.OUT) {
-			stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
+			stats.getMaxSpeed().unmodify(id);
 		} else if (!((ShipAPI)stats.getEntity()).isDrone()) {
-			stats.getMaxSpeed().modifyFlat(id, 100f * effectLevel);
-			stats.getAcceleration().modifyMult(id, 0.2f * effectLevel);
-			stats.getDeceleration().modifyMult(id, 0.2f * effectLevel);
+			stats.getMaxSpeed().modifyFlat(id, 150f * effectLevel);
+			stats.getAcceleration().modifyMult(id, 0.5f * effectLevel);
+			stats.getDeceleration().modifyMult(id, 0.5f * effectLevel);
 		}
 	}
 	@Override

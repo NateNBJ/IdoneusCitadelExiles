@@ -6,11 +6,11 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 
 public class ArbalestMissileAI extends BaseMissileAI {
-    static final float[] STAGE_DURATION = { 3, 1.5f, 3600 };
+    static final float[] STAGE_DURATION = { 2, 1.5f, 3600 };
     static final String SOUND_ID = "engine_accelerate";
     static final float SOUND_PITCH = 0.5f;
     static final float SOUND_VOLUME = 3.0f;
-    static final float FAKE_TURN_MODIFIER = 0.1f;
+    static final float FAKE_TURN_MODIFIER = 1.5f;
     
     int stage = 0; // 0:Drift, 1:Burn, 2:Cruise
     float duration = STAGE_DURATION[stage];
@@ -19,7 +19,7 @@ public class ArbalestMissileAI extends BaseMissileAI {
     public ArbalestMissileAI() {}
     public ArbalestMissileAI(MissileAPI missile) {
         this.missile = missile;
-        this.findTarget();
+        findTarget();
     }
 
     @Override
@@ -45,13 +45,16 @@ public class ArbalestMissileAI extends BaseMissileAI {
             }
         }
 
-        if(stage == 1) accelerate();
+        if(stage == 1) {
+            accelerate();
+            strafeToward(target);
+        }
 
         if(stage < 2) {
             turnToward(target);
         } else {
             float angleDif = MathUtils.getShortestRotation(missile.getFacing(),
-                    VectorUtils.getAngle(missile.getLocation(), target.getLocation()));
+                VectorUtils.getAngle(missile.getLocation(), target.getLocation()));
 
             float dAngle = Math.signum(angleDif) * FAKE_TURN_MODIFIER * amount;
 

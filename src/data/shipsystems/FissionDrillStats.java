@@ -17,26 +17,36 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class FissionDrillStats implements ShipSystemStatsScript {
-	boolean within = false;
+    final static float CR_LOSS_RATE_MULTIPLIER = 0.1f;
+    boolean within = false;
+    
+    //float crLoss = 0;
 
     @Override
-	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
+    public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (state == ShipSystemStatsScript.State.OUT) {
-			stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
-			stats.getMaxTurnRate().unmodify(id);
-		} else {
-			stats.getMaxSpeed().modifyFlat(id, 300f * effectLevel);
-			stats.getAcceleration().modifyFlat(id, 400f * effectLevel);
-			stats.getMaxTurnRate().modifyPercent(id, -50f * effectLevel);
-			stats.getTurnAcceleration().modifyPercent(id, -50f * effectLevel);
-			
-            if(!within) stats.getWeaponDamageTakenMult().modifyMult(id, 8);
-			within = false;
-                    
-            ShipAPI ship = (ShipAPI)stats.getEntity();
-            WeaponAPI drill = (WeaponAPI)ship.getAllWeapons().get(0);
+            stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
+            stats.getMaxTurnRate().unmodify(id);
+        } else {
+            stats.getMaxSpeed().modifyFlat(id, 300f * effectLevel);
+            stats.getAcceleration().modifyFlat(id, 400f * effectLevel);
+            stats.getMaxTurnRate().modifyPercent(id, -50f * effectLevel);
+            stats.getTurnAcceleration().modifyPercent(id, -50f * effectLevel);
+            //stats.getCRLossPerSecondPercent().modifyFlat(id, 5);
 
-            if(drill.isDisabled() && !within) {
+            if (!within) {
+                stats.getWeaponDamageTakenMult().modifyMult(id, 8);
+            }
+            within = false;
+
+            ShipAPI ship = (ShipAPI)stats.getEntity();
+            float amount = Global.getCombatEngine().getElapsedInLastFrame();
+            ship.setCurrentCR(ship.getCurrentCR() - amount * CR_LOSS_RATE_MULTIPLIER);
+            
+            WeaponAPI drill = (WeaponAPI) ship.getAllWeapons().get(0);
+            //float amount = Global.getCombatEngine().getElapsedInLastFrame();
+
+            if (drill.isDisabled() && !within) {
                 //Utils.print("DISSABLED!");
                 ship.getFluxTracker().forceOverload(1f);
                 return;
@@ -44,60 +54,71 @@ public class FissionDrillStats implements ShipSystemStatsScript {
                 ship.giveCommand(ShipCommand.SELECT_GROUP, null, 0);
                 ship.giveCommand(ShipCommand.USE_SELECTED_GROUP, ship.getMouseTarget(), 0);
                 ship.setCollisionClass(CollisionClass.FIGHTER);
-                ship.setHitpoints(Math.max(1, ship.getHitpoints() - 1));
+                //ship.setHitpoints(Math.max(1, ship.getHitpoints() - amount * 60));
+                
+                //stats.getCRPerDeploymentPercent().modifyFlat(id, crLoss += amount);
+                //ship.setCurrentCR(ship.getCurrentCR() - Global.getCombatEngine().getElapsedInLastFrame() * 0.1f);
+                
             }
 
             Vector2f at = drill.getLocation();
-            at.x += (float)Math.random() * 40 - 20;
-            at.y += (float)Math.random() * 40 - 20;
+            at.x += (float) Math.random() * 40 - 20;
+            at.y += (float) Math.random() * 40 - 20;
             List targets = AIUtils.getNearbyEnemies(ship, 600);
 
-            for(Iterator iter = targets.iterator(); iter.hasNext();) {
-                ShipAPI target = (ShipAPI)iter.next();
+            for (Iterator iter = targets.iterator(); iter.hasNext();) {
+                ShipAPI target = (ShipAPI) iter.next();
 
-                if(target.getPhaseCloak() != null && target.getPhaseCloak().isActive()) continue;
+                if (target.getPhaseCloak() != null && target.getPhaseCloak().isActive()) {
+                    continue;
+                }
 
-                if(CollisionUtils.isPointWithinBounds(at, target)) {
+                if (CollisionUtils.isPointWithinBounds(at, target)) {
                     float damage = 20000f * Global.getCombatEngine().getElapsedInLastFrame();
-                    CombatUtils.applyForce(target, (Vector2f)ship.getVelocity().scale(0.98f), 100f);
+                    CombatUtils.applyForce(target, (Vector2f) ship.getVelocity().scale(0.98f), 100f);
                     Global.getCombatEngine().applyDamage(target, at, damage, DamageType.HIGH_EXPLOSIVE, 0, true, true, ship);
                     stats.getWeaponDamageTakenMult().modifyMult(id, 0);
                     stats.getEngineDamageTakenMult().modifyMult(id, 0);
                     Global.getCombatEngine().applyDamage(ship, at, damage / 10, DamageType.HIGH_EXPLOSIVE, 0, true, true, ship);
                     //stats.getWeaponDamageTakenMult().unmodify(id);
-					within = true;
-					
+                    within = true;
+
                     Global.getCombatEngine().spawnExplosion(
                             at, // Location
                             target.getVelocity(), // Velocity
                             Color.white, // How to get faction color?
-                            50 + (float)Math.random() * 100, // Size
-                            2 + (float)Math.random() * 2); // Duration
+                            50 + (float) Math.random() * 100, // Size
+                            2 + (float) Math.random() * 2); // Duration
                     Global.getSoundPlayer().playSound("collision_ships", 1, 1, ship.getLocation(), target.getVelocity());
                 }
             }
-		}
-	}
-	@Override
-	public void unapply(MutableShipStatsAPI stats, String id) {
-        ShipAPI ship = (ShipAPI)stats.getEntity();
-        if(ship != null) ship.setCollisionClass(CollisionClass.SHIP);
+        }
+    }
 
-		stats.getMaxSpeed().unmodify(id);
-		stats.getMaxTurnRate().unmodify(id);
-		stats.getTurnAcceleration().unmodify(id);
-		stats.getAcceleration().unmodify(id);
-		stats.getDeceleration().unmodify(id);
+    @Override
+    public void unapply(MutableShipStatsAPI stats, String id) {
+        ShipAPI ship = (ShipAPI) stats.getEntity();
+        if (ship != null) {
+            ship.setCollisionClass(CollisionClass.SHIP);
+        }
+
+        stats.getMaxSpeed().unmodify(id);
+        stats.getMaxTurnRate().unmodify(id);
+        stats.getTurnAcceleration().unmodify(id);
+        stats.getAcceleration().unmodify(id);
+        stats.getDeceleration().unmodify(id);
         stats.getWeaponDamageTakenMult().unmodify(id);
         stats.getEngineDamageTakenMult().unmodify(id);
-	}	
-	@Override
-	public StatusData getStatusData(int index, State state, float effectLevel) {
-		if (index == 0) {
-			return new StatusData("increased engine power", false);
-		} else if (index == 1) {
-			return new StatusData("can drill through ships", false);
-		}
-		return null;
-	}
+        //stats.getCRLossPerSecondPercent().unmodify(id);
+    }
+
+    @Override
+    public StatusData getStatusData(int index, State state, float effectLevel) {
+        if (index == 0) {
+            return new StatusData("increased engine power", false);
+        } else if (index == 1) {
+            return new StatusData("can drill through ships", false);
+        }
+        return null;
+    }
 }

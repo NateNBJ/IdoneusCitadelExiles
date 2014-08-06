@@ -4,35 +4,44 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import data.tools.SunUtils;
 import java.awt.Color;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MineAI extends BaseMissileAI {
-    static final float ATTACK_RANGE = 600f;
-    static final float BASE_FUEL = 0.5f;
-    static final float LEAD_TIME_PER_DISTANCE = 1.2f / ATTACK_RANGE; // in seconds
-    static final Color PING_COLOR = new Color(0, 250, 220, 255);
+    public static final float ATTACK_RANGE = 600f;
+    public static final float MAX_TIME_TO_STOP = 4f;
+    public static final float TTL_AFTER_BURN = 3f;
+    public static final float BASE_FUEL = 0.5f;
+    public static final float LEAD_TIME_PER_DISTANCE = 1.2f / ATTACK_RANGE; // in seconds
+    public static final Color PING_COLOR = new Color(0, 250, 220, 255);
     
     float fuel = BASE_FUEL;
+    float timeOfDeployment;
+    float timeOfBurn = Float.MAX_VALUE;
     boolean stopped = false;
     boolean attacking = false;
     
     void ping() {
         Global.getCombatEngine().addHitParticle(missile.getLocation(),
-                missile.getVelocity(), 60, 1.5f, 0.1f, PING_COLOR);
+                missile.getVelocity(), 40, 0.8f, 0.1f, PING_COLOR);
     }
     
     public MineAI() {}
     public MineAI(MissileAPI missile) {
         this.missile = missile;
+        timeOfDeployment = Global.getCombatEngine().getTotalElapsedTime(false);
     }
     
     @Override
     public void advance(float amount) {
+        float time = Global.getCombatEngine().getTotalElapsedTime(false);
+        
         if(!stopped) {
-            if(Math.abs(missile.getVelocity().x) < 0.0001
-                    && Math.abs(missile.getVelocity().y) < 0.0001) {
+            if(time - timeOfDeployment > MAX_TIME_TO_STOP
+                    || (Math.abs(missile.getVelocity().x) < 0.00001
+                    && Math.abs(missile.getVelocity().y) < 0.00001)) {
                 stopped = true;
                 ping();
             }
@@ -62,6 +71,9 @@ public class MineAI extends BaseMissileAI {
                 && (distance <= ATTACK_RANGE || missile.getHullLevel() < 1)
                 && isFacing(leadPoint)) {
             attacking = true;
+            timeOfBurn = time;
         } else turnToward(leadPoint);
+        
+        if(time - timeOfBurn > TTL_AFTER_BURN) SunUtils.destroy(missile);
     }
 }

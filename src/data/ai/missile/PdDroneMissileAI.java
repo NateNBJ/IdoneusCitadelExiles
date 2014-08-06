@@ -90,6 +90,11 @@ public class PdDroneMissileAI extends BaseMissileAI {
 
     @Override
     public void advance(float amount) {
+        if(!missile.getSource().isAlive()) {
+            SunUtils.destroy(missile);
+            return;
+        }
+        
         super.advance(amount);
         
         weaponCooldown = Math.max(0, weaponCooldown - amount);
