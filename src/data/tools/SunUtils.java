@@ -40,7 +40,28 @@ public class SunUtils
     }
 
     public static float getShieldUpkeep(ShipAPI ship) {
-        throw new NotImplementedException();
+        if(shieldUpkeeps == null) {
+            shieldUpkeeps  = new HashMap();
+            
+            try {
+                JSONArray j = Global.getSettings().getMergedSpreadsheetDataForMod("id", "data/hulls/ship_data.csv", "starsector-core");
+                for(int i = 0; i < j.length(); ++i) {
+                    try {
+                        JSONObject s = j.getJSONObject(i);
+                        String id = s.getString("id");
+
+                        if(id.equals("")) continue;
+
+                        float upkeep = (float)s.getDouble("shield upkeep");
+                        shieldUpkeeps.put(id, upkeep);
+                    } catch (Exception e) { }
+                }
+            } catch (Exception e) { }
+        }
+        
+        return shieldUpkeeps.get(ship.getHullSpec().getHullId());
+        
+//        throw new NotImplementedException();
         
 //        if(shieldUpkeeps == null) {
 //            shieldUpkeeps  = new HashMap();
@@ -114,8 +135,12 @@ public class SunUtils
     public static void print(ShipAPI at, String str) {
         if(at == null) return;
 
-        Global.getCombatEngine().addFloatingText(at.getLocation(), str, 40,
-                Color.green, at, 1, 5);
+        Global.getCombatEngine().addFloatingText(at.getLocation(), str, 40, Color.green, at, 1, 5);
+    }
+    public static void print(Vector2f at, String str) {
+        if(at == null) return;
+
+        Global.getCombatEngine().addFloatingText(at, str, 40, Color.green, null, 1, 5);
     }
     public static void destroy(CombatEntityAPI entity) {
         Global.getCombatEngine().applyDamage(entity, entity.getLocation(),
@@ -245,7 +270,7 @@ public class SunUtils
             float distance = Math.max(0, MathUtils.getDistance(ship, ally) - colDist);
             float maxRange = Math.max(1, range - colDist);
             
-            retVal += getFP(ally) * (1 - distance / maxRange);
+            retVal += getFP(ally) * (1 - distance / maxRange); 
         }
         
         return retVal;

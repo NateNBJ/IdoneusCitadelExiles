@@ -4,7 +4,6 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
-import com.fs.starfarer.api.mission.FleetSide;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

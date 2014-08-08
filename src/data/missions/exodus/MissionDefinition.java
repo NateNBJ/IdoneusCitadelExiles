@@ -69,7 +69,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         addShip("sun_ice_eidolon_Standard", 2);
 
         addShip("sun_ice_soulbane_Standard", 1);
-//        addShip("sun_ice_shiekwraith_Standard", 2);
+        addShip("sun_ice_shiekwraith_Standard", 1);
 
         addShip("sun_ice_nightseer_Standard", 1);
         addShip("sun_ice_athame_Standard", 1);

@@ -53,7 +53,7 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
             float incomingMissileDamage = SunUtils.estimateIncomingMissileDamage(ship);
             float fpOfSupport = SunUtils.getFPWorthOfSupport(ship, 2000);
             float fpOfEnemies = SunUtils.getFPWorthOfEnemies(ship, 2000);
-            fpOfEnemies = Math.max(0, fpOfEnemies -SunUtils.getFP(target) / 2);
+            fpOfEnemies = Math.max(0, fpOfEnemies - SunUtils.getFP(target) / 2);
             
             hitChance = SunUtils.getHitChance(weapon, target);
             targetWillDieSoonAnyway = (SunUtils.getLifeExpectancy(ship) < 3);
