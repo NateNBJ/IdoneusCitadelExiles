@@ -295,24 +295,12 @@
       "arc": 5,
       "id": "WS0001",
       "locations": [
-        96,
+        62,
         -0
       ],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "BUILT_IN"
-    },
-    {
-      "angle": 0,
-      "arc": 55,
-      "id": "WS0002",
-      "locations": [
-        64,
-        -0
-      ],
-      "mount": "TURRET",
-      "size": "MEDIUM",
-      "type": "ENERGY"
     },
     {
       "angle": -80,

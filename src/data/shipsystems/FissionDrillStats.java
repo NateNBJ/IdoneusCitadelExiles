@@ -40,8 +40,8 @@ public class FissionDrillStats implements ShipSystemStatsScript {
             within = false;
 
             ShipAPI ship = (ShipAPI)stats.getEntity();
-            float amount = Global.getCombatEngine().getElapsedInLastFrame();
-            ship.setCurrentCR(ship.getCurrentCR() - amount * CR_LOSS_RATE_MULTIPLIER);
+//            float amount = Global.getCombatEngine().getElapsedInLastFrame();
+//            ship.setCurrentCR(ship.getCurrentCR() - amount * CR_LOSS_RATE_MULTIPLIER);
             
             WeaponAPI drill = (WeaponAPI) ship.getAllWeapons().get(0);
             //float amount = Global.getCombatEngine().getElapsedInLastFrame();

@@ -22,6 +22,7 @@ import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SunUtils
 {
@@ -38,23 +39,30 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
-//    public static float getShieldUpkeep(ShipAPI ship) {
+    public static float getShieldUpkeep(ShipAPI ship) {
+        throw new NotImplementedException();
+        
 //        if(shieldUpkeeps == null) {
 //            shieldUpkeeps  = new HashMap();
 //            
 //            try {
-//                JSONArray j = Global.getSettings().loadCSV("data/hulls/ship_data.csv");
+//                JSONArray j = Global.getSettings().loadCSV("data/hulls/ship_data.csv"); //  <--- Gives only ICE ships
 //                for(int i = 0; i < j.length(); ++i) {
-//                    JSONObject s = j.getJSONObject(i);
-//                    String id = s.getString("id");
-//                    float upkeep = (float)s.getDouble("shield upkeep");
-//                    shieldUpkeeps.put(s.getString("id"), (float)s.getDouble("shield upkeep"));
+//                    try {
+//                        JSONObject s = j.getJSONObject(i);
+//                        String id = s.getString("id");
+//
+//                        if(id.equals("")) continue;
+//
+//                        float upkeep = (float)s.getDouble("shield upkeep");
+//                        shieldUpkeeps.put(id, upkeep);
+//                    } catch (Exception e) { }
 //                }
 //            } catch (Exception e) { }
 //        }
 //        
 //        return shieldUpkeeps.get(ship.getHullSpec().getHullId());
-//    }
+    }
     public static void setArmorPercentage(ShipAPI ship, float armorPercent) {
         ArmorGridAPI armorGrid = ship.getArmorGrid();
 
