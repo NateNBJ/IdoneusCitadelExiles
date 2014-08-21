@@ -8,7 +8,6 @@ import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
-import data.Test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;

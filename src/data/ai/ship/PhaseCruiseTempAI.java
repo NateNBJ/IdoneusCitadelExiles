@@ -6,7 +6,6 @@ import com.fs.starfarer.api.combat.CombatFleetManagerAPI.AssignmentInfo;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
-import data.ai.ship.BaseShipAI;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
@@ -16,17 +15,6 @@ public class PhaseCruiseTempAI extends BaseShipAI {
     CombatFleetManagerAPI fleet;
     AssignmentInfo task;
 
-//    boolean assignmentHasChanged() {
-//        //return initialAssignment != fleet.getAssignmentFor(ship);
-//        AssignmentInfo currentAssignment = fleet.getAssignmentFor(ship);
-//
-//        if(initialAssignment == currentAssignment) return false;
-//        else if(initialAssignment == null || currentAssignment == null)
-//            return true;
-//
-//        return initialAssignment.equals(currentAssignment);
-//    }
-//
     @Override
     public void evaluateCircumstances() {
         ShipSystemAPI cloak = ship.getPhaseCloak();
@@ -40,11 +28,7 @@ public class PhaseCruiseTempAI extends BaseShipAI {
             
             ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
             ship.resetDefaultAI();
-            //SunUtils.print(ship, "back.");
         }
-
-//        countdownToCircumstanceEvaluation = (CIRCUMSTANCE_EVALUATION_FREQUENCY / 2)
-//                + CIRCUMSTANCE_EVALUATION_FREQUENCY * (float)Math.random();
     }
     void goToDestination(Vector2f to) {
         float angleDif = MathUtils.getShortestRotation(ship.getFacing(),
@@ -65,7 +49,6 @@ public class PhaseCruiseTempAI extends BaseShipAI {
         this.ship = ship;
         this.fleet = Global.getCombatEngine().getFleetManager(ship.getOwner());
         circumstanceEvaluationTimer.setInterval(0.4f, 0.6f);
-        //this.initialAssignment = fleet.getAssignmentFor(ship);
     }
 
     @Override
@@ -76,7 +59,6 @@ public class PhaseCruiseTempAI extends BaseShipAI {
         
         task = fleet.getAssignmentFor(ship);
         if(task != null && task.getTarget() != null) {
-            //goToDestination(task.getTarget().getLocation());
             this.turnToward(task.getTarget().getLocation());
             this.strafeToward(task.getTarget().getLocation());
         }

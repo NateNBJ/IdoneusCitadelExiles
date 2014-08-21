@@ -1,4 +1,7 @@
 {
 	"graphics":{
-	}
+	},
+	"plugins":{
+		"sun_ice_every_frame_script":"data.EveryFramePlugin",
+	},
 }

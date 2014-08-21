@@ -1,7 +1,6 @@
 package data.world;
 
 import com.fs.starfarer.api.EveryFrameScript;
-//import com.fs.starfarer.api.Global;
 import data.world.Ulterius;
 
 public class ICEEveryFrameScript implements EveryFrameScript {

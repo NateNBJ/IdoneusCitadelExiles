@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class MineAI extends BaseMissileAI {
     public static final float ATTACK_RANGE = 600f;
-    public static final float MAX_TIME_TO_STOP = 4f;
+    public static final float MAX_TIME_TO_STOP = 5f;
     public static final float TTL_AFTER_BURN = 3f;
     public static final float BASE_FUEL = 0.5f;
     public static final float LEAD_TIME_PER_DISTANCE = 1.2f / ATTACK_RANGE; // in seconds
@@ -43,6 +43,7 @@ public class MineAI extends BaseMissileAI {
                     || (Math.abs(missile.getVelocity().x) < 0.00001
                     && Math.abs(missile.getVelocity().y) < 0.00001)) {
                 stopped = true;
+                missile.getVelocity().set(0, 0);
                 ping();
             }
             

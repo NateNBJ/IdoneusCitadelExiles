@@ -9,6 +9,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import data.ai.ship.PhaseCruiseTempAI;
 import data.tools.IntervalTracker;
 import java.awt.Color;
@@ -21,7 +22,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class GravimetricSensors extends BaseHullMod {
     public static final float EMP_ENERGY_DAMAGE = 0f;
     public static final float EMP_EMP_DAMAGE = 0f;
-    public static final float EMP_RANGE = 500f;
+    public static final float EMP_RANGE = 250f;
     public static final float EMP_THICKNESS = 5f;
     public static final Color EMP_COLOR = new Color(0, 255, 220);
     
@@ -31,11 +32,11 @@ public class GravimetricSensors extends BaseHullMod {
     public static final float TRACKING_PENALTY = -50f;
     private static final float MIN_REFRESH = 0.1f;
     private static final float MAX_REFRESH = 0.9f;
-    //private Map timeOfNextRefresh = new WeakHashMap();
     private final Map<ShipAPI, IntervalTracker> intervalTrackers = new WeakHashMap();
     
     void doSkimAiHack(ShipAPI ship, float amount) {
-        ShipSystemAPI cloak = (ship.getHullSpec().getHullId().equals("sun_ice_abraxas"))
+        String id = ship.getHullSpec().getHullId();
+        ShipSystemAPI cloak = (id.equals("sun_ice_abraxas") || id.equals("sun_ice_athame"))
                 ? ship.getSystem()
                 : ship.getPhaseCloak();
 
@@ -55,13 +56,6 @@ public class GravimetricSensors extends BaseHullMod {
         }
 
         if(!intervalTrackers.get(ship).intervalElapsed()) return;
-        
-//        if ((Float) timeOfNextRefresh.get(ship) < Global.getCombatEngine().getTotalElapsedTime(false)) {
-//            timeOfNextRefresh.put(ship, (Float) timeOfNextRefresh.get(ship)
-//                    + REFRESH_FREQUENCY * (float) Math.random() * 2);
-//        } else {
-//            return;
-//        }
 
         float speed = (float) Math.sqrt(Math.pow(ship.getVelocity().x, 2)
                 + Math.pow(ship.getVelocity().y, 2));
@@ -75,11 +69,17 @@ public class GravimetricSensors extends BaseHullMod {
                 && AIUtils.getNearbyEnemies(ship, 2000).isEmpty()
                 && (task == null || task.getTarget() == null || MathUtils.getDistance(ship, task.getTarget().getLocation()) > 800)) {
 
-            if (ship.getHullSpec().getHullId().equals("sun_ice_abraxas")) {
-                ship.useSystem();
-            } else {
+            if(ship.getPhaseCloak() == cloak) {
                 ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+            } else {
+                ship.useSystem();
             }
+            
+//            if (ship.getHullSpec().getHullId().equals("sun_ice_abraxas")) {
+//                ship.useSystem();
+//            } else {
+//                ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+//            }
 
             ship.setShipAI(new PhaseCruiseTempAI(ship));
         }
@@ -91,11 +91,19 @@ public class GravimetricSensors extends BaseHullMod {
         Vector2f point = MathUtils.getRandomPointInCircle(ship.getLocation(), ship.getCollisionRadius() * 0.6f);
         float range = ship.getCollisionRadius()+ EMP_RANGE;
         
-        if(MathUtils.getDistance(ship, target) > range) target = ship;
+        if(target == null || MathUtils.getDistance(ship, target) > range)
+            target = ship;
         
         Global.getCombatEngine().spawnEmpArc(ship, point, ship, target,
                 DamageType.ENERGY, EMP_ENERGY_DAMAGE, EMP_EMP_DAMAGE, range,
                 null, EMP_THICKNESS, Color.WHITE, EMP_COLOR);
+    }
+    
+    @Override
+    public void advanceInCampaign(FleetMemberAPI member, float amount) {
+        super.advanceInCampaign(member, amount);
+        
+        member.getStatus().repairFully();
     }
     
     @Override
@@ -108,7 +116,6 @@ public class GravimetricSensors extends BaseHullMod {
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        //timeOfNextRefresh.put(stats.getEntity(), 0.0f);
         intervalTrackers.put((ShipAPI)stats.getEntity(), new IntervalTracker(MIN_REFRESH, MAX_REFRESH));
 
         stats.getBallisticWeaponRangeBonus().modifyFlat(id, 300);

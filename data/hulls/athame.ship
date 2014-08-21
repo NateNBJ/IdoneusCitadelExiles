@@ -16,7 +16,8 @@
   ],
   "builtInWeapons": {
     "LIGHTS": "sun_ice_athame_lights",
-    "WS0001": "sun_ice_fissiondrill"
+    "SYSTEM": "sun_ice_athame_system",
+    "WS0001": "sun_ice_fissiondrill",
   },
   "center": [
     24.5,
@@ -109,6 +110,18 @@
       "angle": 0,
       "arc": 0,
       "id": "LIGHTS",
+      "locations": [
+        2,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
       "locations": [
         2,
         0

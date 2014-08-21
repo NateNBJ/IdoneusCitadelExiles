@@ -132,10 +132,11 @@ public class MxDroneAI extends BaseShipAI {
     static float getMxPriority(ShipAPI ship) {
         float priority = 0;
         float fp = SunUtils.getFP(ship);
-        fp = (ship.isFighter()) ? fp / ship.getWingMembers().size() : fp;
+        fp = (ship.isFighter()) ? fp / ship.getWing().getWingMembers().size() : fp;
         float peakCrLeft = getSecondsTilCrLoss(ship);
         
-        priority += 1.0f * (1 - getArmorPercent(ship)) * fp;
+        if(ship.getHullSpec().getHullId().startsWith("sun_ice_"))
+            priority += 1.0f * (1 - getArmorPercent(ship)) * fp;
         priority += 0.5f * getExpendedOrdnancePoints(ship);
 
         if(ship.losesCRDuringCombat())
@@ -162,6 +163,7 @@ public class MxDroneAI extends BaseShipAI {
 
         if(returning) destination = system.getLandingLocation(ship);
         else destination = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius() / 2f);
+        //else destination = target.getLocation();
       
         //destination.x -= target.getLocation().x;
         //destination.y -= target.getLocation().y;
@@ -357,7 +359,8 @@ public class MxDroneAI extends BaseShipAI {
         if(target == null) return;
         
         if (performingMaintenance) {
-            repairArmor();
+            if(target.getHullSpec().getHullId().startsWith("sun_ice_"))
+                repairArmor();
             maintainCR(amount);
         } else if(returning && !ship.isLanding() && MathUtils.getDistance(ship, mothership) < mothership.getCollisionRadius())
             ship.beginLandingAnimation(mothership);

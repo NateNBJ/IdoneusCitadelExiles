@@ -5,7 +5,6 @@ import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 import java.awt.Color;
@@ -17,48 +16,32 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class FissionDrillStats implements ShipSystemStatsScript {
-    final static float CR_LOSS_RATE_MULTIPLIER = 0.1f;
     boolean within = false;
-    
-    //float crLoss = 0;
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (state == ShipSystemStatsScript.State.OUT) {
-            stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
+            stats.getMaxSpeed().unmodify(id);
             stats.getMaxTurnRate().unmodify(id);
         } else {
             stats.getMaxSpeed().modifyFlat(id, 300f * effectLevel);
             stats.getAcceleration().modifyFlat(id, 400f * effectLevel);
             stats.getMaxTurnRate().modifyPercent(id, -50f * effectLevel);
             stats.getTurnAcceleration().modifyPercent(id, -50f * effectLevel);
-            //stats.getCRLossPerSecondPercent().modifyFlat(id, 5);
+            
+            ShipAPI ship = (ShipAPI)stats.getEntity();
+            WeaponAPI drill = (WeaponAPI) ship.getAllWeapons().get(2);
 
             if (!within) {
                 stats.getWeaponDamageTakenMult().modifyMult(id, 8);
             }
             within = false;
 
-            ShipAPI ship = (ShipAPI)stats.getEntity();
-//            float amount = Global.getCombatEngine().getElapsedInLastFrame();
-//            ship.setCurrentCR(ship.getCurrentCR() - amount * CR_LOSS_RATE_MULTIPLIER);
-            
-            WeaponAPI drill = (WeaponAPI) ship.getAllWeapons().get(0);
-            //float amount = Global.getCombatEngine().getElapsedInLastFrame();
-
-            if (drill.isDisabled() && !within) {
-                //Utils.print("DISSABLED!");
+            if (drill.isDisabled()) {
                 ship.getFluxTracker().forceOverload(1f);
                 return;
             } else {
-                ship.giveCommand(ShipCommand.SELECT_GROUP, null, 0);
-                ship.giveCommand(ShipCommand.USE_SELECTED_GROUP, ship.getMouseTarget(), 0);
                 ship.setCollisionClass(CollisionClass.FIGHTER);
-                //ship.setHitpoints(Math.max(1, ship.getHitpoints() - amount * 60));
-                
-                //stats.getCRPerDeploymentPercent().modifyFlat(id, crLoss += amount);
-                //ship.setCurrentCR(ship.getCurrentCR() - Global.getCombatEngine().getElapsedInLastFrame() * 0.1f);
-                
             }
 
             Vector2f at = drill.getLocation();
@@ -109,7 +92,6 @@ public class FissionDrillStats implements ShipSystemStatsScript {
         stats.getDeceleration().unmodify(id);
         stats.getWeaponDamageTakenMult().unmodify(id);
         stats.getEngineDamageTakenMult().unmodify(id);
-        //stats.getCRLossPerSecondPercent().unmodify(id);
     }
 
     @Override

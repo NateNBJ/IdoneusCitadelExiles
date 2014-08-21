@@ -62,7 +62,7 @@ public class MinePodAI extends BaseMissileAI {
                     missile.getSource(), missile.getWeapon(), "sun_ice_mine",
                     missile.getLocation(), angle, new Vector2f());
 
-            mine.getVelocity().scale((float)Math.random() * 1.4f + 0.5f);
+            mine.getVelocity().scale((float)Math.random() * 1.2f + 0.4f);
         }        
     }
     
