@@ -2,7 +2,7 @@ package data.hullmods;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
+import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 
 public class NutritionResynth extends BaseHullMod {
@@ -23,5 +23,10 @@ public class NutritionResynth extends BaseHullMod {
 //            fleet.getCargo().addSupplies(crewCost / 2f);
 //            ++dayOfLastSupplyRefund;
 //        }
+    }
+    
+    @Override
+    public boolean isApplicableToShip(ShipAPI ship) {
+        return false;
     }
 }

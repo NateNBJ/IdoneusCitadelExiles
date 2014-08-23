@@ -12,17 +12,19 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javafx.collections.transformation.SortedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
+import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SunUtils
 {
@@ -39,6 +41,47 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static List<CombatEntityAPI> getEntitiesOnSegment(Vector2f from, Vector2f to) {
+        float distance = MathUtils.getDistance(from, to);
+        Vector2f center = new Vector2f();
+        center.x = (from.x + to.x) / 2;
+        center.y = (from.y + to.y) / 2;
+        
+        List<CombatEntityAPI> list = new ArrayList<CombatEntityAPI>();
+        
+        for(CombatEntityAPI e : CombatUtils.getEntitiesWithinRange(center, distance / 2)) {
+            if(CollisionUtils.getCollisionPoint(from, to, e) != null) list.add(e);
+        }
+        
+        return list;
+    }
+    public static CombatEntityAPI getFirstEntityOnSegment(Vector2f from, Vector2f to, CombatEntityAPI exception) {
+        CombatEntityAPI winner = null;
+        float record = Float.MAX_VALUE;
+        
+        for(CombatEntityAPI e : getEntitiesOnSegment(from, to)) {
+            if(e == exception) continue;
+            
+            float dist2 = MathUtils.getDistanceSquared(e, from);
+            
+            if(dist2 < record) {
+                record = dist2;
+                winner = e;
+            }
+        }
+        
+        return winner;
+    }
+    public static CombatEntityAPI getFirstEntityOnSegment(Vector2f from, Vector2f to) {
+        return getFirstEntityOnSegment(from, to, null);
+    }
+    public static CombatEntityAPI getEntityInLineOfFire(WeaponAPI weapon) {
+        Vector2f endPoint = weapon.getLocation();
+        endPoint.x += Math.cos(Math.toRadians(weapon.getCurrAngle())) * weapon.getRange();
+        endPoint.y += Math.sin(Math.toRadians(weapon.getCurrAngle())) * weapon.getRange();
+        
+        return getFirstEntityOnSegment(weapon.getLocation(), endPoint, weapon.getShip());
+    }
     public static float getShieldUpkeep(ShipAPI ship) {
         if(shieldUpkeeps == null) {
             shieldUpkeeps  = new HashMap();

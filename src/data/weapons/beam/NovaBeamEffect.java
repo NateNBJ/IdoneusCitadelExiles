@@ -5,7 +5,7 @@ import com.fs.starfarer.api.combat.BeamEffectPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.tools.SunUtils;
+import data.EveryFramePlugin;
 
 public class NovaBeamEffect implements BeamEffectPlugin {
     static final float MAX_ARC_REDUCTION_PER_SECOND = 150.0f;
@@ -27,14 +27,6 @@ public class NovaBeamEffect implements BeamEffectPlugin {
 
         shield.setActiveArc(arc);
         
-        // Refund shield upkeep in proportion to arc reducion
-        
-        //float upkeep = target.getMutableStats().getShieldUpkeepMult().getModifiedValue();
-        float upkeep = SunUtils.getShieldUpkeep(target);
-        //target.getFluxTracker().decreaseFlux(amount * upkeep * (1 - arc / shield.getArc()));
-
-        // TODO - Need Alex to implement a getShieldUpkeep method =[
-
-        SunUtils.print("" + upkeep);
+        EveryFramePlugin.tagForShieldUpkeepRefund(target);
     }
 }

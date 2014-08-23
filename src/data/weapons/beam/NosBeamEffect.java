@@ -49,21 +49,14 @@ public class NosBeamEffect implements BeamEffectPlugin {
         }
     }
     
-    //static boolean temp = false;
-    
     @Override
     public void advance(float amount, CombatEngineAPI engine, BeamAPI beam)
     {
-//        if(temp == false) {
-//            temp = true;
-//            SunUtils.setArmorPercentage(beam.getSource(), 0);
-//        }
-        
-        
         CombatEntityAPI target = beam.getDamageTarget();
         
         if(!beam.didDamageThisFrame()
                 || !(target instanceof ShipAPI)
+                || !((ShipAPI)target).isAlive()
                 || (target.getShield() != null && target.getShield().isWithinArc(beam.getTo()))
             ) return;
             

@@ -36,6 +36,10 @@ public class MxDroneAI extends BaseShipAI {
     boolean returning = false;
     float dontRestoreAmmoUntil = 0;
     float hpAtLastCheck;
+    
+    Vector2f getDestination() {
+        return new Vector2f();
+    }
 
     static HashMap peakCrRecovery = new HashMap();
     static HashMap mxAssistTracker = new HashMap();

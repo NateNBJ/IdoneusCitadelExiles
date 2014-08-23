@@ -11,7 +11,7 @@
   "variantId": "sun_ice_shiekwraith_Standard",
   "weaponGroups": [
     {
-      "autofire": false,
+      "autofire": true,
       "mode": "LINKED",
       "weapons": {
         "WS0001": "sun_ice_nos",
@@ -19,15 +19,15 @@
       }
     },
     {
-      "autofire": false,
-      "mode": "LINKED",
+      "autofire": true,
+      "mode": "ALTERNATING",
       "weapons": {
-        "WS0003": "sun_ice_pulserepeater",
-        "WS0004": "sun_ice_pulserepeater"
+        "WS0003": "sun_ice_scatterpd",
+        "WS0004": "sun_ice_scatterpd"
       }
     },
     {
-      "autofire": false,
+      "autofire": true,
       "mode": "LINKED",
       "weapons": {
         "WS0007": "sun_ice_falx",
@@ -38,7 +38,7 @@
       }
     },
     {
-      "autofire": false,
+      "autofire": true,
       "mode": "LINKED",
       "weapons": {
         "WS0005": "sun_ice_lighthexac",

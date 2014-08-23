@@ -7,17 +7,36 @@ import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.SunUtils;
+import java.awt.Color;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Stack;
+import java.util.Set;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
         void advance(float amount);
     }
-
-    CombatEngineAPI engine;
-    boolean fissionDrillWeaponActivated = false;
     
+    CombatEngineAPI engine;
+    
+    static Set<ShipAPI> shipsToGiveFluxRefund = new HashSet<ShipAPI>();
+    static public void tagForShieldUpkeepRefund(ShipAPI ship) {
+        shipsToGiveFluxRefund.add(ship);
+    }
+    void refundShieldUpkeepFlux(float amount) {
+        for(ShipAPI ship : shipsToGiveFluxRefund) {
+            float upkeep = SunUtils.getShieldUpkeep(ship);
+            upkeep *= ship.getMutableStats().getFluxDissipation().getModifiedValue();
+            float arcReduction = 1 - Math.max(0, ship.getShield().getActiveArc()) / ship.getShield().getArc();
+            ship.getFluxTracker().decreaseFlux(upkeep * arcReduction * amount);
+            
+            //engine.addFloatingDamageText(ship.getLocation(), upkeep * arcReduction * amount, Color.yellow, ship, ship);
+        }
+        
+        shipsToGiveFluxRefund.clear();
+    }
+    
+    boolean fissionDrillWeaponActivated = false;
     void checkFissionDrillUsageByPlayer() {
         ShipAPI ship = engine.getPlayerShip();
         ShipSystemAPI sys = ship.getSystem();
@@ -43,9 +62,11 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         }
     }
 
+    
     @Override
     public void advance(float amount, List events) {
         checkFissionDrillUsageByPlayer();
+        refundShieldUpkeepFlux(amount);
     }
 
     @Override

@@ -5,7 +5,7 @@
   "hullId": "sun_ice_seraph",
   "hullMods": [
     "unstable_injector",
-    "hardened_subsystems",
+    "reinforcedhull",
     "fluxbreakers"
   ],
   "variantId": "sun_ice_seraph_Standard",

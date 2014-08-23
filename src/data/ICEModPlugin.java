@@ -20,6 +20,7 @@ import data.ai.missile.SpitfireMissileAI;
 import data.ai.weapon.FissionDrillAutofireAIPlugin;
 import data.ai.weapon.MobiusRayAutofireAIPlugin;
 import data.ai.weapon.HypermassDriverAutofireAIPlugin;
+import data.ai.weapon.NosAutofireAIPlugin;
 import data.ai.weapon.NovaDischargerAutofireAIPlugin;
 import data.world.Ulterius;
 import org.dark.shaders.light.LightData;
@@ -98,6 +99,8 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new NovaDischargerAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_fissiondrill")) {
             return new PluginPick(new FissionDrillAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if (id.equals("sun_ice_nos")) {
+            return new PluginPick(new NosAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickWeaponAutofireAI(weapon);
