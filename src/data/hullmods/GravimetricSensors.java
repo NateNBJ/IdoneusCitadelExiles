@@ -40,7 +40,7 @@ public class GravimetricSensors extends BaseHullMod {
                 ? ship.getSystem()
                 : ship.getPhaseCloak();
 
-        if (cloak == null) return;
+        if (cloak == null || cloak.getId().equals("sun_ice_phaseshift")) return;
 
         if (cloak.isActive() && cloak.getFluxPerSecond() == 0) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);

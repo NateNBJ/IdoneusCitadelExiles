@@ -1,11 +1,12 @@
 name,id,flux/second,f/s (base rate),f/s (base cap),flux/use,f/u (base rate),f/u (base cap),max uses,regen,charge up,active,down,cooldown,toggle,noDissipation,noHardDissipation,hardFlux,noFiring,noTurning,noStrafing,noAccel,noShield,icon
-Flux Drive,sun_ice_fluxdrive,,,,,,,3,0.035,1,4,0.5,0,,,TRUE,TRUE,,,TRUE,TRUE,TRUE,graphics/icons/hullsys/burn_drive.png
 Phase Warp,sun_ice_phasewarp,,,,,,,,,0.25,1,0.25,1,,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
 Advanced Phase Warp,sun_ice_advphasewarp,,,,,,,,,0.25,1.5,0.25,0.25,,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
 Phase Warp Engine,sun_ice_phasewarpeng,,,,,,,,,1,2,0.25,5,,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
+Phase Cloak,sun_ice_phasecloak,,,,,,,,,0.5,,0.5,0,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
+Phase Shift,sun_ice_phaseshift,,,,,,,,,0.5,,0.5,0.5,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
+Flux Drive,sun_ice_fluxdrive,,,,,,,3,0.035,1,4,0.5,0,,,TRUE,TRUE,,,TRUE,TRUE,TRUE,graphics/icons/hullsys/burn_drive.png
 FoF Inverter ECM,sun_ice_fofinverter,,,,,,,,,,5,,20,,,,,,,,,,graphics/icons/hullsys/phase_cloak.png
 Armor Repair Matrix,sun_ice_repairarmor,,,,,,,,,1,,1,2,TRUE,,TRUE,TRUE,,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
-Phase Cloak,sun_ice_phasecloak,,,,,,,,,0.5,,0.5,0,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
 Maintenance Drones,sun_ice_drone_mx,,,,,,,3,0.015,0,,0,0,,,,,,,,,,graphics/icons/hullsys/drone_pd_high.png
 Maintenance Drones,sun_ice_drone_mx_x2,,,,,,,6,0.03,0,,0,0,,,,,,,,,,graphics/icons/hullsys/drone_pd_high.png
 Fission Drill,sun_ice_fissiondrill,,,0.2,,,,,,0.25,,0.5,0,TRUE,,TRUE,TRUE,,,TRUE,TRUE,TRUE,graphics/icons/hullsys/burn_drive.png

@@ -10,7 +10,7 @@ public class PhaseCloakStats implements ShipSystemStatsScript {
 		if (state == ShipSystemStatsScript.State.OUT) {
 			stats.getMaxSpeed().unmodify(id);
 		} else if (!((ShipAPI)stats.getEntity()).isDrone()) {
-			stats.getMaxSpeed().modifyFlat(id, 150f * effectLevel);
+			stats.getMaxSpeed().modifyFlat(id, 100f * effectLevel);
 			stats.getAcceleration().modifyMult(id, 0.5f * effectLevel);
 			stats.getDeceleration().modifyMult(id, 0.5f * effectLevel);
 		}

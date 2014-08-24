@@ -40,6 +40,17 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static Vector2f getMidpoint(Vector2f from, Vector2f to, float d) {
+        d *= 2;
+        
+        return new Vector2f(
+                (from.x * (2 - d) + to.x * d) / 2,
+                (from.y * (2 - d) + to.y * d) / 2
+        );
+    }
+    public static Vector2f getMidpoint(Vector2f from, Vector2f to) {
+        return getMidpoint(from, to, 0.5f);
+    }
     public static Vector2f toRelative(CombatEntityAPI entity, Vector2f point) {
         Vector2f retVal = new Vector2f(point);
         Vector2f.sub(retVal, entity.getLocation(), retVal);
@@ -210,22 +221,11 @@ public class SunUtils
     public static float estimateIncomingDamage(ShipAPI ship, float damageWindowSeconds) {
         float accumulator = 0f;
 
-        for (Iterator iter = Global.getCombatEngine().getBeams().iterator(); iter.hasNext();) {
-            BeamAPI beam = (BeamAPI)iter.next();
+        accumulator += estimateIncomingBeamDamage(ship, damageWindowSeconds);
 
-            if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
-                continue;
-
-            accumulator += beam.getWeapon().getDerivedStats().getDps() * damageWindowSeconds;
-        }
-
-        for (Iterator iter = Global.getCombatEngine().getProjectiles().iterator(); iter.hasNext();) {
-            DamagingProjectileAPI proj = (DamagingProjectileAPI)iter.next();
+        for (DamagingProjectileAPI proj : Global.getCombatEngine().getProjectiles()) {
 
             if(proj.getOwner() == ship.getOwner()) continue; // Ignore friendly projectiles
-
-            //float safeDistance = SAFE_DISTANCE + ship.getCollisionRadius();
-            //float threat = proj.getDamageAmount();
 
             Vector2f endPoint = new Vector2f(proj.getVelocity());
             endPoint.scale(damageWindowSeconds);
@@ -237,6 +237,20 @@ public class SunUtils
                 continue;
 
             accumulator += proj.getDamageAmount();// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
+        }
+
+        return accumulator;
+    }
+    public static float estimateIncomingBeamDamage(ShipAPI ship, float damageWindowSeconds) {
+        float accumulator = 0f;
+
+        for (Iterator iter = Global.getCombatEngine().getBeams().iterator(); iter.hasNext();) {
+            BeamAPI beam = (BeamAPI)iter.next();
+
+            if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
+                continue;
+
+            accumulator += beam.getWeapon().getDerivedStats().getDps() * damageWindowSeconds;
         }
 
         return accumulator;
