@@ -74,7 +74,7 @@ public class RepairArmorAI implements ShipSystemAIScript
 //            ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
 //        }
 
-        if(!AIUtils.canUseSystemThisFrame(ship)) return;
+        //if(!AIUtils.canUseSystemThisFrame(ship)) return;
 
         if(timeOfNextRefresh < Global.getCombatEngine().getTotalElapsedTime(false)) {
             timeOfNextRefresh += REFRESH_FREQUENCY;

@@ -21,7 +21,7 @@ public class PdDroneMissileAI extends BaseMissileAI {
     static final float POTENTIAL_TARGET_RANGE = WEAPON_RANGE * 2;
     static final float WEAPON_COOLDOWN = 0.5f;
     static final int MAX_AMMO = 1200;
-    static final int MAX_ACTIVE_DRONES = 3;
+    public static final int MAX_ACTIVE_DRONES = 3;
     
     Vector2f destOffset = new Vector2f();
     Vector2f dest = new Vector2f();

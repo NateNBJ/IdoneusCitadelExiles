@@ -22,6 +22,7 @@ import data.ai.weapon.MobiusRayAutofireAIPlugin;
 import data.ai.weapon.HypermassDriverAutofireAIPlugin;
 import data.ai.weapon.NosAutofireAIPlugin;
 import data.ai.weapon.NovaDischargerAutofireAIPlugin;
+import data.ai.weapon.PdDroneAutofireAIPlugin;
 import data.world.Ulterius;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
@@ -101,6 +102,8 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new FissionDrillAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_nos")) {
             return new PluginPick(new NosAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if (id.equals("sun_ice_pddrone")) {
+            return new PluginPick(new PdDroneAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickWeaponAutofireAI(weapon);

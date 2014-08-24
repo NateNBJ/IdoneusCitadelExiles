@@ -74,7 +74,7 @@ public class TacticalAnsible extends BaseHullMod {
             CombatFleetManagerAPI fleet = Global.getCombatEngine().getFleetManager(ship.getOwner());
             float cp = fleet.getCommandPointsStat().getModifiedValue();
 
-            SunUtils.print(""+cpLimit);
+            //SunUtils.print(""+cpLimit);
             if(cp < cpLimit) {
                 fleet.getCommandPointsStat().modifyFlat(EFFECT_ID, ++bonus);
             }

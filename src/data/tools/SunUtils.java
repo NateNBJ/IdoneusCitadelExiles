@@ -12,16 +12,15 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javafx.collections.transformation.SortedList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -41,6 +40,21 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static Vector2f toRelative(CombatEntityAPI entity, Vector2f point) {
+        Vector2f retVal = new Vector2f(point);
+        Vector2f.sub(retVal, entity.getLocation(), retVal);
+        VectorUtils.rotate(retVal, -entity.getFacing(), retVal);
+        return retVal;
+    }
+    public static Vector2f toAbsolute(CombatEntityAPI entity, Vector2f point) {
+        Vector2f retVal = new Vector2f(point);
+        VectorUtils.rotate(retVal, entity.getFacing(), retVal);
+        Vector2f.add(retVal, entity.getLocation(), retVal);
+        return retVal;
+    }
+    public static void blink(Vector2f at) {
+        Global.getCombatEngine().addHitParticle(at, new Vector2f(), 20, 1, 0.1f, Color.RED);
+    }
     public static List<CombatEntityAPI> getEntitiesOnSegment(Vector2f from, Vector2f to) {
         float distance = MathUtils.getDistance(from, to);
         Vector2f center = new Vector2f();

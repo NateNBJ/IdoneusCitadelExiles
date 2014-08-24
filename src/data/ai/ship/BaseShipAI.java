@@ -75,7 +75,7 @@ public abstract class BaseShipAI implements ShipAIPlugin {
 //        return direction;
     }
     public ShipCommand strafeToward(Vector2f location) {
-        return strafeAway(VectorUtils.getAngle(ship.getLocation(), location));
+        return strafeToward(VectorUtils.getAngle(ship.getLocation(), location));
     }
     public ShipCommand strafeToward(CombatEntityAPI entity) {
         return strafeToward(entity.getLocation());

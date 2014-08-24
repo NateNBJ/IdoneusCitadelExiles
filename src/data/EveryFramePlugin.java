@@ -7,10 +7,10 @@ import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.SunUtils;
-import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.lwjgl.util.vector.Vector2f;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -67,6 +67,15 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public void advance(float amount, List events) {
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
+        
+//        ShipAPI ship = engine.getPlayerShip();
+//        
+//        for(WeaponAPI w : ship.getAllWeapons()) {
+//            Vector2f temp = SunUtils.toRelative(ship, w.getLocation());
+//            //SunUtils.blink(w.getLocation());
+//            SunUtils.blink(temp);
+//            SunUtils.blink(SunUtils.toAbsolute(ship, temp));
+//        }
     }
 
     @Override

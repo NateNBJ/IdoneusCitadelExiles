@@ -78,8 +78,8 @@ public class NosAutofireAIPlugin implements AutofireAIPlugin {
             se2.x += Math.cos(angle) * shield.getRadius();
             se2.y += Math.sin(angle) * shield.getRadius();
             
-            Global.getCombatEngine().addHitParticle(se1, new Vector2f(), 15, 1, 0.1f, Color.RED);
-            Global.getCombatEngine().addHitParticle(se2, new Vector2f(), 15, 1, 0.1f, Color.RED);
+//            Global.getCombatEngine().addHitParticle(se1, new Vector2f(), 15, 1, 0.1f, Color.RED);
+//            Global.getCombatEngine().addHitParticle(se2, new Vector2f(), 15, 1, 0.1f, Color.RED);
             
             targetVect = (getRangeToHit(se1) < getRangeToHit(se2)) ? se1 : se2;
         }

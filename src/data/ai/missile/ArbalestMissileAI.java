@@ -10,7 +10,7 @@ public class ArbalestMissileAI extends BaseMissileAI {
     static final String SOUND_ID = "engine_accelerate";
     static final float SOUND_PITCH = 0.5f;
     static final float SOUND_VOLUME = 3.0f;
-    static final float FAKE_TURN_MODIFIER = 1.5f;
+    static final float FAKE_TURN_MODIFIER = 10.5f;
     
     int stage = 0; // 0:Drift, 1:Burn, 2:Cruise
     float duration = STAGE_DURATION[stage];
@@ -52,14 +52,14 @@ public class ArbalestMissileAI extends BaseMissileAI {
 
         if(stage < 2) {
             turnToward(target);
-        } else {
+        } else if(!missile.isFizzling()) {
             float angleDif = MathUtils.getShortestRotation(missile.getFacing(),
                 VectorUtils.getAngle(missile.getLocation(), target.getLocation()));
 
             float dAngle = Math.signum(angleDif) * FAKE_TURN_MODIFIER * amount;
 
             VectorUtils.rotate(missile.getVelocity(), dAngle, missile.getVelocity());
-            missile.setFacing(MathUtils.clampAngle(missile.getFacing() + dAngle * (float)(180 / Math.PI)));
+            missile.setFacing(MathUtils.clampAngle(missile.getFacing() + dAngle));
         }
     }
 }

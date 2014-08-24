@@ -1,8 +1,8 @@
 package data.ai.drone;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.SoundAPI;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
-import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI.DroneOrders;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -25,17 +25,18 @@ public class MxDroneAI extends BaseShipAI {
     ShipAPI mothership;
     ShipAPI target;
     DroneLauncherShipSystemAPI system;
-    float countdownToCircumstanceEvaluation = 0f;
-    Vector2f destination;
+    Vector2f targetOffset;
     Point cellToFix = new Point();
     Random rng = new Random();
     ArmorGridAPI armorGrid;
+    SoundAPI repairSound;
     float max, cellSize;
-    int gridWidth, gridHeight, cellCount;
-    boolean performingMaintenance = false;
+    int gridWidth, gridHeight, cellCount, timesLeftToMx = 0;
+    boolean doingMx = false;
     boolean returning = false;
     float dontRestoreAmmoUntil = 0;
     float hpAtLastCheck;
+    float targetFacingOffset = Float.MIN_VALUE;
     
     Vector2f getDestination() {
         return new Vector2f();
@@ -47,15 +48,25 @@ public class MxDroneAI extends BaseShipAI {
     static float mxPriorityUpdateFrequency = 2f;
     static float timeOfMxPriorityUpdate = 2f;
 
-    static final float CIRCUMSTANCE_EVALUATION_FREQUENCY = 1f;
     static final float REPAIR_RANGE = 400f;
     static final float ROAM_RANGE = 3000f;
     static final float REPAIR_AMOUNT = 0.5f;
     static final float CR_PEAK_TIME_RECOVERY_RATE = 3f;
     static final float FLUX_PER_MX_PERFORMED = 1f;
-    static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 5f; // In seconds
-    static final Color ARC_FRINGE_COLOR = new Color(255, 223, 128, 150);
-    static final Color ARC_CORE_COLOR = new Color(255, 191, 0, 200);
+    static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 15f; // In seconds
+//    static final Color ARC_FRINGE_COLOR = new Color(255, 223, 128, 150);
+//    static final Color ARC_CORE_COLOR = new Color(255, 191, 0, 200);
+    
+
+    static final Color SPARK_COLOR = new Color(255, 223, 128);
+    static final String SPARK_SOUND_ID = "system_emp_emitter_loop";
+    static final float SPARK_DURATION = 0.2f;
+    static final float SPARK_BRIGHTNESS = 1.0f;
+    static final float SPARK_MAX_RADIUS = 7f;
+    static final float SPARK_CHANCE = 0.17f;
+    static final float SPARK_SPEED_MULTIPLIER = 500.0f;
+    static final float SPARK_VOLUME = 1.0f;
+    static final float SPARK_PITCH = 1.0f;
 
     static void updateMxPriorities() {
         mxAssistTracker.clear();
@@ -156,28 +167,34 @@ public class MxDroneAI extends BaseShipAI {
 
     @Override
     public void evaluateCircumstances() {
+        --timesLeftToMx;
         if(!mothership.isAlive()) SunUtils.destroy(ship);
         
         if(timeOfMxPriorityUpdate <= Global.getCombatEngine().getTotalElapsedTime(false)
                 || timeOfMxPriorityUpdate > Global.getCombatEngine().getTotalElapsedTime(false) + mxPriorityUpdateFrequency)
             updateMxPriorities();
 
-
+        ShipAPI previousTarget = target;
         setTarget(chooseTarget());
 
-        if(returning) destination = system.getLandingLocation(ship);
-        else destination = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius() / 2f);
-        //else destination = target.getLocation();
-      
-        //destination.x -= target.getLocation().x;
-        //destination.y -= target.getLocation().y;
-        
-        armorGrid = target.getArmorGrid();
-        max = armorGrid.getMaxArmorInCell();
-        cellSize = armorGrid.getCellSize();
-        gridWidth = armorGrid.getGrid().length;
-        gridHeight = armorGrid.getGrid()[0].length;
-        cellCount = gridWidth * gridHeight;
+        if(returning) {
+            targetOffset = SunUtils.toRelative(target, system.getLandingLocation(ship));
+        } else if(target != previousTarget || timesLeftToMx < 1) {
+            timesLeftToMx = 5;
+            
+            do {
+                targetOffset = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
+            } while(!CollisionUtils.isPointWithinBounds(targetOffset, target));
+            
+            targetOffset = SunUtils.toRelative(target, targetOffset);
+
+            armorGrid = target.getArmorGrid();
+            max = armorGrid.getMaxArmorInCell();
+            cellSize = armorGrid.getCellSize();
+            gridWidth = armorGrid.getGrid().length;
+            gridHeight = armorGrid.getGrid()[0].length;
+            cellCount = gridWidth * gridHeight;
+        }
 
         if ((target.getPhaseCloak() == null || !target.getPhaseCloak().isOn())
                 && !returning
@@ -187,13 +204,13 @@ public class MxDroneAI extends BaseShipAI {
                 && ((Float)mxPriorities.get(target)) > 0) {
 
             performMaintenance();
-        } else performingMaintenance = false;
+        } else {
+            doingMx = false;
+        }
         
-        if(performingMaintenance == ship.getPhaseCloak().isOn()) ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
-
+        if(doingMx == ship.getPhaseCloak().isOn()) ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+        
         hpAtLastCheck = ship.getHitpoints();
-
-        countdownToCircumstanceEvaluation = (CIRCUMSTANCE_EVALUATION_FREQUENCY / 2) + CIRCUMSTANCE_EVALUATION_FREQUENCY * (float)Math.random();
     }
     void performMaintenance() {
         for(int i = 0; i < (1 + cellCount / 5); ++i) {
@@ -208,17 +225,17 @@ public class MxDroneAI extends BaseShipAI {
         for(int i = 0; (i < 10) && !CollisionUtils.isPointWithinBounds(at, target); ++i)
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
 
-        Global.getCombatEngine().spawnEmpArc(ship, at, target, ship,
-                DamageType.ENERGY, 0, 0, REPAIR_RANGE,
-                "tachyon_lance_emp_impact", 12f,
-                ARC_FRINGE_COLOR,
-                ARC_CORE_COLOR);
+//        Global.getCombatEngine().spawnEmpArc(ship, at, target, ship,
+//                DamageType.ENERGY, 0, 0, REPAIR_RANGE,
+//                "tachyon_lance_emp_impact", 12f,
+//                ARC_FRINGE_COLOR,
+//                ARC_CORE_COLOR);
 
         restoreAmmo();
 
         ship.getFluxTracker().setCurrFlux(ship.getFluxTracker().getCurrFlux() + FLUX_PER_MX_PERFORMED);
 
-        performingMaintenance = true;
+        doingMx = true;
     }
     void restoreAmmo() {
         if(dontRestoreAmmoUntil > Global.getCombatEngine().getTotalElapsedTime(false)) return;
@@ -278,8 +295,6 @@ public class MxDroneAI extends BaseShipAI {
 
             peakTimeRecovered += (t > 0) ? t : 0;
 
-            //if(t > 0) Utils.print("CR Loss Stopped!");
-
             peakTimeRecovered += amount * (CR_PEAK_TIME_RECOVERY_RATE + target.getHullSpec().getCRLossPerSecond());
             peakTimeRecovered = Math.min(peakTimeRecovered, target.getTimeDeployedForCRReduction());
             target.getMutableStats().getPeakCRDuration().modifyFlat("sun_ice_drone_mx_repair", peakTimeRecovered);
@@ -324,28 +339,58 @@ public class MxDroneAI extends BaseShipAI {
         this.ship.setShipTarget(target = ship);
     }
     void goToDestination() {
-        Vector2f to = destination;
-        //to.x += target.getLocation().x;
-        //to.y += target.getLocation().y;
+        Vector2f to = SunUtils.toAbsolute(target, targetOffset);
+        float distance = MathUtils.getDistance(ship, to);
+        
+        if(doingMx) {
+            if(distance < 100) {
+                float f = (1 - distance / 100) * 0.2f;
+                ship.getLocation().x = (to.x * f + ship.getLocation().x * (2 - f)) / 2;
+                ship.getLocation().y = (to.y * f + ship.getLocation().y * (2 - f)) / 2;
+                ship.getVelocity().x = (target.getVelocity().x * f + ship.getVelocity().x * (2 - f)) / 2;
+                ship.getVelocity().y = (target.getVelocity().y * f + ship.getVelocity().y * (2 - f)) / 2;
+            }
+        }
+        
+        if(doingMx && distance < 25) {
+            Global.getSoundPlayer().playLoop(SPARK_SOUND_ID, ship, SPARK_PITCH,
+                    SPARK_VOLUME, ship.getLocation(), ship.getVelocity());
 
-        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), VectorUtils.getAngle(ship.getLocation(), to));
+            if(targetFacingOffset == Float.MIN_VALUE) {
+                targetFacingOffset = ship.getFacing() - target.getFacing();
+            } else {
+                ship.setFacing(MathUtils.clampAngle(targetFacingOffset + target.getFacing()));
+            }
+            
+            if(Math.random() < SPARK_CHANCE) {
+                Vector2f loc = new Vector2f(ship.getLocation());
+                loc.x += cellSize * 0.5f - cellSize * (float) Math.random();
+                loc.y += cellSize * 0.5f - cellSize * (float) Math.random();
 
-        if(Math.abs(angleDif) < 30){
-            accelerate();
+                Vector2f vel = new Vector2f(ship.getVelocity());
+                vel.x += (Math.random() - 0.5f) * SPARK_SPEED_MULTIPLIER;
+                vel.y += (Math.random() - 0.5f) * SPARK_SPEED_MULTIPLIER;
 
-//            drone.giveCommand(ShipCommand.ACCELERATE, to, 0);
+                Global.getCombatEngine().addHitParticle(loc, vel,
+                        (SPARK_MAX_RADIUS * (float) Math.random() + SPARK_MAX_RADIUS),
+                        SPARK_BRIGHTNESS,
+                        SPARK_DURATION * (float) Math.random() + SPARK_DURATION,
+                        SPARK_COLOR);
+            }
         } else {
-            if(angleDif > 0) turnLeft();
-            else turnRight();
+            targetFacingOffset = Float.MIN_VALUE;
+            float angleDif = MathUtils.getShortestRotation(ship.getFacing(), VectorUtils.getAngle(ship.getLocation(), to));
 
-            decelerate();
-
-//            ShipCommand direction = (angleDif > 0) ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
-//            drone.giveCommand(direction, to, 0);
-//            drone.giveCommand(ShipCommand.DECELERATE, to, 0);
-        }        
+            if(Math.abs(angleDif) < 30){
+                accelerate();
+            } else {
+                turnToward(to);
+                decelerate();
+            }        
+            strafeToward(to);
+        }
     }
-
+   
     public MxDroneAI() {}
     public MxDroneAI(ShipAPI drone, ShipAPI mothership, DroneLauncherShipSystemAPI system) {
         this.ship = drone;
@@ -362,7 +407,7 @@ public class MxDroneAI extends BaseShipAI {
         
         if(target == null) return;
         
-        if (performingMaintenance) {
+        if (doingMx) {
             if(target.getHullSpec().getHullId().startsWith("sun_ice_"))
                 repairArmor();
             maintainCR(amount);
