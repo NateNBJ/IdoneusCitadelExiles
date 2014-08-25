@@ -3,7 +3,9 @@ package data.hullmods;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
+import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
+import data.tools.IntervalTracker;
 import data.tools.SunUtils;
 import java.awt.Color;
 import java.util.Map;
@@ -12,20 +14,24 @@ import java.util.WeakHashMap;
 import org.lwjgl.util.vector.Vector2f;
 
 public class NovaReactor extends BaseHullMod
-{
-    static final String id = "sun_ice_nova_reactor";
-    static final Random rand = new Random();
-    static final float ARMOR_REPAIR_MULTIPLIER = 1000.0f;
-    static final float TURN_ACCEL_MULTIPLIER = 4.0f;
-    static final float TURN_SPEED_MULTIPLIER = 8.0f;
-    static Map hardFlux = new WeakHashMap();
-    
+{    
     static final Color SPARK_COLOR = new Color(255, 223, 128);
     static final float SPARK_DURATION = 0.3f;
     static final float SPARK_BRIGHTNESS = 0.8f;
     static final float SPARK_MAX_RADIUS = 10f;
     static final float SPARK_CHANCE = 1.0f;
     static final float SPARK_SPEED_MULTIPLIER = 100.0f;
+    
+    static final String id = "sun_ice_nova_reactor";
+    static final Random rand = new Random();
+    static final float ARMOR_REPAIR_MULTIPLIER = 1000.0f;
+    static final float TURN_ACCEL_MULTIPLIER = 4.0f;
+    static final float TURN_SPEED_MULTIPLIER = 8.0f;
+    static final float CLOAK_TOGGLE_THRESHHOLD = 100.0f;
+    //static Map hardFlux = new WeakHashMap();
+    static Map<ShipAPI, IntervalTracker> timers = new WeakHashMap();
+    static Map<ShipAPI, Boolean> phasedLastTurn = new WeakHashMap();
+    //static Map<ShipAPI, Float> rotationLastTurn = new WeakHashMap();
     
     void repairArmor(ShipAPI ship, float amount) {
         if(ship.getFluxTracker().isOverloadedOrVenting()
@@ -83,6 +89,14 @@ public class NovaReactor extends BaseHullMod
 //        }
     }
     void provideManueverabilityBoostDuringVent(ShipAPI ship) {
+        // Force AI to Take advantage of turn rate bonus from venting
+        if(ship.getAngularVelocity() > 0.95f * ship.getMutableStats().getMaxTurnRate().getModifiedValue()
+                && ship.getShipAI() != null
+                && !ship.getSystem().isActive()
+                && ship.getFluxTracker().getFluxLevel() > 0.4f) {
+            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
+        }
+        
         if(ship.getFluxTracker().isVenting()) {
             ship.getMutableStats().getTurnAcceleration().modifyMult(id, TURN_ACCEL_MULTIPLIER);
             ship.getMutableStats().getMaxTurnRate().modifyMult(id, TURN_SPEED_MULTIPLIER);
@@ -91,40 +105,65 @@ public class NovaReactor extends BaseHullMod
             ship.getMutableStats().getMaxTurnRate().unmodify(id);
         }
     }
-
+    void checkIfShouldToggleCloak(ShipAPI ship) {
+        if(ship.getShipAI() == null || ship.getFluxTracker().isOverloadedOrVenting())
+            return;
+        
+//        boolean tryingToTurn = ship.getAngularVelocity() > 0.95f
+//                * ship.getMutableStats().getMaxTurnRate().getModifiedValue()
+//                || ship.getAngularVelocity() > rotationLastTurn.get(ship);
+        float flux = (float)Math.sqrt(ship.getFluxTracker().getFluxLevel());
+        float damage = SunUtils.estimateIncomingDamage(ship, 1);
+        float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
+        float phaseNecessity = (damage * (1.2f - armor)) * (1 - flux);
+        //float phaseNecessity = (damage * (1.2f - armor) + (tryingToTurn ? 250 : 0)) * (1 - flux);
+        boolean shouldToggle = ship.getPhaseCloak().isActive()
+                ? phaseNecessity < CLOAK_TOGGLE_THRESHHOLD
+                : phaseNecessity > CLOAK_TOGGLE_THRESHHOLD * 1.25f;
+        
+        if(shouldToggle) {
+            SunUtils.print(ship, "" + phaseNecessity);
+            ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
+        }
+    }
+    
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
         super.advanceInCombat(ship, amount);
         
         if(Global.getCombatEngine().isPaused()) return;
 
-        // Force AI to Take advantage of turn rate bonus from venting
-        if(ship.getAngularVelocity() > 0.9f * ship.getMutableStats().getMaxTurnRate().getModifiedValue()
-                && ship.getShipAI() != null
-                && !ship.getSystem().isActive()
-                && ship.getFluxTracker().getFluxLevel() > 0.4f) {
-            ship.giveCommand(ShipCommand.VENT_FLUX, null, 0);
-        }
 
-        for (int i = 0; i < 3; ++i) repairArmor(ship, amount);
+        for (int i = 0; i < 5; ++i) repairArmor(ship, amount);
         //preventHardFluxDissapation(ship);
-        provideManueverabilityBoostDuringVent(ship);
+        //provideManueverabilityBoostDuringVent(ship);
         
-        //Global.getSettings().loadCSV("eaf").
+        if(timers.get(ship).intervalElapsed()
+                || (ship.getPhaseCloak().isActive() && !phasedLastTurn.get(ship)))
+            checkIfShouldToggleCloak(ship);
+        
+        phasedLastTurn.put(ship, ship.getPhaseCloak().isActive());
+        //rotationLastTurn.put(ship, ship.getAngularVelocity());
+    }
+
+
+
+
+    @Override
+    public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
+        super.applyEffectsBeforeShipCreation(hullSize, stats, id);
+        
+        ShipAPI ship = (ShipAPI)stats.getEntity();
+        timers.put(ship, new IntervalTracker(0.3f, 0.5f));
+        //hardFlux.put(ship, 0f);
+        phasedLastTurn.put(ship, false);
+        //rotationLastTurn.put(ship, 0f);
+        //SunUtils.setArmorPercentage(ship, -19876);
     }
 
 
     @Override
-    public void applyEffectsAfterShipCreation(ShipAPI ship, String id)
-    {
-        hardFlux.put(ship, 0f);
-        SunUtils.setArmorPercentage(ship, -19876);
-    }
-
-
-    @Override
-    public boolean isApplicableToShip(ShipAPI ship)
-    {
+    public boolean isApplicableToShip(ShipAPI ship) {
         return false;
     }
 }

@@ -152,6 +152,19 @@ public class SunUtils
 //        
 //        return shieldUpkeeps.get(ship.getHullSpec().getHullId());
     }
+    public static float getArmorPercent(ShipAPI ship) {
+        float acc = 0;
+        int width = ship.getArmorGrid().getGrid().length;
+        int height = ship.getArmorGrid().getGrid()[0].length;
+        
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                acc += ship.getArmorGrid().getArmorFraction(x, y);
+            }
+        }
+        
+        return acc / (width * height);
+    }
     public static void setArmorPercentage(ShipAPI ship, float armorPercent) {
         ArmorGridAPI armorGrid = ship.getArmorGrid();
 

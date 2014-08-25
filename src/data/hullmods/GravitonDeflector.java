@@ -1,24 +1,22 @@
 package data.hullmods;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BeamAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.SunUtils;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
-import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class GravitonDeflector extends BaseHullMod {
     static final float FORCE_MULTIPLIER = 300f;
     static final float MAX_ANGLE_DIFFERENCE = 20f;
     static final float DAMAGE_WINDOW_SECONDS = 2f;
+    static final float CLOAK_DAMAGE_THRESHHOLD = 100f;
 
     int framesOfPhase = 0;
     LinkedList<DamagingProjectileAPI> undiflectedOrdnance;
@@ -46,7 +44,7 @@ public class GravitonDeflector extends BaseHullMod {
         
         SunUtils.print(ship, "" + accumulator);
         
-        return accumulator < 100;
+        return accumulator < CLOAK_DAMAGE_THRESHHOLD;
     }
     
     @Override
@@ -56,7 +54,6 @@ public class GravitonDeflector extends BaseHullMod {
         } else ++framesOfPhase;
         
         if(!ship.isAlive()
-                //|| (ship.getPhaseCloak() != null && ship.getPhaseCloak().isOn())
                 || framesOfPhase > 1
                 || (ship.getSystem() != null && ship.getSystem().isOn())
                 || ship.getFluxTracker().isOverloadedOrVenting()
@@ -67,11 +64,9 @@ public class GravitonDeflector extends BaseHullMod {
         
         Collection<DamagingProjectileAPI> projectiles =
                 Global.getCombatEngine().getProjectiles();
-                //CombatUtils.getProjectilesWithinRange(ship.getLocation(), ship.getCollisionRadius() * 5);
         
         if(checkingPhase) undiflectedOrdnance = new LinkedList(projectiles);
 
-        //for(DamagingProjectileAPI proj : Global.getCombatEngine().getProjectiles()) {
         for(DamagingProjectileAPI proj : projectiles) {
             // Make sure the projectile is moving in the opposite direction of the ship's facing
             float angleDif = MathUtils.getShortestRotation(ship.getFacing(),

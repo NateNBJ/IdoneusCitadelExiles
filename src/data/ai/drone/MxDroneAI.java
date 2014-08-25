@@ -118,19 +118,6 @@ public class MxDroneAI extends BaseShipAI {
 
         return Math.max(0, secondsTilCrLoss);
     }
-    static float getArmorPercent(ShipAPI ship) {
-        float acc = 0;
-        int width = ship.getArmorGrid().getGrid().length;
-        int height = ship.getArmorGrid().getGrid()[0].length;
-        
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                acc += ship.getArmorGrid().getArmorFraction(x, y);
-            }
-        }
-        
-        return acc / (width * height);
-    }
     static float getExpendedOrdnancePoints(ShipAPI ship) {
         float acc = 0;
 
@@ -151,7 +138,7 @@ public class MxDroneAI extends BaseShipAI {
         float peakCrLeft = getSecondsTilCrLoss(ship);
         
         if(ship.getHullSpec().getHullId().startsWith("sun_ice_"))
-            priority += 1.0f * (1 - getArmorPercent(ship)) * fp;
+            priority += 1.0f * (1 - SunUtils.getArmorPercent(ship)) * fp;
         priority += 0.5f * getExpendedOrdnancePoints(ship);
 
         if(ship.losesCRDuringCombat())

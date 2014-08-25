@@ -36,7 +36,7 @@ public class GravimetricSensors extends BaseHullMod {
     
     void doSkimAiHack(ShipAPI ship, float amount) {
         String id = ship.getHullSpec().getHullId();
-        ShipSystemAPI cloak = (id.equals("sun_ice_abraxas") || id.equals("sun_ice_athame"))
+        ShipSystemAPI cloak = id.equals("sun_ice_athame")
                 ? ship.getSystem()
                 : ship.getPhaseCloak();
 
@@ -66,7 +66,7 @@ public class GravimetricSensors extends BaseHullMod {
                 && !ship.getTravelDrive().isActive()
                 && ship.getFluxTracker().getFluxLevel() == 0
                 && speed >= ship.getMutableStats().getMaxSpeed().getModifiedValue() - 2
-                && AIUtils.getNearbyEnemies(ship, 2000).isEmpty()
+                && AIUtils.getNearbyEnemies(ship, 1000).isEmpty()
                 && (task == null || task.getTarget() == null || MathUtils.getDistance(ship, task.getTarget().getLocation()) > 800)) {
 
             if(ship.getPhaseCloak() == cloak) {
