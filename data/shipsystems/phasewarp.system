@@ -7,8 +7,8 @@
 	
 	"jitterColor":[200,240,230,255],
 	"jitterCopies":5,
-	"jitterRange":50,
-	"jitterRangeRadiusFraction":0,
+	"jitterRange":10,
+	"jitterRangeRadiusFraction":0.15,
 	
 	"clampTurnRateAfter":true,
 	"clampMaxSpeedAfter":true,

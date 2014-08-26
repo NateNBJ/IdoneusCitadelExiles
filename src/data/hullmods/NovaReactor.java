@@ -138,16 +138,20 @@ public class NovaReactor extends BaseHullMod
         //preventHardFluxDissapation(ship);
         //provideManueverabilityBoostDuringVent(ship);
         
-        if(timers.get(ship).intervalElapsed()
-                || (ship.getPhaseCloak().isActive() && !phasedLastTurn.get(ship)))
-            checkIfShouldToggleCloak(ship);
-        
-        phasedLastTurn.put(ship, ship.getPhaseCloak().isActive());
+//        if(timers.get(ship).intervalElapsed()
+//                || (ship.getPhaseCloak().isActive() && !phasedLastTurn.get(ship)))
+//            checkIfShouldToggleCloak(ship);
+//        
+//        phasedLastTurn.put(ship, ship.getPhaseCloak().isActive());
         //rotationLastTurn.put(ship, ship.getAngularVelocity());
+        
+        float turnRate = ship.getAngularVelocity();
+        float turnRateLimit = ship.getMutableStats().getMaxTurnRate().getModifiedValue();
+        
+        if(ship.getSystem().isCoolingDown() && Math.abs(turnRate) > turnRateLimit) {
+            ship.setAngularVelocity(turnRate * (1 - amount * 2f));
+        }
     }
-
-
-
 
     @Override
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -160,7 +164,6 @@ public class NovaReactor extends BaseHullMod
         //rotationLastTurn.put(ship, 0f);
         //SunUtils.setArmorPercentage(ship, -19876);
     }
-
 
     @Override
     public boolean isApplicableToShip(ShipAPI ship) {

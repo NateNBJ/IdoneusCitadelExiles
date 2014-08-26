@@ -68,14 +68,8 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
         
-//        ShipAPI ship = engine.getPlayerShip();
-//        
-//        for(WeaponAPI w : ship.getAllWeapons()) {
-//            Vector2f temp = SunUtils.toRelative(ship, w.getLocation());
-//            //SunUtils.blink(w.getLocation());
-//            SunUtils.blink(temp);
-//            SunUtils.blink(SunUtils.toAbsolute(ship, temp));
-//        }
+//        ShipAPI ship = engine.getPlayerShip();        
+//        ship.getSpriteAPI().setAlphaMult(0.1f);
     }
 
     @Override

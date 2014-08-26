@@ -40,6 +40,22 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static float estimateOptimalRange(ShipAPI ship) {
+        float acc = 0, opAcc = 0;
+        
+        for(WeaponAPI w :ship.getAllWeapons()) {
+            float op = w.getSpec().getOrdnancePointCost(null);
+             if(w.getDamageType() == DamageType.FRAGMENTATION) op *= 0.25f;
+            opAcc += op;
+            acc += op * w.getRange();
+        }
+        
+        return acc / opAcc;
+    }
+    public static Vector2f getDirectionalVector(float degrees) {
+        double radians = Math.toRadians(degrees);
+        return new Vector2f((float)Math.cos(radians), (float)Math.sin(radians));
+    }
     public static Vector2f getMidpoint(Vector2f from, Vector2f to, float d) {
         d *= 2;
         
@@ -249,7 +265,7 @@ public class SunUtils
                         new Vector2f(ship.getLocation()), ship.getCollisionRadius()))
                 continue;
 
-            accumulator += proj.getDamageAmount();// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
+            accumulator += proj.getDamageAmount() + proj.getEmpAmount();// * Math.max(0, Math.min(1, Math.pow(1 - MathUtils.getDistance(proj, ship) / safeDistance, 2)));
         }
 
         return accumulator;
@@ -260,10 +276,20 @@ public class SunUtils
         for (Iterator iter = Global.getCombatEngine().getBeams().iterator(); iter.hasNext();) {
             BeamAPI beam = (BeamAPI)iter.next();
 
-            if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
+            if(!CollisionUtils.getCollides(beam.getFrom(), beam.getTo(),
+                    ship.getLocation(), ship.getCollisionRadius()))
                 continue;
+            
+            //if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
+//            if(beam.getDamageTarget() != ship)
+//                continue;
+            
+            float dps = beam.getWeapon().getDerivedStats().getBurstDamage();
+            float emp = beam.getWeapon().getDerivedStats().getEmpPerSecond();
 
-            accumulator += beam.getWeapon().getDerivedStats().getDps() * damageWindowSeconds;
+            accumulator += (beam.getWeapon().getDerivedStats().getBurstDamage()
+                    + beam.getWeapon().getDerivedStats().getEmpPerSecond())
+                    * damageWindowSeconds;
         }
 
         return accumulator;
@@ -278,7 +304,7 @@ public class SunUtils
             if(missile.getOwner() == ship.getOwner()) continue; // Ignore friendly missiles
 
             float safeDistance = SAFE_DISTANCE + ship.getCollisionRadius();
-            float threat = missile.getDamageAmount();
+            float threat = missile.getDamageAmount() + missile.getEmpAmount();
 
             if(ship.getShield() != null && ship.getShield().isWithinArc(missile.getLocation()))
                 continue;
@@ -350,6 +376,7 @@ public class SunUtils
         
         for(Iterator iter = AIUtils.getNearbyAllies(ship, range).iterator(); iter.hasNext();) {
             ShipAPI ally = (ShipAPI)iter.next();
+            if(ally == ship) continue;
             float colDist = ship.getCollisionRadius() + ally.getCollisionRadius();
             float distance = Math.max(0, MathUtils.getDistance(ship, ally) - colDist);
             float maxRange = Math.max(1, range - colDist);

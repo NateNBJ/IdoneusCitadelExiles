@@ -4,6 +4,7 @@ Phase Rush,sun_ice_advphasewarp,,,,,,,,,0.25,,0.25,0.25,TRUE,,TRUE,TRUE,TRUE,,,T
 Phase Warp Engine,sun_ice_phasewarpeng,,,,,,,,,1,2,0.25,5,,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
 Phase Cloak,sun_ice_phasecloak,,,,,,,,,0.5,,0.5,0,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
 Phase Shift,sun_ice_phaseshift,,,,,,,,,0.5,,0.5,1,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,graphics/icons/hullsys/phase_cloak.png
+Phase Jaunt,sun_ice_jaunt,,,0.05,,,,,,1,,1,2,TRUE,,TRUE,TRUE,,,,,,graphics/icons/hullsys/phase_cloak.png
 Flux Drive,sun_ice_fluxdrive,,,,,,,3,0.035,1,4,0.5,0,,,TRUE,TRUE,,,TRUE,TRUE,TRUE,graphics/icons/hullsys/burn_drive.png
 FoF Inverter ECM,sun_ice_fofinverter,,,,,,,,,,5,,20,,,,,,,,,,graphics/icons/hullsys/phase_cloak.png
 Armor Repair Matrix,sun_ice_repairarmor,,,,,,,,,1,,1,2,TRUE,,TRUE,TRUE,,,,,TRUE,graphics/icons/hullsys/phase_cloak.png

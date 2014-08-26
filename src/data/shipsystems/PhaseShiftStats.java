@@ -3,6 +3,7 @@ package data.shipsystems;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamageType;
+import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
@@ -64,7 +65,6 @@ public class PhaseShiftStats implements ShipSystemStatsScript {
         } else {
             stats.getTurnAcceleration().modifyFlat(id, 100 * effectLevel);
             stats.getMaxTurnRate().modifyFlat(id, 75 * effectLevel);
-            
 //
 //        //ship.getSpriteAPI().setAlphaMult(1 - effectLevel);
 //

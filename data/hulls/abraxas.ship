@@ -103,13 +103,14 @@
   ],
   "builtInWeapons": {
     "LIGHTS": "sun_ice_abraxas_lights",
+    "SYSTEM": "sun_ice_abraxas_system",
     "WS0001": "sun_ice_nova"
   },
   "center": [
     153,
     187
   ],
-  "collisionRadius": 223.143448,
+  "collisionRadius": 223,
   "engineSlots": [
     {
       "angle": 180,
@@ -190,7 +191,7 @@
     },
     {
       "angle": -160.935455,
-      "contrailSize": 12.224422,
+      "contrailSize": 128,
       "length": 48.136688,
       "location": [
         -186,
@@ -201,7 +202,7 @@
     },
     {
       "angle": 160.935455,
-      "contrailSize": 12.224422,
+      "contrailSize": 128,
       "length": 48.136688,
       "location": [
         -186,
@@ -212,7 +213,7 @@
     },
     {
       "angle": -158.014755,
-      "contrailSize": 13.488762,
+      "contrailSize": 128,
       "length": 39.389255,
       "location": [
         -177,
@@ -223,7 +224,7 @@
     },
     {
       "angle": 158.014755,
-      "contrailSize": 13.488762,
+      "contrailSize": 128,
       "length": 39.389255,
       "location": [
         -177,
@@ -234,7 +235,7 @@
     },
     {
       "angle": -170.607544,
-      "contrailSize": 10.251667,
+      "contrailSize": 128,
       "length": 24.160419,
       "location": [
         -19,
@@ -245,7 +246,7 @@
     },
     {
       "angle": 170.607544,
-      "contrailSize": 10.251667,
+      "contrailSize": 128,
       "length": 24.160419,
       "location": [
         -19,
@@ -256,7 +257,7 @@
     },
     {
       "angle": -170.607544,
-      "contrailSize": 11.423709,
+      "contrailSize": 128,
       "length": 32.872856,
       "location": [
         -24,
@@ -267,7 +268,7 @@
     },
     {
       "angle": 170.607544,
-      "contrailSize": 11.423709,
+      "contrailSize": 128,
       "length": 32.872856,
       "location": [
         -24,
@@ -285,7 +286,7 @@
     24.5,
     -0
   ],
-  "shieldRadius": 196.000641,
+  "shieldRadius": 210,
   "spriteName": "graphics/sun_ice/ships/Abraxas.png",
   "style": "SUN_ICE",
   "viewOffset": 0,
@@ -486,6 +487,18 @@
       "angle": 0,
       "arc": 0,
       "id": "LIGHTS",
+      "locations": [
+        6,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
       "locations": [
         6,
         0
