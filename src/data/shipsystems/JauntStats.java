@@ -21,7 +21,7 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class JauntStats implements ShipSystemStatsScript {
-    static final float MAX_RANGE = 800;
+    public static final float MAX_RANGE = 800;
     static final float REPELL_FORCE = 0.5f;
     static final float SUPPORT_RANGE = 2000f;
     static final int DESTINATION_CANDIDATE_COUNT = 11;
@@ -44,7 +44,7 @@ public class JauntStats implements ShipSystemStatsScript {
     }
     Vector2f chooseDestination() {
         Vector2f retVal = null, shipLoc = new Vector2f(ship.getLocation());
-        boolean aggressing = ship.getFluxTracker().getFluxLevel() < 0.4 + Math.random() * 3;
+        boolean aggressing = ship.getFluxTracker().getFluxLevel() < 0.4 + Math.random() * 0.3;
         float range = MAX_RANGE + ship.getCollisionRadius();
         float weaponRange = SunUtils.estimateOptimalRange(ship);
         float bestScore = -999999; // Float.MIN_VALUE won't work for some reason. Why?
@@ -59,17 +59,16 @@ public class JauntStats implements ShipSystemStatsScript {
             
             ship.getLocation().set(candidate);
             float score = SunUtils.getFPWorthOfSupport(ship, SUPPORT_RANGE)
-                    - SunUtils.getFPWorthOfEnemies(ship, SUPPORT_RANGE)
+            //        - Math.max(0, SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE) - SunUtils.getFP(ship) * ship.getFluxTracker().getFluxLevel())
                     - SunUtils.estimateIncomingDamage(ship);
             
             if(!pointIsClear(candidate)) score -= ship.getCollisionRadius() / 10;
             
             if(aggressing) {
-                // TODO - Make this more flexible about finding targets
                 ShipAPI enemy = AIUtils.getNearestEnemy(ship);
                 if(MathUtils.getDistance(ship, enemy) < weaponRange)
-                    score += SunUtils.getFP(enemy);
-            }
+                    score += SunUtils.getFP(enemy) * (0.5f + enemy.getFluxTracker().getFluxLevel());
+            } else score -= SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE);
             
             if(score > bestScore) {
                 bestScore = score;
@@ -97,11 +96,8 @@ public class JauntStats implements ShipSystemStatsScript {
         if(state == ShipSystemStatsScript.State.ACTIVE) {
             ship.setCollisionClass(CollisionClass.SHIP);
             stats.getMaxSpeed().unmodify(id);
-//            stats.getMaxTurnRate().unmodify(id);
-//            stats.getTurnAcceleration().unmodify(id);
             stats.getTurnAcceleration().modifyFlat(id, 50);
             stats.getMaxTurnRate().modifyFlat(id, 25);
-            //stats.getFluxDissipation().modifyPercent(id, 150);
             
             destination = new Vector2f(ship.getLocation());
             
@@ -176,7 +172,7 @@ public class JauntStats implements ShipSystemStatsScript {
         at.y += (float)(Math.random() - 0.5) * 5;
         doppelganger.getLocation().set(at);
         
-        // TODO - Make this move them directly instead of applying force, also don't push fighters
+        // TODO - Make this move them directly instead of applying force
         
         // Push entities away from the doppelganger to keep that space available
         List<CombatEntityAPI> entities = new ArrayList();
@@ -184,6 +180,8 @@ public class JauntStats implements ShipSystemStatsScript {
         entities.addAll(engine.getAsteroids());
         //entities.remove(ship);
         for(CombatEntityAPI entity : entities) {
+            if(entity instanceof ShipAPI && ((ShipAPI)entity).isFighter())
+                continue;
             float distance = MathUtils.getDistance(entity, origin);
             float force = Math.min(1, 2 - distance / ship.getCollisionRadius());
 
@@ -219,9 +217,6 @@ public class JauntStats implements ShipSystemStatsScript {
         if (index == 0) {
             return new StatusData("increased rotation speed", false);
         }
-//        else if (index == 1) {
-//            return new StatusData("increased flux dissipation", false);
-//        }
         return null;
     }
 }

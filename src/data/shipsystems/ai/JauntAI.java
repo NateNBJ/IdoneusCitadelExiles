@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
+import data.shipsystems.JauntStats;
 import data.tools.IntervalTracker;
 import data.tools.SunUtils;
 import java.util.Map;
@@ -36,9 +37,8 @@ public class JauntAI implements ShipSystemAIScript {
     public void advance(float amount, Vector2f missileDangerDir, Vector2f collisionDangerDir, ShipAPI target) {
         FluxTrackerAPI reactor = ship.getFluxTracker();
         
-        // TODO - Activate to approach distant target
-        
         if(!timer.intervalElapsed() || ship == null
+                || system.isCoolingDown()
                 || reactor.isOverloadedOrVenting()
                 || ship.getCollisionClass() == CollisionClass.NONE)
             return;
@@ -64,7 +64,25 @@ public class JauntAI implements ShipSystemAIScript {
             ship.getLocation().set(origins.get(ship));
             damage -= SunUtils.estimateIncomingBeamDamage(ship, 3);
             ship.getLocation().set(temp);
-        } else ticksWithoutDissipation = 0;
+        } else {
+            ticksWithoutDissipation = 0;
+            
+            // Check if we're in a good position to attack a distant target remotely
+            if(reactor.getFluxLevel() < 0.3f) {
+                int enemy = (ship.getOwner() + 1) % 2;
+                float range = SunUtils.estimateOptimalRange(ship);
+                float fp = SunUtils.getFP(ship);
+                float hostilityInEminentRange = SunUtils.countFPInArea(
+                        ship.getLocation(), range, enemy);
+                float hostilityInRemoteRange = Math.min(fp, SunUtils.countFPInArea(
+                        ship.getLocation(), range + JauntStats.MAX_RANGE,
+                        enemy) - hostilityInEminentRange);
+
+                if(hostilityInEminentRange < fp / 6 && hostilityInRemoteRange > fp / 6) {
+                    phaseNecessity += USE_THRESHHOLD;
+                }
+            }
+        }
         
         phaseNecessity += (damage * (1.2f - armor)) * (1 - flux);
         

@@ -16,11 +16,11 @@ import org.lwjgl.util.vector.Vector2f;
 public class NovaReactor extends BaseHullMod
 {    
     static final Color SPARK_COLOR = new Color(255, 223, 128);
-    static final float SPARK_DURATION = 0.3f;
-    static final float SPARK_BRIGHTNESS = 0.8f;
-    static final float SPARK_MAX_RADIUS = 10f;
+    static final float SPARK_DURATION = 0.2f;
+    static final float SPARK_BRIGHTNESS = 0.95f;
+    static final float SPARK_MAX_RADIUS = 6f;
     static final float SPARK_CHANCE = 1.0f;
-    static final float SPARK_SPEED_MULTIPLIER = 100.0f;
+    static final float SPARK_SPEED_MULTIPLIER = 300.0f;
     
     static final String id = "sun_ice_nova_reactor";
     static final Random rand = new Random();

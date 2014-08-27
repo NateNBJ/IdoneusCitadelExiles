@@ -28,9 +28,9 @@ import org.lwjgl.util.vector.Vector2f;
 public class SunUtils
 {
     static Map<String, Float> shieldUpkeeps;
-    static final Map baseOverloadTimes = new HashMap();
     static final float SAFE_DISTANCE = 600f;
     static final float DEFAULT_DAMAGE_WINDOW = 3f;
+    static final Map baseOverloadTimes = new HashMap();
     static {
         baseOverloadTimes.put(HullSize.FIGHTER, 10f);
         baseOverloadTimes.put(HullSize.FRIGATE,  4f);
@@ -82,46 +82,46 @@ public class SunUtils
     public static void blink(Vector2f at) {
         Global.getCombatEngine().addHitParticle(at, new Vector2f(), 20, 1, 0.1f, Color.RED);
     }
-    public static List<CombatEntityAPI> getEntitiesOnSegment(Vector2f from, Vector2f to) {
+    public static List<ShipAPI> getShipsOnSegment(Vector2f from, Vector2f to) {
         float distance = MathUtils.getDistance(from, to);
         Vector2f center = new Vector2f();
         center.x = (from.x + to.x) / 2;
         center.y = (from.y + to.y) / 2;
         
-        List<CombatEntityAPI> list = new ArrayList<CombatEntityAPI>();
+        List<ShipAPI> list = new ArrayList<ShipAPI>();
         
-        for(CombatEntityAPI e : CombatUtils.getEntitiesWithinRange(center, distance / 2)) {
-            if(CollisionUtils.getCollisionPoint(from, to, e) != null) list.add(e);
+        for(ShipAPI s : CombatUtils.getShipsWithinRange(center, distance / 2)) {
+            if(CollisionUtils.getCollisionPoint(from, to, s) != null) list.add(s);
         }
         
         return list;
     }
-    public static CombatEntityAPI getFirstEntityOnSegment(Vector2f from, Vector2f to, CombatEntityAPI exception) {
-        CombatEntityAPI winner = null;
+    public static ShipAPI getFirstShipOnSegment(Vector2f from, Vector2f to, CombatEntityAPI exception) {
+        ShipAPI winner = null;
         float record = Float.MAX_VALUE;
         
-        for(CombatEntityAPI e : getEntitiesOnSegment(from, to)) {
-            if(e == exception) continue;
+        for(ShipAPI s : getShipsOnSegment(from, to)) {
+            if(s == exception) continue;
             
-            float dist2 = MathUtils.getDistanceSquared(e, from);
+            float dist2 = MathUtils.getDistanceSquared(s, from);
             
             if(dist2 < record) {
                 record = dist2;
-                winner = e;
+                winner = s;
             }
         }
         
         return winner;
     }
-    public static CombatEntityAPI getFirstEntityOnSegment(Vector2f from, Vector2f to) {
-        return getFirstEntityOnSegment(from, to, null);
+    public static ShipAPI getFirstShipOnSegment(Vector2f from, Vector2f to) {
+        return getFirstShipOnSegment(from, to, null);
     }
-    public static CombatEntityAPI getEntityInLineOfFire(WeaponAPI weapon) {
+    public static ShipAPI getShipInLineOfFire(WeaponAPI weapon) {
         Vector2f endPoint = weapon.getLocation();
         endPoint.x += Math.cos(Math.toRadians(weapon.getCurrAngle())) * weapon.getRange();
         endPoint.y += Math.sin(Math.toRadians(weapon.getCurrAngle())) * weapon.getRange();
         
-        return getFirstEntityOnSegment(weapon.getLocation(), endPoint, weapon.getShip());
+        return getFirstShipOnSegment(weapon.getLocation(), endPoint, weapon.getShip());
     }
     public static float getShieldUpkeep(ShipAPI ship) {
         if(shieldUpkeeps == null) {
@@ -386,7 +386,7 @@ public class SunUtils
         
         return retVal;
     }
-    public static float getFPWorthOfEnemies(ShipAPI ship, float range) {
+    public static float getFPWorthOfHostility(ShipAPI ship, float range) {
         float retVal = 0;
 
         for(Iterator iter = AIUtils.getNearbyEnemies(ship, range).iterator(); iter.hasNext();) {
@@ -396,6 +396,24 @@ public class SunUtils
             float maxRange = Math.max(1, range - colDist);
 
             retVal += getFP(enemy) * (1 - distance / maxRange);
+        }
+
+        return retVal;
+    }
+    public static float countFPInArea(Vector2f at, float range) {
+        float retVal = 0;
+
+        for(ShipAPI ship : CombatUtils.getShipsWithinRange(at, range)) {
+            retVal += getFP(ship);
+        }
+
+        return retVal;
+    }
+    public static float countFPInArea(Vector2f at, float range, int owner) {
+        float retVal = 0;
+
+        for(ShipAPI ship : CombatUtils.getShipsWithinRange(at, range)) {
+            if(ship.getOwner() == owner) retVal += getFP(ship);
         }
 
         return retVal;

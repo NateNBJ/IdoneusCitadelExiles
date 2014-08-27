@@ -49,7 +49,7 @@ public class NosAutofireAIPlugin implements AutofireAIPlugin {
             findTarget();
             shouldFire = target != null
                     && (target.getPhaseCloak() == null || !target.getPhaseCloak().isActive())
-                    && SunUtils.getEntityInLineOfFire(weapon) == target;
+                    && SunUtils.getShipInLineOfFire(weapon) == target;
         }
     }
     @Override

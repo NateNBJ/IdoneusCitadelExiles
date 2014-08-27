@@ -29,14 +29,11 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     ShipAPI findTarget() {
-        ShipAPI ally = WeaponUtils.getNearestAllyInArc(weapon);
-        ShipAPI enemy = WeaponUtils.getNearestEnemyInArc(weapon);
-
-        target = enemy != null && enemy.isAlive()
-                && (ally == null || MathUtils.getDistance(ship, ally) > MathUtils.getDistance(ship, enemy))
-            ? enemy : null;
-
-        return target;
+        target = SunUtils.getShipInLineOfFire(weapon);
+        
+        if(target != null && target.getOwner() != ship.getOwner()) {
+            return target;
+        } else return target = null;
     }
 
     @Override
@@ -52,7 +49,7 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
                     weapon.getDerivedStats().getDamagePerShot(), weapon.getDamageType());
             float incomingMissileDamage = SunUtils.estimateIncomingMissileDamage(ship);
             float fpOfSupport = SunUtils.getFPWorthOfSupport(ship, 2000);
-            float fpOfEnemies = SunUtils.getFPWorthOfEnemies(ship, 2000);
+            float fpOfEnemies = SunUtils.getFPWorthOfHostility(ship, 2000);
             fpOfEnemies = Math.max(0, fpOfEnemies - SunUtils.getFP(target) / 2);
             
             hitChance = SunUtils.getHitChance(weapon, target);

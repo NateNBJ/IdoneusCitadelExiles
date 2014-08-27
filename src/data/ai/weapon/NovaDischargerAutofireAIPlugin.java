@@ -2,9 +2,11 @@
 package data.ai.weapon;
 
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.IntervalTracker;
+import data.tools.SunUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -24,14 +26,13 @@ public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     ShipAPI findTarget() {
-        ShipAPI ally = WeaponUtils.getNearestAllyInArc(weapon);
-        ShipAPI enemy = WeaponUtils.getNearestEnemyInArc(weapon);
-
-        target = enemy != null && enemy.isAlive()
-                && (ally == null || MathUtils.getDistance(ship, ally) > MathUtils.getDistance(ship, enemy))
-            ? enemy : null;
-
-        return target;
+        target = SunUtils.getShipInLineOfFire(weapon);
+        
+        if(target != null && target.getOwner() != ship.getOwner()
+                && target.getShield() != null && target.getShield().isOn()
+                && (target.getPhaseCloak() == null || !target.getPhaseCloak().isActive())) {
+            return target;
+        } else return target = null;
     }
 
     @Override
