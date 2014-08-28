@@ -1,7 +1,7 @@
 {
   "displayName": "Standard",
   "fluxCapacitors": 0,
-  "fluxVents": 22,
+  "fluxVents": 34,
   "hullId": "sun_ice_abraxas",
   "hullMods": [
     "heavyarmor",

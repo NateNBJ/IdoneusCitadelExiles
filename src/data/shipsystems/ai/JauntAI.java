@@ -16,6 +16,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class JauntAI implements ShipSystemAIScript {
     static final float USE_THRESHHOLD = 100.0f;
+    static final float ACTIVATION_SECONDS = 1.5f;
+    static final float MAX_AMMO = 4.0f;
     
     ShipSystemAPI system;
     ShipAPI ship;
@@ -38,13 +40,13 @@ public class JauntAI implements ShipSystemAIScript {
         FluxTrackerAPI reactor = ship.getFluxTracker();
         
         if(!timer.intervalElapsed() || ship == null
+                || system.getAmmo() == 0
                 || system.isCoolingDown()
                 || reactor.isOverloadedOrVenting()
                 || ship.getCollisionClass() == CollisionClass.NONE)
             return;
         
-        float phaseNecessity = 0;
-        float flux = (float)Math.sqrt(reactor.getHardFlux() / reactor.getMaxFlux());
+        float flux, phaseNecessity = 0;
         float damage = SunUtils.estimateIncomingDamage(ship, 1) * 0.7f;
         float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
         
@@ -65,7 +67,13 @@ public class JauntAI implements ShipSystemAIScript {
             damage -= SunUtils.estimateIncomingBeamDamage(ship, 3);
             ship.getLocation().set(temp);
         } else {
+            flux = (float)Math.sqrt(reactor.getHardFlux() / reactor.getMaxFlux());
             ticksWithoutDissipation = 0;
+            
+            // Prevent from using when it doesn't have enough flux to use
+            if(reactor.getCurrFlux() > reactor.getMaxFlux()
+                    - system.getFluxPerSecond() * ACTIVATION_SECONDS * 2) // * 2 for buffer
+                return;
             
             // Check if we're in a good position to attack a distant target remotely
             if(reactor.getFluxLevel() < 0.3f) {
@@ -82,6 +90,8 @@ public class JauntAI implements ShipSystemAIScript {
                     phaseNecessity += USE_THRESHHOLD;
                 }
             }
+            
+            //phaseNecessity -= USE_THRESHHOLD * (1 - system.getAmmo() / MAX_AMMO);
         }
         
         phaseNecessity += (damage * (1.2f - armor)) * (1 - flux);

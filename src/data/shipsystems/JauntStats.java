@@ -22,7 +22,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class JauntStats implements ShipSystemStatsScript {
     public static final float MAX_RANGE = 800;
-    static final float REPELL_FORCE = 0.5f;
+    static final float REPELL_FORCE = 150f;
     static final float SUPPORT_RANGE = 2000f;
     static final int DESTINATION_CANDIDATE_COUNT = 11;
     
@@ -156,9 +156,8 @@ public class JauntStats implements ShipSystemStatsScript {
                         ship.getFacing(), new Vector2f());
             }
             
-            // Move the ship toward the destination or back toward the origin
             float sign = Math.signum(effectLevel - 0.5f);
-            float scale = (float)Math.pow(Math.abs(effectLevel - 0.5) * 2, 0.7f);
+            float scale = (float)Math.pow(Math.abs(Math.cos((1-effectLevel) * Math.PI)), 0.7f);
             ship.getLocation().set(SunUtils.getMidpoint(origin, destination, (sign * scale + 1) / 2));
         }
         
@@ -172,24 +171,23 @@ public class JauntStats implements ShipSystemStatsScript {
         at.y += (float)(Math.random() - 0.5) * 5;
         doppelganger.getLocation().set(at);
         
-        // TODO - Make this move them directly instead of applying force
-        
         // Push entities away from the doppelganger to keep that space available
         List<CombatEntityAPI> entities = new ArrayList();
         entities.addAll(engine.getShips());
         entities.addAll(engine.getAsteroids());
-        //entities.remove(ship);
+        entities.remove(ship);
         for(CombatEntityAPI entity : entities) {
             if(entity instanceof ShipAPI && ((ShipAPI)entity).isFighter())
                 continue;
+            
             float distance = MathUtils.getDistance(entity, origin);
             float force = Math.min(1, 2 - distance / ship.getCollisionRadius());
 
             if(force > 0) {
-                force *= amount * entity.getMass() * REPELL_FORCE;
-                Vector2f direction = VectorUtils.getDirectionalVector(
-                        origin, entity.getLocation());
-                CombatUtils.applyForce(entity, direction, force);
+                force *= amount * REPELL_FORCE;
+                Vector2f direction = (Vector2f)VectorUtils.getDirectionalVector(
+                        origin, entity.getLocation()).scale(force);
+                Vector2f.add(entity.getLocation(), direction, entity.getLocation());
             }
         }
         
