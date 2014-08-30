@@ -10,13 +10,16 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lazywizard.lazylib.MathUtils;
@@ -28,6 +31,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class SunUtils
 {
     static Map<String, Float> shieldUpkeeps;
+    static Map<String, String> SystemIDs;
     static final float SAFE_DISTANCE = 600f;
     static final float DEFAULT_DAMAGE_WINDOW = 3f;
     static final Map baseOverloadTimes = new HashMap();
@@ -123,50 +127,43 @@ public class SunUtils
         
         return getFirstShipOnSegment(weapon.getLocation(), endPoint, weapon.getShip());
     }
-    public static float getShieldUpkeep(ShipAPI ship) {
+    public static float getShieldUpkeep(ShipAPI ship) throws JSONException, IOException {
         if(shieldUpkeeps == null) {
             shieldUpkeeps  = new HashMap();
             
-            try {
-                JSONArray j = Global.getSettings().getMergedSpreadsheetDataForMod("id", "data/hulls/ship_data.csv", "starsector-core");
-                for(int i = 0; i < j.length(); ++i) {
-                    try {
-                        JSONObject s = j.getJSONObject(i);
-                        String id = s.getString("id");
+            JSONArray j = Global.getSettings().getMergedSpreadsheetDataForMod(
+                    "id", "data/hulls/ship_data.csv", "starsector-core");
+            for(int i = 0; i < j.length(); ++i) {
+                JSONObject s = j.getJSONObject(i);
+                String id = s.getString("id");
 
-                        if(id.equals("")) continue;
+                if(id.equals("")) continue;
 
-                        float upkeep = (float)s.getDouble("shield upkeep");
-                        shieldUpkeeps.put(id, upkeep);
-                    } catch (Exception e) { }
-                }
-            } catch (Exception e) { }
+                float upkeep = (float)s.getDouble("shield upkeep");
+                shieldUpkeeps.put(id, upkeep);
+            }
         }
         
         return shieldUpkeeps.get(ship.getHullSpec().getHullId());
+    }
+    public static String getSystemID(String hullID) throws JSONException, IOException {
+        if(SystemIDs == null) {
+            SystemIDs  = new HashMap();
+            
+            JSONArray j = Global.getSettings().getMergedSpreadsheetDataForMod(
+                    "id", "data/hulls/ship_data.csv", "starsector-core");
+            for(int i = 0; i < j.length(); ++i) {
+                JSONObject s = j.getJSONObject(i);
+                String id = s.getString("id");
+
+                if(id.equals("")) continue;
+
+                String systemID = s.getString("system id");
+                SystemIDs.put(id, systemID);
+            }
+        }
         
-//        throw new NotImplementedException();
-        
-//        if(shieldUpkeeps == null) {
-//            shieldUpkeeps  = new HashMap();
-//            
-//            try {
-//                JSONArray j = Global.getSettings().loadCSV("data/hulls/ship_data.csv"); //  <--- Gives only ICE ships
-//                for(int i = 0; i < j.length(); ++i) {
-//                    try {
-//                        JSONObject s = j.getJSONObject(i);
-//                        String id = s.getString("id");
-//
-//                        if(id.equals("")) continue;
-//
-//                        float upkeep = (float)s.getDouble("shield upkeep");
-//                        shieldUpkeeps.put(id, upkeep);
-//                    } catch (Exception e) { }
-//                }
-//            } catch (Exception e) { }
-//        }
-//        
-//        return shieldUpkeeps.get(ship.getHullSpec().getHullId());
+        return SystemIDs.get(hullID);
     }
     public static float getArmorPercent(ShipAPI ship) {
         float acc = 0;

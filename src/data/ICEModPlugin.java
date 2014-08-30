@@ -23,9 +23,12 @@ import data.ai.weapon.HypermassDriverAutofireAIPlugin;
 import data.ai.weapon.NosAutofireAIPlugin;
 import data.ai.weapon.NovaDischargerAutofireAIPlugin;
 import data.ai.weapon.PdDroneAutofireAIPlugin;
+import data.tools.Faction;
 import data.world.Ulterius;
+import java.io.IOException;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
+import org.json.JSONException;
 
 public class ICEModPlugin extends BaseModPlugin {
 

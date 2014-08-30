@@ -10,7 +10,6 @@ import data.tools.SunUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.lwjgl.util.vector.Vector2f;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -67,9 +66,6 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public void advance(float amount, List events) {
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
-        
-//        ShipAPI ship = engine.getPlayerShip();        
-//        ship.getSpriteAPI().setAlphaMult(0.1f);
     }
 
     @Override
