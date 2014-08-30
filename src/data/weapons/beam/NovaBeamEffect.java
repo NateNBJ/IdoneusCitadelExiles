@@ -13,9 +13,10 @@ public class NovaBeamEffect implements BeamEffectPlugin {
     @Override
     public void advance(float amount, CombatEngineAPI engine, BeamAPI beam)
     {
-        beam.getSource().getShield().setActiveArc(beam.getSource().getShield().getActiveArc() * (1 - beam.getBrightness()));
-            
-        EveryFramePlugin.tagForShieldUpkeepRefund(beam.getSource());
+        if(beam.getSource().getShield().isOn()) {
+            beam.getSource().getShield().setActiveArc(beam.getSource().getShield().getActiveArc() * (1 - beam.getBrightness()));
+            EveryFramePlugin.tagForShieldUpkeepRefund(beam.getSource());
+        }
         
         if(!(beam.getDamageTarget() instanceof ShipAPI)) return;
 

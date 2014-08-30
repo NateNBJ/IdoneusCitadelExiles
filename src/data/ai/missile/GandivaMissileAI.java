@@ -5,7 +5,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 
-public class ArbalestMissileAI extends BaseMissileAI {
+public class GandivaMissileAI extends BaseMissileAI {
     static final float[] STAGE_DURATION = { 2, 1.5f, 3600 };
     static final String SOUND_ID = "engine_accelerate";
     static final float SOUND_PITCH = 0.5f;
@@ -16,8 +16,8 @@ public class ArbalestMissileAI extends BaseMissileAI {
     float duration = STAGE_DURATION[stage];
     int tick = 0;
 
-    public ArbalestMissileAI() {}
-    public ArbalestMissileAI(MissileAPI missile) {
+    public GandivaMissileAI() {}
+    public GandivaMissileAI(MissileAPI missile) {
         this.missile = missile;
         findTarget();
     }

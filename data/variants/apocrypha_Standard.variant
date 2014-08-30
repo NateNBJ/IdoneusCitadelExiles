@@ -12,8 +12,8 @@
       "autofire": false,
       "mode": "ALTERNATING",
       "weapons": {
-        "WS0011": "sun_ice_arbalest",
-        "WS0012": "sun_ice_arbalest"
+        "WS0011": "sun_ice_gandiva",
+        "WS0012": "sun_ice_gandiva"
       }
     },
     {

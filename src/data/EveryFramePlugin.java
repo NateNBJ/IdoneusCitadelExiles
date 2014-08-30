@@ -16,22 +16,42 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         void advance(float amount);
     }
     
+    static final String MODIFIER_KEY = "sun_ice_every_frame_modifiers";
+    
     CombatEngineAPI engine;
     
     static Set<ShipAPI> shipsToGiveFluxRefund = new HashSet<ShipAPI>();
+    static Set<ShipAPI> shipsToClearBonusesFrom = new HashSet<ShipAPI>();
     static public void tagForShieldUpkeepRefund(ShipAPI ship) {
         shipsToGiveFluxRefund.add(ship);
     }
+    void clearBonuses() {
+        for(ShipAPI ship : shipsToClearBonusesFrom) {
+            ship.getMutableStats().getHardFluxDissipationFraction().unmodify(MODIFIER_KEY);
+        }
+        
+        shipsToClearBonusesFrom.clear();
+    }
     void refundShieldUpkeepFlux(float amount) {
         for(ShipAPI ship : shipsToGiveFluxRefund) {
-            float upkeep = SunUtils.getShieldUpkeep(ship);
+            float upkeep;
+            
+            try {
+                upkeep = SunUtils.getShieldUpkeep(ship);
+            } catch(Exception e) {
+                upkeep = 0;
+            }
+            
             upkeep *= ship.getMutableStats().getFluxDissipation().getModifiedValue();
-            float arcReduction = 1 - Math.max(0, ship.getShield().getActiveArc()) / ship.getShield().getArc();
+            float arcReduction = 1 - Math.max(0,ship.getShield().getActiveArc())
+                    / ship.getShield().getArc();
             ship.getFluxTracker().decreaseFlux(upkeep * arcReduction * amount);
+            ship.getMutableStats().getHardFluxDissipationFraction().modifyFlat(
+                    MODIFIER_KEY, 100);
             
             //engine.addFloatingDamageText(ship.getLocation(), upkeep * arcReduction * amount, Color.yellow, ship, ship);
         }
-        
+        shipsToClearBonusesFrom.addAll(shipsToGiveFluxRefund);
         shipsToGiveFluxRefund.clear();
     }
     
@@ -49,13 +69,11 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         if(!fissionDrillWeaponActivated && weapon.isFiring()) {
             if(!sys.isOn()) {
                 ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
-                //SunUtils.print("on");
             }
             fissionDrillWeaponActivated = true;
         } else if(fissionDrillWeaponActivated && !weapon.isFiring()) {
             if(sys.isOn()) {
                 ship.giveCommand(ShipCommand.USE_SYSTEM, null, 0);
-                //SunUtils.print("off");
             }
             fissionDrillWeaponActivated = false;
         }
@@ -64,6 +82,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
     
     @Override
     public void advance(float amount, List events) {
+        clearBonuses();
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
     }

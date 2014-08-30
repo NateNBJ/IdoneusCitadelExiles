@@ -10,10 +10,10 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
 
     private static final float ACTIVATE_SPEED = 5.0f;
     private static final float DEACTIVATE_SPEED = 1.0f;
-    private static final float STATIC_ALPHA = 0.7f;
+    private static final float STATIC_ALPHA = 0.6f;
     private static final Random RAND = new Random();
 
-    private float alpha = 0.7f;
+    private float alpha = STATIC_ALPHA;
     private final float offset = RAND.nextFloat() * 1000;
 
     @Override

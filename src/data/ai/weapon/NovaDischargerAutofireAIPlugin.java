@@ -2,13 +2,10 @@
 package data.ai.weapon;
 
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.IntervalTracker;
 import data.tools.SunUtils;
-import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
@@ -56,6 +53,7 @@ public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
     @Override
     public boolean shouldFire() {
         return target != null
+                && (ship.getShipAI() != null || ship.getShield().isOff())
                 && !target.getFluxTracker().isOverloadedOrVenting()
                 && target.getShield() != null
                 && target.getShield().isOn()

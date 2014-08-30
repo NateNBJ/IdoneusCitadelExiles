@@ -9,7 +9,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.ai.drone.MxDroneAI;
-import data.ai.missile.ArbalestMissileAI;
+import data.ai.missile.GandivaMissileAI;
 import data.ai.missile.AttackDroneMissileAI;
 import data.ai.missile.BoomerangMissileAI;
 import data.ai.missile.MineAI;
@@ -74,8 +74,8 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new ScatterPdMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_boomerang")) {
             return new PluginPick(new BoomerangMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
-        } else if (id.equals("sun_ice_arbalest")) {
-            return new PluginPick(new ArbalestMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if (id.equals("sun_ice_gandiva")) {
+            return new PluginPick(new GandivaMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_attackdrone")) {
             return new PluginPick(new AttackDroneMissileAI(missile), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_pddrone")) {

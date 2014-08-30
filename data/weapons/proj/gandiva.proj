@@ -1,8 +1,8 @@
 {
-	"id":"sun_ice_arbalest",
+	"id":"sun_ice_gandiva",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"sprite":"graphics/sun_ice/missiles/missile_arbalest.png",
+	"sprite":"graphics/sun_ice/missiles/missile_gandiva.png",
 	"size":[12,28],	
 	"center":[6,14],
 	"collisionRadius":16,

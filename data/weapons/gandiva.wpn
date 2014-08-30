@@ -1,5 +1,5 @@
 {
-	"id":"sun_ice_arbalest",
+	"id":"sun_ice_gandiva",
 	"specClass":"projectile",
 	"type":"MISSILE",
 	"size":"LARGE",
@@ -28,6 +28,6 @@
 				 "blowbackLength":30.0,
 				 "blowbackSpread":10.0,
 				 "particleColor":[100,100,100,200]},
-	"projectileSpecId":"sun_ice_arbalest",
+	"projectileSpecId":"sun_ice_gandiva",
 	"fireSoundTwo":"hurricane_mirv_fire",
 }
