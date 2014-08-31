@@ -10,9 +10,10 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 import data.ai.weapon.*;
+import data.tools.SunUtils;
 
 public class MobiusRayEffect implements EveryFrameWeaponEffectPlugin {
-    static final float MAX_ROTATION_PER_SECOND = 360f;
+    static final float MAX_ROTATION_PER_SECOND = 270f;
     float timeOfFiring;
     int projectilesInPlay = 0;
 
@@ -34,17 +35,18 @@ public class MobiusRayEffect implements EveryFrameWeaponEffectPlugin {
 
         if(ship.getShipAI() != null || autofire.isOn()) {
             // Select exact target ship location rather than default AI cursor
-            if(ship.getShipTarget() != null && !autofire.isOn())
+            if(ship.getShipTarget() != null && !autofire.isOn()) {
                 target = new Vector2f(ship.getShipTarget().getLocation());
+            }
 
             float radius = Math.min(
-                    weapon.getRange() * 1.0f,
+                    weapon.getRange() * 0.8f,
                     MathUtils.getDistance(weapon.getLocation(), target));
             float scale = Math.max(0, 0.7f - (engine.getTotalElapsedTime(false) - timeOfFiring));
             target.x += Math.sin(engine.getTotalElapsedTime(false) * Math.PI) * radius * scale;
             target.y += Math.sin(engine.getTotalElapsedTime(false) * Math.E) * radius * scale;
 
-            //engine.addSmoothParticle(target, new Vector2f(), 70, 5, 0.3f, Color.MAGENTA);
+            //SunUtils.blink(target);
         }
         
         for(Iterator iter = engine.getProjectiles().iterator(); iter.hasNext();) {

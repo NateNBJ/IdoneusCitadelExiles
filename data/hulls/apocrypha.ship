@@ -184,7 +184,7 @@
     0,
     -0
   ],
-  "shieldRadius": 216.002319,
+  "shieldRadius": 216,
   "spriteName": "graphics/sun_ice/ships/Apocrypha.png",
   "style": "SUN_ICE",
   "viewOffset": 0,

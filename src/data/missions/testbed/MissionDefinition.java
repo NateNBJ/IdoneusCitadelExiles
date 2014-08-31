@@ -57,7 +57,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         
 
         side = FleetSide.PLAYER;
-        api.initFleet(side, "ICS", FleetGoal.ESCAPE, false, 5);
+        api.initFleet(side, "ICS", FleetGoal.ATTACK, false, 5);
         api.setFleetTagline(side, "Exiles");
         api.addToFleet(side, "sun_ice_apocrypha_Standard", FleetMemberType.SHIP, true);
         
@@ -87,8 +87,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         
         api.addPlugin(new MissionScript());
         
-        float width = 2400f;
-        float height = 24000f;
+        float width = 10000f;
+        float height = 10000f;
         api.initMap((float) -width / 2f, (float) width / 2f, (float) -height / 2f, (float) height / 2f);
 
         float minX = -width / 2;

@@ -1,1 +1,1 @@
-For testing only. If I accidentally release ICE without hiding this mission, please let me know. Thanks!
+This is only a test.

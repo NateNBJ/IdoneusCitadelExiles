@@ -5,7 +5,6 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

@@ -10,7 +10,6 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -378,7 +377,7 @@ public class SunUtils
             float distance = Math.max(0, MathUtils.getDistance(ship, ally) - colDist);
             float maxRange = Math.max(1, range - colDist);
             
-            retVal += getFP(ally) * (1 - distance / maxRange); 
+            retVal += getFPStrength(ally) * (1 - distance / maxRange); 
         }
         
         return retVal;
@@ -392,28 +391,34 @@ public class SunUtils
             float distance = Math.max(0, MathUtils.getDistance(ship, enemy) - colDist);
             float maxRange = Math.max(1, range - colDist);
 
-            retVal += getFP(enemy) * (1 - distance / maxRange);
+            retVal += getFPStrength(enemy) * (1 - distance / maxRange);
         }
 
         return retVal;
     }
-    public static float countFPInArea(Vector2f at, float range) {
+    public static float getStrengthInArea(Vector2f at, float range) {
         float retVal = 0;
 
         for(ShipAPI ship : CombatUtils.getShipsWithinRange(at, range)) {
-            retVal += getFP(ship);
+            retVal += getFPStrength(ship);
         }
 
         return retVal;
     }
-    public static float countFPInArea(Vector2f at, float range, int owner) {
+    public static float getStrengthInArea(Vector2f at, float range, int owner) {
         float retVal = 0;
 
         for(ShipAPI ship : CombatUtils.getShipsWithinRange(at, range)) {
-            if(ship.getOwner() == owner) retVal += getFP(ship);
+            if(ship.getOwner() == owner) retVal += getFPStrength(ship);
         }
 
         return retVal;
+    }
+    public static float getFPStrength(ShipAPI ship) {
+        DeployedFleetMemberAPI member = Global.getCombatEngine().getFleetManager(ship.getOwner()).getDeployedFleetMember(ship);
+        return (member == null || member.getMember() == null)
+                ? 0
+                : member.getMember().getMemberStrength();
     }
     public static float getFP(ShipAPI ship) {
         DeployedFleetMemberAPI member = Global.getCombatEngine().getFleetManager(ship.getOwner()).getDeployedFleetMember(ship);

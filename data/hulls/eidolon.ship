@@ -136,9 +136,11 @@
       "locations": [
         7.5,
         27,
+        8.5,
+        26,
       ],
       "mount": "HIDDEN",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "LAUNCH_BAY"
     },
     {
@@ -147,10 +149,12 @@
       "id": "LB 2",
       "locations": [
         7.5,
-        -27
+        -27,
+        8.5,
+        -26,
       ],
       "mount": "HIDDEN",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "LAUNCH_BAY"
     },
     {

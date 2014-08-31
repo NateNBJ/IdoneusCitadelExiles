@@ -79,10 +79,10 @@ public class JauntAI implements ShipSystemAIScript {
             if(reactor.getFluxLevel() < 0.3f) {
                 int enemy = (ship.getOwner() + 1) % 2;
                 float range = SunUtils.estimateOptimalRange(ship);
-                float fp = SunUtils.getFP(ship);
-                float hostilityInEminentRange = SunUtils.countFPInArea(
+                float fp = SunUtils.getFPStrength(ship);
+                float hostilityInEminentRange = SunUtils.getStrengthInArea(
                         ship.getLocation(), range, enemy);
-                float hostilityInRemoteRange = Math.min(fp, SunUtils.countFPInArea(
+                float hostilityInRemoteRange = Math.min(fp, SunUtils.getStrengthInArea(
                         ship.getLocation(), range + JauntStats.MAX_RANGE,
                         enemy) - hostilityInEminentRange);
 
