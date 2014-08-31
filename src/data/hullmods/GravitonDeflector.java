@@ -42,7 +42,7 @@ public class GravitonDeflector extends BaseHullMod {
             accumulator += proj.getDamageAmount();
         }
         
-        SunUtils.print(ship, "" + accumulator);
+        //SunUtils.print(ship, "" + accumulator);
         
         return accumulator < CLOAK_DAMAGE_THRESHHOLD;
     }

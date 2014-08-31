@@ -42,7 +42,7 @@ public class GravimetricSensors extends BaseHullMod {
 
         if (cloak == null || cloak.getId().equals("sun_ice_phaseshift")) return;
 
-        if (cloak.isActive() && cloak.getFluxPerSecond() == 0) {
+        if (cloak.isActive() && id.equals("sun_ice_palantir")) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
             if (objective != null) {
                 float dist = MathUtils.getDistance(ship, objective);
@@ -62,7 +62,7 @@ public class GravimetricSensors extends BaseHullMod {
         AssignmentInfo task = Global.getCombatEngine().getFleetManager(ship.getOwner()).getAssignmentFor(ship);
 
         if (!cloak.isActive() && ship.getShipAI() != null
-                && ship.getAngularVelocity() < 1f
+                && ship.getAngularVelocity() < 0.2f
                 && !ship.getTravelDrive().isActive()
                 && ship.getFluxTracker().getFluxLevel() == 0
                 && speed >= ship.getMutableStats().getMaxSpeed().getModifiedValue() - 2

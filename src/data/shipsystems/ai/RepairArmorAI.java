@@ -12,13 +12,12 @@ import data.tools.SunUtils;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class RepairArmorAI implements ShipSystemAIScript
 {
     private static final float ACTIVATION_THRESHOLD = 0.1f;
-    private static final float DEACTIVATION_THRESHOLD = 0.5f;
+    private static final float DEACTIVATION_THRESHOLD = 0.05f;
     private static final float REFRESH_FREQUENCY = 1f;
     private float timeOfNextRefresh = 0;
     private ShipSystemAPI system;

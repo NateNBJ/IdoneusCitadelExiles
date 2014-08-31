@@ -97,7 +97,7 @@ public class JauntAI implements ShipSystemAIScript {
         phaseNecessity += (damage * (1.2f - armor)) * (1 - flux);
         
         if(phaseNecessity >= USE_THRESHHOLD) {
-            SunUtils.print(ship, "" + phaseNecessity);
+            //SunUtils.print(ship, "" + phaseNecessity);
             ship.useSystem();
         }
     }
