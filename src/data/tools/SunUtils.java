@@ -43,6 +43,7 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    
     public static float estimateOptimalRange(ShipAPI ship) {
         float acc = 0, opAcc = 0;
         

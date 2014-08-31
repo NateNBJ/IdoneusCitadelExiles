@@ -8,7 +8,9 @@ import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,12 +34,52 @@ public class Faction {
         EXCLUDED_FACTIONS.add("data/world/factions/neutral.faction");
         EXCLUDED_FACTIONS.add("data/world/factions/ici.faction");
         EXCLUDED_FACTIONS.add("data/world/factions/pirateAnar.faction");
+        
+        variants.put("brdy_imaginos", createVariantList(new String[]{"brdy_imaginos_elite", "brdy_imaginos_shock"}));
+        variants.put("brdy_convergence", createVariantList(new String[]{"brdy_convergence_frontier", "brdy_convergence_standard"}));
+        variants.put("brdy_asura", createVariantList(new String[]{"brdy_asura_strike", "brdy_asura_assault"}));
+        variants.put("brdy_cetonia", createVariantList(new String[]{"brdy_cetonia_standard"}));
+        variants.put("brdy_karkinos", createVariantList(new String[]{"brdy_karkinos_assault", "brdy_karkinos_prototype", "brdy_karkinos_suppression", "brdy_karkinos_elite", "brdy_karkinos_obliterator"}));
+        variants.put("brdy_kurmaraja", createVariantList(new String[]{"brdy_kurmaraja_elite", "brdy_kurmaraja_heavy", "brdy_kurmaraja_suppression"}));
+        variants.put("brdy_locust", createVariantList(new String[]{"brdy_locust_patrol", "brdy_locust_strike", "brdy_locust_wing", "brdy_locust_hunter"}));
+        variants.put("brdy_mantis", createVariantList(new String[]{"brdy_mantis_elite", "brdy_mantis_attack", "brdy_mantis_strike", "brdy_mantis_barrage", "brdy_mantis_shatterer"}));
+        variants.put("brdy_revenant", createVariantList(new String[]{"brdy_revenant_carrier", "brdy_revenant_mark1", "brdy_revenant_mark2", "brdy_revenant_modernized", "brdy_revenant_anticap"}));
+        variants.put("brdy_robberfly", createVariantList(new String[]{"brdy_robberfly_cs", "brdy_robberfly_light", "brdy_robberfly_strike", "brdy_robberfly_barrage"}));
+        variants.put("brdy_stenos", createVariantList(new String[]{"brdy_stenos_exploration", "brdy_stenos_militarized", "brdy_stenos_weap"}));
+        variants.put("brdy_typheus", createVariantList(new String[]{"brdy_typheus_elite", "brdy_typheus_support", "brdy_typheus_defender"}));
+        variants.put("brdy_gonodactylus", createVariantList(new String[]{"gonodactylus_assault", "gonodactylus_CS", "gonodactylus_elite", "gonodactylus_cc"}));
+        variants.put("brdy_nevermore", createVariantList(new String[]{"nevermore_advanced", "nevermore_assault", "nevermore_tac", "nevermore_shock"}));
+        variants.put("brdy_eschaton", createVariantList(new String[]{"brdy_eschaton_armed"}));
+        variants.put("brdy_desdinova", createVariantList(new String[]{"desdinova_assault", "desdinova_cs", "desdinova_fastattack", "desdinova_HK"}));
+        variants.put("brdy_scorpion", createVariantList(new String[]{"brdy_scorpion_adv", "brdy_scorpion_fs", "brdy_scorpion_standard"}));
+        variants.put("brdy_scarab", createVariantList(new String[]{"scarab_closesupport", "scarab_firesupport", "scarab_pd", "scarab_strike", "scarab_attack", "scarab_hunter", "scarab_barrage", "scarab_hkineticwp"}));
+        
+
+        variants.put("ms_charybdis", createVariantList(new String[]{"ms_charybdis_Attack", "ms_charybdis_Balanced", "ms_charybdis_CS", "ms_charybdis_PD", "ms_charybdis_Standard"}));
+        variants.put("ms_elysium", createVariantList(new String[]{"ms_elysium_Assault", "ms_elysium_CS", "ms_elysium_PD", "ms_elysium_Standard", "ms_elysium_Strike"}));
+        variants.put("ms_enlil", createVariantList(new String[]{"ms_enlil_AF", "ms_enlil_Attack", "ms_enlil_Balanced", "ms_enlil_CS", "ms_enlil_LRM", "ms_enlil_PD", "ms_enlil_Standard", "ms_enlil_Strike"}));
+        variants.put("ms_inanna", createVariantList(new String[]{"ms_inanna_Assault", "ms_inanna_CS", "ms_inanna_EMP", "ms_inanna_Standard", "ms_inanna_Strike"}));
+        variants.put("ms_mimir", createVariantList(new String[]{"ms_mimir_Assault", "ms_mimir_CS", "ms_mimir_PD", "ms_mimir_Standard"}));
+        variants.put("ms_morningstar", createVariantList(new String[]{"ms_morningstar_AF", "ms_morningstar_Assault", "ms_morningstar_CS", "ms_morningstar_PD", "ms_morningstar_Standard", "ms_morningstar_Strike"}));
+        variants.put("ms_sargasso", createVariantList(new String[]{"ms_sargasso_Assault", "ms_sargasso_Balanced", "ms_sargasso_EMP", "ms_sargasso_LRM", "ms_sargasso_Standard"}));
+        variants.put("ms_potnia", createVariantList(new String[]{"ms_potnia_Standard"}));
+        variants.put("ms_potniaBis", createVariantList(new String[]{"ms_potniaBis_AS", "ms_potniaBis_Attack", "ms_potniaBis_CS", "ms_potniaBis_FS"}));
+        variants.put("ms_seski", createVariantList(new String[]{"ms_seski_Attack", "ms_seski_BR", "ms_seski_CS", "ms_seski_Standard"}));
+        variants.put("ms_shamash", createVariantList(new String[]{"ms_shamash_Attack", "ms_shamash_CS", "ms_shamash_EMP", "ms_shamash_Standard"}));
+        variants.put("ms_tartarus", createVariantList(new String[]{"ms_tartarus_AF", "ms_tartarus_Assault", "ms_tartarus_CS", "ms_tartarus_Standard"}));
+        variants.put("ms_scylla", createVariantList(new String[]{"ms_scylla_Assault", "ms_scylla_Beam", "ms_scylla_Standard"}));
+        variants.put("ms_solidarity", createVariantList(new String[]{"ms_solidarity_Fast", "ms_solidarity_Standard"}));
     }
 
+    static List<String> createVariantList(String[] variants) {
+        return Collections.unmodifiableList(Arrays.asList(variants));
+    }
     static String getRandomVariantID(String shipID) {
         return (String)variants.get(shipID).toArray()[rand.nextInt(variants.get(shipID).size())];
     }
     static void addVariant(String shipID, String variantID) {
+        if(variantID.endsWith("_Hull")) return;
+        
         if(!variants.containsKey(shipID)) variants.put(shipID, new ArrayList());
         
         if(!variants.get(shipID).contains(variantID))
@@ -239,6 +281,7 @@ public class Faction {
                 for (int i = 0; i < count; ++i) {
                     api.addToFleet(side, variantID, type, needChooseFlagship);
                     if(type == FleetMemberType.SHIP) needChooseFlagship = false;
+                    
                     
 //                    float decks = Global.getFactory().createFleetMember(
 //                            FleetMemberType.SHIP, variantID).getNumFlightDecks();
