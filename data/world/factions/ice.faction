@@ -307,9 +307,9 @@
       },
    },
    "dialogue":{
-      "greetingFriendly":"Greetings commander. It’s good to finally run into someone who doesn’t want to kill us. ",
-      "greetingNeutral":"Keep your fleet at a polite distance and we’ll do the same. The last thing we need is another enemy.",
-      "greetingHostileAggressive":"I’ll be frank with you. We need your cargo and I don’t see much reason not to take it. Surrender now and your lives will be spared.",
-      "greetingHostileTimid":"So, another vulture has mistaken us for carrion. You’re not the first to make that mistake. Do your worst.",
+      "greetingFriendly":"Greetings commander. It's good to finally run into someone who doesn't want to kill us. ",
+      "greetingNeutral":"Keep your fleet at a polite distance and we'll do the same. The last thing we need is another enemy.",
+      "greetingHostileAggressive":"I'll be frank with you. We need your cargo and I don't see much reason not to take it. Surrender now and your lives will be spared.",
+      "greetingHostileTimid":"So, another vulture has mistaken us for carrion. You're not the first to make that mistake. Do your worst.",
    }   
 },

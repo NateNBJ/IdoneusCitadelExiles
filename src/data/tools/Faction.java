@@ -77,14 +77,6 @@ public class Faction {
     static String getRandomVariantID(String shipID) {
         return (String)variants.get(shipID).toArray()[rand.nextInt(variants.get(shipID).size())];
     }
-    static void addVariant(String shipID, String variantID) {
-        if(variantID.endsWith("_Hull")) return;
-        
-        if(!variants.containsKey(shipID)) variants.put(shipID, new ArrayList());
-        
-        if(!variants.get(shipID).contains(variantID))
-            variants.get(shipID).add(variantID);
-    }
     static List<String> getKeys(JSONObject json) {
         List<String> retVal = new LinkedList();
         
@@ -144,16 +136,31 @@ public class Faction {
     
     String id, displayName, shipNamePrefix, description;
     boolean isValid = false;
+    boolean hasVariants = false;
     Set<String> warships = new HashSet();
     Set<String> fighters = new HashSet();
     Set<String> civilians = new HashSet();
     
-    String getRandomWing() {
+    void addVariant(String shipID, String variantID) {
+        if(variantID.endsWith("_Hull")) return;
+        
+        hasVariants = true;
+        
+        if(!variants.containsKey(shipID)) variants.put(shipID, new ArrayList());
+        
+        if(!variants.get(shipID).contains(variantID))
+            variants.get(shipID).add(variantID);
+    }
+    
+    public boolean hasVariants() {
+        return hasVariants;
+    }
+    public String getRandomWingID() {
         int index = (int) (Math.random() * fighters.size());
         
         return (String) fighters.toArray()[index];
     }
-    String getRandomWarship() {
+    public String getRandomWarshipID() {
         int index = (int) (Math.random() * warships.size());
         return getRandomVariantID((String) warships.toArray()[index]);
     }
@@ -234,10 +241,10 @@ public class Faction {
             String variantID;
             
             if(wingsToAdd > 0 && !fighters.isEmpty()) {
-                variantID = getRandomWing();
+                variantID = getRandomWingID();
                 --wingsToAdd;
             } else {
-                variantID = getRandomWarship();
+                variantID = getRandomWarshipID();
                 float decks = Global.getFactory().createFleetMember(
                             FleetMemberType.SHIP, variantID).getNumFlightDecks();
                 wingsToAdd += decks * 2.3f;
@@ -288,7 +295,7 @@ public class Faction {
 //                    
 //                    decks *= rand.nextFloat() + 2;
 //                    for(int j = 0; j < decks; ++j) {
-//                        api.addToFleet(side, getRandomWing(),
+//                        api.addToFleet(side, getRandomWingID(),
 //                                FleetMemberType.FIGHTER_WING, false);
 //                    }
                 }

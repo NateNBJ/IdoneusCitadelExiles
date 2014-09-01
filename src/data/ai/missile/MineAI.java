@@ -1,12 +1,15 @@
 package data.ai.missile;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import static data.ai.missile.BaseMissileAI.DEFAULT_FLARE_VULNERABILITY_RANGE;
 import data.tools.SunUtils;
 import java.awt.Color;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MineAI extends BaseMissileAI {
@@ -35,6 +38,16 @@ public class MineAI extends BaseMissileAI {
     }
     
     @Override
+    public CombatEntityAPI findTarget() {
+        findFlareTarget(DEFAULT_FLARE_VULNERABILITY_RANGE);
+        
+        if(targetIsFlare()) return target;
+        
+        target = AIUtils.getNearestEnemy(missile);
+        
+        return target;
+    }
+    @Override
     public void advance(float amount) {
         float time = Global.getCombatEngine().getTotalElapsedTime(false);
         
@@ -55,13 +68,14 @@ public class MineAI extends BaseMissileAI {
         
         if(Math.random() < amount * 0.9f) ping();
         
-        if(!(target instanceof ShipAPI)) return;
+        if(target == null) return;
 
         float distance = MathUtils.getDistance(missile, target);
         float leadTime = distance * LEAD_TIME_PER_DISTANCE;
         Vector2f leadPoint = (Vector2f)(new Vector2f(target.getVelocity()).scale(leadTime));
         Vector2f.add(leadPoint, target.getLocation(), leadPoint);
-        ShipSystemAPI cloak = ((ShipAPI)target).getPhaseCloak();
+        ShipSystemAPI cloak = (target instanceof ShipAPI)
+                ? ((ShipAPI)target).getPhaseCloak() : null;
         
         if(attacking) {
             if(fuel > 0) {
@@ -69,7 +83,7 @@ public class MineAI extends BaseMissileAI {
                 fuel -= amount;
             } else missile.flameOut();
         } else if((cloak == null || !cloak.isActive())
-                && (distance <= ATTACK_RANGE || missile.getHullLevel() < 1)
+                && (distance <= ATTACK_RANGE)// || missile.getHullLevel() < 1)
                 && isFacing(leadPoint)) {
             attacking = true;
             timeOfBurn = time;

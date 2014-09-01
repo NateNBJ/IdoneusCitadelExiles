@@ -17,10 +17,14 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     
     @Override
     public void defineMission(MissionDefinitionAPI api) {
-        Faction enemy = Faction.getFactionById("sun_ice");
+        Faction player, enemy;
+        
+        enemy = Faction.getFactionById("sun_ice");
         int s = Faction.getAllFactions().size();
-        Faction player = (Faction)Faction.getAllFactions().toArray()[
-                rand.nextInt(s)];
+        do {
+            player = (Faction)Faction.getAllFactions().toArray()[
+                    rand.nextInt(s)];
+        } while(!player.hasVariants());
 
 
         api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 5);

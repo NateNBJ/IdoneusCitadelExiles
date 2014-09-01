@@ -18,7 +18,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 @SuppressWarnings("unchecked")
 public abstract class BaseMissileAI implements MissileAIPlugin, GuidedMissileAI {
-    static final float DEFAULT_FLARE_VULNERABILITY_RANGE = 800;
+    static final float DEFAULT_FLARE_VULNERABILITY_RANGE = 500;
     static final float DEFAULT_FACING_THRESHHOLD = 5;
 
     @Override

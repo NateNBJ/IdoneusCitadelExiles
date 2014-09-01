@@ -1,29 +1,29 @@
 {
   "displayName": "Standard",
   "fluxCapacitors": 0,
-  "fluxVents": 8,
+  "fluxVents": 11,
   "hullId": "sun_ice_eidolon",
   "hullMods": [
     "heavyarmor",
     "unstable_injector",
-	"eccm"
+    "eccm"
   ],
   "variantId": "sun_ice_eidolon_Standard",
   "weaponGroups": [
     {
       "autofire": false,
-      "mode": "ALTERNATING",
+      "mode": "LINKED",
       "weapons": {
-        "WS0001": "sabotpod",
-        "WS0002": "sabotpod"
+        "WS0005": "sun_ice_minepod"
       }
     },
     {
       "autofire": false,
-      "mode": "LINKED",
+      "mode": "ALTERNATING",
       "weapons": {
-        "WS0005": "hurricane"
-      }
+        "WS0001": "sabotpod",
+        "WS0002": "sabotpod",
+	  }
     },
     {
       "autofire": true,

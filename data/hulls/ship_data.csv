@@ -27,5 +27,5 @@ Kelpie,sun_ice_kelpie,Blade Cruiser,sun_ice_inversionmatrix,16,9000,800,3000,120
 Voidreaver,sun_ice_voidreaver,Elete Cruiser,sun_ice_repairarmor,26,6750,750,9000,9000,600,160,80,60,30,25,25,1200,PHASE,sun_ice_phaseshift,,,,0,0.12,120,160,200,200,20,,4,95000,15,3,0,20,360,0.1,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Shalom,sun_ice_shalom,Colony Ship,,10,12000,1000,1000,16000,100,55,15,5,2,3,2,6000,NONE,,,,,,,1000,6500,1800,1500,40,,2,250000,10,2,0,30,900,0.25,CIVILIAN,
-Apocrypha,sun_ice_apocrypha,Command Ship,sun_ice_drone_mx,25,7500,600,8000,10000,400,180,20,15,9,5,4,2200,PHASE,sun_ice_phasecloak,,,,0.05,0.05,380,750,500,650,20,,3,130000,16,3,0,18,180,0.1,CARRIER,
+Apocrypha,sun_ice_apocrypha,Command Ship,sun_ice_drone_mx,25,7500,600,8000,10000,400,160,20,15,9,5,4,2200,PHASE,sun_ice_phasecloak,,,,0.05,0.05,380,750,500,650,20,,3,130000,16,3,0,18,180,0.1,CARRIER,
 Abraxas,sun_ice_abraxas,Battlecruiser,sun_ice_jaunt,30,3750,900,12000,5000,900,300,40,20,15,6,6,2000,FRONT,sun_ice_phaseshift,30,0.05,1,0,0.14,350,400,200,400,50,,3,175000,18,3,0,20,420,0.1,,

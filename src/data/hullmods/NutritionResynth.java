@@ -12,8 +12,11 @@ public class NutritionResynth extends BaseHullMod {
     public void advanceInCampaign(FleetMemberAPI member, float amount) {
 //        float pspd = member.getFleetData().getFleet().getLogistics().getPersonnelSuppliesPerDay();
 //        long day = Global.getSector().getClock().getDay();
-
+        
         CampaignFleetAPI fleet = member.getFleetData().getFleet();
+        
+        if(fleet == null || fleet.getLogistics() == null) return;
+        
         float crewCost = fleet.getLogistics().getPersonnelSuppliesPerDay();
         fleet.getCargo().addSupplies(crewCost / 0.5f * (amount / Global.getSector().getClock().getSecondsPerDay()));
         
