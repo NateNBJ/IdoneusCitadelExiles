@@ -54,7 +54,6 @@ public class MeleeTempAI extends BaseShipAI {
         }
     }
 
-    public MeleeTempAI() {}
     public MeleeTempAI(ShipAPI ship, WeaponAPI tractorBeam) {
         super(ship);
 
@@ -77,8 +76,10 @@ public class MeleeTempAI extends BaseShipAI {
         
         float angleToFace = VectorUtils.getAngle(ship.getLocation(), ship.getShipTarget().getLocation());
         
-        if(Math.abs(MathUtils.getShortestRotation(ship.getFacing(), angleToFace)) < 20)
+        if(Math.abs(MathUtils.getShortestRotation(ship.getFacing(), angleToFace)) < 15)
             accelerate();
+        if(MathUtils.getDistance(ship, ship.getShipTarget()) <= 0)
+            strafeToward(ship.getShipTarget());
         turnToward(angleToFace);
         fireSelectedGroup(ship.getShipTarget().getLocation());
     }

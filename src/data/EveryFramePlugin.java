@@ -6,10 +6,15 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.tools.JauntSession;
 import data.tools.SunUtils;
+import data.weapons.beam.RecallBeamEffect;
+import java.awt.Color;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -79,12 +84,39 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         }
     }
 
+    static List<RecallBeamEffect.RecallTracker> recalling = new LinkedList();
+    public static void beginRecall(RecallBeamEffect.RecallTracker tracker) {
+        recalling.add(tracker);
+    }
+    void advanceActiveRecalls(float amount) {
+        List<RecallBeamEffect.RecallTracker> toRemove = new LinkedList();
+        
+        for(RecallBeamEffect.RecallTracker t : recalling) {
+            if(t.progress < 0 && t.progress + amount >= 0) {
+                t.ally.getLocation().set(t.recallLoc);
+            }
+            
+            t.progress += amount;
+            t.ally.getSpriteAPI().setColor(new Color(1,1,1, Math.min(1, Math.abs(t.progress))));
+            
+            if(t.progress >= 1) toRemove.add(t);
+        }
+        
+        for(RecallBeamEffect.RecallTracker t : toRemove) {
+            recalling.remove(t);
+        }
+    }
     
     @Override
     public void advance(float amount, List events) {
         clearBonuses();
+        
+        if(engine.isPaused()) return;
+        
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
+        advanceActiveRecalls(amount);
+        JauntSession.advanceAll();
     }
 
     @Override

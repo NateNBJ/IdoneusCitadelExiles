@@ -12,17 +12,15 @@ public class DontPhaseTempAI implements ShipAIPlugin {
     float dontFireUntil = 0;
 
     void evaluateCircumstances() {
-
         if(!ship.getSystem().isActive()) {
             ship.resetDefaultAI();
-            SunUtils.print("Feel free to phase");
+            //SunUtils.print("Feel free to phase");
         }
     }
 
-    public DontPhaseTempAI() {}
     public DontPhaseTempAI(ShipAPI ship) {
         this.ship = ship;
-        SunUtils.print("Don't phase!");
+        //SunUtils.print("Don't phase!");
     }
 
     @Override

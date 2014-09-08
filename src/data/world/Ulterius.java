@@ -84,7 +84,7 @@ public class Ulterius {
         // create the star and generate the hyperspace anchor for this system
         PlanetAPI star = system.initStar("brown_dwarf_star", // id in planets.json
                 200f, // radius (in pixels at default zoom)
-                1638, -11973);   // location in hyperspace
+                -16138, -24973);   // location in hyperspace
 
         system.setLightColor(new Color(255, 238, 193)); // light color in entire system, affects all entities
 

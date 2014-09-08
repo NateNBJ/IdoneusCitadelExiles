@@ -4,6 +4,7 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -29,7 +30,6 @@ import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
 
 public class ICEModPlugin extends BaseModPlugin {
-
     public static boolean SHADER_LIB_AVAILABLE = false;
 
     public static void tryToEnableLighting() {
@@ -46,6 +46,14 @@ public class ICEModPlugin extends BaseModPlugin {
     @Override
     public void onApplicationLoad() {
         tryToEnableLighting();
+    }
+    
+    @Override
+    public void onGameLoad() {
+//        StarSystemAPI star = Global.getSector().getStarSystem("Ulterius");
+//        if(star == null) {
+//            onNewGame();
+//        }
     }
 
     @Override

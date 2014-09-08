@@ -14,8 +14,8 @@
       "autofire": true,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "sun_ice_nos",
-        "WS0002": "sun_ice_nos"
+        "WS0001": "sun_ice_chupacabra",
+        "WS0002": "sun_ice_chupacabra"
       }
     },
     {

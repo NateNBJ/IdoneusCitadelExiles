@@ -44,9 +44,8 @@ public class PhaseCruiseTempAI extends BaseShipAI {
         }        
     }
 
-    public PhaseCruiseTempAI() {}
     public PhaseCruiseTempAI(ShipAPI ship) {
-        this.ship = ship;
+        super(ship);
         this.fleet = Global.getCombatEngine().getFleetManager(ship.getOwner());
         circumstanceEvaluationTimer.setInterval(0.4f, 0.6f);
     }

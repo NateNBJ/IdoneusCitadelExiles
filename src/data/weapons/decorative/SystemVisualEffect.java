@@ -22,7 +22,8 @@ public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
             weapon.getAnimation().setFrame(0);
             return;
         }
-
+        
+        weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
         
         alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);

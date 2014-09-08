@@ -1,100 +1,92 @@
 {
   "bounds": [
-    17,
-    -8,
-    46.5,
-    -23,
-    39.5,
-    -30,
-    -32.5,
-    -44,
-    -39,
-    -37.5,
-    -11,
-    -13,
-    -11,
-    13,
-    -39,
-    37.5,
-    -32.5,
-    44,
-    39.5,
-    30,
-    46.5,
-    23,
-    17,
-    8
+    -59.5,
+    -29,
+    -48,
+    -40,
+    67,
+    -10.5,
+    67,
+    10.5,
+    -48,
+    40,
+    -59.5,
+    29,
+    -35.5,
+    0.5
   ],
   "builtInMods": [
-    "sun_ice_gravitonic_sensors_mod"
+    "sun_ice_gravitonic_sensors_mod",
   ],
   "builtInWeapons": {
-    "LIGHTS": "sun_ice_nightseer_lights",
-    "SYSTEM": "sun_ice_nightseer_system"
+    "ATOP": "sun_ice_nightseer_atop",
+    "SYSTEM": "sun_ice_nightseer_system",
+    #"LIGHTS": "sun_ice_nightseer_lights",
+	"LIGHTS_TOP": "sun_ice_nightseer_lights_top",
   },
   "center": [
-    48,
-    48.5
+    45.5,
+    66
   ],
-  "collisionRadius": 65,
+  "collisionRadius": 71.5,
   "engineSlots": [
     {
       "angle": 180,
-      "contrailSize": 12,
-      "length": 41.5,
+      "contrailSize": 8,
+      "length": 78,
       "location": [
-        -29,
-        -0
+        -37.5,
+        0.5
       ],
       "style": "SUN_ICE",
-      "width": 12
+      "width": 8
     },
     {
-      "angle": -174,
-      "contrailSize": 30,
-      "length": 40,
+      "angle": -174.160507,
+      "contrailSize": 7.517605,
+      "length": 56.410294,
       "location": [
-        -34.5,
-        14
+        -47.5,
+        10.5
       ],
       "style": "SUN_ICE",
-      "width": 10
+      "width": 7.517605
     },
     {
-      "angle": 174,
-      "contrailSize": 30,
-      "length": 40,
+      "angle": 174.160507,
+      "contrailSize": 7.517605,
+      "length": 56.410294,
       "location": [
-        -34.5,
-        -14
+        -47.5,
+        -10.5
       ],
       "style": "SUN_ICE",
-      "width": 10
+      "width": 7.517605
     },
     {
-      "angle": -170,
-      "contrailSize": 10,
-      "length": 40.5,
+      "angle": -166.944748,
+      "contrailSize": 6.889665,
+      "length": 32.563526,
       "location": [
-        -49,
-        23.5
+        -62,
+        18
       ],
       "style": "SUN_ICE",
-      "width": 10
+      "width": 6.889665
     },
     {
-      "angle": 170,
-      "contrailSize": 10,
-      "length": 40.5,
+      "angle": 166.944748,
+      "contrailSize": 6.889665,
+      "length": 32.563526,
       "location": [
-        -49,
-        -23.5
+        -62,
+        -18
       ],
       "style": "SUN_ICE",
-      "width": 10
+      "width": 6.889665
     }
   ],
-  "height": 103,
+  "height": 136,
   "hullId": "sun_ice_nightseer",
   "hullName": "Nightseer",
   "hullSize": "FRIGATE",
@@ -102,30 +94,42 @@
     0,
     -0
   ],
-  "shieldRadius": 65.192024,
+  "shieldRadius": 65,
   "spriteName": "graphics/sun_ice/ships/Nightseer.png",
   "style": "SUN_ICE",
   "viewOffset": 0,
   "weaponSlots": [
     {
       "angle": 0,
-      "arc": 5,
-      "id": "WS0001",
+      "arc": 0,
+      "id": "LIGHTS_TOP",
       "locations": [
-        30.5,
-        -0
+        1,
+        0.5
       ],
-      "mount": "HARDPOINT",
+      "mount": "TURRET",
       "size": "LARGE",
-      "type": "UNIVERSAL"
+      "type": "DECORATIVE"
+    },
+	{
+      "angle": 0,
+      "arc": 0,
+      "id": "ATOP",
+      "locations": [
+        2,
+        0.5
+      ],
+      "mount": "TURRET",
+      "size": "LARGE",
+      "type": "DECORATIVE"
     },
     {
       "angle": 0,
       "arc": 0,
       "id": "LIGHTS",
       "locations": [
-        3.5,
-        0
+        1,
+        0.5
       ],
       "mount": "TURRET",
       "size": "SMALL",
@@ -136,8 +140,8 @@
       "arc": 0,
       "id": "SYSTEM",
       "locations": [
-        3.5,
-        0
+        1,
+        0.5
       ],
       "mount": "TURRET",
       "size": "SMALL",
@@ -146,75 +150,39 @@
     {
       "angle": 0,
       "arc": 5,
+      "id": "WS0001",
+      "locations": [
+        -3.5,
+        0.5
+      ],
+      "mount": "HARDPOINT",
+      "size": "LARGE",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 76.5,
+      "arc": 180,
       "id": "WS0002",
       "locations": [
-        47.5,
-        24
+        2,
+        22.5
       ],
-      "mount": "HARDPOINT",
+      "mount": "TURRET",
       "size": "SMALL",
-      "type": "MISSILE"
+      "type": "UNIVERSAL"
     },
     {
-      "angle": -0,
-      "arc": 5,
+      "angle": -76.5,
+      "arc": 180,
       "id": "WS0003",
       "locations": [
-        47.5,
-        -24
-      ],
-      "mount": "HARDPOINT",
-      "size": "SMALL",
-      "type": "MISSILE"
-    },
-    {
-      "angle": 80,
-      "arc": 180,
-      "id": "WS0006",
-      "locations": [
-        -2.5,
-        37
+        2,
+        -21.5
       ],
       "mount": "TURRET",
       "size": "SMALL",
-      "type": "BALLISTIC"
+      "type": "UNIVERSAL"
     },
-    {
-      "angle": -80,
-      "arc": 180,
-      "id": "WS0007",
-      "locations": [
-        -2.5,
-        -37
-      ],
-      "mount": "TURRET",
-      "size": "SMALL",
-      "type": "BALLISTIC"
-    },
-    {
-      "angle": 80,
-      "arc": 180,
-      "id": "WS0004",
-      "locations": [
-        12.5,
-        34
-      ],
-      "mount": "TURRET",
-      "size": "SMALL",
-      "type": "ENERGY"
-    },
-    {
-      "angle": -80,
-      "arc": 180,
-      "id": "WS0005",
-      "locations": [
-        12.5,
-        -34
-      ],
-      "mount": "TURRET",
-      "size": "SMALL",
-      "type": "ENERGY"
-    }
   ],
-  "width": 96
+  "width": 90
 }

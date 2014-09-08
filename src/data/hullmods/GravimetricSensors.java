@@ -26,7 +26,6 @@ public class GravimetricSensors extends BaseHullMod {
     public static final float EMP_THICKNESS = 5f;
     public static final Color EMP_COLOR = new Color(0, 255, 220);
     
-    
     public static final float PALANTIR_CLOAK_SECONDS = 10f;
     public static final float SIGHT_RADIUS_BONUS = 20f;
     public static final float TRACKING_PENALTY = -50f;
@@ -40,7 +39,9 @@ public class GravimetricSensors extends BaseHullMod {
                 ? ship.getSystem()
                 : ship.getPhaseCloak();
 
-        if (cloak == null || cloak.getId().equals("sun_ice_phaseshift")) return;
+        if (cloak == null
+                || cloak.getId().equals("sun_ice_phaseshift")
+                || cloak.getId().equals("sun_ice_advphasewarp")) return;
 
         if (cloak.isActive() && id.equals("sun_ice_palantir")) {
             BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
@@ -111,7 +112,7 @@ public class GravimetricSensors extends BaseHullMod {
         super.advanceInCombat(ship, amount);
         
         if(ship.isAlive()) doSkimAiHack(ship, amount);
-        else if(ship.isHulk()) doEmpDeathThrows(ship, amount);
+        //else if(ship.isHulk()) doEmpDeathThrows(ship, amount);
     }
 
     @Override

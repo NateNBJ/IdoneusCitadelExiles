@@ -1,0 +1,18 @@
+{
+	"id":"sun_ice_abraxas_doppelganger",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC",
+	"collisionClass":"NONE",
+	"collisionClassByFighter":"NONE",
+	"length":385,
+	"width":306,
+	"fadeTime":0.5,
+	"fringeColor":[255,255,0,0],
+	"coreColor":[0,255,220,120],
+	"glowColor":[0,255,255,0],
+	"glowRadius":0,
+	"hitGlowRadius":1,	
+	#"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"bulletSprite":"graphics/sun_ice/missiles/abraxas_doppelganger.png"	
+}

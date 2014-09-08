@@ -378,9 +378,8 @@ public class MxDroneAI extends BaseShipAI {
         }
     }
    
-    public MxDroneAI() {}
     public MxDroneAI(ShipAPI drone, ShipAPI mothership, DroneLauncherShipSystemAPI system) {
-        this.ship = drone;
+        super(drone);
         this.mothership = mothership;
         this.system = system;
 

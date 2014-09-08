@@ -18,7 +18,7 @@
 	
 	#"clampTurnRateAfter":true,
 	#"clampMaxSpeedAfter":true,
-	"alwaysAccelerate":true,
+	#"alwaysAccelerate":true,
 	
 	"engineGlowColor":[200,240,230,0],
 	"engineGlowContrailColor":[200,240,230,30],

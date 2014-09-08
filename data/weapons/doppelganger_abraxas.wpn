@@ -1,5 +1,5 @@
 {
-	"id":"sun_ice_doppelganger",
+	"id":"sun_ice_abraxas_doppelganger",
 	"specClass":"projectile",
 	"type":"ENERGY",
 	"size":"LARGE",
@@ -8,9 +8,9 @@
 	"hardpointSprite":"graphics/sun_ice/invisible.png",
 	"hardpointGunSprite":"graphics/sun_ice/invisible.png",
 	"glowColor":[255,100,150,0],
-	"turretOffsets":[30, 0],
+	"turretOffsets":[0, 0],
 	"turretAngleOffsets":[0],
-	"hardpointOffsets":[40, 0],
+	"hardpointOffsets":[0, 0],
 	"hardpointAngleOffsets":[0],
 	"barrelMode":"ALTERNATING", # or LINKED.  whether barrels fire at the same time or alternate.
 	"animationType":"GLOW_AND_FLASH",
@@ -23,6 +23,6 @@
 					   "particleColor":[255,100,150,255]},
 	"interruptibleBurst":false,
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
-	"projectileSpecId":"sun_ice_doppelganger_shot",  # projectile that will be fired
+	"projectileSpecId":"sun_ice_abraxas_doppelganger",  # projectile that will be fired
 	"fireSoundTwo":"plasma_cannon_fire",
 }

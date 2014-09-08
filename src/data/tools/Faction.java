@@ -53,7 +53,6 @@ public class Faction {
         variants.put("brdy_desdinova", createVariantList(new String[]{"desdinova_assault", "desdinova_cs", "desdinova_fastattack", "desdinova_HK"}));
         variants.put("brdy_scorpion", createVariantList(new String[]{"brdy_scorpion_adv", "brdy_scorpion_fs", "brdy_scorpion_standard"}));
         variants.put("brdy_scarab", createVariantList(new String[]{"scarab_closesupport", "scarab_firesupport", "scarab_pd", "scarab_strike", "scarab_attack", "scarab_hunter", "scarab_barrage", "scarab_hkineticwp"}));
-        
 
         variants.put("ms_charybdis", createVariantList(new String[]{"ms_charybdis_Attack", "ms_charybdis_Balanced", "ms_charybdis_CS", "ms_charybdis_PD", "ms_charybdis_Standard"}));
         variants.put("ms_elysium", createVariantList(new String[]{"ms_elysium_Assault", "ms_elysium_CS", "ms_elysium_PD", "ms_elysium_Standard", "ms_elysium_Strike"}));
@@ -69,6 +68,11 @@ public class Faction {
         variants.put("ms_tartarus", createVariantList(new String[]{"ms_tartarus_AF", "ms_tartarus_Assault", "ms_tartarus_CS", "ms_tartarus_Standard"}));
         variants.put("ms_scylla", createVariantList(new String[]{"ms_scylla_Assault", "ms_scylla_Beam", "ms_scylla_Standard"}));
         variants.put("ms_solidarity", createVariantList(new String[]{"ms_solidarity_Fast", "ms_solidarity_Standard"}));
+        
+        variants.put("tem_archbishop", createVariantList(new String[]{"tem_archbishop_sal", "tem_archbishop_mit", "tem_archbishop_man", "tem_archbishop_est", "tem_archbishop_def", "tem_archbishop_ati"}));
+        variants.put("tem_paladin", createVariantList(new String[]{"tem_paladin_agi", "tem_paladin_sal", "tem_paladin_ati", "tem_paladin_capi", "tem_paladin_est", "tem_paladin_mit", "tem_paladin_reti"}));
+        variants.put("tem_jesuit", createVariantList(new String[]{"tem_jesuit_ati", "tem_jesuit_capi", "tem_jesuit_def", "tem_jesuit_est", "tem_jesuit_reti", "tem_jesuit_sal"}));
+        variants.put("tem_crusader", createVariantList(new String[]{"tem_crusader_agi", "tem_crusader_ati", "tem_crusader_capi", "tem_crusader_def", "tem_crusader_est", "tem_crusader_reti", "tem_crusader_sal"}));
     }
 
     static List<String> createVariantList(String[] variants) {
@@ -136,7 +140,7 @@ public class Faction {
     
     String id, displayName, shipNamePrefix, description;
     boolean isValid = false;
-    boolean hasVariants = false;
+    float mostFP = 0;
     Set<String> warships = new HashSet();
     Set<String> fighters = new HashSet();
     Set<String> civilians = new HashSet();
@@ -144,17 +148,12 @@ public class Faction {
     void addVariant(String shipID, String variantID) {
         if(variantID.endsWith("_Hull")) return;
         
-        hasVariants = true;
-        
         if(!variants.containsKey(shipID)) variants.put(shipID, new ArrayList());
         
         if(!variants.get(shipID).contains(variantID))
             variants.get(shipID).add(variantID);
     }
     
-    public boolean hasVariants() {
-        return hasVariants;
-    }
     public String getRandomWingID() {
         int index = (int) (Math.random() * fighters.size());
         
@@ -182,6 +181,19 @@ public class Faction {
         
         if(!json.has("fleetCompositions")) { return; }
         
+        
+        if(id.equals("templars")) {
+            fighters.add("tem_teuton_fighter_wing");
+            fighters.add("tem_teuton_assault_wing");
+            fighters.add("tem_teuton_support_wing");
+            fighters.add("tem_teuton_bomber_wing");
+            
+            warships.add("tem_jesuit");
+            warships.add("tem_crusader");
+            warships.add("tem_paladin");
+            warships.add("tem_archbishop");
+        }
+        
         for(JSONObject fleet : getFleets(json.getJSONObject("fleetCompositions"))) {
             for(String variant : getKeys(fleet.getJSONObject("ships"))) {
                 FleetMemberType type = variant.endsWith("_wing")
@@ -198,6 +210,10 @@ public class Faction {
                     warships.add(member.getHullId());
                     addVariant(member.getHullId(), variant);
                 }
+                
+                if(member.getFleetPointCost() > mostFP) {
+                    mostFP = member.getFleetPointCost();
+                } 
             }
         }
         
@@ -237,7 +253,7 @@ public class Faction {
         TreeMap fpMap = new TreeMap();
         float wingsToAdd = 0;
 
-        while (true) {
+        while (currFP < maxFP) {
             String variantID;
             
             if(wingsToAdd > 0 && !fighters.isEmpty()) {
@@ -253,15 +269,10 @@ public class Faction {
             
             int fp = api.getFleetPointCost(variantID);
             
-            if(wingsToAdd <= 0 && (Math.min(30, fp)+3) / (rand.nextInt(35)+3) > rand.nextFloat())
+            if(wingsToAdd <= 0 && (fp + 3) / (mostFP * 1.25f + 3) > rand.nextFloat())
                 continue;
             
             currFP += fp;
-
-            if (currFP > maxFP) {
-                currFP -= fp;
-                break;
-            }
 
             if (!fpMap.containsKey(api.getFleetPointCost(variantID))) {
                 fpMap.put(fp, new HashMap());

@@ -112,14 +112,6 @@ public abstract class BaseShipAI implements ShipAIPlugin {
     }
     public ShipCommand turnToward(float degreeAngle) {
         return turn(degreeAngle, false);
-//        float angleDif = MathUtils.getShortestRotation(ship.getFacing(), degreeAngle);
-//
-//        if(Math.abs(angleDif) < 5) return null;
-//
-//        ShipCommand direction = (angleDif > 0) ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
-//        ship.giveCommand(direction, null, 0);
-//
-//        return direction;
     }
     public ShipCommand turnToward(Vector2f location) {
         return turnToward(VectorUtils.getAngle(ship.getLocation(), location));
@@ -191,7 +183,6 @@ public abstract class BaseShipAI implements ShipAIPlugin {
         ship.giveCommand(ShipCommand.SELECT_GROUP, null, group);
     }
 
-    public BaseShipAI() {}
     public BaseShipAI(ShipAPI ship) { this.ship = ship; }
 
     @Override

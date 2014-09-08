@@ -21,11 +21,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         
         enemy = Faction.getFactionById("sun_ice");
         int s = Faction.getAllFactions().size();
-        do {
-            player = (Faction)Faction.getAllFactions().toArray()[
-                    rand.nextInt(s)];
-        } while(!player.hasVariants());
-
+        player = (Faction)Faction.getAllFactions().toArray()[
+                rand.nextInt(s)];
 
         api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 5);
         api.initFleet(FleetSide.ENEMY, "ISS", FleetGoal.ATTACK, true, 5);
@@ -34,8 +31,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.setFleetTagline(FleetSide.ENEMY, "Enemy forces");
 
         int size = 30 + (int)((float) Math.random() * 170);
+        float difficulty = 0.5f + rand.nextFloat() * 0.5f;
         
-        int playerFP = player.generateFleet(api, FleetSide.PLAYER, size);
+        int playerFP = player.generateFleet(api, FleetSide.PLAYER, (int)(size * difficulty));
         int enemyFP = enemy.generateFleet(api, FleetSide.ENEMY, size);
 
         float width = 13000f + 13000f * (size / 200);

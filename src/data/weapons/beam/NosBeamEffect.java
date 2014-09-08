@@ -6,43 +6,44 @@ import com.fs.starfarer.api.combat.BeamEffectPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.tools.SunUtils;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
 import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.vector.Vector2f;
 
 public class NosBeamEffect implements BeamEffectPlugin {
-    static final float MAX_RADIUS = 70f;
-    static final float INNER_RADIUS = 25f;
-    static final float REPAIR_RATE = 100f;
+    float maxRadius, innerRadius, repairRate;
     
     Map<Point, Float> cellMap;
     
+    void setHealStats(String id) {
+        if(id.equals("sun_ice_chupacabra")) {
+            maxRadius = 80;
+            innerRadius = 25;
+            repairRate = 80;
+        } else if(id.equals("sun_ice_nos")) {
+            maxRadius = 120;
+            innerRadius = 40;
+            repairRate = 200;
+        }
+    }
     void buildCellMap(BeamAPI beam) {
         cellMap = new WeakHashMap();
-        
         ArmorGridAPI grid = beam.getSource().getArmorGrid();
-
-        Vector2f relLoc = new Vector2f(beam.getWeapon().getLocation());
-        Vector2f.sub(relLoc, beam.getSource().getLocation(), relLoc);
-        VectorUtils.rotate(relLoc, -(float)Math.toRadians(beam.getSource().getFacing() - 90), relLoc);
-        Vector2f.add(relLoc, new Vector2f(
-                (grid.getLeftOf() - 0.5f) * grid.getCellSize(),
-                (grid.getBelow() - 0.5f) * grid.getCellSize()), relLoc);
+        int[] center = grid.getCellAtLocation(beam.getWeapon().getLocation());
+        Vector2f relLoc = new Vector2f(center[0] * grid.getCellSize(), center[1] * grid.getCellSize());
 
         for(int x = 0; x < grid.getGrid().length; ++x) {
             for(int y = 0; y < grid.getGrid()[0].length; ++y) {
                 Vector2f loc = new Vector2f(x * grid.getCellSize(), y * grid.getCellSize());
                 float dist = MathUtils.getDistance(relLoc, loc);
 
-                if(dist > MAX_RADIUS) continue;
+                if(dist > maxRadius) continue;
 
-                float effect = (dist <= INNER_RADIUS) ? 1
-                        : 1 - (dist - INNER_RADIUS) / (MAX_RADIUS - INNER_RADIUS);
+                float effect = (dist <= innerRadius) ? 1
+                        : 1 - (dist - innerRadius) / (maxRadius - innerRadius);
 
                 cellMap.put(new Point(x, y), effect);
             }
@@ -50,8 +51,7 @@ public class NosBeamEffect implements BeamEffectPlugin {
     }
     
     @Override
-    public void advance(float amount, CombatEngineAPI engine, BeamAPI beam)
-    {
+    public void advance(float amount, CombatEngineAPI engine, BeamAPI beam) {
         CombatEntityAPI target = beam.getDamageTarget();
         
         if(!beam.didDamageThisFrame()
@@ -61,16 +61,20 @@ public class NosBeamEffect implements BeamEffectPlugin {
             ) return;
             
             
-        if(cellMap == null) buildCellMap(beam);
+        if(cellMap == null) {
+            setHealStats(beam.getWeapon().getId());
+            buildCellMap(beam);
+        }
         
         ArmorGridAPI grid = beam.getSource().getArmorGrid();
         
         for(Entry<Point, Float> pair : cellMap.entrySet()) {
-            float newArmorVal = grid.getArmorValue(pair.getKey().getX(), pair.getKey().getY());
-            newArmorVal += Math.sqrt(pair.getValue()) * amount * REPAIR_RATE;
-            newArmorVal = Math.min(newArmorVal, grid.getMaxArmorInCell());
+            float currentVal = grid.getArmorValue(pair.getKey().getX(), pair.getKey().getY());
+            float newVal = currentVal + (float)Math.sqrt(pair.getValue()) * amount * repairRate;
+            newVal = Math.min(newVal, grid.getMaxArmorInCell() * pair.getValue());
+            newVal = Math.max(newVal, currentVal);
             
-            grid.setArmorValue(pair.getKey().getX(), pair.getKey().getY(), newArmorVal);
+            grid.setArmorValue(pair.getKey().getX(), pair.getKey().getY(), newVal);
         }
     }	
 }

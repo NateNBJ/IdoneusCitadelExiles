@@ -29,7 +29,9 @@ public class MinePodAI extends BaseMissileAI {
         deployPoint = new Vector2f(missile.getSource().getMouseTarget());
         List<BattleObjectiveAPI> objectives = Global.getCombatEngine().getObjectives();
         
-        if(missile.getSource().getShipAI() == null) {
+        if(missile.getWeapon() == null) {
+            SunUtils.destroy(missile);
+        } else if(missile.getSource().getShipAI() == null) {
             Global.getCombatEngine().addHitParticle(deployPoint,
                 new Vector2f(), 60, 1, 0.7f, MineAI.PING_COLOR);
             Global.getSoundPlayer().playUISound("sun_ice_deploy_mine_pod", 1, 1);

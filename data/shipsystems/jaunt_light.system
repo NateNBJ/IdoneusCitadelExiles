@@ -1,10 +1,10 @@
 {
-	"id":"sun_ice_jaunt",
+	"id":"sun_ice_jaunt_light",
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
 	
 	"aiScript":"data.shipsystems.ai.JauntAI",
-	"statsScript":"data.shipsystems.JauntStats",
+	"statsScript":"data.shipsystems.JauntLightStats",
 	
 	"jitterColor":[200,240,230,42],
 	"jitterCopies":3,

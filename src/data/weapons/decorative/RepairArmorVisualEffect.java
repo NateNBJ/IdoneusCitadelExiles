@@ -6,8 +6,8 @@ import com.fs.starfarer.api.combat.WeaponAPI;
 import data.shipsystems.RepairArmorStats;
 
 public class RepairArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
-    private static float ACTIVATION_SPEED = 0.3f;
-    private static float DEACTIVATION_SPEED = 0.5f;
+    private static final float ACTIVATION_SPEED = 0.3f;
+    private static final float DEACTIVATION_SPEED = 0.5f;
 
     private float alpha = 0;
 	
@@ -22,7 +22,8 @@ public class RepairArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
             weapon.getAnimation().setFrame(0);
             return;
         }
-
+        
+        weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
         
         alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);

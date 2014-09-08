@@ -10,11 +10,14 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.combat.WeaponAPI.WeaponType;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
@@ -43,15 +46,89 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
-    
+    public static List<DamagingProjectileAPI> getProjectilesDamagedBy(ShipAPI ship) {
+        List retVal = new LinkedList();
+        
+        for(DamagingProjectileAPI p : CombatUtils.getProjectilesWithinRange(ship.getLocation(), ship.getCollisionRadius())) {
+            if(p.didDamage() && p.getDamageTarget() == ship) retVal.add(p);
+        }
+        
+        return retVal;
+    }
+    public static Vector2f getVectorFromDegrees(float degrees) {
+        return new Vector2f(
+                (float)Math.cos(Math.toRadians(degrees)),
+                (float)Math.sin(Math.toRadians(degrees))
+        );
+    }
+    public static Vector2f getOffset(Vector2f from, float direction, float distance) {
+        return getOffset(from, getVectorFromDegrees(direction), distance);
+    }
+    public static Vector2f getOffset(Vector2f from, Vector2f toward, float distance) {
+        Vector2f retVal;
+        retVal = VectorUtils.getDirectionalVector(from, toward);
+        retVal.scale(distance);
+        Vector2f.add(retVal, from, retVal);
+        return retVal;
+    }
+    public static List<DamagingProjectileAPI> curveBullets(Vector2f at,
+            float direction, float maxAngle, float forceMultiplier) {
+        
+        return curveBullets(at, direction, maxAngle, forceMultiplier, false, 1);
+    }
+
+    public static List<DamagingProjectileAPI> curveBullets(Vector2f at,
+            float direction, float maxAngle, float forceMultiplier, boolean invert, float velocityMultiplier) {
+        Collection<DamagingProjectileAPI> projectiles =
+                Global.getCombatEngine().getProjectiles();
+        
+        List undiflected = new LinkedList(projectiles);
+        float amount = Global.getCombatEngine().getElapsedInLastFrame();
+
+        for(DamagingProjectileAPI proj : projectiles) {
+            // Make sure the projectile is moving in the opposite direction
+            float angleDif = MathUtils.getShortestRotation(direction,
+                    MathUtils.clampAngle(proj.getFacing() + 180));
+            if(Math.abs(angleDif) >= maxAngle) continue;
+
+            // Make sure the projectile is within the cone of effect
+            angleDif = MathUtils.getShortestRotation(direction,
+                    VectorUtils.getAngle(at, proj.getLocation()));
+            if(Math.abs(angleDif) >= maxAngle) continue;
+            
+            // Deflected projectiles will not be checked during phase approval
+            undiflected.remove(proj);
+
+            // Calculate the angle by which to rotate the projectile
+            float distance = MathUtils.getDistance(at, proj.getLocation());
+            float force = (float)Math.pow(1 - Math.abs(angleDif) / maxAngle, 2)
+                    * (200 / (distance+200)) * forceMultiplier;
+            float dAngle = -Math.signum(angleDif) * force * amount;
+            dAngle *= invert ? -1 : 1;
+
+            // Rotate the facing and velocity of the projectile
+            VectorUtils.rotate(proj.getVelocity(), dAngle, proj.getVelocity());
+            proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle));
+            proj.getVelocity().scale(velocityMultiplier);
+        }
+        
+        return undiflected;
+    }
     public static float estimateOptimalRange(ShipAPI ship) {
         float acc = 0, opAcc = 0;
+//        Map<WeaponType, Float> rangeBunuses = new HashMap();
+//        rangeBunuses.put(WeaponType.BALLISTIC, ship.getMutableStats().getBallisticWeaponRangeBonus().getBonusMult());
+//        rangeBunuses.put(WeaponType.ENERGY, ship.getMutableStats().getEnergyWeaponRangeBonus().getBonusMult());
+//        rangeBunuses.put(WeaponType.MISSILE, ship.getMutableStats().getMissileWeaponRangeBonus().getBonusMult());
+//        rangeBunuses.put(WeaponType., ship.getMutableStats().getBeamWeaponRangeBonus().getBonusMult());
+//        rangeBunuses.put(WeaponType.BALLISTIC, ship.getMutableStats().getBallisticWeaponRangeBonus().getBonusMult());
         
         for(WeaponAPI w :ship.getAllWeapons()) {
             float op = w.getSpec().getOrdnancePointCost(null);
-             if(w.getDamageType() == DamageType.FRAGMENTATION) op *= 0.25f;
+             if(w.getDamageType() == DamageType.FRAGMENTATION) op *= 0.2f;
             opAcc += op;
             acc += op * w.getRange();
+                    
         }
         
         return acc / opAcc;

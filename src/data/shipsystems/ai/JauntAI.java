@@ -7,7 +7,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import data.shipsystems.JauntStats;
+import data.shipsystems.JauntHeavyStats;
 import data.tools.IntervalTracker;
 import data.tools.SunUtils;
 import java.util.Map;
@@ -16,8 +16,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class JauntAI implements ShipSystemAIScript {
     static final float USE_THRESHHOLD = 100.0f;
-    static final float ACTIVATION_SECONDS = 1.5f;
-    static final float MAX_AMMO = 4.0f;
+    static final float ACTIVATION_SECONDS = 3f;
+    //static final float MAX_AMMO = 4.0f;
     
     ShipSystemAPI system;
     ShipAPI ship;
@@ -51,8 +51,8 @@ public class JauntAI implements ShipSystemAIScript {
         float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
         
         if(system.isOn()) {
-            flux = 0;
-            damage *= 0.2f;
+            flux = (float)Math.pow(reactor.getFluxLevel(), 2);
+            damage *= 0.25f;
             
             // No reason to stay here if we're not shooting anything or dissipating soft flux
             if(reactor.getCurrFlux() == reactor.getHardFlux()) {
@@ -72,21 +72,22 @@ public class JauntAI implements ShipSystemAIScript {
             
             // Prevent from using when it doesn't have enough flux to use
             if(reactor.getCurrFlux() > reactor.getMaxFlux()
-                    - system.getFluxPerSecond() * ACTIVATION_SECONDS * 2) // * 2 for buffer
+                    - system.getFluxPerSecond() * ACTIVATION_SECONDS)
                 return;
             
             // Check if we're in a good position to attack a distant target remotely
             if(reactor.getFluxLevel() < 0.3f) {
                 int enemy = (ship.getOwner() + 1) % 2;
-                float range = SunUtils.estimateOptimalRange(ship);
+                float range = SunUtils.estimateOptimalRange(ship) * 0.8f;
                 float fp = SunUtils.getFPStrength(ship);
                 float hostilityInEminentRange = SunUtils.getStrengthInArea(
                         ship.getLocation(), range, enemy);
                 float hostilityInRemoteRange = Math.min(fp, SunUtils.getStrengthInArea(
-                        ship.getLocation(), range + JauntStats.MAX_RANGE,
+                        ship.getLocation(), range + JauntHeavyStats.MAX_RANGE,
                         enemy) - hostilityInEminentRange);
 
-                if(hostilityInEminentRange < fp / 6 && hostilityInRemoteRange > fp / 6) {
+                if(hostilityInEminentRange < fp / 6
+                        && hostilityInEminentRange < hostilityInRemoteRange) {
                     phaseNecessity += USE_THRESHHOLD;
                 }
             }
