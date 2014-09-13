@@ -94,7 +94,7 @@
     0,
     -0
   ],
-  "shieldRadius": 65,
+  "shieldRadius": 71.5,
   "spriteName": "graphics/sun_ice/ships/Nightseer.png",
   "style": "SUN_ICE",
   "viewOffset": 0,

@@ -49,6 +49,8 @@ public class NosAutofireAIPlugin implements AutofireAIPlugin {
             findTarget();
             shouldFire = target != null
                     && (target.getPhaseCloak() == null || !target.getPhaseCloak().isActive())
+                    && (target.getShield() == null || target.getShield().isOff()
+                        || !target.getShield().isWithinArc(weapon.getLocation()))
                     && SunUtils.getShipInLineOfFire(weapon) == target;
         }
     }

@@ -49,9 +49,12 @@ public class JauntAI implements ShipSystemAIScript {
         float flux, phaseNecessity = 0;
         float damage = SunUtils.estimateIncomingDamage(ship, 1) * 0.7f;
         float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
+        //flux = (float)Math.sqrt(reactor.getFluxLevel());
         
         if(system.isOn()) {
-            flux = (float)Math.pow(reactor.getFluxLevel(), 2);
+            flux = 0;
+            phaseNecessity += reactor.getFluxLevel() * USE_THRESHHOLD * 1.25f;
+            //flux = (float)Math.pow(reactor.getFluxLevel(), 1);
             damage *= 0.25f;
             
             // No reason to stay here if we're not shooting anything or dissipating soft flux
@@ -88,7 +91,7 @@ public class JauntAI implements ShipSystemAIScript {
 
                 if(hostilityInEminentRange < fp / 6
                         && hostilityInEminentRange < hostilityInRemoteRange) {
-                    phaseNecessity += USE_THRESHHOLD;
+                    phaseNecessity += USE_THRESHHOLD * 1.2f;
                 }
             }
             

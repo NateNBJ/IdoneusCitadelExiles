@@ -26,7 +26,7 @@ public class NosBeamEffect implements BeamEffectPlugin {
         } else if(id.equals("sun_ice_nos")) {
             maxRadius = 120;
             innerRadius = 40;
-            repairRate = 200;
+            repairRate = 100;
         }
     }
     void buildCellMap(BeamAPI beam) {

@@ -110,7 +110,7 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new NovaDischargerAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_fissiondrill")) {
             return new PluginPick(new FissionDrillAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
-        } else if (id.equals("sun_ice_nos")) {
+        } else if (id.equals("sun_ice_nos") || id.equals("sun_ice_chupacabra")) {
             return new PluginPick(new NosAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_pddrone")) {
             return new PluginPick(new PdDroneAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);

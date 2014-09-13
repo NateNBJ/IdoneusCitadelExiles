@@ -10,7 +10,6 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.combat.WeaponAPI.WeaponType;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,7 +75,6 @@ public class SunUtils
         
         return curveBullets(at, direction, maxAngle, forceMultiplier, false, 1);
     }
-
     public static List<DamagingProjectileAPI> curveBullets(Vector2f at,
             float direction, float maxAngle, float forceMultiplier, boolean invert, float velocityMultiplier) {
         Collection<DamagingProjectileAPI> projectiles =
@@ -161,7 +159,7 @@ public class SunUtils
         return retVal;
     }
     public static void blink(Vector2f at) {
-        Global.getCombatEngine().addHitParticle(at, new Vector2f(), 20, 1, 0.1f, Color.RED);
+        Global.getCombatEngine().addHitParticle(at, new Vector2f(), 30, 1, 0.1f, Color.RED);
     }
     public static List<ShipAPI> getShipsOnSegment(Vector2f from, Vector2f to) {
         float distance = MathUtils.getDistance(from, to);

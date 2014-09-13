@@ -68,7 +68,10 @@ public class MineAI extends BaseMissileAI {
         
         if(Math.random() < amount * 0.9f) ping();
         
-        if(target == null) return;
+        if(target == null) {
+            decelerate();
+            return;
+        }
 
         float distance = MathUtils.getDistance(missile, target);
         float leadTime = distance * LEAD_TIME_PER_DISTANCE;
@@ -83,11 +86,14 @@ public class MineAI extends BaseMissileAI {
                 fuel -= amount;
             } else missile.flameOut();
         } else if((cloak == null || !cloak.isActive())
-                && (distance <= ATTACK_RANGE)// || missile.getHullLevel() < 1)
+                && (distance <= ATTACK_RANGE)
                 && isFacing(leadPoint)) {
             attacking = true;
             timeOfBurn = time;
-        } else turnToward(leadPoint);
+        } else {
+            turnToward(leadPoint);
+            decelerate();
+        }
         
         if(time - timeOfBurn > TTL_AFTER_BURN) SunUtils.destroy(missile);
     }

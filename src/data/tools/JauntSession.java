@@ -75,12 +75,12 @@ public class JauntSession {
 
         return CombatUtils.getAsteroidsWithinRange(at, ship.getCollisionRadius() * 0.8f).isEmpty();
     }
-    Vector2f getChosenAIDestination() {
+    Vector2f getAIDestinationChoice() {
         Vector2f retVal = null, shipLoc = new Vector2f(ship.getLocation());
         boolean aggressing = AIUtils.getEnemiesOnMap(ship).size() > 0
                 && ship.getFluxTracker().getFluxLevel() < 0.4 + Math.random() * 0.3;
         float range = maxRange + ship.getCollisionRadius();
-        float weaponRange = SunUtils.estimateOptimalRange(ship);
+        float weaponRange = SunUtils.estimateOptimalRange(ship) * 0.8f;
         float bestScore = -999999; // Float.MIN_VALUE won't work for some reason. Why?
         double theta = Math.random() * Math.PI * 2;
         double thetaIncrement = (Math.PI * 2) / DESTINATION_CANDIDATE_COUNT;
@@ -94,17 +94,24 @@ public class JauntSession {
             theta += thetaIncrement;
             
             ship.getLocation().set(candidate);
-            float score = SunUtils.getFPWorthOfSupport(ship, SUPPORT_RANGE)
-            //        - Math.max(0, SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE) - SunUtils.getFP(ship) * ship.getFluxTracker().getFluxLevel())
-                    - SunUtils.estimateIncomingDamage(ship);
-            
-            if(!pointIsClear(candidate)) score -= ship.getCollisionRadius() / 10;
+//            float score = SunUtils.getFPWorthOfSupport(ship, SUPPORT_RANGE)
+//            //        - Math.max(0, SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE) - SunUtils.getFP(ship) * ship.getFluxTracker().getFluxLevel())
+//                    - SunUtils.estimateIncomingDamage(ship);
+            float score = 0;
             
             if(aggressing) {
                 enemy = AIUtils.getNearestEnemy(ship); // Don't move this out of the loop
-                if(MathUtils.getDistance(ship, enemy) < weaponRange)
-                    score += SunUtils.getFP(enemy) * (1.0f + enemy.getFluxTracker().getFluxLevel());
+                float rangeDist = weaponRange - MathUtils.getDistance(ship, enemy);
+                if(rangeDist > 0) {
+                    boolean shieldBlocked = enemy.getShield() != null && enemy.getShield().isWithinArc(candidate);
+                    score += SunUtils.getFP(enemy)
+                            * (1.0f + enemy.getFluxTracker().getFluxLevel())
+                            * (shieldBlocked ? 0.25f : 1)
+                            * (0.5f + 0.5f * (weaponRange - rangeDist) / weaponRange);
+                }// else score *= 0.1f;
             } else score -= SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE);
+            
+            if(!pointIsClear(candidate)) score -= ship.getCollisionRadius() / 10;
             
             if(score > bestScore) {
                 bestScore = score;
@@ -125,10 +132,10 @@ public class JauntSession {
         
         return retVal;
     }
-    final void determineDestination() {                // Determine teleport destination
+    final void determineDestination() {
         destination = (ship.getShipAI() == null)
                 ? new Vector2f(ship.getMouseTarget()) // For the player
-                : getChosenAIDestination(); // For AI
+                : getAIDestinationChoice(); // For AI
         origin = new Vector2f(ship.getLocation());
 
         // Bring destination closer if it exceeds max range 
@@ -223,6 +230,7 @@ public class JauntSession {
         return progress != 1;
     }
     public void advance() {
+        if(ship.getFluxTracker().isOverloadedOrVenting()) goHome();
         amount = engine.getElapsedInLastFrame();
         if(warpTime == 0) {
             progress = returning ? 0 : 1;
@@ -231,7 +239,7 @@ public class JauntSession {
             progress = Math.max(0, Math.min(1, progress));
         }
         setAlpha((float)Math.pow(Math.abs((0.5f - progress) * 2), 3));
-        ship.getMutableStats().getFluxDissipation().modifyMult(ID, 0.25f);
+        ship.getMutableStats().getVentRateMult().modifyMult(ID, 0.5f);
         
         boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
         
@@ -263,22 +271,29 @@ public class JauntSession {
     }
     public void stopGoingHome() {
         returning = false;
-        destination = new Vector2f( ship.getLocation());
+        destination = new Vector2f(ship.getLocation());
         progress = 1;
         warpTime = 0;
+        if(ship.getShipAI() != null) ship.resetDefaultAI();
     }
     public void goHome() {
         if(returning == false) {
             returning = true;
             warpTime = MathUtils.getDistance(origin, destination)
                     * SECONDS_IN_WARP_PER_SU + MIN_WARP_TIME;
+            if(ship.getShipAI() != null) {
+                ship.setShipAI(new JauntTurnTempAI(ship,
+                        AIUtils.getNearestEnemy(doppelganger), this));
+            }
         }
     }
     public void endNow() {
-        if(doppelganger != null) engine.removeEntity(doppelganger);
-        ship.setCollisionClass(CollisionClass.SHIP);
+        boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
+        ship.setCollisionClass(isPhased ? CollisionClass.NONE : CollisionClass.SHIP);
         jauntSessions.remove(ship);
-        ship.getMutableStats().getFluxDissipation().unmodify(ID);
+        ship.getMutableStats().getVentRateMult().unmodify(ID);
         setAlpha(1);
+        if(ship.getShipAI() != null) ship.resetDefaultAI();
+        if(doppelganger != null) engine.removeEntity(doppelganger);
     }
 }

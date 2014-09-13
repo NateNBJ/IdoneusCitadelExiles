@@ -19,9 +19,9 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class AdvPhaseWarpStats implements ShipSystemStatsScript {
-    static final float ANGLE_FORCE_MULTIPLIER = 10f;
-    static final float VELOCITY_FORCE_MULTIPLIER = 1000f;
-    static final float MAX_RANGE_MULTIPLIER = 12f;
+    static final float ANGLE_FORCE_MULTIPLIER = 3.5f;
+    static final float VELOCITY_FORCE_MULTIPLIER = 350f;
+    static final float MAX_RANGE_MULTIPLIER = 10f;
     
     static final Color SPARK_COLOR = new Color(220, 255, 0);
     static final float SPARK_DURATION = 0.6f;
@@ -30,23 +30,21 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
 
     ShipAPI ship;
     CombatEngineAPI engine;
-    JauntSession session;
     List<DamagingProjectileAPI> absorbed = new LinkedList();
+    List<DamagingProjectileAPI> ordnance;
+    Vector2f wormhole;
     
-    boolean shouldDenyPhase() {
-        if(ship.getShipAI() == null) return false;
-        
-        return JauntSession.hasSession(ship)
-                || ship.getFluxTracker().getFluxLevel() > 0.85f
-                || SunUtils.estimateIncomingBeamDamage(ship, 1) < 50;
-    }
     void absorbProjectile(DamagingProjectileAPI proj) {
+        if(!engine.isEntityInPlay(proj)) return;
+        
+        ship.getFluxTracker().setCurrFlux(Math.max(ship.getFluxTracker().getHardFlux(), ship.getFluxTracker().getCurrFlux() - proj.getDamageAmount()));
+        
         if (proj instanceof MissileAPI) {
             SunUtils.destroy(proj);
             return;
         }
         
-        if(proj.getWeapon() != null) absorbed.add(proj);
+        //if(proj.getWeapon() != null) absorbed.add(proj);
         
         float sparkAngle = VectorUtils.getAngle(proj.getLocation(), ship.getLocation());
         sparkAngle *= Math.PI / 180f;
@@ -61,28 +59,24 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
         engine.addHitParticle(proj.getLocation(), sparkVect, SPARK_RADIUS * visualEffect + SPARK_RADIUS, SPARK_BRIGHTNESS, SPARK_DURATION, SPARK_COLOR);
         engine.removeEntity(proj);
     }
-    void suckInProjectile(DamagingProjectileAPI proj, State state, float effectLevel) {
-        float fromToAngle = VectorUtils.getAngle(ship.getLocation(), proj.getLocation());
-        float aheadOfNess = 1 - Math.abs(MathUtils.getShortestRotation(fromToAngle, ship.getFacing())) / 180;
+    void suckInProjectile(DamagingProjectileAPI proj) {
+        float fromToAngle = VectorUtils.getAngle(wormhole, proj.getLocation());
         float angleDif = MathUtils.getShortestRotation(fromToAngle, MathUtils.clampAngle(proj.getFacing() + 180));
         float amount = Global.getCombatEngine().getElapsedInLastFrame();
-        float distance = MathUtils.getDistance(ship.getLocation(), proj.getLocation());
-        float force = (ship.getCollisionRadius() / distance) * effectLevel * (float)Math.pow(aheadOfNess, 2);
-        float dAngle = angleDif * amount * force * ANGLE_FORCE_MULTIPLIER;
+        float distance = MathUtils.getDistance(wormhole, proj.getLocation());
+        float force = (ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER) / distance;
+        float dAngle = -angleDif * amount * force * ANGLE_FORCE_MULTIPLIER;
         fromToAngle = (float)Math.toRadians(fromToAngle);
         Vector2f speedUp = new Vector2f(
                 (float) Math.cos(fromToAngle) * amount,
                 (float) Math.sin(fromToAngle) * amount);
-        speedUp.scale(force * VELOCITY_FORCE_MULTIPLIER);
-
-        if (state != State.OUT) {
-            dAngle = -dAngle;
-            speedUp.scale(-1);
-        }
+        speedUp.scale(-force * VELOCITY_FORCE_MULTIPLIER);
 
         Vector2f.add(proj.getVelocity(), speedUp, proj.getVelocity());
         VectorUtils.rotate(proj.getVelocity(), dAngle, proj.getVelocity());
         proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle));
+        
+        SunUtils.blink(wormhole);
     }
     void releaseProjectiles() {
         for(DamagingProjectileAPI proj : absorbed) {
@@ -102,41 +96,27 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ship = (ShipAPI)stats.getEntity();
         engine = Global.getCombatEngine();
+
+        stats.getMaxSpeed().modifyFlat(id, 250f * effectLevel);
+        stats.getAcceleration().modifyFlat(id, 400f * effectLevel);
+        stats.getDeceleration().modifyFlat(id, 200f * effectLevel);
+        stats.getFluxDissipation().modifyMult(id, 0);
         
-        if(state == ShipSystemStatsScript.State.IN
-                && (session == null || session.isReturning())) {
-            session = JauntSession.getSession(ship);
-            session.stopGoingHome();
-        } else if(state == ShipSystemStatsScript.State.OUT && session != null) {
-            session.goHome();
+        if(wormhole == null) {
+            wormhole = new Vector2f(ship.getLocation());
+            ordnance = new LinkedList();
+            ordnance.addAll(CombatUtils.getProjectilesWithinRange(wormhole, ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
+            ordnance.addAll(CombatUtils.getMissilesWithinRange(wormhole, ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
         }
 
-        if (state == State.OUT) {
-            stats.getMaxSpeed().unmodify(id);
-            
-            if(!ship.getFluxTracker().isOverloadedOrVenting()) {
-                releaseProjectiles();
+        for (DamagingProjectileAPI proj : ordnance) {
+            if(proj == null || proj.getProjectileSpecId() == null
+                    || proj.getProjectileSpecId().endsWith("_doppelganger")) {
+                continue;
+            } else if(MathUtils.getDistance(proj, wormhole) <= ship.getCollisionRadius() / 2) {
+                absorbProjectile(proj);
             } else {
-                absorbed.clear();
-            }
-        } else {
-            stats.getMaxSpeed().modifyFlat(id, 150f * effectLevel);
-            stats.getAcceleration().modifyFlat(id, 300f * effectLevel);
-            stats.getDeceleration().modifyFlat(id, 150f * effectLevel);
-        
-            List<DamagingProjectileAPI> ordnance = new LinkedList();
-            ordnance.addAll(CombatUtils.getProjectilesWithinRange(ship.getLocation(), ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
-            ordnance.addAll(CombatUtils.getMissilesWithinRange(ship.getLocation(), ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
-
-            for (DamagingProjectileAPI proj : ordnance) {
-                if(proj == null || proj.getProjectileSpecId() == null
-                        || proj.getProjectileSpecId().endsWith("_doppelganger")) {
-                    continue;
-                } else if(state != State.OUT && MathUtils.getDistance(ship, proj) <= 0) {
-                    absorbProjectile(proj);
-                } else {
-                    suckInProjectile(proj, state, effectLevel);
-                }
+                suckInProjectile(proj);
             }
         }
     }
@@ -146,9 +126,11 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
         stats.getMaxSpeed().unmodify(id);
         stats.getAcceleration().unmodify(id);
         stats.getDeceleration().unmodify(id);
+        stats.getFluxDissipation().unmodify(id);
         
-        if(session != null) session.goHome();
-        session = null;
+        wormhole = null;
+        ordnance = null;
+        if(JauntSession.hasSession(ship)) ship.useSystem();
     }
 
     @Override
