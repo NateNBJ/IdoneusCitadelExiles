@@ -2,9 +2,7 @@ name,id,unlocked,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,sp
 Gravimetric Sensors,sun_ice_gravitonic_sensors_mod,FALSE,0,0,0,0,data.hullmods.GravimetricSensors,The Idoneus Fleet uses unconventional sensors that rely on graviton tracking. Modifies range of ballistic and energy weapons to be closer to 600 su by 50 percent. Also increases sensor range by 20 percent.,graphics/sun_ice/hullmods/gravimetric_sensors.png
 Reverberation Dampeners,sun_ice_reverb_dampeners_mod,FALSE,0,0,0,0,data.hullmods.ReverbDampeners,Reduces damage from collisions and kinetic damage by 75 percent. Does not apply to shields.,graphics/hullmods/generic_mod.png
 Graviton Deflector,sun_ice_graviton_deflector_mod,FALSE,0,0,0,0,data.hullmods.GravitonDeflector,"Deflects oncoming ordnance. Most effective with low flux. Disabled during venting, phasing, and while ship systems are active.",graphics/hullmods/generic_mod.png
-Triangulation Relay,sun_ice_triangulation_relay_mod,FALSE,0,0,0,0,data.hullmods.TriangulationRelay,Increases the range of ballistic weapons by 100 su for each ship in the fleet.,graphics/hullmods/generic_mod.png
-Gravity Anchor,sun_ice_gravity_anchor,FALSE,0,0,0,0,data.hullmods.GravityAnchor,Allows the ship to be immobilized.,graphics/hullmods/generic_mod.png
-Nova Reactor,sun_ice_nova_reactor,FALSE,0,0,0,0,data.hullmods.NovaReactor,,graphics/hullmods/generic_mod.png
+Nova Reactor,sun_ice_nova_reactor,FALSE,0,0,0,0,data.hullmods.NovaReactor,"Provides the energy to rapidly reconstruct the armor of every part of the ship but the nova reactor itself, located near the center.",graphics/hullmods/generic_mod.png
 Nutrition Resynthesis Annex,sun_ice_nutrition_resynth,FALSE,0,0,0,0,data.hullmods.NutritionResynth,"Reduces personell supply usage by 50 percent.
 
 [Bonus not shown in tooltips]",graphics/hullmods/generic_mod.png

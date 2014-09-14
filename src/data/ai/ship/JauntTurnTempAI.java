@@ -39,8 +39,8 @@ public class JauntTurnTempAI extends BaseShipAI {
 
             fakeTurnToAngle(VectorUtils.getAngle(to, target.getLocation()));
             
-            SunUtils.blink(to);
-            SunUtils.blink(target.getLocation());
+//            SunUtils.blink(to);
+//            SunUtils.blink(target.getLocation());
          }
     }
     

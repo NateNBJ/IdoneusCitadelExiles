@@ -1,15 +1,18 @@
 package data.ai.missile;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MissileAPI;
 import data.tools.SunUtils;
 
 public class SpitfireMissileAI extends BaseMissileAI {
     boolean fizzled = false;
+    double waveOffset;
     
     public SpitfireMissileAI() {}
     public SpitfireMissileAI(MissileAPI missile) {
         this.missile = missile;
         findTarget();
+        waveOffset = (Math.random() * Math.PI * 2);
         
     }
 
@@ -30,7 +33,15 @@ public class SpitfireMissileAI extends BaseMissileAI {
             
         if(missile.isFizzling()) fizzled = true;
         
-        turnToward(target);
-        strafeToward(target);
+        double wave = Math.sin(waveOffset + Global.getCombatEngine().getTotalElapsedTime(false) * 10);
+        
+        if(wave < 0.5) {
+            strafeToward(target);
+        } else if(wave > 0.8) {
+            //turnAway(target);
+            strafeAway(target);
+        }
+        
+            turnToward(target);
     }
 }

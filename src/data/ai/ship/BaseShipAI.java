@@ -10,7 +10,6 @@ import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
 
 @SuppressWarnings("unchecked")
 public abstract class BaseShipAI implements ShipAIPlugin {

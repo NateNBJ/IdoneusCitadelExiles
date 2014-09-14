@@ -239,7 +239,6 @@ public class JauntSession {
             progress = Math.max(0, Math.min(1, progress));
         }
         setAlpha((float)Math.pow(Math.abs((0.5f - progress) * 2), 3));
-        ship.getMutableStats().getVentRateMult().modifyMult(ID, 0.5f);
         
         boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
         
@@ -286,12 +285,21 @@ public class JauntSession {
                         AIUtils.getNearestEnemy(doppelganger), this));
             }
         }
+        
+        if(ship.getFluxTracker().isVenting()) {
+            ship.getMutableStats().getVentRateMult().modifyMult(ID, 0.5f);
+            ship.getMutableStats().getFluxDissipation().unmodify(ID);
+        } else {
+            ship.getMutableStats().getFluxDissipation().modifyMult(ID, 0.0f);
+            ship.getMutableStats().getVentRateMult().unmodify(ID);
+        }
     }
     public void endNow() {
         boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
         ship.setCollisionClass(isPhased ? CollisionClass.NONE : CollisionClass.SHIP);
         jauntSessions.remove(ship);
         ship.getMutableStats().getVentRateMult().unmodify(ID);
+        ship.getMutableStats().getFluxDissipation().unmodify(ID);
         setAlpha(1);
         if(ship.getShipAI() != null) ship.resetDefaultAI();
         if(doppelganger != null) engine.removeEntity(doppelganger);
