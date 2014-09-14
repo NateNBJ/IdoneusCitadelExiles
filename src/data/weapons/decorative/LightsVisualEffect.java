@@ -12,7 +12,7 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
 
     private static final float ACTIVATE_SPEED = 5.0f;
     private static final float DEACTIVATE_SPEED = 1.0f;
-    private static final float STATIC_ALPHA = 0.5f;
+    private static final float STATIC_ALPHA = 0.3f;
     private static final Map<ShipAPI, Float> offsets = new WeakHashMap();
 
     private float alpha = STATIC_ALPHA;

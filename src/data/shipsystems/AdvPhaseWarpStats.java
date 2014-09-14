@@ -56,7 +56,7 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
 
         //Global.getSoundPlayer().playSound("system_scloak_absorb", 1, visualEffect, proj.getLocation(), sparkVect);
 
-        engine.addHitParticle(proj.getLocation(), sparkVect, SPARK_RADIUS * visualEffect + SPARK_RADIUS, SPARK_BRIGHTNESS, SPARK_DURATION, SPARK_COLOR);
+        //engine.addHitParticle(proj.getLocation(), sparkVect, SPARK_RADIUS * visualEffect + SPARK_RADIUS, SPARK_BRIGHTNESS, SPARK_DURATION, SPARK_COLOR);
         engine.removeEntity(proj);
     }
     void suckInProjectile(DamagingProjectileAPI proj) {
