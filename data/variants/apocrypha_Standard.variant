@@ -1,7 +1,7 @@
 {
   "displayName": "Standard",
   "fluxCapacitors": 0,
-  "fluxVents": 4,
+  "fluxVents": 6,
   "hullId": "sun_ice_apocrypha",
   "hullMods": [
     "unstable_injector"
@@ -12,12 +12,12 @@
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0003": "sun_ice_spitfire",
-        "WS0004": "sun_ice_spitfire",
-        "WS0009": "sun_ice_boomerangpod",
-        "WS0010": "sun_ice_boomerangpod",
+        "WS0003": "sun_ice_boomerangpod",
+        "WS0004": "sun_ice_boomerangpod",
         "WS0007": "sun_ice_boomerang",
-        "WS0008": "sun_ice_boomerang"
+        "WS0008": "sun_ice_boomerang",
+        "WS0009": "sun_ice_boomerangpod",
+        "WS0010": "sun_ice_boomerangpod"
       }
     },
     {
@@ -33,7 +33,7 @@
       "mode": "LINKED",
       "weapons": {
         "WS0014": "sun_ice_recall"
-	  }
+      }
     },
     {
       "autofire": true,

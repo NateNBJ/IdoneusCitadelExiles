@@ -46,11 +46,11 @@ public class Ulterius {
         VENDOR_SHIPS.put("sun_ice_nightseer_Hull", 1);
         VENDOR_SHIPS.put("sun_ice_athame_Hull", 1);
         VENDOR_SHIPS.put("sun_ice_specter_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_flashghast_Hull", 1);
+        //VENDOR_SHIPS.put("sun_ice_flashghast_Hull", 1);
         VENDOR_SHIPS.put("sun_ice_pentagram_Standard", 1);
         VENDOR_SHIPS.put("sun_ice_shiekwraith_Hull", 1);
         VENDOR_SHIPS.put("sun_ice_seraph_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_palantir_Hull", 1);
+        //VENDOR_SHIPS.put("sun_ice_palantir_Hull", 1);
 
         VENDOR_WINGS.put("sun_ice_poltergeist_wing", 1);
         VENDOR_WINGS.put("sun_ice_phantom_wing", 1);
@@ -71,7 +71,7 @@ public class Ulterius {
         VENDOR_WEAPONS.put("sun_ice_gandiva", 10);
         VENDOR_WEAPONS.put("sun_ice_nos", 12);
         VENDOR_WEAPONS.put("sun_ice_falx", 16);
-        VENDOR_WEAPONS.put("sun_ice_spitfire", 10);
+        //VENDOR_WEAPONS.put("sun_ice_spitfire", 10);
     }
 
     public void generate() {
