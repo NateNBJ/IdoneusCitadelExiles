@@ -163,7 +163,7 @@ public class JauntSession {
         // Create the doppelganger (placeholder double) at the origin
         doppelganger = (DamagingProjectileAPI)engine.spawnProjectile(
                 ship, null, ship.getHullSpec().getHullId().concat("_doppelganger"),
-                new Vector2f(origin.x + 12345, origin.y + 12345),
+                new Vector2f(origin.x + 1234, origin.y + 1234),
                 ship.getFacing(), new Vector2f());
     }
     void manageDoppelganger() {
