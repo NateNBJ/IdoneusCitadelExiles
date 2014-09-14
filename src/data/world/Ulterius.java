@@ -68,7 +68,7 @@ public class Ulterius {
         VENDOR_WEAPONS.put("sun_ice_scatterpd", 18);
         VENDOR_WEAPONS.put("sun_ice_lighthexac", 24);
         VENDOR_WEAPONS.put("sun_ice_minepod", 8);
-        VENDOR_WEAPONS.put("sun_ice_gandiva", 10);
+        //VENDOR_WEAPONS.put("sun_ice_gandiva", 10);
         VENDOR_WEAPONS.put("sun_ice_nos", 12);
         VENDOR_WEAPONS.put("sun_ice_falx", 16);
         //VENDOR_WEAPONS.put("sun_ice_spitfire", 10);
