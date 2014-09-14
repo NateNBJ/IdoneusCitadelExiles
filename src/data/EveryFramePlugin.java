@@ -1,5 +1,6 @@
 package data;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -14,7 +15,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -107,6 +107,21 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         }
     }
     
+    boolean playerCloakPreviouslyCoolingDown = false;
+    void playPhaseCloakCooldownOverSoundForPlayer() {
+        ShipAPI ship = Global.getCombatEngine().getPlayerShip();
+        
+        if(ship != null && ship.getShipAI() == null && ship.getPhaseCloak() != null) {
+            if(playerCloakPreviouslyCoolingDown != ship.getPhaseCloak().isCoolingDown()
+                    && !ship.getPhaseCloak().isCoolingDown()) {
+
+                Global.getSoundPlayer().playSound("engine_disabled", 3, 0.7f, ship.getLocation(), ship.getVelocity());
+            }
+            
+            playerCloakPreviouslyCoolingDown = ship.getPhaseCloak().isCoolingDown();
+        } else playerCloakPreviouslyCoolingDown = false;
+    }
+    
     @Override
     public void advance(float amount, List events) {
         clearBonuses();
@@ -117,6 +132,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         refundShieldUpkeepFlux(amount);
         advanceActiveRecalls(amount);
         JauntSession.advanceAll();
+        playPhaseCloakCooldownOverSoundForPlayer();
     }
 
     @Override

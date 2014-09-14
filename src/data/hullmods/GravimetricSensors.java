@@ -31,8 +31,9 @@ public class GravimetricSensors extends BaseHullMod {
     public static final float TRACKING_PENALTY = -50f;
     private static final float MIN_REFRESH = 0.1f;
     private static final float MAX_REFRESH = 0.9f;
-    private final Map<ShipAPI, IntervalTracker> intervalTrackers = new WeakHashMap();
     
+    private final Map<ShipAPI, IntervalTracker> intervalTrackers = new WeakHashMap();
+
     void doSkimAiHack(ShipAPI ship, float amount) {
         String id = ship.getHullSpec().getHullId();
         ShipSystemAPI cloak = id.equals("sun_ice_athame")
