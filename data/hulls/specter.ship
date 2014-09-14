@@ -104,11 +104,11 @@
     },
     {
       "angle": 0,
-      "arc": 5,
+      "arc": 25,
       "id": "WS0003",
       "locations": [
-        36,
-        19
+        -2.5,
+        34
       ],
       "mount": "HARDPOINT",
       "size": "SMALL",
@@ -116,11 +116,11 @@
     },
     {
       "angle": 0,
-      "arc": 5,
+      "arc": 25,
       "id": "WS0004",
       "locations": [
-        36,
-        -19
+        -2.5,
+        -34
       ],
       "mount": "HARDPOINT",
       "size": "SMALL",
@@ -131,7 +131,7 @@
       "arc": 5,
       "id": "WS0005",
       "locations": [
-        14,
+        28,
         -0
       ],
       "mount": "HIDDEN",
