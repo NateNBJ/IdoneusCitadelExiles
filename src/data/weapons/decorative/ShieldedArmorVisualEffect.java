@@ -5,7 +5,7 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 
 public class ShieldedArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
@@ -49,7 +49,7 @@ public class ShieldedArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
             ship.getMutableStats().getFragmentationDamageTakenMult().modifyMult(ID,  1 - strength);
         }
         
-        for(DamagingProjectileAPI p : SunUtils.getProjectilesDamagedBy(ship)) {
+        for(DamagingProjectileAPI p : IceUtils.getProjectilesDamagedBy(ship)) {
             float damage = p.getDamageType().getShieldMult() * p.getDamageAmount()
                 * ship.getMutableStats().getShieldAbsorptionMult().getModifiedValue();
             

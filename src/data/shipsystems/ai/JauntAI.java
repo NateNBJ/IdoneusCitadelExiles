@@ -9,7 +9,7 @@ import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
 import data.shipsystems.JauntHeavyStats;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.lwjgl.util.vector.Vector2f;
@@ -47,8 +47,8 @@ public class JauntAI implements ShipSystemAIScript {
             return;
         
         float flux, phaseNecessity = 0;
-        float damage = SunUtils.estimateIncomingDamage(ship, 1) * 0.7f;
-        float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
+        float damage = IceUtils.estimateIncomingDamage(ship, 1) * 1.0f;
+        float armor = (float)Math.pow(IceUtils.getArmorPercent(ship), 3);
         //flux = (float)Math.sqrt(reactor.getFluxLevel());
         
         if(system.isOn()) {
@@ -67,7 +67,7 @@ public class JauntAI implements ShipSystemAIScript {
             // Don't want to return if it's dangerous
             Vector2f temp = new Vector2f(ship.getLocation());
             ship.getLocation().set(origins.get(ship));
-            damage -= SunUtils.estimateIncomingBeamDamage(ship, 3);
+            damage -= IceUtils.estimateIncomingBeamDamage(ship, 2);
             ship.getLocation().set(temp);
         } else {
             flux = (float)Math.sqrt(reactor.getHardFlux() / reactor.getMaxFlux());
@@ -81,11 +81,11 @@ public class JauntAI implements ShipSystemAIScript {
             // Check if we're in a good position to attack a distant target remotely
             if(reactor.getFluxLevel() < 0.3f) {
                 int enemy = (ship.getOwner() + 1) % 2;
-                float range = SunUtils.estimateOptimalRange(ship) * 0.8f;
-                float fp = SunUtils.getFPStrength(ship);
-                float hostilityInEminentRange = SunUtils.getStrengthInArea(
+                float range = IceUtils.estimateOptimalRange(ship) * 0.8f;
+                float fp = IceUtils.getFPStrength(ship);
+                float hostilityInEminentRange = IceUtils.getStrengthInArea(
                         ship.getLocation(), range, enemy);
-                float hostilityInRemoteRange = Math.min(fp, SunUtils.getStrengthInArea(
+                float hostilityInRemoteRange = Math.min(fp, IceUtils.getStrengthInArea(
                         ship.getLocation(), range + JauntHeavyStats.MAX_RANGE,
                         enemy) - hostilityInEminentRange);
 

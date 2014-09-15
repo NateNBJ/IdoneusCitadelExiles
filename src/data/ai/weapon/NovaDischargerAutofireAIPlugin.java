@@ -5,7 +5,7 @@ import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
@@ -23,7 +23,7 @@ public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     ShipAPI findTarget() {
-        target = SunUtils.getShipInLineOfFire(weapon);
+        target = IceUtils.getShipInLineOfFire(weapon);
         
         if(target != null && target.getOwner() != ship.getOwner()
                 && target.getShield() != null && target.getShield().isOn()

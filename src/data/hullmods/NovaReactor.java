@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 import java.util.Map;
 import java.util.Random;
@@ -57,7 +57,7 @@ public class NovaReactor extends BaseHullMod
         armorGrid.setArmorValue(x, y, Math.min(limit, newArmor));
         
          if(Math.random() < SPARK_CHANCE) {
-            Vector2f cellLoc = SunUtils.getCellLocation(ship, x, y);
+            Vector2f cellLoc = IceUtils.getCellLocation(ship, x, y);
             cellLoc.x += cellSize * 0.5f - cellSize * (float)Math.random();
             cellLoc.y += cellSize * 0.5f - cellSize * (float)Math.random();
 
@@ -113,8 +113,8 @@ public class NovaReactor extends BaseHullMod
 //                * ship.getMutableStats().getMaxTurnRate().getModifiedValue()
 //                || ship.getAngularVelocity() > rotationLastTurn.get(ship);
         float flux = (float)Math.sqrt(ship.getFluxTracker().getFluxLevel());
-        float damage = SunUtils.estimateIncomingDamage(ship, 1);
-        float armor = (float)Math.pow(SunUtils.getArmorPercent(ship), 2);
+        float damage = IceUtils.estimateIncomingDamage(ship, 1);
+        float armor = (float)Math.pow(IceUtils.getArmorPercent(ship), 2);
         float phaseNecessity = (damage * (1.2f - armor)) * (1 - flux);
         //float phaseNecessity = (damage * (1.2f - armor) + (tryingToTurn ? 250 : 0)) * (1 - flux);
         boolean shouldToggle = ship.getPhaseCloak().isActive()
@@ -122,7 +122,7 @@ public class NovaReactor extends BaseHullMod
                 : phaseNecessity > CLOAK_TOGGLE_THRESHHOLD * 1.25f;
         
         if(shouldToggle) {
-            SunUtils.print(ship, "" + phaseNecessity);
+            IceUtils.print(ship, "" + phaseNecessity);
             ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
         }
     }

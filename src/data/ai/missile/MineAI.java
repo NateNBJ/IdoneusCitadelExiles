@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import static data.ai.missile.BaseMissileAI.DEFAULT_FLARE_VULNERABILITY_RANGE;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
@@ -95,6 +95,6 @@ public class MineAI extends BaseMissileAI {
             decelerate();
         }
         
-        if(time - timeOfBurn > TTL_AFTER_BURN) SunUtils.destroy(missile);
+        if(time - timeOfBurn > TTL_AFTER_BURN) IceUtils.destroy(missile);
     }
 }

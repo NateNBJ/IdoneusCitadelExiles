@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
@@ -30,7 +30,7 @@ public class MinePodAI extends BaseMissileAI {
         List<BattleObjectiveAPI> objectives = Global.getCombatEngine().getObjectives();
         
         if(missile.getWeapon() == null) {
-            SunUtils.destroy(missile);
+            IceUtils.destroy(missile);
         } else if(missile.getSource().getShipAI() == null) {
             Global.getCombatEngine().addHitParticle(deployPoint,
                 new Vector2f(), 60, 1, 0.7f, MineAI.PING_COLOR);
@@ -52,7 +52,7 @@ public class MinePodAI extends BaseMissileAI {
     void destroyOldMines() {
         for(MissileAPI m : engine.getMissiles())
             if(m.getWeapon() == missile.getWeapon() && m.getProjectileSpecId().equals("sun_ice_mine"))
-                SunUtils.destroy(m);
+                IceUtils.destroy(m);
     }
     void deployNewMines() {
         float angle = 360f * (float)Math.random();
@@ -128,7 +128,7 @@ public class MinePodAI extends BaseMissileAI {
                 || missile.isFizzling()
                 || missile.getHullLevel() < 0.5f)) {
             
-            SunUtils.destroy(missile);
+            IceUtils.destroy(missile);
             destroyOldMines();
             deployNewMines();
 

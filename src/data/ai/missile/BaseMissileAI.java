@@ -7,7 +7,7 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

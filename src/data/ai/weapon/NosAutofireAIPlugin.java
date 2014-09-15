@@ -1,14 +1,12 @@
 
 package data.ai.weapon;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
-import java.awt.Color;
+import data.tools.IceUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
@@ -51,7 +49,7 @@ public class NosAutofireAIPlugin implements AutofireAIPlugin {
                     && (target.getPhaseCloak() == null || !target.getPhaseCloak().isActive())
                     && (target.getShield() == null || target.getShield().isOff()
                         || !target.getShield().isWithinArc(weapon.getLocation()))
-                    && SunUtils.getShipInLineOfFire(weapon) == target;
+                    && IceUtils.getShipInLineOfFire(weapon) == target;
         }
     }
     @Override

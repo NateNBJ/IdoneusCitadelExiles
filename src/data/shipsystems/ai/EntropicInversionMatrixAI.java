@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lazywizard.lazylib.combat.AIUtils;
 
@@ -28,10 +28,10 @@ public class EntropicInversionMatrixAI implements ShipSystemAIScript {
             timeOfNextRefresh = Global.getCombatEngine().getTotalElapsedTime(false) + REFRESH_FREQUENCY;
         } else return;
         
-        //SunUtils.print("" + SunUtils.estimateIncomingDamage(ship, 1));
+        //SunUtils.print("" + IceUtils.estimateIncomingDamage(ship, 1));
 
         if(AIUtils.canUseSystemThisFrame(ship) && !ship.getPhaseCloak().isActive()
-                && (SunUtils.estimateIncomingDamage(ship, 1) /
+                && (IceUtils.estimateIncomingDamage(ship, 1) /
                 (ship.getMaxHitpoints() + ship.getHitpoints())) > USE_SYSTEM_THRESHOLD) {
 
             ship.useSystem();

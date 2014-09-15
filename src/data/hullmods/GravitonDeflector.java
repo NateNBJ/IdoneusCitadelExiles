@@ -3,7 +3,7 @@ package data.hullmods;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.List;
 import org.lazywizard.lazylib.CollisionUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -20,7 +20,7 @@ public class GravitonDeflector extends BaseHullMod {
     boolean shouldDenyPhase(ShipAPI ship) {
         float accumulator = 0f;
 
-        accumulator += SunUtils.estimateIncomingBeamDamage(ship, DAMAGE_WINDOW_SECONDS);
+        accumulator += IceUtils.estimateIncomingBeamDamage(ship, DAMAGE_WINDOW_SECONDS);
 
         for (DamagingProjectileAPI proj : undiflectedOrdnance) {
 
@@ -57,7 +57,7 @@ public class GravitonDeflector extends BaseHullMod {
         
         boolean checkingPhase = framesOfPhase == 1 && ship.getShipAI() != null;
         
-        undiflectedOrdnance = SunUtils.curveBullets(ship.getLocation(),
+        undiflectedOrdnance = IceUtils.curveBullets(ship.getLocation(),
                 ship.getFacing(), MAX_ANGLE_DIFFERENCE, FORCE_MULTIPLIER);
                 
         if(checkingPhase && shouldDenyPhase(ship)) {

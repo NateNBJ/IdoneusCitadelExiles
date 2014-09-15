@@ -2,19 +2,23 @@ package data;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.JauntSession;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import data.weapons.beam.RecallBeamEffect;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.combat.CombatUtils;
+import org.lwjgl.util.vector.Vector2f;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -42,7 +46,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
             float upkeep;
             
             try {
-                upkeep = SunUtils.getShieldUpkeep(ship);
+                upkeep = IceUtils.getShieldUpkeep(ship);
             } catch(Exception e) {
                 upkeep = 0;
             }
@@ -92,21 +96,17 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         List<RecallBeamEffect.RecallTracker> toRemove = new LinkedList();
         
         for(RecallBeamEffect.RecallTracker t : recalling) {
-            if(t.progress < 0 && t.progress + amount >= 0) {
-                t.ally.getLocation().set(t.recallLoc);
-            }
+            t.advance(amount);
             
-            t.progress += amount;
-            t.ally.getSpriteAPI().setColor(new Color(1,1,1, Math.min(1, Math.abs(t.progress))));
-            
-            if(t.progress >= 1) toRemove.add(t);
+            if(t.isComplete()) toRemove.add(t);
         }
         
         for(RecallBeamEffect.RecallTracker t : toRemove) {
             recalling.remove(t);
         }
+        toRemove.clear();
     }
-    
+
     boolean playerCloakPreviouslyCoolingDown = false;
     void playPhaseCloakCooldownOverSoundForPlayer() {
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
@@ -138,5 +138,9 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
     @Override
     public void init(CombatEngineAPI engine) {
         this.engine = engine;
+        shipsToGiveFluxRefund.clear();
+        shipsToClearBonusesFrom.clear();
+        recalling.clear();
+        JauntSession.clearSessions();
     }
 }

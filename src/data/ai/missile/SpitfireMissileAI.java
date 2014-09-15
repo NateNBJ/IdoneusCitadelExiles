@@ -2,7 +2,7 @@ package data.ai.missile;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MissileAPI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 
 public class SpitfireMissileAI extends BaseMissileAI {
     boolean fizzled = false;
@@ -20,7 +20,7 @@ public class SpitfireMissileAI extends BaseMissileAI {
     public void evaluateCircumstances() {
         if(target == null) findTarget();
         
-        if(fizzled && Math.random() < 0.1f) SunUtils.destroy(missile);
+        if(fizzled && Math.random() < 0.1f) IceUtils.destroy(missile);
     }
     
     @Override

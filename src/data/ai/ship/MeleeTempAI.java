@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.shipsystems.ai.EntropicInversionMatrixAI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 
@@ -20,6 +20,7 @@ public class MeleeTempAI extends BaseShipAI {
                 || ship.getFluxTracker().getFluxLevel() > 0.9f
                 || ship.getPhaseCloak().isActive()
                 || ship.getShipTarget() == null
+                || ship.getShipTarget().getOwner() == ship.getOwner()
                 || tractorBeam.getRange() < MathUtils.getDistance(ship.getShipTarget(), tractorBeam.getLocation())
                 || !ship.getShipTarget().isAlive()) {
 
@@ -32,7 +33,7 @@ public class MeleeTempAI extends BaseShipAI {
         //boolean inMeleeRange = MathUtils.getDistance(ship, ship.getShipTarget()) <= 0;
         
         boolean targetDeathEminent = ship.getShipTarget().getHitpoints()
-                <= SunUtils.estimateIncomingDamage(ship.getShipTarget(), 2f);
+                <= IceUtils.estimateIncomingDamage(ship.getShipTarget(), 2f);
         
         boolean targetMayDieSoon = targetDeathEminent
                 || ship.getShipTarget().getHitpoints() <= 3000f;
@@ -41,7 +42,7 @@ public class MeleeTempAI extends BaseShipAI {
                 && ship.getFluxTracker().getMaxFlux() - ship.getFluxTracker().getCurrFlux()
                     > ship.getPhaseCloak().getFluxPerUse() * 1.1f;
 
-        float danger = SunUtils.estimateIncomingDamage(ship, 2)
+        float danger = IceUtils.estimateIncomingDamage(ship, 2)
                 / (ship.getHitpoints() + ship.getMaxHitpoints());
 
         if(danger > 0.12f || targetDeathEminent) {

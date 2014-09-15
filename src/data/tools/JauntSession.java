@@ -31,6 +31,9 @@ public class JauntSession {
     static Map<ShipAPI, JauntSession> jauntSessions = new WeakHashMap();
     static List<JauntSession> toClear = new LinkedList();
     
+    public static void clearSessions() {
+        jauntSessions.clear();
+    }
     public static void advanceAll() {
         for(JauntSession jaunt : jauntSessions.values()) jaunt.advance();
         for(JauntSession jaunt : toClear) jaunt.endNow();
@@ -80,7 +83,7 @@ public class JauntSession {
         boolean aggressing = AIUtils.getEnemiesOnMap(ship).size() > 0
                 && ship.getFluxTracker().getFluxLevel() < 0.4 + Math.random() * 0.3;
         float range = maxRange + ship.getCollisionRadius();
-        float weaponRange = SunUtils.estimateOptimalRange(ship) * 0.8f;
+        float weaponRange = IceUtils.estimateOptimalRange(ship) * 0.8f;
         float bestScore = -999999; // Float.MIN_VALUE won't work for some reason. Why?
         double theta = Math.random() * Math.PI * 2;
         double thetaIncrement = (Math.PI * 2) / DESTINATION_CANDIDATE_COUNT;
@@ -94,9 +97,9 @@ public class JauntSession {
             theta += thetaIncrement;
             
             ship.getLocation().set(candidate);
-//            float score = SunUtils.getFPWorthOfSupport(ship, SUPPORT_RANGE)
-//            //        - Math.max(0, SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE) - SunUtils.getFP(ship) * ship.getFluxTracker().getFluxLevel())
-//                    - SunUtils.estimateIncomingDamage(ship);
+//            float score = IceUtils.getFPWorthOfSupport(ship, SUPPORT_RANGE)
+//            //        - Math.max(0, IceUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE) - IceUtils.getFP(ship) * ship.getFluxTracker().getFluxLevel())
+//                    - IceUtils.estimateIncomingDamage(ship);
             float score = 0;
             
             if(aggressing) {
@@ -104,12 +107,12 @@ public class JauntSession {
                 float rangeDist = weaponRange - MathUtils.getDistance(ship, enemy);
                 if(rangeDist > 0) {
                     boolean shieldBlocked = enemy.getShield() != null && enemy.getShield().isWithinArc(candidate);
-                    score += SunUtils.getFP(enemy)
+                    score += IceUtils.getFP(enemy)
                             * (1.0f + enemy.getFluxTracker().getFluxLevel())
                             * (shieldBlocked ? 0.25f : 1)
                             * (0.5f + 0.5f * (weaponRange - rangeDist) / weaponRange);
                 }// else score *= 0.1f;
-            } else score -= SunUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE);
+            } else score -= IceUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE);
             
             if(!pointIsClear(candidate)) score -= ship.getCollisionRadius() / 10;
             
@@ -169,7 +172,7 @@ public class JauntSession {
     void manageDoppelganger() {
         doppelganger.setFacing(ship.getFacing() + (float)(Math.random() - 0.5) * 1);
         doppelganger.getVelocity().set(0, 0);
-        Vector2f at = SunUtils.getDirectionalVector(doppelganger.getFacing() + 180);
+        Vector2f at = IceUtils.getDirectionalVector(doppelganger.getFacing() + 180);
         at.scale(doppelganger.getCollisionRadius() + 20);
         Vector2f.add(at, origin, at);
         at.x += (float)(Math.random() - 0.5) * 5;
@@ -242,16 +245,16 @@ public class JauntSession {
         
         boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
         
-        if(!isWarping()) {
-            destination = new Vector2f(ship.getLocation());
-            ship.setCollisionClass(isPhased ? CollisionClass.NONE : CollisionClass.SHIP);
-        } else if(progress == 0) {
+        if(progress == 0 || !engine.isEntityInPlay(ship)) {
             ship.getLocation().set(origin);
             toClear.add(this);
+        } else if(!isWarping()) {
+            destination = new Vector2f(ship.getLocation());
+            ship.setCollisionClass(isPhased ? CollisionClass.NONE : CollisionClass.SHIP);
         } else {
             float sign = Math.signum(progress - 0.5f);
             float scale = (float)Math.pow(Math.abs(Math.cos((1-progress) * Math.PI)), 0.7f);
-            ship.getLocation().set(SunUtils.getMidpoint(origin, destination, (sign * scale + 1) / 2));
+            ship.getLocation().set(IceUtils.getMidpoint(origin, destination, (sign * scale + 1) / 2));
             ship.setCollisionClass(CollisionClass.NONE);
             
             if(lastLoc != null && amount > 0) {
@@ -276,6 +279,8 @@ public class JauntSession {
         if(ship.getShipAI() != null) ship.resetDefaultAI();
     }
     public void goHome() {
+        if(!jauntSessions.containsValue(this)) return;
+        
         if(returning == false) {
             returning = true;
             warpTime = MathUtils.getDistance(origin, destination)

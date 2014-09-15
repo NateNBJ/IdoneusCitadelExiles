@@ -8,7 +8,7 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import org.lwjgl.util.vector.Vector2f;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 import java.util.Map;
 import java.util.Random;
@@ -83,7 +83,7 @@ public class RepairArmorStats implements ShipSystemStatsScript {
             
             if(armorGrid.getArmorFraction(x, y) >= 1) continue;
             
-            Vector2f cellLoc = SunUtils.getCellLocation(ship, x, y);
+            Vector2f cellLoc = IceUtils.getCellLocation(ship, x, y);
             float current = armorGrid.getArmorValue(x, y);
             float dist = MathUtils.getDistance(cellLoc, ship.getMouseTarget());
 

@@ -53,6 +53,7 @@ public class TractorBeamEffect implements BeamEffectPlugin {
                 //&& !(ship.getShipAI() instanceof MeleeTempAI)
                 && !ship.getShipAI().needsRefit() // MeleeTempAI returns true...
                 && target instanceof ShipAPI
+                && target.getOwner() != ship.getOwner()
                 && ((ShipAPI)target).isAlive()) {
             
             ship.setShipAI(new MeleeTempAI(ship, beam.getWeapon()));

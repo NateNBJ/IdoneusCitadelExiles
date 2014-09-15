@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 
 public class EntropicInversionMatrixStats implements ShipSystemStatsScript
@@ -38,7 +38,7 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
                 prev[x][y] = val;
 
                 Global.getCombatEngine().addFloatingDamageText(
-                        SunUtils.getCellLocation(ship, x, y), repairAmount,
+                        IceUtils.getCellLocation(ship, x, y), repairAmount,
                         TEXT_COLOR, ship, ship);
             }
         }

@@ -5,7 +5,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.WeaponUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -29,7 +29,7 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     ShipAPI findTarget() {
-        target = SunUtils.getShipInLineOfFire(weapon);
+        target = IceUtils.getShipInLineOfFire(weapon);
         
         if(target != null && target.getOwner() != ship.getOwner()) {
             return target;
@@ -44,18 +44,18 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
 
             if(findTarget() == null) return;
 
-            float selfOverloadTime = SunUtils.getBaseOverloadDuration(ship);
-            float targetOverloadTime = SunUtils.estimateOverloadDurationOnHit(target,
+            float selfOverloadTime = IceUtils.getBaseOverloadDuration(ship);
+            float targetOverloadTime = IceUtils.estimateOverloadDurationOnHit(target,
                     weapon.getDerivedStats().getDamagePerShot(), weapon.getDamageType());
-            float incomingMissileDamage = SunUtils.estimateIncomingMissileDamage(ship);
-            float fpOfSupport = SunUtils.getFPWorthOfSupport(ship, 2000);
-            float fpOfEnemies = SunUtils.getFPWorthOfHostility(ship, 2000);
-            fpOfEnemies = Math.max(0, fpOfEnemies - SunUtils.getFP(target) / 2);
+            float incomingMissileDamage = IceUtils.estimateIncomingMissileDamage(ship);
+            float fpOfSupport = IceUtils.getFPWorthOfSupport(ship, 2000);
+            float fpOfEnemies = IceUtils.getFPWorthOfHostility(ship, 2000);
+            fpOfEnemies = Math.max(0, fpOfEnemies - IceUtils.getFP(target) / 2);
             
-            hitChance = SunUtils.getHitChance(weapon, target);
-            targetWillDieSoonAnyway = (SunUtils.getLifeExpectancy(ship) < 3);
+            hitChance = IceUtils.getHitChance(weapon, target);
+            targetWillDieSoonAnyway = (IceUtils.getLifeExpectancy(ship) < 3);
             overloadBalance = targetOverloadTime - selfOverloadTime;
-            fpRatio = SunUtils.getFPStrength(target) / SunUtils.getFPStrength(ship);
+            fpRatio = IceUtils.getFPStrength(target) / IceUtils.getFPStrength(ship);
             danger = Math.max(0, fpOfEnemies - fpOfSupport + incomingMissileDamage / 100f);
         }
     }

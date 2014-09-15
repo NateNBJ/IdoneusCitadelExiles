@@ -9,7 +9,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.ai.ship.BaseShipAI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.HashMap;
@@ -133,12 +133,12 @@ public class MxDroneAI extends BaseShipAI {
     }
     static float getMxPriority(ShipAPI ship) {
         float priority = 0;
-        float fp = SunUtils.getFP(ship);
+        float fp = IceUtils.getFP(ship);
         fp = (ship.isFighter()) ? fp / ship.getWing().getWingMembers().size() : fp;
         float peakCrLeft = getSecondsTilCrLoss(ship);
         
         if(ship.getHullSpec().getHullId().startsWith("sun_ice_"))
-            priority += 1.0f * (1 - SunUtils.getArmorPercent(ship)) * fp;
+            priority += 1.0f * (1 - IceUtils.getArmorPercent(ship)) * fp;
         priority += 0.5f * getExpendedOrdnancePoints(ship);
 
         if(ship.losesCRDuringCombat())
@@ -155,7 +155,7 @@ public class MxDroneAI extends BaseShipAI {
     @Override
     public void evaluateCircumstances() {
         --timesLeftToMx;
-        if(!mothership.isAlive()) SunUtils.destroy(ship);
+        if(!mothership.isAlive()) IceUtils.destroy(ship);
         
         if(timeOfMxPriorityUpdate <= Global.getCombatEngine().getTotalElapsedTime(false)
                 || timeOfMxPriorityUpdate > Global.getCombatEngine().getTotalElapsedTime(false) + mxPriorityUpdateFrequency)
@@ -165,7 +165,7 @@ public class MxDroneAI extends BaseShipAI {
         setTarget(chooseTarget());
 
         if(returning) {
-            targetOffset = SunUtils.toRelative(target, system.getLandingLocation(ship));
+            targetOffset = IceUtils.toRelative(target, system.getLandingLocation(ship));
         } else if(target != previousTarget || timesLeftToMx < 1) {
             timesLeftToMx = 5;
             
@@ -173,7 +173,7 @@ public class MxDroneAI extends BaseShipAI {
                 targetOffset = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
             } while(!CollisionUtils.isPointWithinBounds(targetOffset, target));
             
-            targetOffset = SunUtils.toRelative(target, targetOffset);
+            targetOffset = IceUtils.toRelative(target, targetOffset);
 
             armorGrid = target.getArmorGrid();
             max = armorGrid.getMaxArmorInCell();
@@ -207,7 +207,7 @@ public class MxDroneAI extends BaseShipAI {
             if(armorGrid.getArmorValue(cellToFix.x, cellToFix.y) < max) break;
         }
         
-        Vector2f at = SunUtils.getCellLocation(target, cellToFix.x, cellToFix.y);
+        Vector2f at = IceUtils.getCellLocation(target, cellToFix.x, cellToFix.y);
 
         for(int i = 0; (i < 10) && !CollisionUtils.isPointWithinBounds(at, target); ++i)
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
@@ -326,7 +326,7 @@ public class MxDroneAI extends BaseShipAI {
         this.ship.setShipTarget(target = ship);
     }
     void goToDestination() {
-        Vector2f to = SunUtils.toAbsolute(target, targetOffset);
+        Vector2f to = IceUtils.toAbsolute(target, targetOffset);
         float distance = MathUtils.getDistance(ship, to);
         
         if(doingMx) {

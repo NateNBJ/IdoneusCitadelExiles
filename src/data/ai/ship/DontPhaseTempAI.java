@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.tools.IntervalTracker;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 
 public class DontPhaseTempAI implements ShipAIPlugin {
     ShipAPI ship;

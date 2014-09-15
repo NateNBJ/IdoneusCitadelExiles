@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import data.EveryFramePlugin;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 
 public class FalxBeamEffect implements BeamEffectPlugin {
     static final float MAX_ARC_REDUCTION_PER_SECOND = 80.0f;

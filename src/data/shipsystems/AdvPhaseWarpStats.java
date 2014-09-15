@@ -4,12 +4,11 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 import data.tools.JauntSession;
-import data.tools.SunUtils;
+import data.tools.IntervalTracker;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,26 +32,27 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
     List<DamagingProjectileAPI> absorbed = new LinkedList();
     List<DamagingProjectileAPI> ordnance;
     Vector2f wormhole;
+    IntervalTracker wormholeParticleTimer = new IntervalTracker(0.02f, 0.05f);
     
     void absorbProjectile(DamagingProjectileAPI proj) {
         if(!engine.isEntityInPlay(proj)) return;
         
         ship.getFluxTracker().setCurrFlux(Math.max(ship.getFluxTracker().getHardFlux(), ship.getFluxTracker().getCurrFlux() - proj.getDamageAmount()));
         
-        if (proj instanceof MissileAPI) {
-            SunUtils.destroy(proj);
-            return;
-        }
+//        if (proj instanceof MissileAPI) {
+//            IceUtils.destroy(proj);
+//            return;
+//        }
         
         //if(proj.getWeapon() != null) absorbed.add(proj);
         
-        float sparkAngle = VectorUtils.getAngle(proj.getLocation(), ship.getLocation());
-        sparkAngle *= Math.PI / 180f;
-        Vector2f sparkVect = new Vector2f((float) Math.cos(sparkAngle), (float) Math.sin(sparkAngle));
-        float distance = MathUtils.getDistance(proj, ship);
-        float visualEffect = 1;
-
-        sparkVect.scale(3 * distance / SPARK_DURATION);
+//        float sparkAngle = VectorUtils.getAngle(proj.getLocation(), ship.getLocation());
+//        sparkAngle *= Math.PI / 180f;
+//        Vector2f sparkVect = new Vector2f((float) Math.cos(sparkAngle), (float) Math.sin(sparkAngle));
+//        float distance = MathUtils.getDistance(proj, ship);
+//        float visualEffect = 1;
+//
+//        sparkVect.scale(3 * distance / SPARK_DURATION);
 
         //Global.getSoundPlayer().playSound("system_scloak_absorb", 1, visualEffect, proj.getLocation(), sparkVect);
 
@@ -75,8 +75,6 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
         Vector2f.add(proj.getVelocity(), speedUp, proj.getVelocity());
         VectorUtils.rotate(proj.getVelocity(), dAngle, proj.getVelocity());
         proj.setFacing(MathUtils.clampAngle(proj.getFacing() + dAngle));
-        
-        SunUtils.blink(wormhole);
     }
     void releaseProjectiles() {
         for(DamagingProjectileAPI proj : absorbed) {
@@ -91,7 +89,12 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
         
         absorbed.clear();
     }
-
+    void updateNearbyOrdnance() {
+        ordnance.clear();
+        ordnance.addAll(CombatUtils.getProjectilesWithinRange(wormhole, ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
+        ordnance.addAll(CombatUtils.getMissilesWithinRange(wormhole, ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER));
+    }
+    
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ship = (ShipAPI)stats.getEntity();
@@ -113,11 +116,20 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
             if(proj == null || proj.getProjectileSpecId() == null
                     || proj.getProjectileSpecId().endsWith("_doppelganger")) {
                 continue;
-            } else if(MathUtils.getDistance(proj, wormhole) <= ship.getCollisionRadius() / 2) {
+            } else if(MathUtils.getDistance(proj, wormhole) <= 50) {
                 absorbProjectile(proj);
             } else {
                 suckInProjectile(proj);
             }
+        }
+        if(wormholeParticleTimer.intervalElapsed()) {
+            updateNearbyOrdnance();
+            Vector2f at = MathUtils.getRandomPointInCircle(wormhole, 60);
+            Vector2f vel = MathUtils.getRandomPointInCircle(new Vector2f(), 50);
+            float radius = (float)(100 + 150 * Math.random());
+            float coreRadius = (float)(10 + 80 * Math.random());
+            Global.getCombatEngine().addSmokeParticle(at, vel, radius, 1f, 0.8f, new Color(12, 24, 24, 124));
+            Global.getCombatEngine().addSmoothParticle(wormhole, new Vector2f(), coreRadius, 1f, 0.9f, new Color(60, 120, 120, 255));
         }
     }
 

@@ -29,8 +29,7 @@ import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
-public class SunUtils
-{
+public class IceUtils {
     static Map<String, Float> shieldUpkeeps;
     static Map<String, String> SystemIDs;
     static final float SAFE_DISTANCE = 600f;
@@ -45,6 +44,17 @@ public class SunUtils
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static List<CombatEntityAPI> getCollideablesInRange(Vector2f at, float range) {
+        List<CombatEntityAPI> retVal = new LinkedList();
+        
+        retVal.addAll(CombatUtils.getAsteroidsWithinRange(at, range));
+        
+        for(ShipAPI ship : CombatUtils.getShipsWithinRange(at, range)) {
+            if(!ship.isFighter()) retVal.add(ship);
+        }
+        
+        return retVal;
+    }
     public static List<DamagingProjectileAPI> getProjectilesDamagedBy(ShipAPI ship) {
         List retVal = new LinkedList();
         
@@ -296,7 +306,7 @@ public class SunUtils
         return cellLoc;
     }
     public static void log(String str) {
-        Global.getLogger(SunUtils.class).debug(str);
+        Global.getLogger(IceUtils.class).debug(str);
     }
     public static void print(String str) {
         print(Global.getCombatEngine().getPlayerShip(), str);

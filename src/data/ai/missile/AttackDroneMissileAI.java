@@ -5,7 +5,7 @@ import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
@@ -47,7 +47,7 @@ public class AttackDroneMissileAI extends BaseMissileAI {
                 ++count;
 
                 if(count >= MAX_ACTIVE_DRONES) {
-                    SunUtils.destroy(m);
+                    IceUtils.destroy(m);
                 }
             }
         }
@@ -94,7 +94,7 @@ public class AttackDroneMissileAI extends BaseMissileAI {
                 target.getCollisionRadius()), target.getLocation(), destOffset);
 
         if(missile.isFading() || ammo <= 0 || !missile.getSource().isAlive())
-            SunUtils.destroy(missile);
+            IceUtils.destroy(missile);
 
         potentialTargets.clear();
         potentialTargets.addAll(AIUtils.getNearbyEnemies(missile, POTENTIAL_TARGET_RANGE));

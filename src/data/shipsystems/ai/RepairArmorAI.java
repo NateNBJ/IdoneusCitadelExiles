@@ -8,7 +8,7 @@ import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.combat.ShipSystemAIScript;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -93,7 +93,7 @@ public class RepairArmorAI implements ShipSystemAIScript
 
         // low  [0] - No danger nearby
         // high [1] - Really need to move
-        float danger = SunUtils.estimateIncomingDamage(ship) / 500f;
+        float danger = IceUtils.estimateIncomingDamage(ship) / 500f;
 
         // low  [0] - don't need to activate
         // high [1] - need to activate

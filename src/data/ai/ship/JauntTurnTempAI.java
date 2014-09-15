@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.tools.JauntSession;
-import data.tools.SunUtils;
+import data.tools.IceUtils;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -39,8 +39,8 @@ public class JauntTurnTempAI extends BaseShipAI {
 
             fakeTurnToAngle(VectorUtils.getAngle(to, target.getLocation()));
             
-//            SunUtils.blink(to);
-//            SunUtils.blink(target.getLocation());
+//            IceUtils.blink(to);
+//            IceUtils.blink(target.getLocation());
          }
     }
     
