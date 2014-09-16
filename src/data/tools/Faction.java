@@ -269,7 +269,7 @@ public class Faction {
             
             int fp = api.getFleetPointCost(variantID);
             
-            if(wingsToAdd <= 0 && (fp + 3) / (mostFP * 1.25f + 3) > rand.nextFloat())
+            if(wingsToAdd <= 0 && (fp + 3) / (mostFP * 1.4f + 3) > rand.nextFloat())
                 continue;
             
             currFP += fp;

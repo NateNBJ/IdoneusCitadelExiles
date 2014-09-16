@@ -2,7 +2,6 @@ package data;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
@@ -10,15 +9,11 @@ import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.JauntSession;
 import data.tools.IceUtils;
-import data.weapons.beam.RecallBeamEffect;
-import java.awt.Color;
+import data.tools.RecallTracker;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import org.lazywizard.lazylib.MathUtils;
-import org.lazywizard.lazylib.combat.CombatUtils;
-import org.lwjgl.util.vector.Vector2f;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -88,20 +83,20 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    static List<RecallBeamEffect.RecallTracker> recalling = new LinkedList();
-    public static void beginRecall(RecallBeamEffect.RecallTracker tracker) {
+    static List<RecallTracker> recalling = new LinkedList();
+    public static void beginRecall(RecallTracker tracker) {
         recalling.add(tracker);
     }
     void advanceActiveRecalls(float amount) {
-        List<RecallBeamEffect.RecallTracker> toRemove = new LinkedList();
+        List<RecallTracker> toRemove = new LinkedList();
         
-        for(RecallBeamEffect.RecallTracker t : recalling) {
+        for(RecallTracker t : recalling) {
             t.advance(amount);
             
             if(t.isComplete()) toRemove.add(t);
         }
         
-        for(RecallBeamEffect.RecallTracker t : toRemove) {
+        for(RecallTracker t : toRemove) {
             recalling.remove(t);
         }
         toRemove.clear();
@@ -111,7 +106,9 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
     void playPhaseCloakCooldownOverSoundForPlayer() {
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
         
-        if(ship != null && ship.getShipAI() == null && ship.getPhaseCloak() != null) {
+        if(ship != null && !ship.isShuttlePod() && ship.getShipAI() == null
+                && ship.getPhaseCloak() != null) {
+            
             if(playerCloakPreviouslyCoolingDown != ship.getPhaseCloak().isCoolingDown()
                     && !ship.getPhaseCloak().isCoolingDown()) {
 

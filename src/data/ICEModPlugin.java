@@ -4,7 +4,6 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
-import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -24,6 +23,7 @@ import data.ai.weapon.HypermassDriverAutofireAIPlugin;
 import data.ai.weapon.NosAutofireAIPlugin;
 import data.ai.weapon.NovaDischargerAutofireAIPlugin;
 import data.ai.weapon.PdDroneAutofireAIPlugin;
+import data.ai.weapon.RecallAutofireAIPlugin;
 import data.world.ICECampaignPlugin;
 import data.world.Ulterius;
 import org.dark.shaders.light.LightData;
@@ -114,6 +114,8 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new NosAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_pddrone")) {
             return new PluginPick(new PdDroneAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if (id.equals("sun_ice_recall")) {
+            return new PluginPick(new RecallAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         }
 
         return super.pickWeaponAutofireAI(weapon);
