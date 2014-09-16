@@ -254,37 +254,41 @@ public class Faction {
         float wingsToAdd = 0;
 
         while (currFP < maxFP) {
-            String variantID;
-            
-            if(wingsToAdd > 0 && !fighters.isEmpty()) {
-                variantID = getRandomWingID();
-                --wingsToAdd;
-            } else {
-                variantID = getRandomWarshipID();
-                float decks = Global.getFactory().createFleetMember(
-                            FleetMemberType.SHIP, variantID).getNumFlightDecks();
-                wingsToAdd += decks * 2.3f;
+            try {
+                String variantID;
+
+                if(wingsToAdd > 0 && !fighters.isEmpty()) {
+                    variantID = getRandomWingID();
+                    --wingsToAdd;
+                } else {
+                    variantID = getRandomWarshipID();
+                    float decks = Global.getFactory().createFleetMember(
+                                FleetMemberType.SHIP, variantID).getNumFlightDecks();
+                    wingsToAdd += decks * 2.3f;
+                }
+
+
+                int fp = api.getFleetPointCost(variantID);
+
+                if(wingsToAdd <= 0 && (fp + 3) / (mostFP * 1.4f + 3) > rand.nextFloat())
+                    continue;
+
+                currFP += fp;
+
+                if (!fpMap.containsKey(api.getFleetPointCost(variantID))) {
+                    fpMap.put(fp, new HashMap());
+                }
+
+                HashMap ids = (HashMap) fpMap.get(fp);
+
+                if (!ids.containsKey(variantID)) {
+                    ids.put(variantID, 0);
+                }
+
+                ids.put(variantID, ((Integer) ids.get(variantID)) + 1);
+            } catch (Exception e) {
+                
             }
-            
-            
-            int fp = api.getFleetPointCost(variantID);
-            
-            if(wingsToAdd <= 0 && (fp + 3) / (mostFP * 1.4f + 3) > rand.nextFloat())
-                continue;
-            
-            currFP += fp;
-
-            if (!fpMap.containsKey(api.getFleetPointCost(variantID))) {
-                fpMap.put(fp, new HashMap());
-            }
-
-            HashMap ids = (HashMap) fpMap.get(fp);
-
-            if (!ids.containsKey(variantID)) {
-                ids.put(variantID, 0);
-            }
-
-            ids.put(variantID, ((Integer) ids.get(variantID)) + 1);
         }
 
         for (Iterator fpIter = fpMap.descendingKeySet().iterator(); fpIter.hasNext();) {
@@ -299,16 +303,6 @@ public class Faction {
                 for (int i = 0; i < count; ++i) {
                     api.addToFleet(side, variantID, type, needChooseFlagship);
                     if(type == FleetMemberType.SHIP) needChooseFlagship = false;
-                    
-                    
-//                    float decks = Global.getFactory().createFleetMember(
-//                            FleetMemberType.SHIP, variantID).getNumFlightDecks();
-//                    
-//                    decks *= rand.nextFloat() + 2;
-//                    for(int j = 0; j < decks; ++j) {
-//                        api.addToFleet(side, getRandomWingID(),
-//                                FleetMemberType.FIGHTER_WING, false);
-//                    }
                 }
             }
         }

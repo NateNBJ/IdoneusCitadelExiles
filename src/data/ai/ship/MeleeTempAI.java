@@ -33,7 +33,7 @@ public class MeleeTempAI extends BaseShipAI {
         //boolean inMeleeRange = MathUtils.getDistance(ship, ship.getShipTarget()) <= 0;
         
         boolean targetDeathEminent = ship.getShipTarget().getHitpoints()
-                <= IceUtils.estimateIncomingDamage(ship.getShipTarget(), 2f);
+                <= IceUtils.estimateIncomingDamage(ship.getShipTarget(), 1f);
         
         boolean targetMayDieSoon = targetDeathEminent
                 || ship.getShipTarget().getHitpoints() <= 3000f;
@@ -42,7 +42,7 @@ public class MeleeTempAI extends BaseShipAI {
                 && ship.getFluxTracker().getMaxFlux() - ship.getFluxTracker().getCurrFlux()
                     > ship.getPhaseCloak().getFluxPerUse() * 1.1f;
 
-        float danger = IceUtils.estimateIncomingDamage(ship, 2)
+        float danger = IceUtils.estimateIncomingDamage(ship, 1)
                 / (ship.getHitpoints() + ship.getMaxHitpoints());
 
         if(danger > 0.12f || targetDeathEminent) {

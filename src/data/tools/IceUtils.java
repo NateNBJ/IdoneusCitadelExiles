@@ -357,21 +357,13 @@ public class IceUtils {
 
         for (Iterator iter = Global.getCombatEngine().getBeams().iterator(); iter.hasNext();) {
             BeamAPI beam = (BeamAPI)iter.next();
-
-            if(!CollisionUtils.getCollides(beam.getFrom(), beam.getTo(),
-                    ship.getLocation(), ship.getCollisionRadius()))
-                continue;
             
-            //if(!beam.didDamageThisFrame() || beam.getDamageTarget() != ship)
-//            if(beam.getDamageTarget() != ship)
-//                continue;
+            if(beam.getDamageTarget() != ship) continue;
             
-            float dps = beam.getWeapon().getDerivedStats().getBurstDamage();
+            float dps = beam.getWeapon().getDerivedStats().getDamageOver30Sec() / 30;
             float emp = beam.getWeapon().getDerivedStats().getEmpPerSecond();
 
-            accumulator += (beam.getWeapon().getDerivedStats().getBurstDamage()
-                    + beam.getWeapon().getDerivedStats().getEmpPerSecond())
-                    * damageWindowSeconds;
+            accumulator += (dps + emp) * damageWindowSeconds;
         }
 
         return accumulator;
