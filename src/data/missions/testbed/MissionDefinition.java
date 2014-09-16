@@ -27,7 +27,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         this.api = api;
 
         side = FleetSide.ENEMY;
-        api.initFleet(side, "ISS", FleetGoal.ATTACK, true, 5);
+        api.initFleet(side, "ICS", FleetGoal.ATTACK, true, 5);
         api.setFleetTagline(side, "Isolationists");
         api.addToFleet(side, "sun_ice_abraxas_Standard", FleetMemberType.SHIP, true);
         
