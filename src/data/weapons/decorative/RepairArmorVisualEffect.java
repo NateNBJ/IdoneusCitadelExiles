@@ -3,6 +3,7 @@ package data.weapons.decorative;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.EveryFramePlugin;
 import data.shipsystems.RepairArmorStats;
 
 public class RepairArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
@@ -26,7 +27,7 @@ public class RepairArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
         weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
         
-        alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
+        alpha += EveryFramePlugin.getElapsed() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
         
         weapon.getAnimation().setAlphaMult(

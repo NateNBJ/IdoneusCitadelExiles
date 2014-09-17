@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
+import data.EveryFramePlugin;
 import data.tools.JauntSession;
 import data.tools.IntervalTracker;
 import java.awt.Color;
@@ -62,7 +63,7 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
     void suckInProjectile(DamagingProjectileAPI proj) {
         float fromToAngle = VectorUtils.getAngle(wormhole, proj.getLocation());
         float angleDif = MathUtils.getShortestRotation(fromToAngle, MathUtils.clampAngle(proj.getFacing() + 180));
-        float amount = Global.getCombatEngine().getElapsedInLastFrame();
+        float amount = EveryFramePlugin.getElapsed();
         float distance = MathUtils.getDistance(wormhole, proj.getLocation());
         float force = (ship.getCollisionRadius() * MAX_RANGE_MULTIPLIER) / distance;
         float dAngle = -angleDif * amount * force * ANGLE_FORCE_MULTIPLIER;
@@ -142,7 +143,8 @@ public class AdvPhaseWarpStats implements ShipSystemStatsScript {
         
         wormhole = null;
         ordnance = null;
-        if(JauntSession.hasSession(ship)) ship.useSystem();
+        if(JauntSession.hasSession(ship))
+            ship.useSystem();
     }
 
     @Override

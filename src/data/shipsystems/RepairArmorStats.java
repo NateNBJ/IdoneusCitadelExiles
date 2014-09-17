@@ -7,6 +7,7 @@ import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
+import data.EveryFramePlugin;
 import org.lwjgl.util.vector.Vector2f;
 import data.tools.IceUtils;
 import java.awt.Color;
@@ -40,7 +41,7 @@ public class RepairArmorStats implements ShipSystemStatsScript {
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ShipAPI ship = (ShipAPI) stats.getEntity();
         CombatEngineAPI engine = Global.getCombatEngine();
-        float amount = engine.getElapsedInLastFrame();
+        float amount = EveryFramePlugin.getElapsed();
 
         ArmorGridAPI armorGrid = ship.getArmorGrid();
         Random rng = new Random();

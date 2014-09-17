@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
+import data.EveryFramePlugin;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +58,7 @@ public class FissionDrillStats implements ShipSystemStatsScript {
                 }
 
                 if (CollisionUtils.isPointWithinBounds(at, target)) {
-                    float damage = 20000f * Global.getCombatEngine().getElapsedInLastFrame();
+                    float damage = 20000f * EveryFramePlugin.getElapsed();
                     CombatUtils.applyForce(target, (Vector2f) ship.getVelocity().scale(0.98f), 100f);
                     Global.getCombatEngine().applyDamage(target, at, damage, DamageType.HIGH_EXPLOSIVE, 0, true, true, ship);
                     stats.getWeaponDamageTakenMult().modifyMult(id, 0);

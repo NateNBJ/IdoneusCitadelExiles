@@ -45,7 +45,7 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
                 
             float wave = (float) Math.cos(engine.getTotalElapsedTime(false) * Math.PI + offsets.get(ship));
             wave *= (float) Math.cos(engine.getTotalElapsedTime(false) * Math.E / 3);
-            alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATE_SPEED : -DEACTIVATE_SPEED);
+            alpha += amount * (on ? ACTIVATE_SPEED : -DEACTIVATE_SPEED);
             alpha = Math.max(Math.min(alpha, 1), 0);
             weapon.getAnimation().setAlphaMult(alpha * (wave / 3 + 0.66f));
         }

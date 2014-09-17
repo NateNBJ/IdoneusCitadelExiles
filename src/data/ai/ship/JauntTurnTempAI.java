@@ -37,7 +37,7 @@ public class JauntTurnTempAI extends BaseShipAI {
 //            ship.setFacing(VectorUtils.getAngle(to, target.getLocation()));
 //            turnToward(VectorUtils.getAngle(ship.getLocation(), Global.getCombatEngine().getPlayerShip().getMouseTarget()));
 
-            fakeTurnToAngle(VectorUtils.getAngle(to, target.getLocation()));
+            fakeTurnToAngle(VectorUtils.getAngle(to, target.getLocation()), amount);
             
 //            IceUtils.blink(to);
 //            IceUtils.blink(target.getLocation());
@@ -47,7 +47,7 @@ public class JauntTurnTempAI extends BaseShipAI {
     // Can't get ship to turn as quickly as it should during warp for some reason.
     // This is my hacky workaround.
     float angleVel = Float.NaN;
-    void fakeTurnToAngle(float degrees) {
+    void fakeTurnToAngle(float degrees, float amount) {
         if(Float.isNaN(angleVel))
             angleVel = ship.getAngularVelocity();
         
@@ -60,7 +60,6 @@ public class JauntTurnTempAI extends BaseShipAI {
             if(rotValWhenAt > 0) goLeft = !goLeft;
         }
         
-        float amount = Global.getCombatEngine().getElapsedInLastFrame();
         float turnAcc = ship.getMutableStats().getTurnAcceleration().getModifiedValue();
         float maxTurn = ship.getMutableStats().getMaxTurnRate().getModifiedValue();
         float dAngleVel = turnAcc * (goLeft ? 1 : -1) * amount;

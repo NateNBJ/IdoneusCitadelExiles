@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
+import data.EveryFramePlugin;
 import data.tools.JauntSession;
 
 public class JauntHeavyStats implements ShipSystemStatsScript {
@@ -16,7 +17,7 @@ public class JauntHeavyStats implements ShipSystemStatsScript {
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ShipAPI ship = (ShipAPI)stats.getEntity();
         CombatEngineAPI engine = Global.getCombatEngine();
-        float amount = engine.getElapsedInLastFrame();
+        float amount = EveryFramePlugin.getElapsed();
         
         if(session == null) {
             session = JauntSession.getSession((ShipAPI)stats.getEntity(), MAX_RANGE);

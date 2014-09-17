@@ -34,8 +34,8 @@ public class JauntSession {
     public static void clearSessions() {
         jauntSessions.clear();
     }
-    public static void advanceAll() {
-        for(JauntSession jaunt : jauntSessions.values()) jaunt.advance();
+    public static void advanceAll(float amount) {
+        for(JauntSession jaunt : jauntSessions.values()) jaunt.advance(amount);
         for(JauntSession jaunt : toClear) jaunt.endNow();
         toClear.clear();
     }
@@ -232,9 +232,8 @@ public class JauntSession {
     public boolean isWarping() {
         return progress != 1;
     }
-    public void advance() {
+    public void advance(float amount) {
         if(ship.getFluxTracker().isOverloadedOrVenting()) goHome();
-        amount = engine.getElapsedInLastFrame();
         if(warpTime == 0) {
             progress = returning ? 0 : 1;
         } else {

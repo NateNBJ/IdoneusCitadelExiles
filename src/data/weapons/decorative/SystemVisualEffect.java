@@ -3,11 +3,11 @@ package data.weapons.decorative;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.mission.FleetSide;
+import data.EveryFramePlugin;
 
 public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
-    private static float ACTIVATION_SPEED = 1;
-    private static float DEACTIVATION_SPEED = 1;
+    final static float ACTIVATION_SPEED = 1;
+    final static float DEACTIVATION_SPEED = 1;
 
     private float alpha = 0;
 	
@@ -26,7 +26,7 @@ public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
         weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
         
-        alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
+        alpha += EveryFramePlugin.getElapsed() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
         
         weapon.getAnimation().setAlphaMult(alpha);

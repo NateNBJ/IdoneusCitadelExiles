@@ -119,16 +119,23 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         } else playerCloakPreviouslyCoolingDown = false;
     }
     
+    static float elapsedTime = 0;
+    public static float getElapsed() {
+        return elapsedTime;
+    }
+    
     @Override
     public void advance(float amount, List events) {
-        clearBonuses();
+        elapsedTime = amount;
         
+        clearBonuses();
+                
         if(engine.isPaused()) return;
         
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);
         advanceActiveRecalls(amount);
-        JauntSession.advanceAll();
+        JauntSession.advanceAll(amount);
         playPhaseCloakCooldownOverSoundForPlayer();
     }
 

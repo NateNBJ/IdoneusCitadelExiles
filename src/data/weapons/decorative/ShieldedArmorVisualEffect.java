@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.EveryFramePlugin;
 import data.tools.IceUtils;
 import java.awt.Color;
 
@@ -67,7 +68,7 @@ public class ShieldedArmorVisualEffect implements EveryFrameWeaponEffectPlugin {
         weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
 
-        alpha += engine.getElapsedInLastFrame() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
+        alpha += EveryFramePlugin.getElapsed() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
 
         weapon.getAnimation().setAlphaMult(alpha * strength);

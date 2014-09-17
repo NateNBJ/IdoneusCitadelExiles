@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.EveryFramePlugin;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class IceUtils {
                 Global.getCombatEngine().getProjectiles();
         
         List undiflected = new LinkedList(projectiles);
-        float amount = Global.getCombatEngine().getElapsedInLastFrame();
+        float amount = EveryFramePlugin.getElapsed();
 
         for(DamagingProjectileAPI proj : projectiles) {
             // Make sure the projectile is moving in the opposite direction
