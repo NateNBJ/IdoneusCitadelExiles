@@ -1,13 +1,12 @@
 {
-  "displayName": "Standard",
-  "fluxCapacitors": 0,
-  "fluxVents": 0,
-  "hullId": "sun_ice_seraph",
-  "hullMods": [
-    "unstable_injector",
-    "reinforcedhull",
-    "fluxbreakers"
-  ],
-  "variantId": "sun_ice_seraph_Standard",
-  "weaponGroups": []
+    "displayName": "Standard",
+    "fluxCapacitors": 0,
+    "fluxVents": 2,
+    "hullId": "sun_ice_seraph",
+    "hullMods": [
+        "unstable_injector",
+        "reinforcedhull"
+    ],
+    "variantId": "sun_ice_seraph_Standard",
+    "weaponGroups": []
 }
