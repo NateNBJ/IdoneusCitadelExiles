@@ -5,6 +5,8 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.tools.IceUtils;
+import data.tools.IntervalTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +29,8 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
     WeaponAPI weapon;
     ShipAPI target;
     boolean isOn = false;
-    float timeOfNextUpdate = 0;
+    boolean previouslyCoolingDown = false;
+    IntervalTracker timer = new IntervalTracker(UPDATE_FREQUENCY);
 
     public MobiusRayAutofireAIPlugin() { }
     public MobiusRayAutofireAIPlugin(WeaponAPI weapon) {
@@ -43,6 +46,8 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     void findTarget() {
+        if(target != null) return;
+        
         float theta = (weapon.getCurrAngle() / 180f) * (float)Math.PI;
         float halfRange = weapon.getRange() / 2f;
         Vector2f midPoint = new Vector2f(weapon.getLocation());
@@ -62,7 +67,8 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
                     || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive())
                     ) continue;
 
-            if(ship.getOwner() == weapon.getShip().getOwner())
+            if(ship.getOwner() == weapon.getShip().getOwner()
+                    && ship != weapon.getShip())
                 friendlies.add(ship);
 
             float dist = MathUtils.getDistanceSquared(ship, midPoint);
@@ -96,17 +102,24 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
-        float t = Global.getCombatEngine().getTotalElapsedTime(false);
-        if(t > timeOfNextUpdate) {
-            timeOfNextUpdate = t + UPDATE_FREQUENCY;
-            
-            findTarget();
+        if(previouslyCoolingDown && weapon.getCooldownRemaining() <= 0) {
+            isOn = false;
+            target = null;
+            //IceUtils.print(weapon.getShip(), "DONE!");
         }
+        
+        if(timer.intervalElapsed()) {
+            findTarget();
+            //IceUtils.print(weapon.getShip(), "" + target);
+        }
+        
+        previouslyCoolingDown = weapon.getCooldownRemaining() > 0;
     }
 
     @Override
     public void forceOff() {
         findTarget();
+        //IceUtils.print(weapon.getShip(), "" + target);
     }
 
     @Override

@@ -10,7 +10,6 @@ import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 import data.ai.weapon.*;
-import data.tools.IceUtils;
 
 public class MobiusRayEffect implements EveryFrameWeaponEffectPlugin {
     static final float MAX_ROTATION_PER_SECOND = 270f;
