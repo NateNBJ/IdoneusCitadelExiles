@@ -4,12 +4,11 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
+import data.ICEModPlugin;
 import data.tools.IceUtils;
 import java.awt.Color;
 
-public class EntropicInversionMatrixStats implements ShipSystemStatsScript
-{
-    static final Color TEXT_COLOR = new Color(0, 255, 100);
+public class EntropicInversionMatrixStats implements ShipSystemStatsScript {
 
     float[][] prev = null;
     float initialFlux = Float.MIN_VALUE;
@@ -37,9 +36,11 @@ public class EntropicInversionMatrixStats implements ShipSystemStatsScript
                 ship.getArmorGrid().setArmorValue(x, y, val);
                 prev[x][y] = val;
 
-                Global.getCombatEngine().addFloatingDamageText(
-                        IceUtils.getCellLocation(ship, x, y), repairAmount,
-                        TEXT_COLOR, ship, ship);
+                IceUtils.showHealText(ship, IceUtils.getCellLocation(ship, x, y), repairAmount);
+                
+//                Global.getCombatEngine().addFloatingDamageText(
+//                        IceUtils.getCellLocation(ship, x, y), repairAmount,
+//                        ICEModPlugin.HEAL_TEXT_COLOR, ship, ship);
             }
         }
 

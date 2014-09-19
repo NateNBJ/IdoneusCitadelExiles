@@ -55,7 +55,7 @@ public class JauntAI implements ShipSystemAIScript {
             flux = 0;
             phaseNecessity += reactor.getFluxLevel() * USE_THRESHHOLD * 1.25f;
             //flux = (float)Math.pow(reactor.getFluxLevel(), 1);
-            damage *= 0.25f;
+            damage *= 0.5f;
             
             // No reason to stay here if we're not shooting anything or dissipating soft flux
             if(reactor.getCurrFlux() == reactor.getHardFlux()) {
@@ -67,7 +67,7 @@ public class JauntAI implements ShipSystemAIScript {
             // Don't want to return if it's dangerous
             Vector2f temp = new Vector2f(ship.getLocation());
             ship.getLocation().set(origins.get(ship));
-            damage -= IceUtils.estimateIncomingBeamDamage(ship, 2);
+            damage -= IceUtils.estimateIncomingDamage(ship, 2);
             ship.getLocation().set(temp);
         } else {
             flux = (float)Math.sqrt(reactor.getHardFlux() / reactor.getMaxFlux());

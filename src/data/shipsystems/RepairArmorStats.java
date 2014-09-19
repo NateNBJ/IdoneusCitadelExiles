@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import data.EveryFramePlugin;
+import data.ICEModPlugin;
 import org.lwjgl.util.vector.Vector2f;
 import data.tools.IceUtils;
 import java.awt.Color;
@@ -105,6 +106,11 @@ public class RepairArmorStats implements ShipSystemStatsScript {
             fluxCost *= 1 - Math.max(0, ((current + increase) - max) / increase);
 
             armorGrid.setArmorValue(leaderX, leaderY, Math.min(max, current + increase));
+            
+            IceUtils.showHealText(ship, leaderLoc, armorGrid.getArmorValue(leaderX, leaderY) - current);
+//            Global.getCombatEngine().addFloatingDamageText(leaderLoc,
+//                    armorGrid.getArmorValue(leaderX, leaderY) - current,
+//                    ICEModPlugin.HEAL_TEXT_COLOR, ship, ship);
 
             if (Math.random() < SPARK_CHANCE) {
                 leaderLoc.x += cellSize * 0.5f - cellSize * (float) Math.random();

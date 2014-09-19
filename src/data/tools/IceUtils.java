@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.EveryFramePlugin;
+import data.ICEModPlugin;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +46,10 @@ public class IceUtils {
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static void showHealText(ShipAPI anchor, Vector2f at, float repairAmount) {
+//        Global.getCombatEngine().addFloatingDamageText(at, repairAmount,
+//            ICEModPlugin.HEAL_TEXT_COLOR, anchor, anchor);
+    }
     public static List<CombatEntityAPI> getCollideablesInRange(Vector2f at, float range) {
         List<CombatEntityAPI> retVal = new LinkedList();
         

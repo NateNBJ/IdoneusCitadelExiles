@@ -1,11 +1,14 @@
 package data.weapons.beam;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.BeamAPI;
 import com.fs.starfarer.api.combat.BeamEffectPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import data.ICEModPlugin;
+import data.tools.IceUtils;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
@@ -68,6 +71,8 @@ public class NosBeamEffect implements BeamEffectPlugin {
         
         ArmorGridAPI grid = beam.getSource().getArmorGrid();
         
+        float totalRepaired = 0;
+        
         for(Entry<Point, Float> pair : cellMap.entrySet()) {
             float currentVal = grid.getArmorValue(pair.getKey().getX(), pair.getKey().getY());
             float newVal = currentVal + (float)Math.sqrt(pair.getValue()) * amount * repairRate;
@@ -75,6 +80,12 @@ public class NosBeamEffect implements BeamEffectPlugin {
             newVal = Math.max(newVal, currentVal);
             
             grid.setArmorValue(pair.getKey().getX(), pair.getKey().getY(), newVal);
+            
+            totalRepaired += newVal - currentVal;
         }
+        
+        IceUtils.showHealText(beam.getSource(), beam.getFrom(), totalRepaired);
+//        Global.getCombatEngine().addFloatingDamageText(beam.getFrom(), totalRepaired,
+//            ICEModPlugin.HEAL_TEXT_COLOR, beam.getSource(), beam.getSource());
     }	
 }

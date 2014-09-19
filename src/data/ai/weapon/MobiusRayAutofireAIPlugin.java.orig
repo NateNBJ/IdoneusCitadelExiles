@@ -1,22 +1,20 @@
 
 package data.ai.weapon;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.tools.IceUtils;
 import data.tools.IntervalTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
-    static HashMap autofireMap = new HashMap();
     static final float SHOULD_FIRE_THRESHOLD = 0.3f;
     static final float UPDATE_FREQUENCY = 0.5f;
 
@@ -27,21 +25,13 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
     }
 
     WeaponAPI weapon;
-    ShipAPI target, activeTarget;
-    boolean isOn = false;
+    ShipAPI target, chosenTarget;
+    boolean previouslyCoolingDown = false;
     IntervalTracker timer = new IntervalTracker(UPDATE_FREQUENCY);
 
     public MobiusRayAutofireAIPlugin() { }
     public MobiusRayAutofireAIPlugin(WeaponAPI weapon) {
         this.weapon = weapon;
-        autofireMap.put(weapon, this);
-    }
-
-    public boolean isOn() {
-        return isOn;
-    }
-    public void setIsOn(boolean on) {
-        isOn = on;
     }
 
     void findTarget() {
@@ -64,7 +54,8 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
                     || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive())
                     ) continue;
 
-            if(ship.getOwner() == weapon.getShip().getOwner())
+            if(ship.getOwner() == weapon.getShip().getOwner()
+                    && ship != weapon.getShip())
                 friendlies.add(ship);
 
             float dist = MathUtils.getDistanceSquared(ship, midPoint);
@@ -108,9 +99,9 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public Vector2f getTarget() {
-        return (activeTarget == null)
+        return (target == null)
                 ? weapon.getShip().getMouseTarget()
-                : activeTarget.getLocation();
+                : target.getLocation();
     }
 
     @Override
@@ -125,10 +116,7 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public boolean shouldFire() {
-        isOn = true;
-
         if(weapon.isDisabled()
-                || weapon.isFiring()
                 || weapon.getCooldownRemaining() > 0
                 || target == null
             ) return false;
@@ -150,8 +138,6 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
 
         // 1.0f - Can we afford to use the flux?
         shouldFire += 1 - weapon.getShip().getFluxTracker().getFluxLevel();
-        
-        activeTarget = target;
 
         return shouldFire > SHOULD_FIRE_THRESHOLD;
     }

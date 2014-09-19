@@ -17,6 +17,7 @@ import data.ai.missile.MinePodAI;
 import data.ai.missile.PdDroneMissileAI;
 import data.ai.missile.ScatterPdMissileAI;
 import data.ai.missile.SpitfireMissileAI;
+import data.ai.weapon.ChupacabraAutofireAIPlugin;
 import data.ai.weapon.FissionDrillAutofireAIPlugin;
 import data.ai.weapon.MobiusRayAutofireAIPlugin;
 import data.ai.weapon.HypermassDriverAutofireAIPlugin;
@@ -26,11 +27,13 @@ import data.ai.weapon.PdDroneAutofireAIPlugin;
 import data.ai.weapon.RecallAutofireAIPlugin;
 import data.world.ICECampaignPlugin;
 import data.world.Ulterius;
+import java.awt.Color;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
 
 public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_AVAILABLE = false;
+    public static Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
 
     public static void tryToEnableLighting() {
         try {
@@ -110,8 +113,10 @@ public class ICEModPlugin extends BaseModPlugin {
             return new PluginPick(new NovaDischargerAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_fissiondrill")) {
             return new PluginPick(new FissionDrillAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
-        } else if (id.equals("sun_ice_nos") || id.equals("sun_ice_chupacabra")) {
+        } else if (id.equals("sun_ice_nos")) {
             return new PluginPick(new NosAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
+        } else if (id.equals("sun_ice_chupacabra")) {
+            return new PluginPick(new ChupacabraAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_pddrone")) {
             return new PluginPick(new PdDroneAutofireAIPlugin(weapon), CampaignPlugin.PickPriority.MOD_GENERAL);
         } else if (id.equals("sun_ice_recall")) {

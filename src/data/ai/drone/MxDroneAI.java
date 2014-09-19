@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI.DroneOrders;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.ICEModPlugin;
 import data.ai.ship.BaseShipAI;
 import data.tools.IceUtils;
 import java.awt.Color;
@@ -258,6 +259,8 @@ public class MxDroneAI extends BaseShipAI {
     }
     void repairArmor() {
         if(cellToFix == null) return;
+        
+        float totalRepaired = 0;
 
         for(int x = cellToFix.x - 1; x <= cellToFix.x + 1; ++ x) {
             if(x < 0 || x >= gridWidth) continue;
@@ -267,9 +270,15 @@ public class MxDroneAI extends BaseShipAI {
                 
                 float mult = (float)((3 - Math.abs(x - cellToFix.x) - Math.abs(y - cellToFix.y)) / 3f);
 
+                totalRepaired -= armorGrid.getArmorValue(x, y);
                 armorGrid.setArmorValue(x, y, Math.min(max, armorGrid.getArmorValue(x, y) + REPAIR_AMOUNT * mult));
+                totalRepaired += armorGrid.getArmorValue(x, y);
             }
         }
+        
+        IceUtils.showHealText(ship, ship.getLocation(), totalRepaired);
+//        Global.getCombatEngine().addFloatingDamageText(ship.getLocation(),
+//                totalRepaired, ICEModPlugin.HEAL_TEXT_COLOR, target, target);
     }   
     void maintainCR(float amount) {
         if(target.losesCRDuringCombat()) {
