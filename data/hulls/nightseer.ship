@@ -21,7 +21,7 @@
   "builtInWeapons": {
     "ATOP": "sun_ice_nightseer_atop",
     "SYSTEM": "sun_ice_nightseer_system",
-    #"LIGHTS": "sun_ice_nightseer_lights",
+    "LIGHTS": "sun_ice_nightseer_lights",
 	"LIGHTS_TOP": "sun_ice_nightseer_lights_top",
   },
   "center": [

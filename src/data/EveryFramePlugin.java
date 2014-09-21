@@ -112,7 +112,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
             if(playerCloakPreviouslyCoolingDown != ship.getPhaseCloak().isCoolingDown()
                     && !ship.getPhaseCloak().isCoolingDown()) {
 
-                Global.getSoundPlayer().playSound("engine_disabled", 3, 0.7f, ship.getLocation(), ship.getVelocity());
+                Global.getSoundPlayer().playSound("engine_disabled", 3, 1.1f, ship.getLocation(), ship.getVelocity());
             }
             
             playerCloakPreviouslyCoolingDown = ship.getPhaseCloak().isCoolingDown();

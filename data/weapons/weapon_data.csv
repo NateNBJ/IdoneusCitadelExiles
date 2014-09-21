@@ -10,7 +10,7 @@ Mobius Ray,sun_ice_mobiusray,3,23000,800,,60,,0,0,25,,,HIGH_EXPLOSIVE,60,,0,4,20
 Tractor Beam,sun_ice_tractorbeam,2,12000,1000,5,,,0,100,12,,,OTHER,,300,1,1.5,,,,,,,3000,,,,,"STRIKE,USE_VS_FRIGATES",
 Mine Pod,sun_ice_minepod,1,7500,3000,,1200,,100,10,22,2,,HIGH_EXPLOSIVE,0,,0,18,1,,,,,,,250,150,20,350,"DO_NOT_AIM, HEATSEEKER",
 Chupacabra Fusor,sun_ice_chupacabra,2,1500,600,175,,,0,20,12,,,HIGH_EXPLOSIVE,,455,0.3,0.3,,,,,,,2400,,,,,PD,
-Nosferatu Fusor,sun_ice_nos,2,1500,700,1600,,,0,5,28,6,0.25,HIGH_EXPLOSIVE,,1800,0.5,0.5,0.1,,,,,,4800,,,,,PD,
+Nosferatu Fusor,sun_ice_nos,2,1500,700,1200,,,0,5,28,6,0.25,HIGH_EXPLOSIVE,,1400,0.5,0.5,0.5,,,,,,4800,,,,,PD,
 Falx Beam,sun_ice_falx,2,1200,800,15,,175,0,20,5,,,ENERGY,,60,0.5,1,,,,,,,2400,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Recall Teleporter,sun_ice_recall,1,,1500,1,,,0,0,,,,OTHER,,700,2,2,3,,,,,,1000,,,,,"SYSTEM, PD, SHOW_IN_CODEX",

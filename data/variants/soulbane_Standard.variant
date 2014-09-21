@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 0,
-    "fluxVents": 8,
+    "fluxVents": 16,
     "hullId": "sun_ice_soulbane",
     "hullMods": [
         "heavyarmor",
@@ -18,8 +18,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "amblaster",
-                "WS0004": "amblaster"
+                "WS0003": "sun_ice_falx",
+                "WS0004": "sun_ice_falx"
             }
         },
         {
