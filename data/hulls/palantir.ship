@@ -23,13 +23,14 @@
     "sun_ice_gravitonic_sensors_mod"
   ],
   "builtInWeapons": {
-    "LIGHTS": "sun_ice_palantir_lights"
+    "LIGHTS": "sun_ice_palantir_lights",
+    "SYSTEM": "sun_ice_palantir_system"
   },
   "center": [
     30,
     33.5
   ],
-  "collisionRadius": 36.718525,
+  "collisionRadius": 37,
   "engineSlots": [
     {
       "angle": 180,
@@ -43,26 +44,26 @@
       "width": 23
     },
     {
-      "angle": -178.430649,
-      "contrailSize": 23.018755,
-      "length": 36.698559,
+      "angle": -178,
+      "contrailSize": 23,
+      "length": 36,
       "location": [
         -28,
         13.5
       ],
       "style": "SUN_ICE",
-      "width": 23.018755
+      "width": 23
     },
     {
-      "angle": 176.877869,
-      "contrailSize": 24.418247,
-      "length": 33.214264,
+      "angle": 176,
+      "contrailSize": 24,
+      "length": 33,
       "location": [
         -31,
         -17.5
       ],
       "style": "SUN_ICE",
-      "width": 24.418247
+      "width": 24
     }
   ],
   "height": 78,
@@ -82,6 +83,18 @@
       "angle": 0,
       "arc": 0,
       "id": "LIGHTS",
+      "locations": [
+        6,
+        0
+      ],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
+    },
+    {
+      "angle": 0,
+      "arc": 0,
+      "id": "SYSTEM",
       "locations": [
         6,
         0

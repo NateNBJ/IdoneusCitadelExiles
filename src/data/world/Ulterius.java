@@ -50,7 +50,7 @@ public class Ulterius {
         VENDOR_SHIPS.put("sun_ice_pentagram_Standard", 1);
         VENDOR_SHIPS.put("sun_ice_shiekwraith_Hull", 1);
         VENDOR_SHIPS.put("sun_ice_seraph_Hull", 1);
-        //VENDOR_SHIPS.put("sun_ice_palantir_Hull", 1);
+        VENDOR_SHIPS.put("sun_ice_palantir_Hull", 1);
 
         VENDOR_WINGS.put("sun_ice_poltergeist_wing", 1);
         VENDOR_WINGS.put("sun_ice_phantom_wing", 1);

@@ -1,0 +1,15 @@
+{
+	"id":"sun_ice_sensor_boost",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	
+	"aiScript":"data.shipsystems.ai.AlwaysUseAI",
+	"statsScript":"data.shipsystems.SensorBoostStats",
+	
+	"engineGlowColor":[255,223,128,255],
+	"engineGlowContrailColor":[255,223,128,5],
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+	}	
+}

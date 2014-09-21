@@ -84,7 +84,7 @@ public class MineAI extends BaseMissileAI {
             if(fuel > 0) {
                 accelerate();
                 fuel -= amount;
-            } else missile.flameOut();
+            }
         } else if((cloak == null || !cloak.isActive())
                 && (distance <= ATTACK_RANGE)
                 && isFacing(leadPoint)) {
