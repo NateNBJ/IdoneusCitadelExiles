@@ -44,7 +44,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
         addShip("sun_ice_nightseer_Standard", 1);
         addShip("sun_ice_athame_Standard", 1);
-        addShip("sun_ice_pentagram_Standard", 1);
+        //addShip("sun_ice_pentagram_Standard", 1);
         addShip("sun_ice_specter_Standard", 1);
         //addShip("sun_ice_flashghast_Standard", 1);
         addShip("sun_ice_seraph_Standard", 1);
@@ -74,7 +74,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
         addShip("sun_ice_nightseer_Standard", 1);
         addShip("sun_ice_athame_Standard", 1);
-        addShip("sun_ice_pentagram_Standard", 1);
+        //addShip("sun_ice_pentagram_Standard", 1);
         addShip("sun_ice_specter_Standard", 1);
         //addShip("sun_ice_flashghast_Standard", 1);
         addShip("sun_ice_seraph_Standard", 1);

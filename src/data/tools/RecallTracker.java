@@ -3,13 +3,11 @@ package data.tools;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CollisionClass;
-import com.fs.starfarer.api.combat.CombatAssignmentType;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.fleet.FleetGoal;
-import com.fs.starfarer.api.mission.FleetSide;
 import static data.weapons.beam.RecallBeamEffect.CHARGE_TIME;
 import java.awt.Color;
 import org.lazywizard.lazylib.MathUtils;
@@ -134,7 +132,6 @@ public class RecallTracker {
         int owner = ally.getOwner();
         FleetGoal goal = Global.getCombatEngine().getContext().getPlayerGoal();
         if(ally.getOwner() == 0 && (goal == FleetGoal.ATTACK || goal == null)) {
-            // TODO - remove goal == null above once getPlayerGoal() stops returning null
             retVal.y *= -1;
         }
 

@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -124,6 +125,27 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         return elapsedTime;
     }
     
+    static class Command {
+        ShipAPI ship;
+        ShipCommand command;
+        
+        Command(ShipAPI ship, ShipCommand command) {
+            this.ship = ship;
+            this.command = command;
+        }
+    }
+    static LinkedList<Command> delayedCommands = new LinkedList<Command>();
+    public static void delayCommand(ShipAPI ship, ShipCommand command) {
+        delayedCommands.add(new Command(ship, command));
+    }
+    void giveDelayedCommands() {
+        for(Command c : delayedCommands) {
+            c.ship.giveCommand(c.command, null, 0);
+        }
+        
+        delayedCommands.clear();
+    }
+    
     @Override
     public void advance(float amount, List events) {
         elapsedTime = amount;
@@ -137,6 +159,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         advanceActiveRecalls(amount);
         JauntSession.advanceAll(amount);
         playPhaseCloakCooldownOverSoundForPlayer();
+        giveDelayedCommands();
     }
 
     @Override
@@ -145,6 +168,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         shipsToGiveFluxRefund.clear();
         shipsToClearBonusesFrom.clear();
         recalling.clear();
+        delayedCommands.clear();
         JauntSession.clearSessions();
     }
 }

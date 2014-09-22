@@ -30,7 +30,8 @@ public class EntropicInversionMatrixAI implements ShipSystemAIScript {
         
         //SunUtils.print("" + IceUtils.estimateIncomingDamage(ship, 1));
 
-        if(AIUtils.canUseSystemThisFrame(ship) && !ship.getPhaseCloak().isActive()
+        if(AIUtils.canUseSystemThisFrame(ship)
+                && (ship.getPhaseCloak() == null || !ship.getPhaseCloak().isActive())
                 && (IceUtils.estimateIncomingDamage(ship, 1) /
                 (ship.getMaxHitpoints() + ship.getHitpoints())) > USE_SYSTEM_THRESHOLD) {
 

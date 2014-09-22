@@ -2,6 +2,7 @@ package data.ai.ship;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.shipsystems.ai.EntropicInversionMatrixAI;
 import data.tools.IceUtils;
@@ -12,25 +13,13 @@ public class MeleeTempAI extends BaseShipAI {
     WeaponAPI tractorBeam;
     EntropicInversionMatrixAI systemAI;
     boolean facingBetterTarget = false;
-
-    @Override
-    public void evaluateCircumstances() {
-        if(ship.getFluxTracker().isOverloadedOrVenting()
-                || !tractorBeam.isFiring()
-                || ship.getFluxTracker().getFluxLevel() > 0.9f
-                || ship.getPhaseCloak().isActive()
-                || ship.getShipTarget() == null
-                || ship.getShipTarget().getOwner() == ship.getOwner()
-                || tractorBeam.getRange() < MathUtils.getDistance(ship.getShipTarget(), tractorBeam.getLocation())
-                || !ship.getShipTarget().isAlive()) {
-
-            ship.resetDefaultAI();
-            //SunUtils.print("Let's reconsider.");
+    
+    void checkIfShouldDefend() {
+        if(ship.getShield() != null && ship.getShield().isOff()) {
+            ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
         }
         
         if(ship.getSystem().isActive()) return;
-
-        //boolean inMeleeRange = MathUtils.getDistance(ship, ship.getShipTarget()) <= 0;
         
         boolean targetDeathEminent = ship.getShipTarget().getHitpoints()
                 <= IceUtils.estimateIncomingDamage(ship.getShipTarget(), 1f);
@@ -41,10 +30,10 @@ public class MeleeTempAI extends BaseShipAI {
         boolean canPhase = ship.getPhaseCloak() != null
                 && ship.getFluxTracker().getMaxFlux() - ship.getFluxTracker().getCurrFlux()
                     > ship.getPhaseCloak().getFluxPerUse() * 1.1f;
-
+        
         float danger = IceUtils.estimateIncomingDamage(ship, 1)
                 / (ship.getHitpoints() + ship.getMaxHitpoints());
-
+        
         if(danger > 0.12f || targetDeathEminent) {
             boolean systemUsed = useSystem();
             if(!systemUsed && canPhase) {
@@ -53,6 +42,23 @@ public class MeleeTempAI extends BaseShipAI {
         } else if (danger > 0.03 && !targetMayDieSoon) {
             useSystem();
         }
+    }
+
+    @Override
+    public void evaluateCircumstances() {
+        if(ship.getFluxTracker().isOverloadedOrVenting()
+                || !tractorBeam.isFiring()
+                || ship.getFluxTracker().getFluxLevel() > 0.9f
+                || (ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive())
+                || ship.getShipTarget() == null
+                || ship.getShipTarget().getOwner() == ship.getOwner()
+                || tractorBeam.getRange() < MathUtils.getDistance(ship.getShipTarget(), tractorBeam.getLocation())
+                || !ship.getShipTarget().isAlive()) {
+
+            ship.resetDefaultAI();
+        }
+        
+        checkIfShouldDefend();
     }
 
     public MeleeTempAI(ShipAPI ship, WeaponAPI tractorBeam) {

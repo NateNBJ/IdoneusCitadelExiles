@@ -20,7 +20,8 @@ public class ICECampaignPlugin extends BaseCampaignPlugin {
 
     @Override
     public PluginPick<InteractionDialogPlugin> pickInteractionDialogPlugin(SectorEntityToken interactionTarget) {
-        if (interactionTarget instanceof CampaignFleetAPI) {
+        String name = interactionTarget.getFullName();
+        if (interactionTarget instanceof CampaignFleetAPI && name.equals("Idoneus Refugee Fleet")) {
             return new PluginPick<InteractionDialogPlugin>(new RefugeeFleetInteractionDialogPlugin(), PickPriority.MOD_SPECIFIC);
         }
         return null;

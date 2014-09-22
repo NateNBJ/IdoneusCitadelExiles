@@ -46,7 +46,7 @@ public class TractorBeamEffect implements BeamEffectPlugin {
 
         if((id.contains("sun_ice_pentagram") || id.contains("sun_ice_kelpie"))
                 && !ship.getFluxTracker().isOverloadedOrVenting()
-                && !ship.getPhaseCloak().isActive()
+                && (ship.getPhaseCloak() == null || !ship.getPhaseCloak().isActive())
                 && ship.getShipAI() != null
                 && ship.getFluxTracker().getFluxLevel() < 0.8f
                 //&& !MeleeTempAI.isBeingUsedBy(ship)

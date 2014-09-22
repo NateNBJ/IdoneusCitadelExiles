@@ -31,7 +31,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.setFleetTagline(FleetSide.ENEMY, "Enemy forces");
 
         int size = 30 + (int)((float) Math.random() * 170);
-        float difficulty = 0.7f + rand.nextFloat() * 0.3f;
+        float difficulty = 1;// 0.7f + rand.nextFloat() * 0.3f;
         
         int playerFP = player.generateFleet(api, FleetSide.PLAYER, (int)(size * difficulty));
         int enemyFP = enemy.generateFleet(api, FleetSide.ENEMY, size);

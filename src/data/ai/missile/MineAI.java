@@ -13,7 +13,7 @@ import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class MineAI extends BaseMissileAI {
-    public static final float ATTACK_RANGE = 600f;
+    public static final float ATTACK_RANGE = 750f;
     public static final float MAX_TIME_TO_STOP = 5f;
     public static final float TTL_AFTER_BURN = 3f;
     public static final float BASE_FUEL = 0.5f;
