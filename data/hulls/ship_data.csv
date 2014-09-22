@@ -1,31 +1,31 @@
 name,id,designation,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,supplies/day,repair %/day,repair cost,CR to deploy,peak CR sec,CR loss/sec,hints,number
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Maintenance Drone,sun_ice_drone_mx,,,,225,120,30,300,0,,350,500,300,250,500,5,PHASE,sun_ice_phasecloak,,,,0,0,,,,,,,,,,,,,,,,
+Maintenance Drone,sun_ice_drone_mx,,,,225,120,30,300,0,,350,500,300,250,500,5,PHASE,sun_ice_phasecloak,,,,0,0,,,,,,,,,,,,,,,,9267.01
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Phantom,sun_ice_phantom_wing,,sun_ice_fluxdrive,,450,100,200,600,80,0,175,180,25,100,180,30,NONE,,,,,,,1,1,,,,,8,,1.5,3,0,6,,,,
-Poltergeist,sun_ice_poltergeist_wing,,,,600,175,300,800,120,0,140,230,50,150,360,50,NONE,,,,,,,2,2,,,,,7,,1.5,5,0,7,,,,
-Stormwhisp,sun_ice_stormwhisp_wing,,,,675,150,500,900,150,0,120,120,80,130,200,70,PHASE,sun_ice_phasewarp,,,,0.2,0.05,2,2,,,,,7,,1.5,3,0,8,,,,
-Umbra,sun_ice_umbra_wing,,sun_ice_divebomb,,900,600,100,1200,20,0,130,130,90,120,150,100,NONE,,,,,,,4,4,,,,,7,,1.5,5,0,6,,,,
-Attack Drone,sun_ice_drone_attack_wing,,,,190,75,100,250,40,0,120,100,80,100,180,20,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,
-PD Drone,sun_ice_drone_pd_wing,,,,375,100,100,500,40,0,160,180,120,150,360,15,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,
+Phantom,sun_ice_phantom_wing,,sun_ice_fluxdrive,,450,100,200,600,80,0,175,180,25,100,180,30,NONE,,,,,,,1,1,,,,,8,,1.5,3,0,6,,,,9267.02
+Poltergeist,sun_ice_poltergeist_wing,,,,600,175,300,800,120,0,140,230,50,150,360,50,NONE,,,,,,,2,2,,,,,7,,1.5,5,0,7,,,,9267.03
+Stormwhisp,sun_ice_stormwhisp_wing,,,,675,150,500,900,150,0,120,120,80,130,200,70,PHASE,sun_ice_phasewarp,,,,0.2,0.05,2,2,,,,,7,,1.5,3,0,8,,,,9267.04
+Umbra,sun_ice_umbra_wing,,sun_ice_divebomb,,900,600,100,1200,20,0,130,130,90,120,150,100,NONE,,,,,,,4,4,,,,,7,,1.5,5,0,6,,,,9267.05
+Attack Drone,sun_ice_drone_attack_wing,,,,190,75,100,250,40,0,120,100,80,100,180,20,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,9267.06
+PD Drone,sun_ice_drone_pd_wing,,,,375,100,100,500,40,0,160,180,120,150,360,15,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,9267.07
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Specter,sun_ice_specter,Frigate,sun_ice_repairarmor,6,1350,160,1500,1800,80,55,170,220,125,110,210,250,PHASE,sun_ice_phasewarp,,,,0.2,0.05,20,40,45,30,3,,6,14000,2.5,8,0,15,180,0.25,,
-Flashghast,sun_ice_flashghast,Missile Frigate,sun_ice_fluxdrive,6,1050,200,1000,1400,20,45,180,320,180,90,180,220,PHASE,sun_ice_phasewarp,,,,0.2,0.05,15,30,50,35,2,,6,10000,2,8,0,14,180,0.25,,
-Athame,sun_ice_athame,Drill Frigate,sun_ice_fissiondrill_sys,10,900,200,5500,1200,200,25,150,200,80,60,50,200,NONE,,,,,,,4,4,0,0,2,,6,12000,1,1,0,25,,,,
-Nightseer,sun_ice_nightseer,Elete Frigate,sun_ice_jaunt_light,18,550,400,3200,600,260,55,160,250,80,120,420,230,PHASE,sun_ice_advphasewarp,360,1,1,0,0.1,6,10,10,15,1,,6,28000,4,8,0,30,120,0.15,,
-Pentagram,sun_ice_pentagram,Blade Frigate,sun_ice_inversionmatrix,8,2850,350,1200,2200,100,20,250,80,80,240,500,350,OMNI,sun_ice_phasewarp,300,0.1,1,0.25,0.08,8,12,15,10,2,,6,8000,1.5,12,0,16,180,0.25,,
-Palantir,sun_ice_palantir,Recon Frigate,sun_ice_sensor_boost,1,675,50,200,900,15,10,150,160,130,100,90,150,PHASE,sun_ice_phasecloak,,,,0.1,0.1,2,6,15,20,1,,7,15000,0.5,8,0,10,240,0.1,,
-Seraph,sun_ice_seraph,Support Frigate,sun_ice_drone_mx,3,825,300,150,1100,30,15,90,150,120,100,80,200,NONE,,,,,,,8,55,30,25,12,,5,6000,1.5,10,0,12,300,0.1,CARRIER,
+Specter,sun_ice_specter,Frigate,sun_ice_repairarmor,6,1350,160,1500,1800,80,55,170,220,125,110,210,250,PHASE,sun_ice_phasewarp,,,,0.2,0.05,20,40,45,30,2,,6,14000,2.5,8,0,15,180,0.25,,9267.08
+Flashghast,sun_ice_flashghast,Missile Frigate,sun_ice_fluxdrive,6,1050,200,1000,1400,20,45,180,320,180,90,180,220,PHASE,sun_ice_phasewarp,,,,0.2,0.05,15,30,50,35,2,,6,10000,2,8,0,14,180,0.25,,9267.09
+Athame,sun_ice_athame,Drill Frigate,sun_ice_fissiondrill_sys,10,900,200,5500,1200,200,25,150,200,80,60,50,200,NONE,,,,,,,4,4,0,0,2,,6,12000,1,2,0,25,240,0.25,,9267.1
+Nightseer,sun_ice_nightseer,Elete Frigate,sun_ice_jaunt_light,18,550,400,3200,600,260,55,160,250,80,120,420,230,PHASE,sun_ice_advphasewarp,360,1,1,0,0.1,6,10,10,15,1,,6,28000,4,6,0,30,120,0.15,,9267.11
+Pentagram,sun_ice_pentagram,Blade Frigate,sun_ice_inversionmatrix,8,2850,350,1200,2200,100,20,250,80,80,240,500,350,OMNI,sun_ice_phasewarp,300,0.1,1,0.25,0.08,8,12,15,10,2,,6,8000,1.5,12,0,16,180,0.25,,9267.12
+Palantir,sun_ice_palantir,Recon Frigate,sun_ice_sensor_boost,1,675,50,200,900,15,10,150,160,130,100,90,150,PHASE,sun_ice_phasecloak,,,,0.1,0.1,2,6,15,20,1,,7,15000,0.5,8,0,10,240,0.1,CIVILIAN,9267.13
+Seraph,sun_ice_seraph,Support Frigate,sun_ice_drone_mx,3,825,300,150,1100,30,15,90,150,120,100,80,200,NONE,,,,,,,8,55,30,25,12,,5,6000,1.5,10,0,12,300,0.1,CARRIER,9267.14
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Soulbane,sun_ice_soulbane,Elete Destroyer,sun_ice_repairarmor,14,4500,500,4000,6000,300,115,100,90,60,30,60,400,PHASE,sun_ice_phasewarp,,,,0.2,0.05,60,100,90,80,8,,5,35000,10,3,0,20,240,0.15,,
-Shiekwraith,sun_ice_shiekwraith,ECM Destroyer,sun_ice_fofinverter,10,3000,600,5000,4000,400,90,70,90,110,20,20,350,PHASE,sun_ice_phasecloak,,,,0.03,0.07,50,120,80,120,5,,4,13000,5,5,0,18,360,0.15,,
-Denizen,sun_ice_denizen_t,Tanker,,7,1800,100,1200,2400,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,350,10,2.5,,4,8500,2,3,0,25,,,CIVILIAN,
-Denizen,sun_ice_denizen_f,Freighter,,7,1500,120,1200,2000,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,10,900,2.5,,4,8500,2,3,0,25,,,CIVILIAN,
+Soulbane,sun_ice_soulbane,Elete Destroyer,sun_ice_repairarmor,14,4500,500,4000,6000,300,115,100,90,60,30,60,400,PHASE,sun_ice_phasewarp,,,,0.2,0.05,60,100,90,80,8,,5,35000,8,4,0,20,240,0.15,,9267.15
+Shiekwraith,sun_ice_shiekwraith,ECM Destroyer,sun_ice_fofinverter,10,3000,600,5000,4000,400,90,70,90,110,20,20,350,PHASE,sun_ice_phasecloak,,,,0.03,0.07,50,120,80,120,5,,4,13000,5,5,0,16,360,0.15,,9267.16
+Denizen,sun_ice_denizen_t,Tanker,,7,1800,100,1200,2400,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,350,10,2.5,,4,8500,2,3,0,25,,,CIVILIAN,9267.17
+Denizen,sun_ice_denizen_f,Freighter,,7,1500,120,1200,2000,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,10,900,2.5,,4,8500,2,3,0,25,,,CIVILIAN,9267.18
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Eidolon,sun_ice_eidolon,Support Cruiser,sun_ice_drone_mx,16,4500,400,2500,6000,100,105,50,45,30,20,20,900,PHASE,sun_ice_phasecloak,,,,0.07,0.05,30,120,350,240,6,,3,32000,8,3,0,12,360,0.1,CARRIER,
-Kelpie,sun_ice_kelpie,Blade Cruiser,sun_ice_inversionmatrix,14,9000,800,3000,12000,200,80,40,30,20,15,20,2200,PHASE,sun_ice_phasecloak,,,,0.15,0.08,80,180,200,170,10,,4,30000,10,4,0,15,420,0.25,,
-Voidreaver,sun_ice_voidreaver,Elete Cruiser,sun_ice_repairarmor,24,6750,750,9000,9000,650,150,80,60,30,25,25,1200,PHASE,sun_ice_phaseshift,,,,0,0.06,120,160,200,200,20,,4,95000,15,3,0,20,360,0.1,,
+Eidolon,sun_ice_eidolon,Support Cruiser,sun_ice_drone_mx,16,4500,400,2500,6000,100,105,50,45,30,20,20,900,PHASE,sun_ice_phasecloak,,,,0.07,0.05,30,120,350,240,6,,3,32000,8,3,0,12,360,0.1,CARRIER,9267.19
+Kelpie,sun_ice_kelpie,Blade Cruiser,sun_ice_inversionmatrix,15,9000,800,3000,12000,200,80,40,30,20,15,20,2200,PHASE,sun_ice_phasecloak,,,,0.15,0.08,80,180,200,170,10,,4,30000,10,4,0,16,420,0.25,,9267.2
+Voidreaver,sun_ice_voidreaver,Elete Cruiser,sun_ice_repairarmor,24,6750,750,9000,9000,650,150,80,60,30,25,25,1200,PHASE,sun_ice_phaseshift,,,,0,0.06,120,160,200,200,20,,4,95000,15,3,0,20,360,0.1,,9267.21
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Shalom,sun_ice_shalom,Colony Ship,,10,12000,1000,1000,16000,100,40,15,5,2,3,2,6000,NONE,,,,,,,1000,6500,1800,1500,40,,2,250000,10,2,0,30,900,0.25,CIVILIAN,
-Apocrypha,sun_ice_apocrypha,Command Ship,sun_ice_drone_mx,26,7500,600,8000,10000,400,160,20,15,9,5,4,2200,PHASE,sun_ice_phasecloak,,,,0.15,0.05,380,750,500,650,20,,3,130000,16,3,0,18,180,0.1,CARRIER,
-Abraxas,sun_ice_abraxas,Battlecruiser,sun_ice_jaunt_heavy,28,3750,900,12000,5000,900,240,40,20,15,6,6,2000,FRONT,sun_ice_phaseshift,30,0.05,1,0,0.1,350,400,200,400,50,,3,175000,18,3,0,20,420,0.1,,
+Shalom,sun_ice_shalom,Colony Ship,,10,12000,1000,1000,16000,100,40,15,5,2,3,2,6000,NONE,,,,,,,1000,6500,1800,1500,40,,2,250000,10,2,0,30,900,0.25,CIVILIAN,9267.22
+Apocrypha,sun_ice_apocrypha,Command Ship,sun_ice_drone_mx,22,7500,600,8000,10000,400,160,20,15,9,5,4,2200,PHASE,sun_ice_phasecloak,,,,0.15,0.05,380,750,500,650,20,,3,130000,16,3,0,18,180,0.1,CARRIER,9267.23
+Abraxas,sun_ice_abraxas,Battlecruiser,sun_ice_jaunt_heavy,28,3750,900,12000,5000,900,240,40,20,15,6,6,2000,FRONT,sun_ice_phaseshift,30,0.05,1,0,0.1,350,400,200,400,50,,3,175000,18,3,0,20,420,0.1,,9267.24
