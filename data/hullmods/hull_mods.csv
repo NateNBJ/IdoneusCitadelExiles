@@ -6,5 +6,7 @@ Nova Reactor,sun_ice_nova_reactor,FALSE,0,0,0,0,data.hullmods.NovaReactor,"Provi
 Nutrition Resynthesis Annex,sun_ice_nutrition_resynth,FALSE,0,0,0,0,data.hullmods.NutritionResynth,"Reduces personell supply usage by 50 percent.
 
 [Bonus not shown in tooltips]",graphics/hullmods/generic_mod.png
-Munitions AutoFac,sun_ice_munitions_autofac_mod,TRUE,5,10,20,40,data.hullmods.MunitionsAutoFac,Refills one ordnance point worth of ammo every %s/%s/%s/%s seconds. The weapon with the least remaining ammo is refilled first.,graphics/sun_ice/hullmods/munitions_autofac.png
+Munitions AutoFac,sun_ice_munitions_autofac_mod,TRUE,5,10,20,40,data.hullmods.MunitionsAutoFac,"Refills one ordnance point worth of ammo every %s/%s/%s/%s seconds. The weapon with the least remaining ammo is refilled first.
+
+[Only compatible with ICE ships]",graphics/sun_ice/hullmods/munitions_autofac.png
 Tactical Ansible,sun_ice_tactical_ansible_mod,TRUE,20,25,30,35,data.hullmods.TacticalAnsible,Regenerates command points. Each controlled command relay increases the rate of command point regeneration by 200 percent.,graphics/sun_ice/hullmods/gravimetric_sensors.png

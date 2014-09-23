@@ -22,9 +22,9 @@ public class RefugeeSpawnPoint extends BaseSpawnPoint {
         ice = sector.getFaction("sun_ice");
         ici = sector.getFaction("sun_ici");
         hgm = sector.getFaction("hegemony");
-        tty = sector.getFaction("tritachyon");
+        //tty = sector.getFaction("tritachyon");
         ind = sector.getFaction("independent");
-        snd = sector.getFaction("sindrian_diktat");
+        //snd = sector.getFaction("sindrian_diktat");
         prt = sector.getFaction("pirates");
         player = sector.getFaction("player");
 
@@ -35,6 +35,7 @@ public class RefugeeSpawnPoint extends BaseSpawnPoint {
         List factions = new ArrayList(sector.getAllFactions());
         factions.remove(ici);
         factions.remove(ice);
+        factions.remove(player);
 
         for(Iterator iter = factions.iterator(); iter.hasNext();) {
           FactionAPI faction = (FactionAPI)iter.next();
