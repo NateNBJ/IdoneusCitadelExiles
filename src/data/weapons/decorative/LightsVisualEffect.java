@@ -4,6 +4,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameWeaponEffectPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.ICEModPlugin;
 import data.tools.JauntSession;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -12,7 +13,7 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
 
     private static final float ACTIVATE_SPEED = 5.0f;
     private static final float DEACTIVATE_SPEED = 1.0f;
-    private static final float STATIC_ALPHA = 0.3f;
+    private static final float STATIC_ALPHA = 0.35f;
     private static final Map<ShipAPI, Float> offsets = new WeakHashMap();
 
     private float alpha = STATIC_ALPHA;
@@ -35,7 +36,7 @@ public class LightsVisualEffect implements EveryFrameWeaponEffectPlugin {
         
         weapon.getSprite().setAdditiveBlend();
 
-        if(weapon.getShip().getOriginalOwner() == -1) {
+        if(weapon.getShip().getOriginalOwner() == -1 || ICEModPlugin.SMILE_FOR_CAMERA) {
             String id = weapon.getId();
             weapon.getAnimation().setAlphaMult(STATIC_ALPHA);
         } else {

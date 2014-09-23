@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import data.ai.ship.BraindeadTempAI;
 import data.tools.JauntSession;
 import data.tools.IceUtils;
 import data.tools.RecallTracker;
@@ -14,7 +15,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
     public interface ProjectileEffectAPI {
@@ -146,6 +146,15 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         delayedCommands.clear();
     }
     
+    void makeAllShipsFaceNE() {
+        for(ShipAPI ship : engine.getShips()) {
+            ship.setFacing(45);
+            ship.giveCommand(ShipCommand.ACCELERATE, null, 0);
+            
+            if(ship.getShipAI() != null) ship.setShipAI(new BraindeadTempAI(ship));
+        }
+    }
+    
     @Override
     public void advance(float amount, List events) {
         elapsedTime = amount;
@@ -160,6 +169,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         JauntSession.advanceAll(amount);
         playPhaseCloakCooldownOverSoundForPlayer();
         giveDelayedCommands();
+        if(ICEModPlugin.SMILE_FOR_CAMERA) makeAllShipsFaceNE();
     }
 
     @Override

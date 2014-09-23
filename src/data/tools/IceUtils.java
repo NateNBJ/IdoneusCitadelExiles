@@ -11,7 +11,6 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.EveryFramePlugin;
-import data.ICEModPlugin;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;

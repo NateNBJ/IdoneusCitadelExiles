@@ -36,17 +36,17 @@ public class FissionBladePushEffect implements BeamEffectPlugin {
         direction.scale(-1);
         CombatUtils.applyForce(ship, direction, force);
         
-        // Brace ourselves if we're about to run into our target 
-        if(ship.getShipAI() != null
-                && !ship.getSystem().isActive()
-                && !ship.getSystem().isCoolingDown()) {
-            
-//            float collisionSpeed = Vector2f.sub(ship.getVelocity(), target.getVelocity(), new Vector2f()).length();
-//            float massRatio = target.getMass() / Math.max(1, ship.getMass());
+//        // Brace ourselves if we're about to run into our target 
+//        if(ship.getShipAI() != null
+//                && !ship.getSystem().isActive()
+//                && !ship.getSystem().isCoolingDown()) {
 //            
-//            if(collisionSpeed * massRatio > 300) {
-                EveryFramePlugin.delayCommand(ship, ShipCommand.USE_SYSTEM);
-//            }
-        }
+////            float collisionSpeed = Vector2f.sub(ship.getVelocity(), target.getVelocity(), new Vector2f()).length();
+////            float massRatio = target.getMass() / Math.max(1, ship.getMass());
+////            
+////            if(collisionSpeed * massRatio > 300) {
+//                EveryFramePlugin.delayCommand(ship, ShipCommand.USE_SYSTEM);
+////            }
+//        }
     }	
 }

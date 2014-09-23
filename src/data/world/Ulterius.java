@@ -57,9 +57,7 @@ public class Ulterius {
         VENDOR_WINGS.put("sun_ice_umbra_wing", 1);
         VENDOR_WINGS.put("sun_ice_stormwhisp_wing", 1);
 
-        //VENDOR_WEAPONS.put("sun_ice_hypermassdriver", 2);
         VENDOR_WEAPONS.put("sun_ice_mobiusray", 6);
-        //VENDOR_WEAPONS.put("sun_ice_tractorbeam", 4);
         VENDOR_WEAPONS.put("sun_ice_boomerangpod", 12);
         VENDOR_WEAPONS.put("sun_ice_hypermassbomb", 3);
         VENDOR_WEAPONS.put("sun_ice_flamebolt", 8);
@@ -70,6 +68,7 @@ public class Ulterius {
         VENDOR_WEAPONS.put("sun_ice_minepod", 8);
         //VENDOR_WEAPONS.put("sun_ice_gandiva", 10);
         VENDOR_WEAPONS.put("sun_ice_nos", 8);
+        VENDOR_WEAPONS.put("sun_ice_chupacabra", 14);
         VENDOR_WEAPONS.put("sun_ice_falx", 16);
         //VENDOR_WEAPONS.put("sun_ice_spitfire", 10);
     }

@@ -33,6 +33,7 @@ import org.dark.shaders.util.ShaderLib;
 
 public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_AVAILABLE = false;
+    public static final boolean SMILE_FOR_CAMERA = false;
     public static Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
 
     public static void tryToEnableLighting() {
