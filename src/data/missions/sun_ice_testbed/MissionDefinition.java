@@ -1,4 +1,4 @@
-package data.missions.testbed;
+package data.missions.sun_ice_testbed;
 
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberType;

@@ -1,4 +1,4 @@
-package data.missions.random_vs_ice;
+package data.missions.sun_ice_ice_vs_random;
 
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.mission.FleetSide;
@@ -19,9 +19,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     public void defineMission(MissionDefinitionAPI api) {
         Faction player, enemy;
         
-        enemy = Faction.getFactionById("sun_ice");
+        player = Faction.getFactionById("sun_ice");
         int s = Faction.getAllFactions().size();
-        player = (Faction)Faction.getAllFactions().toArray()[
+        enemy = (Faction)Faction.getAllFactions().toArray()[
                 rand.nextInt(s)];
 
         api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 5);

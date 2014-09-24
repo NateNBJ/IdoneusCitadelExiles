@@ -32,7 +32,8 @@ import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
 
 public class ICEModPlugin extends BaseModPlugin {
-    public static boolean SHADER_LIB_AVAILABLE = false;
+    public static boolean SHADER_LIB_ENABLED = false;
+    public static boolean EXERELIN_ENABLED = false;
     public static final boolean SMILE_FOR_CAMERA = false;
     public static Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
 
@@ -42,7 +43,7 @@ public class ICEModPlugin extends BaseModPlugin {
             ShaderLib.init();
             LightData.readLightDataCSV("data/lights/light_data.csv");
 
-            SHADER_LIB_AVAILABLE = true;
+            SHADER_LIB_ENABLED = true;
         } catch (Exception e) {
         }
     }
@@ -50,6 +51,13 @@ public class ICEModPlugin extends BaseModPlugin {
     @Override
     public void onApplicationLoad() {
         tryToEnableLighting();
+        
+        try {
+            Global.getSettings().getScriptClassLoader().loadClass("data.scripts.world.ExerelinGen");
+            EXERELIN_ENABLED = true;
+        } catch (ClassNotFoundException ex) {
+            EXERELIN_ENABLED = false;
+        }
     }
     
     @Override
@@ -62,8 +70,10 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGame() {
-        new Ulterius().generate();
-        Global.getSector().registerPlugin(new ICECampaignPlugin());
+        if(!EXERELIN_ENABLED) {
+            new Ulterius().generate();
+            Global.getSector().registerPlugin(new ICECampaignPlugin());
+        }
     }
 
     @Override

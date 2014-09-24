@@ -108,7 +108,8 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
         
         if(ship != null && !ship.isShuttlePod() && ship.getShipAI() == null
-                && ship.getPhaseCloak() != null) {
+                && ship.getPhaseCloak() != null
+                && ship.getHullSpec().getHullId().startsWith("sun_ice_")) {
             
             if(playerCloakPreviouslyCoolingDown != ship.getPhaseCloak().isCoolingDown()
                     && !ship.getPhaseCloak().isCoolingDown()) {

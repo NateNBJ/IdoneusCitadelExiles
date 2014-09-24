@@ -73,6 +73,26 @@ public class Faction {
         variants.put("tem_paladin", createVariantList(new String[]{"tem_paladin_agi", "tem_paladin_sal", "tem_paladin_ati", "tem_paladin_capi", "tem_paladin_est", "tem_paladin_mit", "tem_paladin_reti"}));
         variants.put("tem_jesuit", createVariantList(new String[]{"tem_jesuit_ati", "tem_jesuit_capi", "tem_jesuit_def", "tem_jesuit_est", "tem_jesuit_reti", "tem_jesuit_sal"}));
         variants.put("tem_crusader", createVariantList(new String[]{"tem_crusader_agi", "tem_crusader_ati", "tem_crusader_capi", "tem_crusader_def", "tem_crusader_est", "tem_crusader_reti", "tem_crusader_sal"}));
+        
+        variants.put("ii_titan", createVariantList(new String[]{"ii_titan_pb"}));
+        variants.put("ii_sebastos", createVariantList(new String[]{"ii_sebastos_ass", "ii_sebastos_bal", "ii_sebastos_eli", "ii_sebastos_sta", "ii_sebastos_art"}));
+        variants.put("ii_princeps", createVariantList(new String[]{"ii_princeps_ass", "ii_princeps_def", "ii_princeps_eli", "ii_princeps_sta", "ii_princeps_art"}));
+        variants.put("ii_praetorian", createVariantList(new String[]{"ii_praetorian_ass", "ii_praetorian_bal", "ii_praetorian_sta", "ii_praetorian_str", "ii_praetorian_sup", "ii_praetorian_art"}));
+        variants.put("ii_mirv", createVariantList(new String[]{"ii_mirv_sb"}));
+        variants.put("ii_olympus_t", createVariantList(new String[]{"ii_olympus_t_sta"}));
+        variants.put("ii_olympus_a", createVariantList(new String[]{"ii_olympus_a_sta"}));
+        variants.put("ii_maximus", createVariantList(new String[]{"ii_maximus_ass", "ii_maximus_att", "ii_maximus_bea", "ii_maximus_bul", "ii_maximus_def", "ii_maximus_shi", "ii_maximus_str", "ii_maximus_arm", "ii_maximus_art"}));
+        variants.put("ii_jupiter", createVariantList(new String[]{"ii_jupiter_mob", "ii_jupiter_orb", "ii_jupiter_shi", "ii_jupiter_sie", "ii_jupiter_art", "ii_jupiter_ass"}));
+        variants.put("ii_invictus", createVariantList(new String[]{"ii_invictus_ass", "ii_invictus_eli", "ii_invictus_sta", "ii_invictus_str", "ii_invictus_sup", "ii_invictus_arm", "ii_invictus_art"}));
+        variants.put("ii_interrex", createVariantList(new String[]{"ii_interrex_bal", "ii_interrex_eli", "ii_interrex_sta", "ii_interrex_str", "ii_interrex_sup", "ii_interrex_ass"}));
+        variants.put("ii_dominus", createVariantList(new String[]{"ii_dominus_eli", "ii_dominus_sie", "ii_dominus_sta", "ii_dominus_str", "ii_dominus_art", "ii_dominus_ass", "ii_dominus_bal"}));
+        variants.put("ii_dictator", createVariantList(new String[]{"ii_dictator_eli", "ii_dictator_roc", "ii_dictator_sta", "ii_dictator_sup", "ii_dictator_art", "ii_dictator_ass", "ii_dictator_def"}));
+        variants.put("ii_decurion", createVariantList(new String[]{"ii_decurion_roc", "ii_decurion_sni", "ii_decurion_sta", "ii_decurion_str", "ii_decurion_sup", "ii_decurion_art", "ii_decurion_ass"}));
+        variants.put("ii_centurion", createVariantList(new String[]{"ii_centurion_def", "ii_centurion_eli", "ii_centurion_sta", "ii_centurion_art", "ii_centurion_ass", "ii_centurion_bal"}));
+        variants.put("ii_caesar", createVariantList(new String[]{"ii_caesar_sie", "ii_caesar_sta", "ii_caesar_str", "ii_caesar_sup", "ii_caesar_bal", "ii_caesar_eli", "ii_caesar_for"}));
+        variants.put("ii_basileus", createVariantList(new String[]{"ii_basileus_ass", "ii_basileus_def", "ii_basileus_sta", "ii_basileus_str", "ii_basileus_sup"}));
+        variants.put("ii_basileus_f", createVariantList(new String[]{"ii_basileus_f_eli", "ii_basileus_f_mis", "ii_basileus_f_shi", "ii_basileus_f_sta", "ii_basileus_f_arm", "ii_basileus_f_art"}));
+        variants.put("ii_auriga", createVariantList(new String[]{"ii_auriga_ass", "ii_auriga_eli", "ii_auriga_sta", "ii_auriga_arm", "ii_auriga_art"}));
     }
 
     static List<String> createVariantList(String[] variants) {
@@ -192,6 +212,33 @@ public class Faction {
             warships.add("tem_crusader");
             warships.add("tem_paladin");
             warships.add("tem_archbishop");
+        } else if(id.equals("interstellarimperium")) {
+            fighters.add("ii_flamen_wing");
+            fighters.add("ii_draconarius_wing");
+            fighters.add("ii_vicarius_b_wing");
+            fighters.add("ii_vicarius_a_wing");
+            fighters.add("ii_vicarius_s_wing");
+            fighters.add("ii_scutum_wing");
+            
+            warships.add("ii_basileus");
+            warships.add("ii_basileus_f");
+            warships.add("ii_decurion");
+            warships.add("ii_invictus");
+            warships.add("ii_maximus");
+            warships.add("ii_auriga");
+            warships.add("ii_praetorian");
+            warships.add("ii_interrex");
+            warships.add("ii_centurion");
+            warships.add("ii_princeps");
+            warships.add("ii_sebastos");
+            warships.add("ii_dictator");
+            warships.add("ii_jupiter");
+            warships.add("ii_dominus");
+            warships.add("ii_caesar");
+            warships.add("ii_olympus_t");
+            warships.add("ii_olympus_a");
+            warships.add("ii_mirv");
+            warships.add("ii_titan");
         }
         
         for(JSONObject fleet : getFleets(json.getJSONObject("fleetCompositions"))) {

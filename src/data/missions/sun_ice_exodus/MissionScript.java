@@ -1,4 +1,4 @@
-package data.missions.exodus;
+package data.missions.sun_ice_exodus;
 
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
