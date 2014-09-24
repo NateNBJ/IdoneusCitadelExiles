@@ -2,7 +2,7 @@
 	"id":"nbj_ice",
 	"name":"ICE",
 	"author":"Design, Art, and Scripting by Sundog. Sound by Cycerin.",
-	"version":"0.0.0",
+	"version":"0.0.1",
 	"description":"Adds the Idoneus Citadel Exiles faction to the game. ICE ships and weapons feature unconventional gimmicks centered around mobility, phase cloaks, armor repair, and ammo regeneration.",
 	"gameVersion":"0.6.2a",
 	"jars":["jars/ICE.jar"],
