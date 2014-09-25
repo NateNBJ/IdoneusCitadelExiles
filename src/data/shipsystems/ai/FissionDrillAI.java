@@ -67,17 +67,13 @@ public class FissionDrillAI implements ShipSystemAIScript
             // Nothing to kill...
             if(victim == null) return;
 
-            boolean wantActive = (
-                        !drill.isDisabled() && score > 0
-                        && time - timeOfTargetAquisition > 1)
-                    || (
-                        system.isActive()
-                        && MathUtils.getDistance(ship, victim) < ship.getCollisionRadius() + victim.getCollisionRadius() + 300);
+            boolean wantActive = (!drill.isDisabled() && score > 0 && time - timeOfTargetAquisition > 1)
+                    || (system.isActive() && MathUtils.getDistance(ship, victim) < (ship.getCollisionRadius() + victim.getCollisionRadius()) * 2 + 500);
 
             // Prevent ship from strafing before activation.
             if(!system.isActive() && time != timeOfTargetAquisition) {
-                ship.getMutableStats().getMaxSpeed().modifyMult("preventStrafeHack", 0.2f);
-            } else ship.getMutableStats().getMaxSpeed().unmodify("preventStrafeHack");
+                ship.getVelocity().scale(0.9f);
+            }
 
             if(system.isActive() && !wantActive) {
                 ship.useSystem(); // Turn off

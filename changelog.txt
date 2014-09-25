@@ -1,57 +1,12 @@
-ICE v0 WIP 2
+ICE version 0.0.2
 
+BALANCE CHANGES
+- Ship prices adjusted. Notably, the value of the Palantir was reduced from 15000 to 1250
+- Nerfed Palantir a bit to make it easier to kill.
 
-Major Changes
-- Custom sounds by Cycerin
-- Considerable AI improvements
-- Major changes to the Nightseer
-- The Kelpie and Pentagram have been reworked with a new ship system that briefly inverts armor damage
-- Armor Repair Nanites ship system has been reworked
-- Munitions Auto-Fac hullmod added. Slowly refills ammo.
-
-Fixes
-- Second stage warhead of Boomerang missiles can now be shot down
-- Idoneus Citadel now sells ICE weapons
-- Idoneus Citadel now regenerates cargo and ships
-- Fixed bug that caused the Kelpie to teleport off the map on rare occasions
-- Eidolon now has two launch bays, as was the original intention
-
-Balance adjustments
-= Heavy armor replaced with Reinforced bulkheads on Athame standard variant
-- Athame ordnance points reduced from 30 to 25
-- Mobeus Ray:
-	- Range reduced from 1000 to 800
-	- Flux per shot increased from 50 to 60
-	- Ordnance point requirement increased from 20 to 25
-- Hex AC and Light Hex AC damage per shot reduced from 40 to 35
-- Phase Warp:
-	- Cooldown increased from 0.5 to 1
-	- Speed boost decreased from 300 to 250
-	+ Acceleration boost doubled
-- Reduced armor for many ships
-- The two medium and two small universal turrets on the Voidreaver changed to ballistic
-= ICE Phase Cloak (not to be confused with Phase Warp) now increases max speed by 100 and reduces acceleration by 80%
-+ Increased effectivness of Graviton Deflector hullmod
-+ Kelpie Cruiser got it's phase cloak back now that it can use it without acting completely potato
-= Many other adjustments that I've forgoten about
-= Armor Repair Ninites
-	= Flux generation starts at 50% of base dissipation and increases to 300% over 3 seconds
-	= Having soft flux reverses the abovementioned flux generation multiplier
-	= Repaired armor is proportional to the amount of flux generated
-
-AI
-- AI for melee ships greatly improved
-- AI usage of Hypermass Driver greatly improved
-- AI now takes advantage of phase cloak speed boosts during travel
-- Mobeus autofire won't fire as often
-
-Sound
-- Awesome sound effects added courtesy of Cycerin
-	- Phase Warp defensive ability
-	- Weapons: Mobues Ray, Hex AC, and Light Hex AC.
-
-Visual
-- Pulsing lights now fade during phase cloak/warp activation and return once the cooldown is over
-- Armor repair sparks are now yellow instead of teal
-- Armor repair animations improved, opacity now scales with effect
-- Adjusted turret offset for Hex AC
+BUGS FIXED
+- Transferring command to an Athame no longer has a risk of reducing its top speed.
+- Fission Drill AI is better about committing to a charge. It won't toggle off at inopportune times as often.
+- Removed mechanic from the Palantir that caused to to generate flux more quickly while cloaked near objectives.
+- Randomized missions no longer try to select factions without ships, which would previously cause the game to freeze.
+- Stability improvements. Should prevent a crash that I couldn't reproduce.

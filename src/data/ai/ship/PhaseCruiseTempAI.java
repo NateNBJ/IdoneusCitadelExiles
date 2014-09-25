@@ -21,7 +21,7 @@ public class PhaseCruiseTempAI extends BaseShipAI {
 
         if(cloak == null || ship.getFluxTracker().getFluxLevel() > 0.75f
                 || ship.getPhaseCloak().isCoolingDown()
-                || AIUtils.getNearbyEnemies(ship, 1800).size() > 0
+                || !AIUtils.getNearbyEnemies(ship, 2400).isEmpty()
                 || (task != null && task.getTarget() != null
                     && MathUtils.getDistance(ship, task.getTarget().getLocation()) < 700)
                 ) {
@@ -30,20 +30,7 @@ public class PhaseCruiseTempAI extends BaseShipAI {
             ship.resetDefaultAI();
         }
     }
-    void goToDestination(Vector2f to) {
-        float angleDif = MathUtils.getShortestRotation(ship.getFacing(),
-                VectorUtils.getAngle(ship.getLocation(), to));
-
-        if(Math.abs(angleDif) < 30){
-            ship.giveCommand(ShipCommand.ACCELERATE, to, 0);
-        } else {
-            ShipCommand direction = (angleDif > 0)
-                    ? ShipCommand.TURN_LEFT : ShipCommand.TURN_RIGHT;
-            ship.giveCommand(direction, to, 0);
-            ship.giveCommand(ShipCommand.DECELERATE, to, 0);
-        }        
-    }
-
+    
     public PhaseCruiseTempAI(ShipAPI ship) {
         super(ship);
         this.fleet = Global.getCombatEngine().getFleetManager(ship.getOwner());

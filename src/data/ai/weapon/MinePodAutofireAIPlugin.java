@@ -27,10 +27,13 @@ public class MinePodAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
+        if(Global.getCombatEngine() == null) return;
         
     }
     @Override
     public void forceOff() {
+        if(Global.getCombatEngine() == null) return;
+        
         findTarget();
     }
     @Override

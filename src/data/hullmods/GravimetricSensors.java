@@ -42,18 +42,18 @@ public class GravimetricSensors extends BaseHullMod {
 
         if (cloak == null || cloak.getId().equals("sun_ice_phaseshift")) return;
 
-        if (cloak.isActive() && id.equals("sun_ice_palantir")) {
-            BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
-            if (objective != null) {
-                float dist = MathUtils.getDistance(ship, objective);
-
-                if (dist < 1000) {
-                    ship.getFluxTracker().increaseFlux(amount * (1 - dist / 1000f)
-                            * ship.getFluxTracker().getMaxFlux()
-                            * (1 / PALANTIR_CLOAK_SECONDS), true);
-                }
-            }
-        }
+//        if (cloak.isActive() && id.equals("sun_ice_palantir")) {
+//            BattleObjectiveAPI objective = AIUtils.getNearestObjective(ship);
+//            if (objective != null) {
+//                float dist = MathUtils.getDistance(ship, objective);
+//
+//                if (dist < 1000) {
+//                    ship.getFluxTracker().increaseFlux(amount * (1 - dist / 1000f)
+//                            * ship.getFluxTracker().getMaxFlux()
+//                            * (1 / PALANTIR_CLOAK_SECONDS), true);
+//                }
+//            }
+//        }
 
         if(!intervalTrackers.get(ship).intervalElapsed()) return;
 
@@ -74,12 +74,6 @@ public class GravimetricSensors extends BaseHullMod {
             } else {
                 ship.useSystem();
             }
-            
-//            if (ship.getHullSpec().getHullId().equals("sun_ice_abraxas")) {
-//                ship.useSystem();
-//            } else {
-//                ship.giveCommand(ShipCommand.TOGGLE_SHIELD_OR_PHASE_CLOAK, null, 0);
-//            }
 
             ship.setShipAI(new PhaseCruiseTempAI(ship));
         }

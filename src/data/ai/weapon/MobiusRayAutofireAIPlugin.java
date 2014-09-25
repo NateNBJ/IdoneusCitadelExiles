@@ -98,11 +98,15 @@ public class MobiusRayAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
+        if(Global.getCombatEngine() == null) return;
+        
         if(timer.intervalElapsed()) findTarget();
     }
 
     @Override
     public void forceOff() {
+        if(Global.getCombatEngine() == null) return;
+        
         findTarget();
     }
 

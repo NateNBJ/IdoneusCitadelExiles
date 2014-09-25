@@ -1,6 +1,7 @@
 
 package data.ai.weapon;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
@@ -26,13 +27,17 @@ public class RecallAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
+        if(Global.getCombatEngine() == null) return;
+        
         if(timer.intervalElapsed()) {
             shouldFire = ship.getFluxTracker().getCurrFlux() + weapon.getFluxCostToFire() < ship.getFluxTracker().getMaxFlux()
                     && RecallBeamEffect.getCumulativeRecallPriority(weapon) > 0;
         }
     }
     @Override
-    public void forceOff() { }
+    public void forceOff() {
+        if(Global.getCombatEngine() == null) return;
+    }
     @Override
     public Vector2f getTarget() {
         return ship.getMouseTarget();

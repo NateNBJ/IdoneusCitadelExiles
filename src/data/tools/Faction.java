@@ -264,6 +264,12 @@ public class Faction {
             }
         }
         
+        if(warships.isEmpty() || fighters.isEmpty()) return;
+        
+        for(String hullID : warships) {
+            if(!variants.containsKey(hullID)) return;
+        }
+        
         isValid = true;
     }
     public String getId() {

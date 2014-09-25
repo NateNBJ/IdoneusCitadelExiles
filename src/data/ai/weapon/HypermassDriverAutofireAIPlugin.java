@@ -38,6 +38,8 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
+        if(Global.getCombatEngine() == null) return;
+        
         float t = Global.getCombatEngine().getTotalElapsedTime(false);
         if(t > timeOfNextUpdate) {
             timeOfNextUpdate = t + UPDATE_FREQUENCY;
@@ -61,6 +63,8 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
     }
     @Override
     public void forceOff() {
+        if(Global.getCombatEngine() == null) return;
+        
         findTarget();
     }
     @Override

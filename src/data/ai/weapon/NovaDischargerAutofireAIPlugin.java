@@ -1,6 +1,7 @@
 
 package data.ai.weapon;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AutofireAIPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
@@ -34,12 +35,16 @@ public class NovaDischargerAutofireAIPlugin implements AutofireAIPlugin {
 
     @Override
     public void advance(float amount) {
+        if(Global.getCombatEngine() == null) return;
+        
         if(timer.intervalElapsed()) {
             findTarget();
         }
     }
     @Override
     public void forceOff() {
+        if(Global.getCombatEngine() == null) return;
+        
         findTarget();
     }
     @Override
