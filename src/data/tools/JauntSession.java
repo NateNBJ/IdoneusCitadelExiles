@@ -31,7 +31,7 @@ public class JauntSession {
     static Map<ShipAPI, JauntSession> jauntSessions = new WeakHashMap();
     static List<JauntSession> toClear = new LinkedList();
     
-    public static void clearSessions() {
+    public static void clearStaticData() {
         jauntSessions.clear();
     }
     public static void advanceAll(float amount) {
@@ -59,7 +59,7 @@ public class JauntSession {
     Vector2f origin = null;
     Vector2f lastLoc = null;
     DamagingProjectileAPI doppelganger = null;
-    float progress, maxRange, amount, alpha, warpTime;
+    float progress, maxRange, alpha, warpTime;
     boolean returning = false;
     
     void setAlpha(float alpha) {
@@ -88,6 +88,7 @@ public class JauntSession {
         double theta = Math.random() * Math.PI * 2;
         double thetaIncrement = (Math.PI * 2) / DESTINATION_CANDIDATE_COUNT;
         ShipAPI enemy = null, bestScoringEnemy = null;
+        boolean canTurn = IceUtils.getEngineFractionDisabled(ship) > 0;
 
         for (int i = 0; i <= DESTINATION_CANDIDATE_COUNT; ++i) {
             float fudge = (float)Math.random() * 0.5f + 0.5f;
@@ -111,8 +112,16 @@ public class JauntSession {
                             * (1.0f + enemy.getFluxTracker().getFluxLevel())
                             * (shieldBlocked ? 0.25f : 1)
                             * (0.5f + 0.5f * (weaponRange - rangeDist) / weaponRange);
-                }// else score *= 0.1f;
+                    
+                    if(!canTurn) {
+                        float angleTo = VectorUtils.getAngle(ship.getLocation(),enemy.getLocation());
+                        float degreesFromFacingTarget = Math.abs(MathUtils.getShortestRotation(angleTo, ship.getFacing()));
+                        score *= 1 - degreesFromFacingTarget / 180f;
+                    }
+                }
             } else score -= IceUtils.getFPWorthOfHostility(ship, SUPPORT_RANGE);
+            
+            score -= IceUtils.estimateIncomingDamage(ship) * 0.05f;
             
             if(!pointIsClear(candidate)) score -= ship.getCollisionRadius() / 10;
             
@@ -169,7 +178,7 @@ public class JauntSession {
                 new Vector2f(origin.x + 1234, origin.y + 1234),
                 ship.getFacing(), new Vector2f());
     }
-    void manageDoppelganger() {
+    void manageDoppelganger(float amount) {
         doppelganger.setFacing(ship.getFacing() + (float)(Math.random() - 0.5) * 1);
         doppelganger.getVelocity().set(0, 0);
         Vector2f at = IceUtils.getDirectionalVector(doppelganger.getFacing() + 180);
@@ -268,7 +277,7 @@ public class JauntSession {
             lastLoc = new Vector2f(ship.getLocation());
         }
         
-        manageDoppelganger();
+        manageDoppelganger(amount);
     }
     public void stopGoingHome() {
         returning = false;
@@ -297,15 +306,18 @@ public class JauntSession {
             ship.getMutableStats().getFluxDissipation().modifyMult(ID, 0.0f);
             ship.getMutableStats().getVentRateMult().unmodify(ID);
         }
+        
+        ship.setShipSystemDisabled(true);
     }
     public void endNow() {
         boolean isPhased = ship.getPhaseCloak() != null && ship.getPhaseCloak().isActive();
         ship.setCollisionClass(isPhased ? CollisionClass.NONE : CollisionClass.SHIP);
+        ship.setShipSystemDisabled(false);
         jauntSessions.remove(ship);
         ship.getMutableStats().getVentRateMult().unmodify(ID);
         ship.getMutableStats().getFluxDissipation().unmodify(ID);
-        setAlpha(1);
         if(ship.getShipAI() != null) ship.resetDefaultAI();
         if(doppelganger != null) engine.removeEntity(doppelganger);
+        setAlpha(1);
     }
 }

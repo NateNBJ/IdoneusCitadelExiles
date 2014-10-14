@@ -4,12 +4,11 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import data.tools.IceUtils;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class TacticalAnsible extends BaseHullMod {
-    static final float CP_REGEN_PER_SECOND = 0.05f;
+    static final float CP_REGEN_PER_SECOND = 1f / 60f;
     static final String EFFECT_ID = "sun_ice_tactical_ansible_mod";
 
     static final HashMap OBJECTIVE_CP_BONUS = new HashMap();

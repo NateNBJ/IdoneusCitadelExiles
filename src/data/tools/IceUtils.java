@@ -9,6 +9,7 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.EveryFramePlugin;
 import java.awt.Color;
@@ -45,6 +46,19 @@ public class IceUtils {
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static float getEngineFractionDisabled(ShipAPI ship) {
+        float maxThrust = 0;
+        float onlineThrust = 0;
+        
+        for(ShipEngineAPI engine : ship.getEngineController().getShipEngines()) {
+            if(engine.isSystemActivated()) continue;
+            else if(!engine.isDisabled()) onlineThrust += engine.getContribution();
+            
+            maxThrust += engine.getContribution();
+        }
+        
+        return onlineThrust / maxThrust;
+    }
     public static void showHealText(ShipAPI anchor, Vector2f at, float repairAmount) {
 //        Global.getCombatEngine().addFloatingDamageText(at, repairAmount,
 //            ICEModPlugin.HEAL_TEXT_COLOR, anchor, anchor);

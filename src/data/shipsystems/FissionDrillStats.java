@@ -17,7 +17,7 @@ import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class FissionDrillStats implements ShipSystemStatsScript {
-    boolean within = false;
+    //boolean within = false;
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
@@ -33,10 +33,10 @@ public class FissionDrillStats implements ShipSystemStatsScript {
             ShipAPI ship = (ShipAPI)stats.getEntity();
             WeaponAPI drill = (WeaponAPI) ship.getAllWeapons().get(2);
 
-            if (!within) {
-                stats.getWeaponDamageTakenMult().modifyMult(id, 8);
-            }
-            within = false;
+//            if (!within) {
+//                stats.getWeaponDamageTakenMult().modifyMult(id, 8);
+//            }
+//            within = false;
 
             if (drill.isDisabled()) {
                 ship.getFluxTracker().forceOverload(1f);
@@ -65,7 +65,7 @@ public class FissionDrillStats implements ShipSystemStatsScript {
                     stats.getEngineDamageTakenMult().modifyMult(id, 0);
                     Global.getCombatEngine().applyDamage(ship, at, damage / 10, DamageType.HIGH_EXPLOSIVE, 0, true, true, ship);
                     //stats.getWeaponDamageTakenMult().unmodify(id);
-                    within = true;
+                    //within = true;
 
                     Global.getCombatEngine().spawnExplosion(
                             at, // Location
@@ -74,6 +74,9 @@ public class FissionDrillStats implements ShipSystemStatsScript {
                             50 + (float) Math.random() * 100, // Size
                             2 + (float) Math.random() * 2); // Duration
                     Global.getSoundPlayer().playSound("collision_ships", 1, 1, ship.getLocation(), target.getVelocity());
+                } else {
+                    stats.getWeaponDamageTakenMult().unmodify();
+                    stats.getEngineDamageTakenMult().unmodify();
                 }
             }
         }

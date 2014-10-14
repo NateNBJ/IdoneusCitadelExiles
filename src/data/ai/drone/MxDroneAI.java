@@ -8,7 +8,6 @@ import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI.DroneOrders;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import data.ICEModPlugin;
 import data.ai.ship.BaseShipAI;
 import data.tools.IceUtils;
 import java.awt.Color;
@@ -55,9 +54,6 @@ public class MxDroneAI extends BaseShipAI {
     static final float CR_PEAK_TIME_RECOVERY_RATE = 3f;
     static final float FLUX_PER_MX_PERFORMED = 1f;
     static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 15f; // In seconds
-//    static final Color ARC_FRINGE_COLOR = new Color(255, 223, 128, 150);
-//    static final Color ARC_CORE_COLOR = new Color(255, 191, 0, 200);
-    
 
     static final Color SPARK_COLOR = new Color(255, 223, 128);
     static final String SPARK_SOUND_ID = "system_emp_emitter_loop";
@@ -84,7 +80,7 @@ public class MxDroneAI extends BaseShipAI {
             ShipAPI ship = (ShipAPI)iter.next();
             if(!ship.isShuttlePod() && ship.isAlive() && !ship.isDrone() && !ship.isFighter()) {
                 mxPriorities.put(ship, getMxPriority(ship));
-                //Global.getCombatEngine().addFloatingText(ship.getLocation(), ((Float)mxPriorities.get(ship)).toString(), 40, Color.green, ship, 1, 5);
+                //Global.getCombatEngine().addFloatingText(s.getLocation(), ((Float)mxPriorities.get(s)).toString(), 40, Color.green, s, 1, 5);
             }
         }
 
@@ -213,7 +209,7 @@ public class MxDroneAI extends BaseShipAI {
         for(int i = 0; (i < 10) && !CollisionUtils.isPointWithinBounds(at, target); ++i)
             at = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius());
 
-//        Global.getCombatEngine().spawnEmpArc(ship, at, target, ship,
+//        Global.getCombatEngine().spawnEmpArc(s, at, target, s,
 //                DamageType.ENERGY, 0, 0, REPAIR_RANGE,
 //                "tachyon_lance_emp_impact", 12f,
 //                ARC_FRINGE_COLOR,
@@ -277,7 +273,7 @@ public class MxDroneAI extends BaseShipAI {
         }
         
         IceUtils.showHealText(ship, ship.getLocation(), totalRepaired);
-//        Global.getCombatEngine().addFloatingDamageText(ship.getLocation(),
+//        Global.getCombatEngine().addFloatingDamageText(s.getLocation(),
 //                totalRepaired, ICEModPlugin.HEAL_TEXT_COLOR, target, target);
     }   
     void maintainCR(float amount) {
@@ -305,7 +301,10 @@ public class MxDroneAI extends BaseShipAI {
             return mothership;
         } else returning = false;
         
-        if(mothership.getShipTarget() != null && mothership.getOwner() == mothership.getShipTarget().getOwner()) {
+        if(mothership.getShipTarget() != null
+                && mothership.getOwner() == mothership.getShipTarget().getOwner()
+                && !mothership.getShipTarget().isDrone()
+                && !mothership.getShipTarget().isFighter()) {
             return mothership.getShipTarget();
         } else if (system.getDroneOrders() == DroneOrders.DEPLOY) {
             return mothership;
@@ -315,16 +314,16 @@ public class MxDroneAI extends BaseShipAI {
         ShipAPI leader = null;
 
         for(Iterator iter = mxPriorities.keySet().iterator(); iter.hasNext();) {
-            ShipAPI ship = (ShipAPI)iter.next();
+            ShipAPI s = (ShipAPI)iter.next();
 
-            if(ship.getOwner() != this.ship.getOwner()) continue;
-            if(ship.isDrone()) continue;
+            if(s.getOwner() != this.ship.getOwner() || s.isDrone() || s.isFighter())
+                continue;
 
-            float score = (Float)mxPriorities.get(ship) / (500 + MathUtils.getDistance(this.ship, ship));
+            float score = (Float)mxPriorities.get(s) / (500 + MathUtils.getDistance(this.ship, s));
 
             if(score > record) {
                 record = score;
-                leader = ship;
+                leader = s;
             }
         }
 

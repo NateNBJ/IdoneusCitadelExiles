@@ -78,7 +78,7 @@ public class HypermassDriverAutofireAIPlugin implements AutofireAIPlugin {
     @Override
     public boolean shouldFire() {
         if(target == null || !target.isAlive() || targetWillDieSoonAnyway
-                || (target.getPhaseCloak() != null
+                || ((target.getPhaseCloak() != null)
                     && !target.getFluxTracker().isOverloadedOrVenting()))
             return false;
 

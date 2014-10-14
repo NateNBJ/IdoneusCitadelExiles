@@ -1,12 +1,68 @@
-ICE version 0.0.2
+----<  ICE version 0.1.0   >------------------------------------------------------------------------------
+
+CONTENT ADDITIONS
+- Two new Missions added
+
+CONTENT CHANGES
+- Updated the ICE ships that appear in the simulator
+- Fleets with many fighters and no carriers now spawn less frequently
+- Seraphs (tugs) have been removed from the Refugee fleet to limit its maximum burn
+- Notifications about the Idoneus Refugee Fleet have been added to Campaign mode
+
+BALANCE CHANGES
++ Seraph fuel/ly reduced from 12 to 9
+- Nosferatu Fusor ammo regen rate reduced from 0.25 to 0.18 ammo per second
++ Eidolon deceleration increased from 30 to 45
++ Abraxas hitpoints increased from 3750 to 6500
+= Apocrypha:
+	+ deceleration increased from 9 to 14
+	- Max burn reduced from 3 to 2
++ Soulbane deceleration increased from 60 to 75
+- Shalom:
+	- Max burn reduced from 2 to 1
+	- OP reduced from 40 to 30
+	- Unstable Injector replaced with Blast Doors on standard variant
+- Tactical Ansible base CP regeneration rate decreased from 3 per minute to 1 per minute
++ Athame:
+	+ Removed increase to weapon damage taken while Fission Drill is active
+	+ Increased armor from 200 to 250
+	+ Increased flux dissipation from 200 to 250
+	+ Fission Drill flux build-up reduced by 25%
+
+BUGS FIXED
+- Idoneus Citadel and Refugee Fleets now restock ships and items again. This feature was accidentally removed
+- Maintenance Drones no longer have an unused LR PD Laser
+- Maintenance Drones no longer prioritize drones or fighters when targeted by their mother ship
+- Ships hit by falx beams will now dissipate hard flux as originally intended, rather than instantly gaining 100% hard flux dissipation
+- A few typos have been corrected. Apparently I'm predisposed to putting an 'e' where there should be an 'i'
+- Stormwhisp description no longer erroneously lists Boomerang SRMs as one of its weapons
+- Removed minor artefacts from Kelpie and Abraxas sprites
+- Base value of Nosferatu Fusor increased from 1500  to 18000
+- Phase Jaunt shadows/doppelgangers now push away nearby objects as originally intended.
+
+AI IMPROVEMENTS
+- ICE ships should now be smarter about when to use phase cloaks to speed up travel
+- Phase Jaunt AI:
+	- Should now be smarter about avoiding damage
+	- Will now try to line up an enemy in front of the jaunting ship during flameout
+
+
+----<  ICE version 0.0.2   >------------------------------------------------------------------------------
 
 BALANCE CHANGES
 - Ship prices adjusted. Notably, the value of the Palantir was reduced from 15000 to 1250
-- Nerfed Palantir a bit to make it easier to kill.
+- Nerfed Palantir a bit to make it easier to kill
 
 BUGS FIXED
-- Transferring command to an Athame no longer has a risk of reducing its top speed.
-- Fission Drill AI is better about committing to a charge. It won't toggle off at inopportune times as often.
-- Removed mechanic from the Palantir that caused to to generate flux more quickly while cloaked near objectives.
-- Randomized missions no longer try to select factions without ships, which would previously cause the game to freeze.
-- Stability improvements. Should prevent a crash that I couldn't reproduce.
+- Transferring command to an Athame no longer has a risk of reducing its top speed
+- Fission Drill AI is better about committing to a charge. It won't toggle off at inopportune times as often
+- Removed mechanic from the Palantir that caused to to generate flux more quickly while cloaked near objectives
+- Randomized missions no longer try to select factions without ships, which would previously cause the game to freeze
+- Stability improvements. Should prevent a crash that I couldn't reproduce
+
+
+----<  ICE version 0.0.1   >------------------------------------------------------------------------------
+
+BUGS FIXED
+- Randomized missions no longer crash when Interstellar Imperium is selected as one of the factions
+- Phase cloak cooldown sound effect no longer plays for non-ICE ships

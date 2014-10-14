@@ -86,7 +86,7 @@
 			"sun_ice_poltergeist_wing":[2, 6],
 			
 			"sun_ice_shiekwraith_Standard":[0, 3],
-			"sun_ice_seraph_Standard":[1, 3],
+			#"sun_ice_seraph_Standard":[1, 3],      Removed to cap burn level
 			"sun_ice_palantir_Standard":[1, 2],
 			"sun_ice_umbra_wing":[0, 4],
 			"sun_ice_stormwhisp_wing":[2, 6],
@@ -151,7 +151,7 @@
 			"sun_ice_seraph_Standard":[0, 2],
 			"sun_ice_palantir_Standard":[1, 3],
 			"sun_ice_umbra_wing":[0, 1],
-			"sun_ice_stormwhisp_wing":[0, 2],		
+			"sun_ice_stormwhisp_wing":[0, 1],		
          },
       },
 	 "foragers":{
@@ -161,21 +161,22 @@
          "lyWorthOfFuel":[2, 4],
          "extraCrewPercent":[50, 75],
          "marinesPercent":[5, 10],
-         "ships":{	
+         "ships":{
+            "sun_ice_eidolon_Standard":[0, 1],
 			"sun_ice_soulbane_Standard":[0, 2],
             "sun_ice_nightseer_Standard":[0, 1],
             #"sun_ice_pentagram_Standard":[0, 1],
             "sun_ice_athame_Standard":[0, 1],
             #"sun_ice_flashghast_Standard":[0, 2],	
 			"sun_ice_specter_Standard":[0, 2],
-			"sun_ice_phantom_wing":[0, 2],
-			"sun_ice_poltergeist_wing":[0, 2],
+			"sun_ice_phantom_wing":[0, 1],
+			"sun_ice_poltergeist_wing":[0, 1],
 			
 			"sun_ice_shiekwraith_Standard":[0, 2],
 			"sun_ice_seraph_Standard":[0, 2],
 			"sun_ice_palantir_Standard":[0, 1],
 			"sun_ice_umbra_wing":[0, 1],
-			"sun_ice_stormwhisp_wing":[0, 2],	
+			"sun_ice_stormwhisp_wing":[0, 1],	
          },
       },
 	 "__convoy":{
@@ -232,7 +233,7 @@
          "marinesPercent":[5, 10],
          "ships":{
             "sun_ice_voidreaver_Standard":[0, 3],
-            "sun_ice_eidolon_Standard":[0, 3],
+            "sun_ice_eidolon_Standard":[1, 3],
             "sun_ice_kelpie_Standard":[0, 2],		
 			"sun_ice_soulbane_Standard":[0, 4],
             "sun_ice_nightseer_Standard":[0, 2],
@@ -274,7 +275,7 @@
          "marinesPercent":[5, 10],
          "ships":{
             "sun_ice_voidreaver_Standard":[0, 3],
-            "sun_ice_eidolon_Standard":[0, 3],
+            "sun_ice_eidolon_Standard":[1, 3],
             "sun_ice_kelpie_Standard":[0, 2],		
 			"sun_ice_soulbane_Standard":[0, 4],
             "sun_ice_nightseer_Standard":[0, 2],

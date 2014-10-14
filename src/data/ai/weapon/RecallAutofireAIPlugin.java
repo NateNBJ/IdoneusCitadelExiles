@@ -7,8 +7,6 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.tools.IntervalTracker;
 import data.weapons.beam.RecallBeamEffect;
-import java.util.LinkedList;
-import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class RecallAutofireAIPlugin implements AutofireAIPlugin {

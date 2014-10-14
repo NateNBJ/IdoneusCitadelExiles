@@ -50,6 +50,8 @@ public class JauntAI implements ShipSystemAIScript {
         float damage = IceUtils.estimateIncomingDamage(ship, 1) * 1.0f;
         float armor = (float)Math.pow(IceUtils.getArmorPercent(ship), 3);
         //flux = (float)Math.sqrt(reactor.getFluxLevel());
+        boolean noSoftFlux = reactor.getCurrFlux() == reactor.getHardFlux();
+        boolean canTurn = IceUtils.getEngineFractionDisabled(ship) > 0;
         
         if(system.isOn()) {
             flux = 0;
@@ -58,7 +60,7 @@ public class JauntAI implements ShipSystemAIScript {
             damage *= 0.5f;
             
             // No reason to stay here if we're not shooting anything or dissipating soft flux
-            if(reactor.getCurrFlux() == reactor.getHardFlux()) {
+            if(noSoftFlux) {
                 ++ticksWithoutDissipation;
             } else ticksWithoutDissipation = 0;
             
@@ -79,7 +81,7 @@ public class JauntAI implements ShipSystemAIScript {
                 return;
             
             // Check if we're in a good position to attack a distant target remotely
-            if(reactor.getFluxLevel() < 0.3f) {
+            if(reactor.getFluxLevel() < 0.7f) {
                 int enemy = (ship.getOwner() + 1) % 2;
                 float range = IceUtils.estimateOptimalRange(ship) * 0.8f;
                 float fp = IceUtils.getFPStrength(ship);
@@ -88,10 +90,11 @@ public class JauntAI implements ShipSystemAIScript {
                 float hostilityInRemoteRange = Math.min(fp, IceUtils.getStrengthInArea(
                         ship.getLocation(), range + JauntHeavyStats.MAX_RANGE,
                         enemy) - hostilityInEminentRange);
+                boolean canJauntToBetterTargets = hostilityInEminentRange < fp / 6
+                        && hostilityInEminentRange < hostilityInRemoteRange;
 
-                if(hostilityInEminentRange < fp / 6
-                        && hostilityInEminentRange < hostilityInRemoteRange) {
-                    phaseNecessity += USE_THRESHHOLD * 1.2f;
+                if(canJauntToBetterTargets || !canTurn) {
+                    phaseNecessity += USE_THRESHHOLD * 1.6f * (1 - reactor.getFluxLevel());
                 }
             }
             
@@ -99,6 +102,8 @@ public class JauntAI implements ShipSystemAIScript {
         }
         
         phaseNecessity += (damage * (1.2f - armor)) * (1 - flux);
+        
+        
         
         if(phaseNecessity >= USE_THRESHHOLD) {
             //SunUtils.print(ship, "" + phaseNecessity);

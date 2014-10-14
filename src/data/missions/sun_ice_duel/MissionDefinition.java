@@ -1,5 +1,6 @@
 package data.missions.sun_ice_duel;
 
+import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
@@ -11,12 +12,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     @Override
     public void defineMission(MissionDefinitionAPI api) {
         api.initFleet(FleetSide.ENEMY, "ICS", FleetGoal.ATTACK, true, 0);
-        api.setFleetTagline(FleetSide.ENEMY, "Isolationists");
-        api.addToFleet(FleetSide.ENEMY, "sun_ice_abraxas_Standard", FleetMemberType.SHIP, true);
+        api.setFleetTagline(FleetSide.ENEMY, "The Flagship of an Idoneus Isolationist blockade fleet");
+        api.addToFleet(FleetSide.ENEMY, "sun_ice_abraxas_Standard", FleetMemberType.SHIP, "ICS Samuel", true, CrewXPLevel.VETERAN);
         
         api.initFleet(FleetSide.PLAYER, "ICS", FleetGoal.ATTACK, false, 0);
-        api.setFleetTagline(FleetSide.PLAYER, "Exiles");
-        api.addToFleet(FleetSide.PLAYER, "sun_ice_nightseer_Standard", FleetMemberType.SHIP, true);
+        api.setFleetTagline(FleetSide.PLAYER, "The ICS Tiny Dancer");
+        api.addToFleet(FleetSide.PLAYER, "sun_ice_nightseer_Standard", FleetMemberType.SHIP, "ICS Tiny Dancer", true, CrewXPLevel.ELITE);
         
         float width = 10000f;
         float height = 10000f;

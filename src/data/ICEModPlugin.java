@@ -26,6 +26,7 @@ import data.ai.weapon.NovaDischargerAutofireAIPlugin;
 import data.ai.weapon.PdDroneAutofireAIPlugin;
 import data.ai.weapon.RecallAutofireAIPlugin;
 import data.world.ICECampaignPlugin;
+import data.world.ICEEveryFrameScript;
 import data.world.Ulterius;
 import java.awt.Color;
 import org.dark.shaders.light.LightData;
@@ -73,6 +74,7 @@ public class ICEModPlugin extends BaseModPlugin {
         if(!EXERELIN_ENABLED) {
             new Ulterius().generate();
             Global.getSector().registerPlugin(new ICECampaignPlugin());
+            Global.getSector().addScript(new ICEEveryFrameScript());
         }
     }
 

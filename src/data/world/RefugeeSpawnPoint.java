@@ -15,8 +15,10 @@ import java.util.Random;
 
 @SuppressWarnings("unchecked")
 public class RefugeeSpawnPoint extends BaseSpawnPoint {
+
     static boolean relationsAreSet = false;
-	static void initFactionRelations() {
+
+    static void initFactionRelations() {
         SectorAPI sector = Global.getSector();
         FactionAPI ice, ici, hgm, tty, ind, snd, prt, player;
         ice = sector.getFaction("sun_ice");
@@ -37,61 +39,58 @@ public class RefugeeSpawnPoint extends BaseSpawnPoint {
         factions.remove(ice);
         factions.remove(player);
 
-        for(Iterator iter = factions.iterator(); iter.hasNext();) {
-          FactionAPI faction = (FactionAPI)iter.next();
-          if(faction.getRelationship(ice.getId()) == 0) {
-              int relation = -1;
-              relation -= faction.getRelationship(hgm.getId());
-              relation -= faction.getRelationship(ind.getId());
-              relation -= faction.getRelationship(prt.getId());
-              relation = Math.min(1, Math.max(-1, relation));
+        for (Iterator iter = factions.iterator(); iter.hasNext();) {
+            FactionAPI faction = (FactionAPI) iter.next();
+            if (faction.getRelationship(ice.getId()) == 0) {
+                int relation = -1;
+                relation -= faction.getRelationship(hgm.getId());
+                relation -= faction.getRelationship(ind.getId());
+                relation -= faction.getRelationship(prt.getId());
+                relation = Math.min(1, Math.max(-1, relation));
 
-              ice.setRelationship(faction.getId(), relation);
-          }
+                ice.setRelationship(faction.getId(), relation);
+            }
         }
 
         relationsAreSet = true;
     }
 
-	public RefugeeSpawnPoint(SectorAPI sector, LocationAPI location,
+    public RefugeeSpawnPoint(SectorAPI sector, LocationAPI location,
             float daysInterval, int maxFleets, SectorEntityToken anchor) {
 
-		super(sector, location, daysInterval, maxFleets, anchor);
-	}
+        super(sector, location, daysInterval, maxFleets, anchor);
+    }
 
-	
-	@Override
-	public CampaignFleetAPI spawnFleet() {
-        if(!relationsAreSet) initFactionRelations();
+    @Override
+    public CampaignFleetAPI spawnFleet() {
+        if (!relationsAreSet) {
+            initFactionRelations();
+        }
 
-		CampaignFleetAPI fleet = getSector().createFleet("sun_ice", "refugees");
-		getLocation().spawnFleet(getAnchor(), 0, 0, fleet);
-		
+        CampaignFleetAPI fleet = getSector().createFleet("sun_ice", "refugees");
+        getLocation().spawnFleet(getAnchor(), 0, 0, fleet);
+
         List systems = new ArrayList(getSector().getStarSystems());
         systems.remove(getSector().getStarSystem("Ulterius"));
-        StarSystemAPI destination = (StarSystemAPI)systems.get(new Random().nextInt(systems.size()));
+        StarSystemAPI destination = (StarSystemAPI) systems.get(new Random().nextInt(systems.size()));
 
         fleet.addAssignment(FleetAssignment.GO_TO_LOCATION, destination.getStar(), 100000);
-		fleet.addAssignment(FleetAssignment.RAID_SYSTEM, destination.getStar(), 100000);
+        fleet.addAssignment(FleetAssignment.RAID_SYSTEM, destination.getStar(), 100000);
 
         BaseSpawnPoint spawn;
 
         spawn = new GuardianSpawnPoint(getSector(), destination, 21.453f, 1, fleet);
-		destination.addScript(spawn);
+        destination.addScript(spawn);
 
         spawn = new RaiderSpawnPoint(getSector(), destination, 11.946f, 2, fleet);
         destination.addScript(spawn);
 
         spawn = new ScoutSpawnPoint(getSector(), destination, 5.057f, 5, fleet);
         destination.addScript(spawn);
-		
-		return fleet;
-	}
-	
+        
+        Global.getSector().getCampaignUI().addMessage("A large colony fleet has been driven from Idoneus Citadel, and is seeking refuge at " + destination.getName());
+
+        return fleet;
+    }
+
 }
-
-
-
-
-
-

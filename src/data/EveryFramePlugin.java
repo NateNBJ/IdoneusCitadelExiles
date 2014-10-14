@@ -52,7 +52,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
                     / ship.getShield().getArc();
             ship.getFluxTracker().decreaseFlux(upkeep * arcReduction * amount);
             ship.getMutableStats().getHardFluxDissipationFraction().modifyFlat(
-                    MODIFIER_KEY, 100);
+                    MODIFIER_KEY, Math.max(0, arcReduction * 2 - 1));
             
             //engine.addFloatingDamageText(ship.getLocation(), upkeep * arcReduction * amount, Color.yellow, ship, ship);
         }
@@ -180,6 +180,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         shipsToClearBonusesFrom.clear();
         recalling.clear();
         delayedCommands.clear();
-        JauntSession.clearSessions();
+        JauntSession.clearStaticData();
+        RecallTracker.clearStaticData();
     }
 }

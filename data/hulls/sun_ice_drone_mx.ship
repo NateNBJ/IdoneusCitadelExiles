@@ -37,19 +37,6 @@
   "spriteName": "graphics/sun_ice/ships/drones/drone_mx.png",
   "style": "SUN_ICE",
   "viewOffset": 0,
-  "weaponSlots": [
-    {
-      "angle": 0,
-      "arc": 360,
-      "id": "WS 001",
-      "locations": [
-        0,
-        0
-      ],
-      "mount": "HIDDEN",
-      "size": "SMALL",
-      "type": "ENERGY"
-    }
-  ],
+  "weaponSlots": [],
   "width": 14
 }

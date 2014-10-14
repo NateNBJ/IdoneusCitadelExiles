@@ -60,13 +60,14 @@ public class GravimetricSensors extends BaseHullMod {
         float speed = (float) Math.sqrt(Math.pow(ship.getVelocity().x, 2)
                 + Math.pow(ship.getVelocity().y, 2));
         AssignmentInfo task = Global.getCombatEngine().getFleetManager(ship.getOwner()).getAssignmentFor(ship);
+        float riskRange = PhaseCruiseTempAI.getRiskRange(ship);
 
         if (!cloak.isActive() && ship.getShipAI() != null
                 && ship.getAngularVelocity() < 0.2f
                 && !ship.getTravelDrive().isActive()
                 && ship.getFluxTracker().getFluxLevel() == 0
                 && speed >= ship.getMutableStats().getMaxSpeed().getModifiedValue() - 2
-                && AIUtils.getNearbyEnemies(ship, 1000).isEmpty()
+                && AIUtils.getNearbyEnemies(ship, riskRange + 800).isEmpty()
                 && (task == null || task.getTarget() == null || MathUtils.getDistance(ship, task.getTarget().getLocation()) > 800)) {
 
             if(ship.getPhaseCloak() == cloak) {

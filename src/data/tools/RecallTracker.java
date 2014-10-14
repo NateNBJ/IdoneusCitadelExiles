@@ -10,17 +10,24 @@ import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import static data.weapons.beam.RecallBeamEffect.CHARGE_TIME;
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class RecallTracker {
+    public static void clearStaticData() {
+        PREVIOUS_DESTINATION.clear();
+    }
+    static Map<ShipAPI, Vector2f> PREVIOUS_DESTINATION = new HashMap();
+    
     int priority = 0;
     ShipAPI ally;
     Vector2f destination, idealRecallLoc, recallLoc;
     float progress = -1;
-    WeaponAPI teleporter; 
+    WeaponAPI teleporter;
 
     public RecallTracker(ShipAPI ally, WeaponAPI teleporter) {
         this.ally = ally;
@@ -33,10 +40,6 @@ public class RecallTracker {
 
         if(asgnmt == null) return;
         
-//        if(Global.getCombatEngine().getFleetManager(ally.getOwner()).) {
-//            
-//        } else
-//        if(asgnmt.getType() == CombatAssignmentType.RETREAT) {
         if(ally.isRetreating()) {
             destination = getRetreatLocation();
         } else if(asgnmt.getTarget() == null) {
@@ -44,6 +47,26 @@ public class RecallTracker {
         } else {
             destination = asgnmt.getTarget().getLocation();
         }
+        
+        
+        
+        
+        
+        
+
+//        boolean destinationChanged = !PREVIOUS_DESTINATION.containsKey(ally)
+//                ||  MathUtils.getDistance(destination, PREVIOUS_DESTINATION.get(ally)) > 100;
+//        
+//        float minimumDistanceGain = destinationChanged ? 500 : 2500;
+        
+        float minimumDistanceGain = 1500;
+        
+        PREVIOUS_DESTINATION.put(ally, destination);
+        
+        
+        
+        
+        
 
         idealRecallLoc = VectorUtils.getDirectionalVector(ship.getLocation(), destination);
         idealRecallLoc.scale(Math.min(teleporter.getRange(), MathUtils.getDistance(ship, destination)));
@@ -52,7 +75,10 @@ public class RecallTracker {
         float distFromCurrent = MathUtils.getDistance(ally, destination);
         float distFromRecalled = MathUtils.getDistance(idealRecallLoc, destination);
 
-        priority = (int)((distFromCurrent - distFromRecalled - 2500) / 5000 * IceUtils.getFP(ally));
+        priority = (int)((distFromCurrent - distFromRecalled - minimumDistanceGain) / 5000 * IceUtils.getFP(ally));
+        
+        
+        //IceUtils.print(ally, ((destinationChanged) ? "Changed - " : "") + priority);
     }
     public void advance(float amount) {
         if(progress > 0 && recallLoc == null) {
