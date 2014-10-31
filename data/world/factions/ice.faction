@@ -1,8 +1,20 @@
 {
    id:"sun_ice",
    "color":[0,255,220,99],
-   "displayName":"Idoneus",
+   "entityNamePrefix":"Exiled Idoneus",
+   "displayName":"Idoneus Exiles",
+   "displayNameWithArticle":"the Idoneus Exiles",
+   "displayNameLong":"Idoneus Citadel Exiles",
+   "displayNameLongWithArticle":"the Idoneus Citadel Exiles",
+   "logo":"graphics/sun_ice/factions/ice_flag.png",
    "shipNamePrefix":"ICS",
+	"tariffFraction":0.25,
+	"tollFraction":0.2,
+	"fineFraction":0.3,
+	"illegalCommodities":[
+		"drugs",
+		"organs",
+	],
    "shipNameSources":{
 		"ANGELS":1,
 		"DEMONS":1
@@ -30,6 +42,163 @@
 			"graphics/portraits/portrait_mercenary02.png",	 
       ],
    },
+	"shipRoles":{
+		"interceptor":{
+			"sun_ice_phantom_wing":10,
+			"fallback":{"fighter":1},
+		},
+		"fighter":{
+			"sun_ice_stormwhisp_wing":10,
+			"sun_ice_poltergeist_wing":10,
+			"fallback":{"interceptor":1},
+		},
+		"bomber":{
+			"sun_ice_umbra_wing":10,
+		},
+		
+		"fastAttack":{
+			"sun_ice_specter_Standard":10,
+			"sun_ice_athame_Standard":6,
+			"sun_ice_nightseer_Standard":2,
+			"fallback":{"combatSmall":1},
+		},
+	
+		"escortSmall":{
+			"sun_ice_specter_Standard":10,
+			"fallback":{"combatSmall":1},
+		},
+		"escortMedium":{
+			"sun_ice_shiekwraith_Standard":10,
+			"sun_ice_soulbane_Standard":10,
+			"fallback":{"combatMedium":1},
+		},
+		
+		"combatSmall":{
+			"sun_ice_specter_Standard":10,
+			"sun_ice_athame_Standard":7,
+			"sun_ice_nightseer_Standard":2,
+			"fallback":{"escortSmall":1},
+		},
+		"combatMedium":{
+			"sun_ice_shiekwraith_Standard":10,
+			"sun_ice_soulbane_Standard":10,
+			"sun_ice_nightseer_Standard":8,
+			"fallback":{"combatSmall":2},
+		},
+		"combatLarge":{
+			"sun_ice_kelpie_Standard":10,
+			"sun_ice_voidreaver_Standard":10,
+			"sun_ice_eidolon_Standard":6,
+			"fallback":{"combatMedium":2},
+		},
+		"combatCapital":{
+			"sun_ice_abraxas_Standard":10,
+			"sun_ice_apocrypha_Standard":10,
+			"sun_ice_voidreaver_Standard":6,
+			"fallback":{"combatLarge":2},
+		},
+		
+		
+		# hybrid ships with good combat and cargo capacity
+		"combatFreighterSmall":{
+			"hound_d_Standard":10,
+			"cerberus_d_Standard":10,
+		
+			"hound_Standard":10,
+			"shepherd_Frontier":10,
+			"cerberus_Standard":10,
+			"fallback":{"freighterSmall":1},
+		},
+		"combatFreighterMedium":{
+			"mule_d_Standard":10,
+			"mule_Standard":10,
+			"fallback":{"combatFreighterSmall":2},
+		},
+		"combatFreighterLarge":{
+			"sun_ice_eidolon_Standard":10,
+			"venture_Balanced":10,
+			"fallback":{"combatFreighterMedium":2},
+		},
+		
+		"civilianRandom":{
+			"mercury_d_Standard":10,
+			"hermes_d_Standard":10,
+			"mercury_Standard":10,
+			"hermes_Standard":10,
+			"fallback":{"freighterSmall":1},
+		},
+	
+	
+		# carriers
+		"carrierSmall":{
+			"condor_FS":3,
+			"gemini_Standard":3,
+			"fallback":{"carrierMedium":1},
+		},
+		"carrierMedium":{
+			"sun_ice_eidolon_Standard":10,
+			"fallback":{"carrierSmall":2},
+		},
+		"carrierLarge":{
+			"sun_ice_apocrypha_Standard":10,
+			"fallback":{"carrierMedium":2},
+		},
+	
+		# freighters and such
+		"freighterSmall":{
+			"hermes_d_Standard":10,
+			"hermes_Standard":10,
+			"fallback":{"freighterMedium":1},
+		},
+		"freighterMedium":{
+			"buffalo_d_Standard":10,
+			"buffalo_Standard":10,
+			"fallback":{"freighterSmall":2},
+		},
+		"freighterLarge":{
+			"atlas_Standard":10,
+			"fallback":{"freighterMedium":2},
+		},
+		
+		"tankerSmall":{
+			"dram_Light":10,
+			"fallback":{"tankerMedium":1},
+		},
+		"tankerMedium":{
+			"phaeton_Standard":10,
+			"fallback":{"tankerSmall":2},
+		},
+		"tankerLarge":{
+			"prometheus_Super":10,
+			"fallback":{"tankerMedium":2},
+		},
+		
+		"personnelSmall":{
+			"mercury_d_Standard":10,
+			"mercury_Standard":10,
+			"fallback":{"personnelMedium":1},
+		},
+		"personnelMedium":{
+			"valkyrie_Elite":10,
+			"fallback":{"personnelSmall":2},
+		},
+		"personnelLarge":{
+			"fallback":{"personnelMedium":2},
+		},
+		
+		# utility ships
+		"tug":{
+			"sun_ice_seraph_Standard":10,
+			"fallback":{"utility":1},
+		},
+		"crig":{
+			"fallback":{"utility":1},
+		},
+		"utility":{
+			"sun_ice_seraph_Standard":10,
+			"sun_ice_palantir_Standard":10,
+		},
+	},
    "fleetCompositions":{
 	"template":{
          "displayName":"HHHHHH",
@@ -43,6 +212,10 @@
             "valkyrie_Elite":[0, 0],
             "phaeton_Standard":[0, 0],
             "buffalo_Standard":[0, 0],
+			
+            "sun_ice_shalom_Standard":[1, 1],
+            "sun_ice_apocrypha_Standard":[0, 1],
+            "sun_ice_abraxas_Standard":[0, 1],
             "sun_ice_voidreaver_Standard":[0, 0],
             "sun_ice_eidolon_Standard":[0, 0],
             "sun_ice_kelpie_Standard":[0, 0],		
@@ -63,8 +236,8 @@
          },
       },
 	  "refugees":{
-         "displayName":"Refugee Fleet",
-         "maxFleetPoints":500,
+         "displayName":"Colony Fleet",
+         "maxFleetPoints":400,
          "daysWorthOfSupplies":[20, 240],
          "lyWorthOfFuel":[10, 25],
          "extraCrewPercent":[80, 80],

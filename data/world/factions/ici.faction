@@ -1,8 +1,22 @@
 {
    id:"sun_ici",
    "color":[255,223,128,255],
-   "displayName":"Idoneus",
+   "entityNamePrefix":"Idoneus Garrison",
+   "displayName":"Idoneus Garrison",
+   "displayNameWithArticle":"the Idoneus Garrison",
+   "displayNameLong":"Idoneus Citadel Garrison",
+   "displayNameLongWithArticle":"the Idoneus Citadel Garrison",
+   "logo":"graphics/sun_ice/factions/ici_flag.png",
    "shipNamePrefix":"ICS",
+	"tariffFraction":0.35,
+	"tollFraction":0.1,
+	"fineFraction":0.5,
+	"illegalCommodities":[
+		"drugs",
+		"organs",
+		"hand_weapons",	
+		#"sun_ice_tech"
+	],
    "shipNameSources":{
 		"ANGELS":1,
 		"DEMONS":1
@@ -30,24 +44,102 @@
 			"graphics/portraits/portrait_mercenary02.png",	 
       ],
    },
+	"shipRoles":{
+		"interceptor":{
+			"sun_ice_phantom_wing":10,
+			"fallback":{"fighter":1},
+		},
+		"fighter":{
+			"sun_ice_stormwhisp_wing":10,
+			"sun_ice_poltergeist_wing":10,
+			"fallback":{"interceptor":1},
+		},
+		"bomber":{
+			"sun_ice_umbra_wing":10,
+		},
+		
+		"fastAttack":{
+			"sun_ice_specter_Standard":10,
+			"sun_ice_athame_Standard":6,
+			"sun_ice_nightseer_Standard":2,
+			"fallback":{"combatSmall":1},
+		},
+	
+		"escortSmall":{
+			"sun_ice_specter_Standard":10,
+			"fallback":{"combatSmall":1},
+		},
+		"escortMedium":{
+			"sun_ice_shiekwraith_Standard":10,
+			"sun_ice_soulbane_Standard":8,
+			"fallback":{"combatMedium":1},
+		},
+		
+		"combatSmall":{
+			"sun_ice_specter_Standard":10,
+			"sun_ice_athame_Standard":6,
+			"fallback":{"escortSmall":1},
+		},
+		"combatMedium":{
+			"sun_ice_soulbane_Standard":8,
+			"sun_ice_shiekwraith_Standard":10,
+			"sun_ice_nightseer_Standard":5,
+			"fallback":{"combatSmall":2},
+		},
+		"combatLarge":{
+			"sun_ice_voidreaver_Standard":10,
+			"sun_ice_kelpie_Standard":10,
+			"sun_ice_eidolon_Standard":10,
+			"sun_ice_soulbane_Standard":5,
+			"fallback":{"combatMedium":2},
+		},
+		"combatCapital":{
+			"sun_ice_abraxas_Standard":10,
+			"sun_ice_apocrypha_Standard":4,
+			"fallback":{"combatLarge":2},
+		},
+		
+		# carriers
+		"carrierSmall":{
+			"fallback":{"carrierMedium":1},
+		},
+		"carrierMedium":{
+			"sun_ice_eidolon_Standard":10,
+			"sun_ice_apocrypha_Standard":2,
+			"fallback":{"carrierSmall":2},
+		},
+		"carrierLarge":{
+			"fallback":{"carrierMedium":2},
+		},
+		
+		# utility ships
+		"tug":{
+			"sun_ice_seraph_Standard":10,
+			"fallback":{"utility":1},
+		},
+		"utility":{
+			"sun_ice_palantir_Standard":10,
+			"sun_ice_seraph_Standard":10,
+		},
+	},
    "fleetCompositions":{
 	  "blockade":{
          "displayName":"Citadel Blockade Fleet",
-         "maxFleetPoints":300,
+         "maxFleetPoints":180,
          "daysWorthOfSupplies":[20, 50],
          "lyWorthOfFuel":[10, 25],
          "extraCrewPercent":[80, 80],
          "marinesPercent":[5, 10],
          "ships":{
-            "sun_ice_abraxas_Standard":[1, 2],
-            "sun_ice_apocrypha_Standard":[1, 1],
-            "sun_ice_voidreaver_Standard":[1, 4],
-            "sun_ice_kelpie_Standard":[1, 6],		
+            "sun_ice_abraxas_Standard":[0, 1],
+            "sun_ice_apocrypha_Standard":[0, 1],
+            "sun_ice_voidreaver_Standard":[0, 4],
+            "sun_ice_kelpie_Standard":[0, 6],		
 			"sun_ice_soulbane_Standard":[1, 6],
-            "sun_ice_nightseer_Standard":[2, 8],
+            "sun_ice_nightseer_Standard":[1, 8],
             #"sun_ice_pentagram_Standard":[3, 10],
             #"sun_ice_flashghast_Standard":[2, 6],	
-			"sun_ice_specter_Standard":[2, 8],
+			"sun_ice_specter_Standard":[1, 8],
 			"sun_ice_shiekwraith_Standard":[1, 4],
 			"sun_ice_seraph_Standard":[1, 3],
 			"sun_ice_palantir_Standard":[1, 2],

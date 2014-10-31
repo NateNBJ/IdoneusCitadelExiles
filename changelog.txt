@@ -1,3 +1,23 @@
+
+----<  ICE version 0.2.0   >------------------------------------------------------------------------------
+ADDITIONS
+- Full compatibility with Starsector 0.65
+- A huge nomadic colony fleet with a fully functional market
+- A custom event with multiple stages concerning aforementioned colony fleet
+- A custom market condition that increases the stability of the colony fleet based on it's size
+- New custom sounds for Chapucabra and Nosferatu Fusor weapons
+
+BUGS FIXED
+- Weapon barrels now become semi-transparent with the rest of the ship during phase jaunt
+- Damage decals are now rendered on the top section the Nightseer's armor
+
+AI IMPROVEMENTS
+- Autofire AI for the Recall Teleporter should now be much more responsive to new assignments
+
+BALANCE CHANGES
+- Doubled the price of all ships to reflect Starsector 0.65 changes
+- Greatly increased the deployment cost of all fighter wings to reflect Starsector 0.65 changes
+
 ----<  ICE version 0.1.0   >------------------------------------------------------------------------------
 
 CONTENT ADDITIONS

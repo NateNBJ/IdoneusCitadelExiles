@@ -1,19 +1,34 @@
 package data.world;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CoreInteractionListener;
-import com.fs.starfarer.api.campaign.CoreUITabId;
-import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin;
 import com.fs.starfarer.api.campaign.FleetMemberPickerListener;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin;
 import com.fs.starfarer.api.campaign.OptionPanelAPI;
-import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.TextPanelAPI;
 import com.fs.starfarer.api.campaign.VisualPanelAPI;
+import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
+import com.fs.starfarer.api.campaign.CoreUITabId;
+import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin.DataForEncounterSide;
+import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin.DisengageHarryAvailability;
+import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin.EngagementOutcome;
+import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin.PursueAvailability;
+import com.fs.starfarer.api.campaign.FleetEncounterContextPlugin.Status;
+import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.ai.CampaignFleetAIAPI;
+import com.fs.starfarer.api.campaign.ai.CampaignFleetAIAPI.EncounterOption;
+import com.fs.starfarer.api.campaign.ai.CampaignFleetAIAPI.InitialBoardingResponse;
+import com.fs.starfarer.api.campaign.ai.CampaignFleetAIAPI.PostEngagementOption;
+import com.fs.starfarer.api.campaign.ai.CampaignFleetAIAPI.PursuitOption;
+import com.fs.starfarer.api.campaign.rules.MemKeys;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.combat.BattleCreationContext;
 import com.fs.starfarer.api.combat.CombatReadinessPlugin;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
@@ -23,24 +38,36 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl;
 import com.fs.starfarer.api.impl.campaign.ExampleCustomUIPanel;
 import com.fs.starfarer.api.impl.campaign.FleetEncounterContext;
+import com.fs.starfarer.api.impl.campaign.FleetEncounterContext.BoardingAttackType;
+import com.fs.starfarer.api.impl.campaign.FleetEncounterContext.BoardingOutcome;
+import com.fs.starfarer.api.impl.campaign.FleetEncounterContext.BoardingResult;
+import com.fs.starfarer.api.impl.campaign.FleetEncounterContext.EngageBoardableOutcome;
+import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl;
+import com.fs.starfarer.api.impl.campaign.RuleBasedInteractionDialogPluginImpl;
+import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
+import com.fs.starfarer.api.impl.campaign.rulecmd.DumpMemory;
 import com.fs.starfarer.api.ui.ValueDisplayMode;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlugin, CoreInteractionListener {
+
+    @Override
+    public void coreUIDismissed() {
+            optionSelected(null, OptionId.INIT_NO_TEXT);
+    }
+
     private static enum VisualType {
 
         FLEET_INFO,
         OTHER,
     }
-    private static enum OptionId {
 
+    private static enum OptionId {
         INIT,
-            INIT_NO_TEXT,
-            TRADE_CARGO,
-            TRADE_SHIPS,
+        INIT_NO_TEXT,
+        TRADE_CARGO,
+        TRADE_SHIPS,
+        REFIT,
         OPEN_COMM,
         CUT_COMM,
         ENGAGE,
@@ -57,8 +84,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         GO_TO_ENGAGE,
         CONTINUE_LOOT,
         CONTINUE_INTO_BATTLE,
-        HARRY,
-        SALVAGE,
+        MAINTAIN_CONTACT,
         STAND_DOWN,
         CONTINUE_INTO_BOARDING,
         BOARDING_ACTION,
@@ -72,42 +98,31 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         SELECTOR_MARINES,
         SELECTOR_CREW,
     }
-    private static final Color HIGHLIGHT_COLOR = Global.getSettings().getColor("buttonShortcut");
 
     private InteractionDialogAPI dialog;
     private TextPanelAPI textPanel;
     private OptionPanelAPI options;
     private VisualPanelAPI visual;
+
     private CampaignFleetAPI playerFleet;
     private CampaignFleetAPI otherFleet;
+
     private FleetGoal playerGoal = FleetGoal.ATTACK;
     private FleetGoal otherGoal = FleetGoal.ATTACK;
-    private VisualType currVisualType = VisualType.FLEET_INFO;
-    private FleetEncounterContext context = new FleetEncounterContext();
-    private EngagementResultAPI lastResult = null;
-    private boolean okToLeave = false;
-    private boolean didRepairs = false;
-    private boolean didBoardingCheck = false;
-    private boolean pickedMemberToBoard = false;
-    private FleetMemberAPI toBoard = null;
-    private String repairedShipList = null;
-    private String boardingTaskForceList = null;
-    private String crashMothballList = null;
-    private List<FleetMemberAPI> boardingTaskForce = null;
-    private int boardingPhase = 0;
-    private CrewCompositionAPI maxBoardingParty = null;
-    private CrewCompositionAPI boardingParty = null;
-    private FleetEncounterContext.BoardingAttackType boardingAttackType = null;
-    private FleetEncounterContext.BoardingResult boardingResult = null;
-    private FleetMemberAPI selectedFlagship = null;
-    private FleetMemberAPI origFlagship = null;
-    private CampaignFleetAIAPI.InitialBoardingResponse aiBoardingResponse = null;
-    private boolean recoveredCrew = false;
-    private boolean lootedCredits = false;
-    private String creditsLooted = null;
-    private OptionId lastOptionMousedOver = null;
-    private SectorEntityToken station;
 
+    private VisualType currVisualType = VisualType.FLEET_INFO;
+
+    private FleetEncounterContext context = new FleetEncounterContext();
+
+    private static final Color HIGHLIGHT_COLOR = Global.getSettings().getColor("buttonShortcut");
+
+    private RuleBasedInteractionDialogPluginImpl conversationDelegate;
+
+    public static boolean directToComms = false;
+
+    public Map<String, MemoryAPI> getMemoryMap() {
+        return conversationDelegate == null ? null : conversationDelegate.getMemoryMap();
+    }
 
     public void init(InteractionDialogAPI dialog) {
         this.dialog = dialog;
@@ -118,14 +133,35 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         playerFleet = Global.getSector().getPlayerFleet();
         otherFleet = (CampaignFleetAPI) (dialog.getInteractionTarget());
 
+        playerFleet.getFleetData().takeSnapshot();
+        otherFleet.getFleetData().takeSnapshot();
+
         visual.setVisualFade(0.25f, 0.25f);
         visual.showFleetInfo((String) null, playerFleet, (String) null, otherFleet, context);
         
-        station = Global.getSector().getStarSystem("Ulterius").getEntityByName("Citadel");
+        FleetInteractionDialogPluginImpl.inConversation = false;
+        directToComms = false;
+        conversationDelegate = new RuleBasedInteractionDialogPluginImpl();
+        conversationDelegate.setEmbeddedMode(true);
+        conversationDelegate.init(dialog);
 
-        optionSelected(null, OptionId.INIT);
+        conversationDelegate.fireBest("BeginFleetEncounter");
+
+        if (directToComms) {
+            optionSelected(null, OptionId.OPEN_COMM);
+        } else {
+            optionSelected(null, OptionId.INIT);
+        }
+
     }
+
+    private EngagementResultAPI lastResult = null;
+
     public void backFromEngagement(EngagementResultAPI result) {
+
+        if (!otherFleet.getMemoryWithoutUpdate().contains(MemFlags.MEMORY_KEY_IGNORE_PLAYER_COMMS)) {
+            otherFleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_IGNORE_PLAYER_COMMS, true, 0);
+        }
 
         context.processEngagementResults(result);
         lastResult = result;
@@ -142,18 +178,24 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
 
         boolean totalDefeat = !playerFleet.isValidPlayerFleet();
-        boolean mutualDestruction = context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.MUTUAL_DESTRUCTION;
+        boolean mutualDestruction = context.getLastEngagementOutcome() == EngagementOutcome.MUTUAL_DESTRUCTION;
 
-        FleetEncounterContextPlugin.DataForEncounterSide playerSide = context.getDataFor(playerFleet);
+        DataForEncounterSide playerSide = context.getDataFor(playerFleet);
         CrewCompositionAPI crewLosses = playerSide.getCrewLossesDuringLastEngagement();
         if (crewLosses.getTotalCrew() + crewLosses.getMarines() > 0 && !totalDefeat && !mutualDestruction) {
             addText(getString("casualtyReport"));
+
+            DataForEncounterSide data = context.getDataFor(playerFleet);
+            int crewLost = (int) (data.getCrewLossesDuringLastEngagement().getTotalCrew());
+            int marinesLost = (int) (data.getCrewLossesDuringLastEngagement().getMarines());
+            String crewLostStr = getApproximate(crewLost);
+            String marinesLostStr = getApproximate(marinesLost);
+            textPanel.highlightInLastPara(HIGHLIGHT_COLOR, crewLostStr, marinesLostStr);
         }
 
         boolean showFleetInfo = false;
         boolean playerHasPostCombatOptions = false;
         boolean enemyHasPostCombatOptions = false;
-        boolean autoSalvage = false;
 
         switch (context.getLastEngagementOutcome()) {
             case BATTLE_ENEMY_WIN:
@@ -179,7 +221,6 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case ESCAPE_ENEMY_LOSS_TOTAL:
                 addText(getString("pursuitTotalVictory"));
                 showFleetInfo = true;
-                autoSalvage = true;
                 playerHasPostCombatOptions = true;
                 break;
             case ESCAPE_ENEMY_SUCCESS:
@@ -189,42 +230,35 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                     addText(getString("pursuitVictoryLosses"));
                 }
                 showFleetInfo = true;
-                autoSalvage = true;
                 playerHasPostCombatOptions = true;
                 break;
             case ESCAPE_ENEMY_WIN:
                 addText(getString("pursuitDefeat"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 enemyHasPostCombatOptions = true;
                 break;
             case ESCAPE_ENEMY_WIN_TOTAL:
                 addText(getString("pursuitTotalDefeat"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 enemyHasPostCombatOptions = true;
                 break;
             case ESCAPE_PLAYER_LOSS_TOTAL:
                 addText(getString("escapeTotalDefeat"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 enemyHasPostCombatOptions = true;
                 break;
             case ESCAPE_PLAYER_SUCCESS:
                 addText(getString("escapeDefeat"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 enemyHasPostCombatOptions = true;
                 break;
             case ESCAPE_PLAYER_WIN:
                 addText(getString("escapeVictory"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 playerHasPostCombatOptions = true;
                 break;
             case ESCAPE_PLAYER_WIN_TOTAL:
                 addText(getString("escapeTotalVictory"));
-                autoSalvage = true;
                 showFleetInfo = true;
                 playerHasPostCombatOptions = true;
                 break;
@@ -234,11 +268,11 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 // in the event of mutual destruction by adding them to the enemy fleet side's "disabled enemy ships" list.
                 // it'll work by using the existing vs-player boarding path
                 if (mutualDestruction) {
-                    FleetEncounterContextPlugin.DataForEncounterSide otherData = context.getDataFor(otherFleet);
+                    DataForEncounterSide otherData = context.getDataFor(otherFleet);
                     for (FleetMemberAPI member : result.getLoserResult().getDisabled()) {
-                        otherData.addEnemy(member, FleetEncounterContextPlugin.Status.DISABLED);
+                        otherData.addEnemy(member, Status.DISABLED);
                     }
-                    context.applyPostEngagementOption(result, CampaignFleetAIAPI.PostEngagementOption.STAND_DOWN);
+                    context.applyPostEngagementOption(result, PostEngagementOption.STAND_DOWN);
                 }
         }
 
@@ -247,39 +281,44 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
 
         if (enemyHasPostCombatOptions) {
-            CampaignFleetAIAPI.PostEngagementOption option = otherFleet.getAI().pickPostEngagementOption(context, playerFleet);
+            PostEngagementOption option = otherFleet.getAI().pickPostEngagementOption(context, playerFleet);
+            if (result.getLoserResult().getFleet().getFleetData().getMembersListCopy().isEmpty() || isFightingOver()) {
+                if (option == PostEngagementOption.MAINTAIN_CONTACT) {
+                    option = PostEngagementOption.STAND_DOWN;
+                }
+            }
+            float recoveryFraction = context.getStandDownRecoveryFraction();
+            boolean hasStandDown = recoveryFraction >= 0.01f;
+            if (!hasStandDown && option == PostEngagementOption.STAND_DOWN) {
+                option = null;
+            }
+
             applyWinnerOption(option);
 
-            switch (option) {
-                case HARRY:
-                    appendText(getString("enemyHarry"));
-                    break;
-                case SALVAGE:
-                    if (context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.BATTLE_ENEMY_WIN_TOTAL
-                            || context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.ESCAPE_ENEMY_WIN_TOTAL
-                            || context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.ESCAPE_PLAYER_LOSS_TOTAL) {
-                        appendText(getString("enemySalvageAfterTotalVictory"));
-                    } else {
-                        appendText(getString("enemySalvage"));
-                    }
-                    break;
-                case STAND_DOWN:
-                    if (context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.BATTLE_ENEMY_WIN_TOTAL
-                            || context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.ESCAPE_ENEMY_WIN_TOTAL
-                            || context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.ESCAPE_PLAYER_LOSS_TOTAL) {
-                        appendText(getString("enemyStandDownAfterTotalVictory"));
-                    } else {
-                        appendText(getString("enemyStandDown"));
-                    }
-                    break;
+            if (option != null) {
+                switch (option) {
+                    case MAINTAIN_CONTACT:
+                        if (context.getDataFor(playerFleet).getInReserveDuringLastEngagement().isEmpty()) {
+                            addText(getString("enemyMaintainContactNoReserves"));
+                        } else {
+                            addText(getString("enemyMaintainContact"));
+                        }
+                        break;
+                    case STAND_DOWN:
+                        if (context.getLastEngagementOutcome() == EngagementOutcome.BATTLE_ENEMY_WIN_TOTAL
+                                || context.getLastEngagementOutcome() == EngagementOutcome.ESCAPE_ENEMY_WIN_TOTAL
+                                || context.getLastEngagementOutcome() == EngagementOutcome.ESCAPE_PLAYER_LOSS_TOTAL) {
+                            addText(getString("enemyStandDownAfterTotalVictory"));
+                        } else {
+                            addText(getString("enemyStandDown"));
+                        }
+                        break;
+                }
             }
             updateMainState();
         } else if (playerHasPostCombatOptions) {
             updatePostCombat(result);
         } else {
-            if (autoSalvage) {
-                applyWinnerOption(CampaignFleetAIAPI.PostEngagementOption.SALVAGE);
-            }
             updateMainState();
         }
 
@@ -296,14 +335,57 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
 
     }
+
+    private void addPostBattleAttitudeText() {
+        if (!context.wasLastEngagementEscape()) {
+            if (context.didPlayerWinLastEngagement()) {
+                addText(getString("cleanDisengageOpportunity"));
+            }
+        }
+        if (!isFightingOver()) {
+            if (otherFleetWantsToFight()) {
+                addText(getString("postBattleAggressive"));
+            } else if (otherFleetWantsToDisengage()) {
+                if (!otherCanDisengage()) {
+                    addText(getString("postBattleAggressive"));
+                } else {
+                    addText(getString("postBattleDisengage"));
+                }
+            } else {
+                if (otherFleetHoldingVsStrongerEnemy()) {
+                    addText(getString("postBattleHoldVsStrongerEnemy"));
+                } else {
+                    addText(getString("postBattleNeutral"));
+                }
+            }
+        }
+    }
+
     public void optionSelected(String text, Object optionData) {
         if (optionData == null) {
             return;
         }
 
-        OptionId option = (OptionId) optionData;
+        if (FleetInteractionDialogPluginImpl.inConversation) {
+            conversationDelegate.optionSelected(text, optionData);
+            if (!FleetInteractionDialogPluginImpl.inConversation) {
+                optionSelected(null, OptionId.CUT_COMM);
+            }
+            return;
+        }
 
-        String factionName = otherFleet.getFaction().getDisplayName();
+        if (optionData == DumpMemory.OPTION_ID) {
+            new DumpMemory().execute(null, dialog, null, conversationDelegate.getMemoryMap());
+            return;
+        }
+
+        if (optionData instanceof String) {
+            //??? failsafe
+            optionSelected(null, OptionId.CUT_COMM);
+            return;
+        }
+
+        OptionId option = (OptionId) optionData;
 
         if (text != null) {
             textPanel.addParagraph(text, Global.getSettings().getColor("buttonText"));
@@ -335,28 +417,38 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                     } else {
                         addText(getString("initialNeutral"));
                     }
+                    
+                    RepLevel rep = otherFleet.getFaction().getRelationshipLevel(playerFleet.getFaction());
+                    if (rep.compareTo(RepLevel.SUSPICIOUS) < 0) {
+                        addText("Due to your low standing with the Idoneus Exiles, the Colony fleet refuses to let you approach for trade.");
+                    }
                 }
                 //textPanel.highlightFirstInLastPara("neutral posture", HIGHLIGHT_COLOR);
                 updateMainState();
                 break;
-                
-                
-                // sun_ice
+
+            // sun_ice
             case INIT_NO_TEXT:
                 updateMainState();
+                Data.SendTradeOffers = false;
+                removeSoldShipsFromPlayerFleet();
                 break;
             case TRADE_CARGO:
-                addText("The emissary of the refugee fleet sends you a manifest over comm-link containing a list of the cargo they are willing to trade.");
+                addText("An emissary of the refugee fleet sends you a manifest over comm-link containing a list of the cargo they are willing to trade.");
                 options.clearOptions();
-                visual.showCore(CoreUITabId.CARGO, station, this);
+                visual.showCore(CoreUITabId.CARGO, otherFleet, this);
                 break;
             case TRADE_SHIPS:
-                addText("The emissary of the refugee fleet sends you a manifest over comm-link containing a list of the ships they are willing to trade.");
+                addText("An emissary of the refugee fleet sends you a manifest over comm-link containing a list of the ships they are willing to trade.");
                 options.clearOptions();
-                visual.showCore(CoreUITabId.FLEET, station, this);
+                visual.showCore(CoreUITabId.FLEET, otherFleet, this);
                 break;
-                
-                
+            case REFIT:
+                //addText("");
+                options.clearOptions();
+                visual.showCore(CoreUITabId.REFIT, otherFleet, this);
+                break;
+
             case ENGAGE:
                 //visual.showImagePortion("illustrations", "hound_hangar", 350, 75, 800, 800, 0, 0, 400, 400);
                 if (otherFleetWantsToDisengage() && otherCanDisengage()) {
@@ -373,15 +465,15 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case CONTINUE_INTO_BATTLE:
                 BattleCreationContext bcc = new BattleCreationContext(playerFleet, playerGoal, otherFleet, otherGoal);
                 if (playerGoal == FleetGoal.ESCAPE) {
-                    FleetEncounterContextPlugin.DataForEncounterSide data = context.getDataFor(otherFleet);
-                    if (data.getLastWinOption() == CampaignFleetAIAPI.PostEngagementOption.HARRY) {
-                        bcc.setPursuitRangeModifier(-2500);
-                    }
+                    DataForEncounterSide data = context.getDataFor(otherFleet);
+//				if (data.getLastWinOption() == PostEngagementOption.HARRY) {
+//					bcc.setPursuitRangeModifier(-1000);
+//				}
                 } else if (otherGoal == FleetGoal.ESCAPE) {
-                    FleetEncounterContextPlugin.DataForEncounterSide data = context.getDataFor(playerFleet);
-                    if (data.getLastWinOption() == CampaignFleetAIAPI.PostEngagementOption.HARRY) {
-                        bcc.setPursuitRangeModifier(-2500);
-                    }
+                    DataForEncounterSide data = context.getDataFor(playerFleet);
+//				if (data.getLastWinOption() == PostEngagementOption.HARRY) {
+//					bcc.setPursuitRangeModifier(-1000);
+//				}
 
                     CampaignFleetAIAPI ai = otherFleet.getAI();
                     if (ai != null) {
@@ -394,9 +486,9 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 break;
             case DISENGAGE:
                 CampaignFleetAIAPI ai = otherFleet.getAI();
-                CampaignFleetAIAPI.PursuitOption po = otherFleet.getAI().pickPursuitOption(context, playerFleet);
+                PursuitOption po = otherFleet.getAI().pickPursuitOption(context, playerFleet);
                 if (otherFleetHoldingVsStrongerEnemy() || !otherFleetWantsToFight()) {
-                    po = CampaignFleetAIAPI.PursuitOption.LET_THEM_GO;
+                    po = PursuitOption.LET_THEM_GO;
                 }
 
                 context.applyPursuitOption(otherFleet, playerFleet, po);
@@ -424,15 +516,15 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case ATTEMPT_TO_DISENGAGE:
                 boolean letGo = true;
                 if (otherFleetWantsToFight()) {
-                    CampaignFleetAIAPI.PursuitOption pursuitOption = otherFleet.getAI().pickPursuitOption(context, playerFleet);
-                    if (pursuitOption == CampaignFleetAIAPI.PursuitOption.PURSUE) {
+                    PursuitOption pursuitOption = otherFleet.getAI().pickPursuitOption(context, playerFleet);
+                    if (pursuitOption == PursuitOption.PURSUE) {
                         playerGoal = FleetGoal.ESCAPE;
                         otherGoal = FleetGoal.ATTACK;
                         addText(getString("enemyPursuit"));
                         letGo = false;
                         updatePreCombat();
-                    } else if (pursuitOption == CampaignFleetAIAPI.PursuitOption.HARRY) {
-                        context.applyPursuitOption(otherFleet, playerFleet, CampaignFleetAIAPI.PursuitOption.HARRY);
+                    } else if (pursuitOption == PursuitOption.HARRY) {
+                        context.applyPursuitOption(otherFleet, playerFleet, PursuitOption.HARRY);
                         addText(getString("enemyHarass"));
                         context.setEngagedInHostilities(true);
                         //context.getDataFor(playerFleet).setDisengaged(!context.isEngagedInHostilities());
@@ -445,9 +537,9 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                     }
                 }
                 if (letGo) {
-                    FleetEncounterContextPlugin.PursueAvailability pa = context.getPursuitAvailability(otherFleet, playerFleet);
-                    FleetEncounterContextPlugin.DisengageHarryAvailability dha = context.getDisengageHarryAvailability(otherFleet, playerFleet);
-                    if (dha == FleetEncounterContextPlugin.DisengageHarryAvailability.AVAILABLE || pa == FleetEncounterContextPlugin.PursueAvailability.AVAILABLE) {
+                    PursueAvailability pa = context.getPursuitAvailability(otherFleet, playerFleet);
+                    DisengageHarryAvailability dha = context.getDisengageHarryAvailability(otherFleet, playerFleet);
+                    if (dha == DisengageHarryAvailability.AVAILABLE || pa == PursueAvailability.AVAILABLE) {
                         addText(getString("enemyDecidesNotToPursue"));
                     } else {
                         addText(getString("enemyUnableToPursue"));
@@ -473,19 +565,42 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case OPEN_COMM:
                 dialog.showTextPanel();
                 dialog.flickerStatic(0.1f, 0.1f);
-                //addText(String.format("Your hails go unanswered."));
-                addText(String.format("\"%s\"", dialog.getNPCText(context, playerFleet, otherFleet)));
-                visual.showPersonInfo(otherFleet.getCommander());
-                updateDialogState();
-			//dialog.showTextPanel();
-                //dialog.setXOffset(0);
+
+//			addText(String.format("\"%s\"", dialog.getNPCText(context, playerFleet, otherFleet)));
+//			visual.showPersonInfo(otherFleet.getCommander());
+//			updateDialogState();
+                FleetInteractionDialogPluginImpl.inConversation = true;
+                conversationDelegate = new RuleBasedInteractionDialogPluginImpl();
+                conversationDelegate.setEmbeddedMode(true);
+                conversationDelegate.init(dialog);
+
+                boolean otherWantsToRun = otherFleetWantsToDisengage() && otherCanDisengage();
+                MemoryAPI mem = conversationDelegate.getMemoryMap().get(MemKeys.LOCAL);
+                if (otherWantsToRun) {
+                    mem.unset("$weakerThanPlayerButHolding");
+                }
+
+                if (!conversationDelegate.fireBest("OpenCommLink")) {
+                    addText("You try to establish a comm link, but only get static.");
+                    FleetInteractionDialogPluginImpl.inConversation = false;
+                }
+                if (FleetInteractionDialogPluginImpl.inConversation) {
+                    visual.showPersonInfo(otherFleet.getCommander());
+                }
                 break;
             case CUT_COMM:
                 dialog.showTextPanel();
                 dialog.flickerStatic(0.1f, 0.1f);
-                addText(getString("cutComm"));
+
+//			addText(getString("cutComm"));
+//			visual.showFleetInfo((String)null, playerFleet, (String)null, otherFleet, context);
+//			updateMainState();
+                FleetInteractionDialogPluginImpl.inConversation = false;
+//			addText(getString("cutComm"));
                 visual.showFleetInfo((String) null, playerFleet, (String) null, otherFleet, context);
-                updateMainState();
+                //updateMainState();
+                optionSelected(null, OptionId.INIT);
+
                 break;
             case PURSUE:
                 playerGoal = FleetGoal.ATTACK;
@@ -579,7 +694,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 break;
             case HARRY_PURSUE:
                 addText(getString("playerHarass"));
-                context.applyPursuitOption(playerFleet, otherFleet, CampaignFleetAIAPI.PursuitOption.HARRY);
+                context.applyPursuitOption(playerFleet, otherFleet, PursuitOption.HARRY);
                 context.setEngagedInHostilities(true);
                 context.getDataFor(playerFleet).setDisengaged(false);
                 context.getDataFor(otherFleet).setDisengaged(true);
@@ -594,31 +709,21 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 addText(getString("playerLetGo"));
                 context.getDataFor(playerFleet).setDisengaged(!context.isEngagedInHostilities());
                 context.getDataFor(otherFleet).setDisengaged(true);
-//			options.clearOptions();
-//			options.addOption("Leave", OptionId.LEAVE, null);
                 goToEncounterEndPath();
-			//updateMainState();
-                //dialog.dismiss();
-                break;
-            case HARRY:
-                applyWinnerOption(CampaignFleetAIAPI.PostEngagementOption.HARRY);
-                if (context.getDataFor(otherFleet).getInReserveDuringLastEngagement().isEmpty()) {
-                    addText(getString("playerHarryNoReserves"));
-                } else {
-                    addText(getString("playerHarry"));
-                }
-                addPostBattleAttitudeText();
-                updateMainState();
-                break;
-            case SALVAGE:
-                applyWinnerOption(CampaignFleetAIAPI.PostEngagementOption.SALVAGE);
-                addText(getString("playerSalvage"));
-                addPostBattleAttitudeText();
-                updateMainState();
                 break;
             case STAND_DOWN:
-                applyWinnerOption(CampaignFleetAIAPI.PostEngagementOption.STAND_DOWN);
+                applyWinnerOption(PostEngagementOption.STAND_DOWN);
                 addText(getString("playerStandDown"));
+                addPostBattleAttitudeText();
+                updateMainState();
+                break;
+            case MAINTAIN_CONTACT:
+                applyWinnerOption(PostEngagementOption.MAINTAIN_CONTACT);
+                if (context.getDataFor(otherFleet).getInReserveDuringLastEngagement().isEmpty()) {
+                    addText(getString("playerMaintainContactNoReserves"));
+                } else {
+                    addText(getString("playerMaintainContact"));
+                }
                 addPostBattleAttitudeText();
                 updateMainState();
                 break;
@@ -704,7 +809,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 }
                 break;
             case ENGAGE_BOARDABLE:
-                FleetEncounterContext.EngageBoardableOutcome outcome = context.engageBoardableShip(toBoard, otherFleet, playerFleet);
+                EngageBoardableOutcome outcome = context.engageBoardableShip(toBoard, otherFleet, playerFleet);
                 switch (outcome) {
                     case DESTROYED:
                         addText(getString("engageBoardableDestroyed"));
@@ -736,7 +841,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case HARD_DOCK:
                 initBoardingParty();
                 if (boardingParty != null) {
-                    boardingAttackType = FleetEncounterContext.BoardingAttackType.SHIP_TO_SHIP;
+                    boardingAttackType = BoardingAttackType.SHIP_TO_SHIP;
                     boardingResult = context.boardShip(toBoard, boardingParty, boardingAttackType, boardingTaskForce, playerFleet, otherFleet);
                     goToEncounterEndPath();
                 }
@@ -744,54 +849,33 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             case LAUNCH_ASSAULT_TEAMS:
                 initBoardingParty();
                 if (boardingParty != null) {
-                    boardingAttackType = FleetEncounterContext.BoardingAttackType.LAUNCH_FROM_DISTANCE;
+                    boardingAttackType = BoardingAttackType.LAUNCH_FROM_DISTANCE;
                     boardingResult = context.boardShip(toBoard, boardingParty, boardingAttackType, boardingTaskForce, playerFleet, otherFleet);
                     goToEncounterEndPath();
                 }
                 break;
         }
     }
-    public void optionMousedOver(String optionText, Object optionData) {
 
-//		if (optionData == OptionId.HARD_DOCK) {
-//			options.setTooltip(OptionId.HARD_DOCK, "Crew: " + options.getSelectorValue(OptionId.SELECTOR_CREW));
-//		}
-        if (optionData == null) {
-            if (currVisualType != VisualType.FLEET_INFO) {
-                visual.showFleetInfo((String) null, playerFleet, (String) null, otherFleet, context);
-                currVisualType = VisualType.FLEET_INFO;
-            }
-            lastOptionMousedOver = null;
-            return;
-        }
-        OptionId option = (OptionId) optionData;
-        if (option == lastOptionMousedOver) {
-            return;
-        }
-        lastOptionMousedOver = option;
+    private boolean okToLeave = false;
+    private boolean didRepairs = false;
+    private boolean didBoardingCheck = false;
+    private boolean pickedMemberToBoard = false;
+    private FleetMemberAPI toBoard = null;
+    private String repairedShipList = null;
+    private String boardingTaskForceList = null;
+    private String crashMothballList = null;
+    private List<FleetMemberAPI> boardingTaskForce = null;
+    private int boardingPhase = 0;
+    private CrewCompositionAPI maxBoardingParty = null;
+    private CrewCompositionAPI boardingParty = null;
+    private BoardingAttackType boardingAttackType = null;
+    private BoardingResult boardingResult = null;
+    private FleetMemberAPI selectedFlagship = null;
+    private FleetMemberAPI origFlagship = null;
 
-//		if (option == OptionId.LET_THEM_GO) {
-//			visual.showImagePortion("illustrations", "space_wreckage", 800, 800, 0, 0, 400, 400);
-//			currVisualType = VisualType.OTHER;
-//		} else if (option == OptionId.PURSUE) {
-//			visual.showImagePortion("illustrations", "hull_breach", 400, 400, 0, 0, 400, 400);
-//			currVisualType = VisualType.OTHER;
-//		} else if (option == OptionId.HARRY_PURSUE) {
-//			visual.showImagePortion("illustrations", "hound_hangar", 800, 800, 0, 0, 400, 400);
-//			currVisualType = VisualType.OTHER;
-//		} else {
-//			if (currVisualType != VisualType.FLEET_INFO) {
-//				visual.showFleetInfo((String)null, playerFleet, (String)null, otherFleet, context);
-//				currVisualType = VisualType.FLEET_INFO;
-//			}
-//		}
-    }
-    public void advance(float amount) { }
-    public Object getContext() { return context; }
-    public void coreUIDismissed() {
-            optionSelected(null, OptionId.INIT_NO_TEXT);
-    }
-    
+    private InitialBoardingResponse aiBoardingResponse = null;
+
     private void goToEncounterEndPath() {
         if (context.didPlayerWinEncounter()) {
             winningPath();
@@ -799,6 +883,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             losingPath();
         }
     }
+
     private void losingPath() {
         options.clearOptions();
 
@@ -812,7 +897,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         boolean playerHasReadyShips = !playerFleet.getFleetData().getCombatReadyMembersListCopy().isEmpty();
         boolean otherHasReadyShips = !otherFleet.getFleetData().getCombatReadyMembersListCopy().isEmpty();
         boolean totalDefeat = !playerFleet.isValidPlayerFleet();
-        boolean mutualDestruction = context.getLastEngagementOutcome() == FleetEncounterContextPlugin.EngagementOutcome.MUTUAL_DESTRUCTION;
+        boolean mutualDestruction = context.getLastEngagementOutcome() == EngagementOutcome.MUTUAL_DESTRUCTION;
         if (!didBoardingCheck) {
             didBoardingCheck = true;
             toBoard = context.pickShipToBoard(otherFleet, playerFleet);
@@ -828,7 +913,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
 
             if (mutualDestruction) {
                 addText(getString("mutualDestructionRepairs"));
-                aiBoardingResponse = CampaignFleetAIAPI.InitialBoardingResponse.LET_IT_GO;
+                aiBoardingResponse = InitialBoardingResponse.LET_IT_GO;
             } else {
                 if (totalDefeat) {
                     addText(getString("lastFriendlyShipRepairs"));
@@ -839,7 +924,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             }
 
             if (!otherHasReadyShips) {
-                aiBoardingResponse = CampaignFleetAIAPI.InitialBoardingResponse.LET_IT_GO;
+                aiBoardingResponse = InitialBoardingResponse.LET_IT_GO;
             }
 
             options.addOption("Continue", OptionId.CONTINUE_INTO_BOARDING, null);
@@ -851,7 +936,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 case BOARD:
                     break;
                 case ENGAGE:
-                    FleetEncounterContext.EngageBoardableOutcome outcome = context.engageBoardableShip(toBoard, playerFleet, otherFleet);
+                    EngageBoardableOutcome outcome = context.engageBoardableShip(toBoard, playerFleet, otherFleet);
                     switch (outcome) {
                         case DESTROYED:
                             if (totalDefeat) {
@@ -898,44 +983,49 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             visual.showFleetInfo((String) null, playerFleet, (String) null, otherFleet, context);
         }
 
-        context.scrapDisabledShipsAndGenerateLoot();
+        context.generateLoot();
         context.autoLoot();
         context.repairShips();
         options.addOption("Leave", OptionId.LEAVE, null);
     }
-    private void addPostBattleAttitudeText() {
-        if (!context.wasLastEngagementEscape()) {
-            if (context.didPlayerWinLastEngagement()) {
-                addText(getString("cleanDisengageOpportunity"));
-            }
-        }
-        if (!isFightingOver()) {
-            if (otherFleetWantsToFight()) {
-                addText(getString("postBattleAggressive"));
-            } else if (otherFleetWantsToDisengage()) {
-                if (!otherCanDisengage()) {
-                    addText(getString("postBattleAggressive"));
-                } else {
-                    addText(getString("postBattleDisengage"));
-                }
-            } else {
-                if (otherFleetHoldingVsStrongerEnemy()) {
-                    addText(getString("postBattleHoldVsStrongerEnemy"));
-                } else {
-                    addText(getString("postBattleNeutral"));
-                }
-            }
-        }
+
+    private boolean recoveredCrew = false;
+    private boolean lootedCredits = false;
+    private String creditsLooted = null;
+
+    // sun_ice
+    void removeSoldShipsFromPlayerFleet() {
+        
     }
+    
     private void winningPath() {
         options.clearOptions();
-        FleetEncounterContextPlugin.DataForEncounterSide playerData = context.getDataFor(playerFleet);
+        DataForEncounterSide playerData = context.getDataFor(playerFleet);
         context.getDataFor(otherFleet).setDisengaged(true);
 
         if (!recoveredCrew) {
             recoveredCrew = true;
             if (playerData.getRecoverableCrewLosses().getTotalCrew() + playerData.getRecoverableCrewLosses().getMarines() > 0) {
                 addText(getString("recoveryReport"));
+                DataForEncounterSide data = context.getDataFor(playerFleet);
+                int crewRecovered = (int) data.getRecoverableCrewLosses().getTotalCrew();
+                int marinesRecovered = (int) data.getRecoverableCrewLosses().getMarines();
+                String crewRecStr = "" + crewRecovered;
+                if (crewRecovered <= 0) {
+                    crewRecStr = "no";
+                }
+                String marinesRecStr = "" + marinesRecovered;
+                if (marinesRecovered <= 0) {
+                    marinesRecStr = "no";
+                }
+                //if (crewRecStr != null && marinesRecStr != null) {
+                textPanel.highlightInLastPara(HIGHLIGHT_COLOR, crewRecStr, marinesRecStr);
+				//} else if (crewRecStr != null) {
+                //textPanel.highlightInLastPara(HIGHLIGHT_COLOR, crewRecStr);
+                //} else if (marinesRecStr != null) {
+                //textPanel.highlightInLastPara(HIGHLIGHT_COLOR, marinesRecStr);
+                //}
+
                 context.recoverCrew(playerFleet);
             }
         }
@@ -964,10 +1054,10 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             playerCanBoard = true;
         }
         boolean playerHasPersonnel = playerFleet.getCargo().getMarines() > 0
-                || playerFleet.getCargo().getCrew(CargoAPI.CrewXPLevel.GREEN) > 0
-                || playerFleet.getCargo().getCrew(CargoAPI.CrewXPLevel.REGULAR) > 0
-                || playerFleet.getCargo().getCrew(CargoAPI.CrewXPLevel.VETERAN) > 0
-                || playerFleet.getCargo().getCrew(CargoAPI.CrewXPLevel.ELITE) > 0;
+                || playerFleet.getCargo().getCrew(CrewXPLevel.GREEN) > 0
+                || playerFleet.getCargo().getCrew(CrewXPLevel.REGULAR) > 0
+                || playerFleet.getCargo().getCrew(CrewXPLevel.VETERAN) > 0
+                || playerFleet.getCargo().getCrew(CrewXPLevel.ELITE) > 0;
 
         boolean playerHasReadyShips = !playerFleet.getFleetData().getCombatReadyMembersListCopy().isEmpty();
 
@@ -985,6 +1075,9 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             visual.showFleetMemberInfo(toBoard);
 
             addText(getString("enemyShipBoardable"));
+            int numLifeSigns = (int) (toBoard.getCrewComposition().getTotalCrew() + toBoard.getCrewComposition().getMarines());
+            String approxLifeSigns = getApproximate(numLifeSigns);
+            textPanel.highlightInLastPara(HIGHLIGHT_COLOR, approxLifeSigns);
 
             boolean boardingOk = true;
             boolean engageOk = true;
@@ -1042,9 +1135,9 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         if (boardingResult != null) {
             if (boardingPhase == 0) {
                 boardingPhase++;
-                if (boardingAttackType == FleetEncounterContext.BoardingAttackType.LAUNCH_FROM_DISTANCE) {
+                if (boardingAttackType == BoardingAttackType.LAUNCH_FROM_DISTANCE) {
                     addText(getString("boardingApproachLaunch"));
-                } else if (boardingAttackType == FleetEncounterContext.BoardingAttackType.SHIP_TO_SHIP) {
+                } else if (boardingAttackType == BoardingAttackType.SHIP_TO_SHIP) {
                     addText(getString("boardingApproachDock"));
                 }
                 options.addOption("Continue", OptionId.CONTINUE_INTO_BOARDING, null);
@@ -1054,7 +1147,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             switch (boardingResult.getOutcome()) {
                 case SELF_DESTRUCT:
                     addText(getString("boardingOutcomeSelfDestruct"));
-                    if (boardingAttackType == FleetEncounterContext.BoardingAttackType.SHIP_TO_SHIP) {
+                    if (boardingAttackType == BoardingAttackType.SHIP_TO_SHIP) {
                         boolean lostShips = !boardingResult.getLostInSelfDestruct().isEmpty();
                         boolean lostAll = boardingTaskForce.size() == boardingResult.getLostInSelfDestruct().size();
 
@@ -1087,11 +1180,19 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                     break;
             }
 
-            if (boardingResult.getOutcome() == FleetEncounterContext.BoardingOutcome.SHIP_ESCAPED_CLEAN) {
+            if (boardingResult.getOutcome() == BoardingOutcome.SHIP_ESCAPED_CLEAN) {
                 addText(getString("boardingCleanEscapeMissedLaunch"));
+                String crewLost = getIntOrNo(boardingResult.getAttackerLosses().getTotalCrew());
+                String marinesLost = getIntOrNo(boardingResult.getAttackerLosses().getMarines());
+                textPanel.highlightInLastPara(HIGHLIGHT_COLOR, crewLost, marinesLost);
             } else {
                 if (playerFleet.isValidPlayerFleet()) {
                     addText(getString("boardingCasualtyReport"));
+                    String crewLost = getIntOrNo(boardingResult.getAttackerLosses().getTotalCrew());
+                    String marinesLost = getIntOrNo(boardingResult.getAttackerLosses().getMarines());
+                    String enemyCrewLost = getIntOrNo(boardingResult.getDefenderLosses().getTotalCrew());
+                    String enemyMarinesLost = getIntOrNo(boardingResult.getDefenderLosses().getMarines());
+                    textPanel.highlightInLastPara(HIGHLIGHT_COLOR, crewLost, marinesLost, enemyCrewLost, enemyMarinesLost);
                 }
             }
 
@@ -1102,9 +1203,10 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
 
         if (!lootedCredits) {
+            context.generateLoot();
             lootedCredits = true;
 
-            float credits = +context.computeCreditsLooted();
+            float credits = context.getCreditsLooted();
             creditsLooted = "" + (int) credits;
             if (credits > 0) {
                 addText(getString("creditsLootedReport"));
@@ -1113,7 +1215,6 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             }
         }
 
-        context.scrapDisabledShipsAndGenerateLoot();
         if (!context.getLoot().isEmpty() && playerFleet.isValidPlayerFleet()) {
             options.addOption("Pick through the salvage", OptionId.CONTINUE_LOOT, null);
         } else {
@@ -1123,6 +1224,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             options.addOption("Leave", OptionId.LEAVE, null);
         }
     }
+
     private List<FleetMemberAPI> getCrashMothballable(List<FleetMemberAPI> all) {
         List<FleetMemberAPI> result = new ArrayList<FleetMemberAPI>();
         CombatReadinessPlugin crPlugin = Global.getSettings().getCRPlugin();
@@ -1133,6 +1235,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
         return result;
     }
+
     private void initBoardingParty() {
         if (options.getSelectorValue(OptionId.SELECTOR_CREW) + options.getSelectorValue(OptionId.SELECTOR_MARINES) < 1) {
             return;
@@ -1149,26 +1252,83 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         boardingParty.setVeteran((int) (maxBoardingParty.getVeteran() * f));
         boardingParty.setElite((int) (maxBoardingParty.getElite() * f));
     }
-    private void applyWinnerOption(CampaignFleetAIAPI.PostEngagementOption option) {
+
+    private void applyWinnerOption(PostEngagementOption option) {
         if (lastResult == null) {
             return;
         }
         context.applyPostEngagementOption(lastResult, option);
         lastResult = null;
     }
+
+    private OptionId lastOptionMousedOver = null;
+
+    public void optionMousedOver(String optionText, Object optionData) {
+
+        if (FleetInteractionDialogPluginImpl.inConversation) {
+            conversationDelegate.optionMousedOver(optionText, optionData);
+            return;
+        }
+
+        if (optionData instanceof String) {
+            return;
+        }
+
+//		if (optionData == OptionId.HARD_DOCK) {
+//			options.setTooltip(OptionId.HARD_DOCK, "Crew: " + options.getSelectorValue(OptionId.SELECTOR_CREW));
+//		}
+        if (optionData == null) {
+            if (currVisualType != VisualType.FLEET_INFO) {
+                visual.showFleetInfo((String) null, playerFleet, (String) null, otherFleet, context);
+                currVisualType = VisualType.FLEET_INFO;
+            }
+            lastOptionMousedOver = null;
+            return;
+        }
+        OptionId option = (OptionId) optionData;
+        if (option == lastOptionMousedOver) {
+            return;
+        }
+        lastOptionMousedOver = option;
+
+//		if (option == OptionId.LET_THEM_GO) {
+//			visual.showImagePortion("illustrations", "space_wreckage", 800, 800, 0, 0, 400, 400);
+//			currVisualType = VisualType.OTHER;
+//		} else if (option == OptionId.PURSUE) {
+//			visual.showImagePortion("illustrations", "hull_breach", 400, 400, 0, 0, 400, 400);
+//			currVisualType = VisualType.OTHER;
+//		} else if (option == OptionId.HARRY_PURSUE) {
+//			visual.showImagePortion("illustrations", "hound_hangar", 800, 800, 0, 0, 400, 400);
+//			currVisualType = VisualType.OTHER;
+//		} else {
+//			if (currVisualType != VisualType.FLEET_INFO) {
+//				visual.showFleetInfo((String)null, playerFleet, (String)null, otherFleet, context);
+//				currVisualType = VisualType.FLEET_INFO;
+//			}
+//		}
+    }
+
+    public void advance(float amount) {
+
+    }
+
     private void addText(String text) {
         textPanel.addParagraph(text);
     }
+
     private void appendText(String text) {
         textPanel.appendToLastParagraph(" " + text);
     }
+
     private void updateDialogState() {
         options.clearOptions();
         options.addOption("Cut the comm link", OptionId.CUT_COMM, null);
     }
+
     private void updatePreCombat() {
         options.clearOptions();
 
+        playerFleet.updateCounts();
         int nonFighters = playerFleet.getFleetData().getMembersListCopy().size() - playerFleet.getNumFighters();
         if (playerGoal == FleetGoal.ATTACK && otherGoal == FleetGoal.ESCAPE) {
             String tooltipText = getString("tooltipPursueAutoresolve");
@@ -1177,7 +1337,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             if (nonFighters <= 1) {
                 options.setEnabled(OptionId.SELECT_FLAGSHIP, false);
             }
-            options.addOption("Take personal command of the action", OptionId.CONTINUE_INTO_BATTLE, null);
+            options.addOption("Take command of the action", OptionId.CONTINUE_INTO_BATTLE, null);
         } else {
             options.addOption("Transfer command for this engagement", OptionId.SELECT_FLAGSHIP, getString("tooltipSelectFlagship"));
             if (nonFighters <= 1) {
@@ -1196,55 +1356,30 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             }
             options.addOption("Continue", OptionId.CONTINUE_INTO_BATTLE, null);
         }
-        if (Global.getSettings().isDevMode()) {
-            options.addOption("Go back", OptionId.GO_TO_MAIN, null);
-        }
+        //if (Global.getSettings().isDevMode()) {
+            options.addOption("Cancel", OptionId.GO_TO_MAIN, null);
+        //}
     }
+
     private void updatePostCombat(EngagementResultAPI result) {
         options.clearOptions();
 
         if (result.didPlayerWin()) {
-            boolean hasHarry = false;
-            //boolean playerHasReadyShips = !playerFleet.getFleetData().getCombatReadyMembersListCopy().isEmpty();
-            if (!result.getLoserResult().getFleet().getFleetData().getMembersListCopy().isEmpty()
-                    && !isFightingOver()
-                    && !context.getDataFor(result.getLoserResult().getFleet()).getInReserveDuringLastEngagement().isEmpty()) {
-                //options.addOption("Harry the retreating enemy forces", OptionId.HARRY, getString("tooltipHarry"));
-                options.addOption("Harry the enemy reserves", OptionId.HARRY, getString("tooltipHarry"));
-                hasHarry = true;
-            } else {
-                String tooltipText = null;
-                if (isFightingOver()) {
-                    //tooltipText = getString("tooltipHarryUnavailableBattleOver");
-                } else if (result.getLoserResult().getFleet().getFleetData().getMembersListCopy().isEmpty()) {
-                    tooltipText = getString("tooltipHarryUnavailableTotalWin");
-                    options.addOption("Harry the enemy reserves", OptionId.HARRY, tooltipText);
-                    options.setEnabled(OptionId.HARRY, false);
-                } else if (context.getDataFor(result.getLoserResult().getFleet()).getInReserveDuringLastEngagement().isEmpty()) {
-                    //tooltipText = getString("tooltipHarryUnavailableNoReserves");
-                    tooltipText = getString("tooltipHarryNoReserves");
-                    options.addOption("Harry the retreating enemy forces", OptionId.HARRY, tooltipText);
-                    hasHarry = true;
-                }
-//				if (tooltipText != null) {
-//					options.addOption("Harry the enemy reserves", OptionId.HARRY, tooltipText);
-//					options.setEnabled(OptionId.HARRY, false);
-//				}
-            }
             float recoveryFraction = context.getStandDownRecoveryFraction();
-            boolean hasStandDown = recoveryFraction > 0;
-            boolean hasSalvage = !result.getLoserResult().getDestroyed().isEmpty()
-                    || !result.getLoserResult().getDisabled().isEmpty()
-                    || !result.getWinnerResult().getDestroyed().isEmpty()
-                    || !result.getWinnerResult().getDisabled().isEmpty();
-            if (hasSalvage) {
-                options.addOption("Send out salvage teams", OptionId.SALVAGE, getString("tooltipSalvage"));
-            } else {
-                options.addOption("Send out salvage teams", OptionId.SALVAGE, getString("tooltipSalvageUnavailable"));
-                options.setEnabled(OptionId.SALVAGE, false);
+            boolean hasStandDown = recoveryFraction >= 0.01f;
+
+            if (!result.getLoserResult().getFleet().getFleetData().getMembersListCopy().isEmpty()
+                    && !isFightingOver()) {
+                options.addOption("Maintain contact with the enemy", OptionId.MAINTAIN_CONTACT, getString("tooltipMaintainContact"));
+            } else if (!hasStandDown) {
+				//options.addOption("Continue", OptionId.MAINTAIN_CONTACT);//, getString("tooltipMaintainContact"));
+                // won't actually stand down, but will process lost enemy ships etc
+                applyWinnerOption(PostEngagementOption.STAND_DOWN);
+                updateMainState();
+                return;
             }
 
-            if (hasStandDown || (!hasSalvage && !hasHarry)) { // failsafe so at least this option is always available
+            if (hasStandDown) {
                 options.addOption("Order your deployed forces to stand down", OptionId.STAND_DOWN, getString("tooltipStandDown"));
                 String rfStr = "" + (int) (recoveryFraction * 100f) + "%";
                 options.setTooltipHighlightColors(OptionId.STAND_DOWN, HIGHLIGHT_COLOR);
@@ -1257,6 +1392,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             updateMainState();
         }
     }
+
     private String createShipNameListString(List<FleetMemberAPI> members) {
         String str = "";
         int fighters = 0;
@@ -1309,6 +1445,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
         return str;
     }
+
     private void updateMainState() {
         options.clearOptions();
 
@@ -1335,8 +1472,8 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             boolean canPursue = false;
             boolean canHasass = false;
 
-            FleetEncounterContextPlugin.PursueAvailability pa = context.getPursuitAvailability(playerFleet, otherFleet);
-            FleetEncounterContextPlugin.DisengageHarryAvailability dha = context.getDisengageHarryAvailability(playerFleet, otherFleet);
+            PursueAvailability pa = context.getPursuitAvailability(playerFleet, otherFleet);
+            DisengageHarryAvailability dha = context.getDisengageHarryAvailability(playerFleet, otherFleet);
 
             switch (pa) {
                 case AVAILABLE:
@@ -1395,22 +1532,18 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 options.addOption("Move in to engage", OptionId.ENGAGE, getString("tooltipNoReadyShips"));
                 options.setEnabled(OptionId.ENGAGE, false);
             }
-            
-            
-            
+
             // sun_ice
-            
-            if (otherFleet.getFaction().getRelationship(playerFleet.getFaction().getId()) >= 0) {
+            RepLevel rep = otherFleet.getFaction().getRelationshipLevel(playerFleet.getFaction());
+            if (rep.compareTo(RepLevel.SUSPICIOUS) >= 0) {
                 options.addOption("Trade, or hire personnel", OptionId.TRADE_CARGO);
                 options.setShortcut(OptionId.TRADE_CARGO, Keyboard.KEY_I, false, false, false, true);
                 options.addOption("Buy or sell ships", OptionId.TRADE_SHIPS, null);
                 options.setShortcut(OptionId.TRADE_SHIPS, Keyboard.KEY_F, false, false, false, true);
+                options.addOption("Make use of the colony ship's refitting station", OptionId.REFIT);
+                options.setShortcut(OptionId.REFIT, Keyboard.KEY_R, false, false, false, true);
             }
-            
-            
-            
-            
-            
+
             CampaignFleetAIAPI ai = otherFleet.getAI();
             boolean hostile = false;
             if (ai != null) {
@@ -1419,8 +1552,8 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             if (otherFleetWantsToFight() || (hostile && !otherFleetWantsToDisengage())) {
                 if (canDisengageCleanly(playerFleet)) {
                     options.addOption("Disengage", OptionId.DISENGAGE, getString("tooltipCleanDisengage"));
-                } else if (canDisengageWithoutPursuit(playerFleet) || !otherFleetWantsToFight()) {
-                    options.addOption("Disengage", OptionId.DISENGAGE, getString("tooltipHarrassableDisengage"));
+//				} else if (canDisengageWithoutPursuit(playerFleet) || !otherFleetWantsToFight()) {
+//					options.addOption("Disengage", OptionId.DISENGAGE, getString("tooltipHarrassableDisengage"));
                 } else {
                     if (canDisengage() || !playerHasReadyShips) {
                         options.addOption("Attempt to disengage", OptionId.ATTEMPT_TO_DISENGAGE, getString("tootipAttemptToDisengage"));
@@ -1434,7 +1567,12 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
                 options.addOption("Leave", OptionId.LEAVE, null);
             }
         }
+
+        if (Global.getSettings().isDevMode()) {
+            DumpMemory.addOption(dialog);
+        }
     }
+
     private boolean canDisengage() {
         float total = 0f;
         for (FleetMemberAPI member : playerFleet.getFleetData().getMembersListCopy()) {
@@ -1444,6 +1582,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
         return total <= getDisengageSize();
     }
+
     private boolean otherCanDisengage() {
         float total = 0f;
         for (FleetMemberAPI member : otherFleet.getFleetData().getMembersListCopy()) {
@@ -1453,26 +1592,30 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
         return total <= getDisengageSize();
     }
+
     private float getDisengageSize() {
         float abs = Global.getSettings().getFloat("maxDisengageSize");
         float fraction = Global.getSettings().getFloat("maxDisengageFraction") * Global.getSettings().getBattleSize();
         return Math.min(abs, fraction);
     }
+
     private boolean canDisengageCleanly(CampaignFleetAPI fleet) {
-        FleetEncounterContextPlugin.DataForEncounterSide data = context.getDataFor(fleet);
+        DataForEncounterSide data = context.getDataFor(fleet);
         if (data.isWonLastEngagement()) {
             return true;
         }
         return false;
     }
+
     private boolean canDisengageWithoutPursuit(CampaignFleetAPI fleet) {
         CampaignFleetAPI other = playerFleet;
         if (other == fleet) {
             other = otherFleet;
         }
-        FleetEncounterContextPlugin.PursueAvailability pa = context.getPursuitAvailability(other, fleet);
-        return pa != FleetEncounterContextPlugin.PursueAvailability.AVAILABLE;
+        PursueAvailability pa = context.getPursuitAvailability(other, fleet);
+        return pa != PursueAvailability.AVAILABLE;
     }
+
     private String getString(String id) {
         String str = Global.getSettings().getString("fleetInteractionDialog", id);
 
@@ -1488,7 +1631,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             }
         }
 
-        FleetEncounterContextPlugin.DataForEncounterSide data = context.getDataFor(playerFleet);
+        DataForEncounterSide data = context.getDataFor(playerFleet);
         int crewLost = (int) (data.getCrewLossesDuringLastEngagement().getTotalCrew());
         String crewLostStr = getApproximate(crewLost);
 
@@ -1558,12 +1701,14 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
 
         return str;
     }
+
     private String getIntOrNo(float value) {
         if (value < 1) {
             return "no";
         }
         return "" + (int) value;
     }
+
     private String getApproximate(float value) {
         int v = (int) value;
         String str = "multiple";
@@ -1583,6 +1728,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         }
         return str;
     }
+
     private boolean isFightingOver() {
         return context.isBattleOver()
                 || (context.getDataFor(otherFleet).disengaged() && context.getDataFor(playerFleet).disengaged());
@@ -1590,6 +1736,7 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
 //			   context.getDataFor(otherFleet).getLastGoal() == FleetGoal.ESCAPE;
         //return context.getWinnerData().getLastGoal() == FleetGoal.ESCAPE || context.getLoserData().getLastGoal() == FleetGoal.ESCAPE;
     }
+
     private boolean otherFleetWantsToFight() {
         boolean hasNonCivReserves = false;
         for (FleetMemberAPI member : context.getDataFor(otherFleet).getInReserveDuringLastEngagement()) {
@@ -1609,16 +1756,18 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
             return false;
         }
         return (ai.isHostileTo(playerFleet) || context.isEngagedInHostilities())
-                && ai.pickEncounterOption(context, playerFleet) == CampaignFleetAIAPI.EncounterOption.ENGAGE;
+                && ai.pickEncounterOption(context, playerFleet) == EncounterOption.ENGAGE;
     }
+
     private boolean otherFleetHoldingVsStrongerEnemy() {
         CampaignFleetAIAPI ai = otherFleet.getAI();
         if (ai == null) {
             return false;
         }
         boolean hostile = ai.isHostileTo(playerFleet) || context.isEngagedInHostilities();
-        return hostile && ai.pickEncounterOption(context, playerFleet) == CampaignFleetAIAPI.EncounterOption.HOLD_VS_STRONGER;
+        return hostile && ai.pickEncounterOption(context, playerFleet) == EncounterOption.HOLD_VS_STRONGER;
     }
+
     private boolean otherFleetWantsToDisengage() {
         boolean hasNonCivReserves = false;
         for (FleetMemberAPI member : context.getDataFor(otherFleet).getInReserveDuringLastEngagement()) {
@@ -1637,6 +1786,10 @@ public class RefugeeFleetInteractionDialogPlugin implements InteractionDialogPlu
         if (ai == null) {
             return false;
         }
-        return ai.pickEncounterOption(context, playerFleet) == CampaignFleetAIAPI.EncounterOption.DISENGAGE;
+        return ai.pickEncounterOption(context, playerFleet) == EncounterOption.DISENGAGE;
+    }
+
+    public Object getContext() {
+        return context;
     }
 }

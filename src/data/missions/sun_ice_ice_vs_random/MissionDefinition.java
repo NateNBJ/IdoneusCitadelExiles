@@ -1,5 +1,6 @@
 package data.missions.sun_ice_ice_vs_random;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;

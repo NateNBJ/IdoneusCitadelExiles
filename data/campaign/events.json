@@ -1,0 +1,6 @@
+{
+	"sun_ice_exodus":{
+		"script":"data.campaign.events.ExodusEvent",
+		"image":"graphics/sun_ice/icons/intel/colony_fleet.png",
+	},
+}

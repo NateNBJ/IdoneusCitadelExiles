@@ -30,6 +30,7 @@ import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class IceUtils {
     static Map<String, Float> shieldUpkeeps;
@@ -325,7 +326,8 @@ public class IceUtils {
         return cellLoc;
     }
     public static void log(String str) {
-        Global.getLogger(IceUtils.class).debug(str);
+        throw new NotImplementedException();
+        //Global.getLogger(IceUtils.class).debug(str);
     }
     public static void print(String str) {
         print(Global.getCombatEngine().getPlayerShip(), str);

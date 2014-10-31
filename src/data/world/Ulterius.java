@@ -1,25 +1,17 @@
 package data.world;
 
 import java.awt.Color;
-import java.util.List;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CargoAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
-import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
-import com.fs.starfarer.api.campaign.FactionAPI;
-import com.fs.starfarer.api.fleet.FleetMemberType;
-import java.util.ArrayList;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Ulterius {
-
     public static final Map VENDOR_SHIPS = new HashMap();
     public static final Map VENDOR_WINGS = new HashMap();
     public static final Map VENDOR_WEAPONS = new HashMap();
@@ -27,140 +19,139 @@ public class Ulterius {
     public static final int VENDOR_SUPPLIES = 2000;
     public static final int VENDOR_FUEL = 3000;
     public static final int VENDOR_MARINES = 100;
-    public static SectorEntityToken STATION;
 
-    static {
-        VENDOR_CREW.put(CrewXPLevel.GREEN, 500);
-        VENDOR_CREW.put(CrewXPLevel.REGULAR, 1000);
-        VENDOR_CREW.put(CrewXPLevel.VETERAN, 100);
-        VENDOR_CREW.put(CrewXPLevel.ELITE, 25);
-
-        VENDOR_SHIPS.put("sun_ice_shalom_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_abraxas_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_apocrypha_Hull", 1);
-        
-        VENDOR_SHIPS.put("sun_ice_voidreaver_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_kelpie_Standard", 1);
-        VENDOR_SHIPS.put("sun_ice_eidolon_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_soulbane_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_nightseer_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_athame_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_specter_Hull", 1);
-        //VENDOR_SHIPS.put("sun_ice_flashghast_Hull", 1);
-        //VENDOR_SHIPS.put("sun_ice_pentagram_Standard", 1);
-        VENDOR_SHIPS.put("sun_ice_shiekwraith_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_seraph_Hull", 1);
-        VENDOR_SHIPS.put("sun_ice_palantir_Hull", 1);
-
-        VENDOR_WINGS.put("sun_ice_poltergeist_wing", 1);
-        VENDOR_WINGS.put("sun_ice_phantom_wing", 1);
-        VENDOR_WINGS.put("sun_ice_umbra_wing", 1);
-        VENDOR_WINGS.put("sun_ice_stormwhisp_wing", 1);
-
-        VENDOR_WEAPONS.put("sun_ice_mobiusray", 6);
-        VENDOR_WEAPONS.put("sun_ice_boomerangpod", 12);
-        VENDOR_WEAPONS.put("sun_ice_hypermassbomb", 3);
-        VENDOR_WEAPONS.put("sun_ice_flamebolt", 8);
-        VENDOR_WEAPONS.put("sun_ice_hexac", 16);
-        VENDOR_WEAPONS.put("sun_ice_boomerang", 20);
-        VENDOR_WEAPONS.put("sun_ice_scatterpd", 18);
-        VENDOR_WEAPONS.put("sun_ice_lighthexac", 24);
-        VENDOR_WEAPONS.put("sun_ice_minepod", 8);
-        //VENDOR_WEAPONS.put("sun_ice_gandiva", 10);
-        VENDOR_WEAPONS.put("sun_ice_nos", 8);
-        VENDOR_WEAPONS.put("sun_ice_chupacabra", 14);
-        VENDOR_WEAPONS.put("sun_ice_falx", 16);
-        //VENDOR_WEAPONS.put("sun_ice_spitfire", 10);
+    public static void resetColonyFleetMarket() {
+        Data.ExileMarket.getConnectedEntities().clear();
+        Data.ExileMarket.setPrimaryEntity(Data.PhantomEntity);
+        Data.PhantomEntity.setMarket(Data.ExileMarket);
     }
+    public void createColonyFleetMarket() {
+        Data.ExileMarket = Global.getFactory().createMarket(
+                "sun_ice_colony_fleet_market", "The Exiled Idoneus Colony Fleet", 3);
+        Data.ExileMarket.setFactionId("sun_ice");
+        
+        Data.ExileMarket.addSubmarket("open_market");
+        Data.ExileMarket.addSubmarket("generic_military");
+        Data.ExileMarket.addSubmarket("black_market");
+        
+        Data.ExileMarket.addCondition("population_3");
+        Data.ExileMarket.addCondition("large_refugee_population");
+        Data.ExileMarket.addCondition("free_market");
+        //Data.ExileMarket.addCondition("trade_center");
+        Data.ExileMarket.addCondition("sun_ice_colony_fleet");
+        //Data.ExileMarket.addCondition("sun_ice_exotic_tech");
+        
+        Data.ExileMarket.getTariff().modifyFlat("sun_ice_colony_fleet_market", 0.25f);
+        
+        resetColonyFleetMarket();
+        
+        Global.getSector().getEconomy().addMarket(Data.ExileMarket);
+    }    
+    public void createIdoneusCitadelMarket() {
+        MarketAPI market = Global.getFactory().createMarket(
+                "sun_ice_idoneus_citadel_market", "The Idoneus Citadel", 3);
+        market.setFactionId("sun_ici");
+        
+        market.addSubmarket("open_market");
+        market.addSubmarket("generic_military");
+        market.addSubmarket("black_market");
+        market.addSubmarket("storage");
+        
+        market.addCondition("population_5");
+        //market.addCondition("sun_ice_exotic_tech");
+        market.addCondition("orbital_station");
+        market.addCondition("spaceport");
+        market.addCondition("urbanized_polity");
+        market.addCondition("military_base");
+        market.addCondition("stealth_minefields");
+        market.addCondition("headquarters");
+        
+        market.getTariff().modifyFlat("sun_ice_idoneus_citadel_market", 0.35f);
+        
+        market.setPrimaryEntity(Data.IdoneusCitadel);
+        Data.IdoneusCitadel.setMarket(market);
+        
+        Global.getSector().getEconomy().addMarket(market);
+    }
+    public StarSystemAPI createUlterius() {
+        SectorAPI sector = Global.getSector();
+        Data.Ulterius = sector.createStarSystem("Ulterius");
 
+        Data.Ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
+        
+//        // create the star and generate the hyperspace anchor for this Ulterius
+//        PlanetAPI star = Ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
+//                200f, // radius (in pixels at default zoom)
+//                -16138, -24973);   // location in hyperspace
+        
+        
+        
+        
+        PlanetAPI star = Data.Ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
+                200f, // radius (in pixels at default zoom)
+                -161380, -249730);   // location in hyperspace
+        SectorEntityToken relay = Data.Ulterius.addCustomEntity("sun_ice_ulterius_relay",
+                    "Ulterius Relay", "comm_relay", "independent");
+        relay.setCircularOrbit(star, 150, 500, 200);
+        
+        
+        
+        
+
+        Data.Ulterius.setLightColor(new Color(255, 238, 193)); // light color in entire Ulterius, affects all entities
+
+        Data.Ulterius.autogenerateHyperspaceJumpPoints(true, true);
+        
+        return Data.Ulterius;
+    }
+    
     public void generate() {
         SectorAPI sector = Global.getSector();
-        StarSystemAPI system = sector.createStarSystem("Ulterius");
-        LocationAPI hyper = Global.getSector().getHyperspace();
+        
+        createUlterius();
+        Data.PhantomEntity = Data.Ulterius.getStar();
+        sector.removeStarSystem(Data.Ulterius);
+        
+        StarSystemAPI system = sector.getStarSystem("Arcadia");
+        //StarSystemAPI system = sector.getStarSystem("Corvus");
+        
+        
+        
 
-        system.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
-
-        // create the star and generate the hyperspace anchor for this system
-        PlanetAPI star = system.initStar("brown_dwarf_star", // id in planets.json
-                200f, // radius (in pixels at default zoom)
-                -16138, -24973);   // location in hyperspace
-
-        system.setLightColor(new Color(255, 238, 193)); // light color in entire system, affects all entities
-
-        STATION = system.addOrbitalStation(star, 76, 700, 30, "Citadel", "sun_ici");
-        initStationCargo();
-
-        system.autogenerateHyperspaceJumpPoints(true, true);
+//        Data.IdoneusCitadel = system.addOrbitalStation("sun_ice_idoneus_citadel",
+//                system.getStar(), "stations", "sun_ice_idoneus_citadel", 160, 76,
+//                210, 900, "Idoneus Citadel", "sun_ici");
+        
+        
+        Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
+                "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
+        Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 21000, 900);
+        Data.IdoneusCitadel.setCustomDescriptionId("station_jangala");
+        
+        
+//        SHALOM = Ulterius.addCustomEntity("sun_ice_exiled_colony_ship", "Shalom class Colony Ship",
+//                "sun_ice_exiled_colony_ship", "sun_ice");
+//        SHALOM.getLocation().set(IdoneusCitadel.getLocation());
+        
+        
+        createColonyFleetMarket();
+        createIdoneusCitadelMarket();
+        
+//        StarSystemAPI corvus = Global.getSector().getStarSystem("Corvus");
+//        corvus.addOrbitalStation("sun_ice_idoneus_citadel2", corvus.getStar(), 76, 700, 30, "Idoneus Citadel2", "sun_ice");
+//        makeTestStation();
+        
+        
+        
 
         BaseSpawnPoint spawn;
-
-        int systems = sector.getStarSystems().size();
-        int fleets = (int) Math.max(1, systems / 6f);
-
-        //Global.getLogger(Ulterius.class).log(Level.INFO, "stuffs " + fleets);
-        spawn = new RefugeeSpawnPoint(sector, system, 16f / systems, fleets, STATION);
+//64f
+        spawn = new RefugeeSpawnPoint(sector, system, 64f, 1, Data.IdoneusCitadel);
         system.addScript(spawn);
-        //spawn.spawnFleet();
 
-        spawn = new BlockadeSpawnPoint(sector, system, 15, 3, STATION);
-        system.addScript(spawn);
-        spawn.spawnFleet();
-
-        FactionAPI ici = sector.getFaction("sun_ici");
-        List factions = new ArrayList(sector.getAllFactions());
-        factions.remove(ici);
-
-        for (Iterator iter = factions.iterator(); iter.hasNext();) {
-            FactionAPI faction = (FactionAPI) iter.next();
-            ici.setRelationship(faction.getId(), -1);
-        }
-    }
-
-    public static void resetStationCargo() {
-        CargoAPI cargo = Global.getSector().getStarSystem("Ulterius").getEntityByName("Citadel").getCargo();
-
-        cargo.clear();
-        cargo.getMothballedShips().clear();
-
-        initStationCargo();
-    }
-
-    private static void initStationCargo() {
-        CargoAPI cargo = Global.getSector().getStarSystem("Ulterius").getEntityByName("Citadel").getCargo();
-
-        cargo.addMarines(VENDOR_MARINES);
-        cargo.addSupplies(VENDOR_SUPPLIES);
-        cargo.addFuel(VENDOR_FUEL);
-
-        cargo.addCrew(CrewXPLevel.GREEN, (Integer) VENDOR_CREW.get(CrewXPLevel.GREEN));
-        cargo.addCrew(CrewXPLevel.REGULAR, (Integer) VENDOR_CREW.get(CrewXPLevel.REGULAR));
-        cargo.addCrew(CrewXPLevel.VETERAN, (Integer) VENDOR_CREW.get(CrewXPLevel.VETERAN));
-        cargo.addCrew(CrewXPLevel.ELITE, (Integer) VENDOR_CREW.get(CrewXPLevel.ELITE));
-
-        for (Iterator iter = VENDOR_SHIPS.keySet().iterator(); iter.hasNext();) {
-            String id = (String) iter.next();
-            int count = (Integer) VENDOR_SHIPS.get(id);
-
-            for (int i = 0; i < count; ++i) {
-                cargo.getMothballedShips().addFleetMember(Global.getFactory()
-                        .createFleetMember(FleetMemberType.SHIP, id));
-            }
-        }
-
-        for (Iterator iter = VENDOR_WINGS.keySet().iterator(); iter.hasNext();) {
-            String id = (String) iter.next();
-            int count = (Integer) VENDOR_WINGS.get(id);
-
-            for (int i = 0; i < count; ++i) {
-                cargo.getMothballedShips().addFleetMember(Global.getFactory()
-                        .createFleetMember(FleetMemberType.FIGHTER_WING, id));
-            }
-        }
-
-        for (Iterator iter = VENDOR_WEAPONS.keySet().iterator(); iter.hasNext();) {
-            String id = (String) iter.next();
-
-            cargo.addWeapons(id, (Integer) VENDOR_WEAPONS.get(id));
-        }
+        
+//        spawn = new BlockadeSpawnPoint(sector, Ulterius, 15, 1, IdoneusCitadel);
+//        Ulterius.addScript(spawn);
+//        spawn.spawnFleet();
     }
 }

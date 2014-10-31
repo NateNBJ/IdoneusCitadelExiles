@@ -23,5 +23,5 @@
 	"pixelsPerTexel":5.0,
 	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER],
 	#"fireSoundOne":"phase_beam_intro",
-	"fireSoundTwo":"phase_beam_loop",	
+	"fireSoundTwo":"chupacabra_loop",	
 }

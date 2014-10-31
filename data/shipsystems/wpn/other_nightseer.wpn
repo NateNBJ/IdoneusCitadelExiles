@@ -14,5 +14,6 @@
 	"barrelMode":"ALTERNATING",
 	"animationType":"NONE",
 	"projectileSpecId":"shredder_shot",
-	#"renderBelowAllWeapons":true
+	"showDamageWhenDecorative":true,
+	"renderBelowAllWeapons":false
 }

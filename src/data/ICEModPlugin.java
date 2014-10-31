@@ -4,6 +4,10 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
+import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.campaign.RepLevel;
+import com.fs.starfarer.api.campaign.SectorAPI;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.combat.DroneLauncherShipSystemAPI;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -25,10 +29,14 @@ import data.ai.weapon.NosAutofireAIPlugin;
 import data.ai.weapon.NovaDischargerAutofireAIPlugin;
 import data.ai.weapon.PdDroneAutofireAIPlugin;
 import data.ai.weapon.RecallAutofireAIPlugin;
+import data.world.Data;
 import data.world.ICECampaignPlugin;
 import data.world.ICEEveryFrameScript;
 import data.world.Ulterius;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
 
@@ -36,9 +44,59 @@ public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_ENABLED = false;
     public static boolean EXERELIN_ENABLED = false;
     public static final boolean SMILE_FOR_CAMERA = false;
-    public static Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
+    public static final Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
+    
+    static void initFactionRelations() {
+        SectorAPI sector = Global.getSector();
+        FactionAPI ice, ici, hgm, tty, ind, snd, lud, prt, player;
+        ice = sector.getFaction("sun_ice");
+        ici = sector.getFaction("sun_ici");
+        hgm = sector.getFaction("hegemony");
+        tty = sector.getFaction("tritachyon");
+        ind = sector.getFaction("independent");
+        snd = sector.getFaction("sindrian_diktat");
+        lud = sector.getFaction("luddic_church");
+        prt = sector.getFaction("pirates");
+        player = sector.getFaction("player");
 
-    public static void tryToEnableLighting() {
+        ice.setRelationship(hgm.getId(), RepLevel.HOSTILE);
+        ice.setRelationship(prt.getId(), RepLevel.HOSTILE);
+        ice.setRelationship(snd.getId(), RepLevel.HOSTILE);
+        ice.setRelationship(lud.getId(), RepLevel.HOSTILE);
+        ice.setRelationship(ind.getId(), RepLevel.SUSPICIOUS);
+        ice.setRelationship(tty.getId(), RepLevel.SUSPICIOUS);
+        ice.setRelationship(player.getId(), RepLevel.SUSPICIOUS);
+
+        List factions = new ArrayList(sector.getAllFactions());
+        factions.remove(ici);
+
+        for (Iterator iter = factions.iterator(); iter.hasNext();) {
+            FactionAPI faction = (FactionAPI) iter.next();
+            ici.setRelationship(faction.getId(), RepLevel.HOSTILE);
+        }
+        
+        ici.setRelationship(player.getId(), RepLevel.SUSPICIOUS);
+        ici.setRelationship(ind.getId(), RepLevel.SUSPICIOUS);
+        ici.setRelationship(snd.getId(), RepLevel.SUSPICIOUS);
+        ici.setRelationship(tty.getId(), RepLevel.SUSPICIOUS);
+        
+        factions.remove(ice);
+        factions.remove(player);
+
+        for (Iterator iter = factions.iterator(); iter.hasNext();) {
+            FactionAPI faction = (FactionAPI) iter.next();
+            if (faction.getRelationship(ice.getId()) == 0) {
+                float relation = -0.5f;
+                relation -= faction.getRelationship(hgm.getId()) * 0.5f;
+                relation -= faction.getRelationship(lud.getId()) * 0.5f;
+                relation -= faction.getRelationship(prt.getId()) * 0.3f;
+                relation = Math.min(1, Math.max(-1, relation));
+
+                ice.setRelationship(faction.getId(), relation);
+            }
+        }
+    }
+    static void tryToEnableLighting() {
         try {
             Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");
             ShaderLib.init();
@@ -63,19 +121,45 @@ public class ICEModPlugin extends BaseModPlugin {
     
     @Override
     public void onGameLoad() {
-//        StarSystemAPI star = Global.getSector().getStarSystem("Ulterius");
-//        if(star == null) {
-//            onNewGame();
-//        }
+        
+        Data.load();
+        
+        if(Data.IdoneusCitadel == null) {
+            onNewGame();
+            onNewGameAfterEconomyLoad();
+            onNewGameAfterTimePass();
+        }
+    }
+
+    @Override
+    public void beforeGameSave() {
+        Data.save();
     }
 
     @Override
     public void onNewGame() {
+        Data.load(); // In order to initialize defaults
+        
         if(!EXERELIN_ENABLED) {
             new Ulterius().generate();
             Global.getSector().registerPlugin(new ICECampaignPlugin());
             Global.getSector().addScript(new ICEEveryFrameScript());
         }
+    }
+    @Override
+    public void onNewGameAfterEconomyLoad() {
+//        for(MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
+//            float pop = (float) Math.pow(10, m.getSize());
+//            float demand = (m.hasCondition("military_base") ? 0.02f : 0.005f) * pop;
+//            m.getDemand("sun_ice_tech").getDemand().modifyFlat("sun_ice_base_idoneus_tech_demand", demand);
+//        }
+    }
+
+    @Override
+    public void onNewGameAfterTimePass() {
+        super.onNewGameAfterTimePass();
+        
+        initFactionRelations();
     }
 
     @Override

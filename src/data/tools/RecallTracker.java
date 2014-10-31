@@ -54,12 +54,16 @@ public class RecallTracker {
         
         
 
-//        boolean destinationChanged = !PREVIOUS_DESTINATION.containsKey(ally)
-//                ||  MathUtils.getDistance(destination, PREVIOUS_DESTINATION.get(ally)) > 100;
-//        
-//        float minimumDistanceGain = destinationChanged ? 500 : 2500;
+        boolean destinationChanged = !PREVIOUS_DESTINATION.containsKey(ally)
+                ||  MathUtils.getDistance(destination, PREVIOUS_DESTINATION.get(ally)) > 100;
         
-        float minimumDistanceGain = 1500;
+        float minimumDistanceGain = destinationChanged ? 500 : 2500;
+        
+//        if(destinationChanged) {
+//            IceUtils.print(ally, "Recalculating");
+//        }
+        
+        //float minimumDistanceGain = 1500;
         
         PREVIOUS_DESTINATION.put(ally, destination);
         
@@ -76,6 +80,7 @@ public class RecallTracker {
         float distFromRecalled = MathUtils.getDistance(idealRecallLoc, destination);
 
         priority = (int)((distFromCurrent - distFromRecalled - minimumDistanceGain) / 5000 * IceUtils.getFP(ally));
+        priority = Math.max(0, priority);
         
         
         //IceUtils.print(ally, ((destinationChanged) ? "Changed - " : "") + priority);

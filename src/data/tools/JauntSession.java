@@ -67,7 +67,11 @@ public class JauntSession {
         Color c = ship.getSpriteAPI().getColor();
         c = new Color(c.getRed(), c.getGreen(), c.getBlue(), a);
         ship.getSpriteAPI().setColor(c);
-        for(WeaponAPI w : ship.getAllWeapons()) w.getSprite().setColor(c);
+        for(WeaponAPI w : ship.getAllWeapons()) {
+            w.getSprite().setColor(c);
+            if(w.getBarrelSpriteAPI() != null) w.getBarrelSpriteAPI().setColor(c);
+            if(w.getUnderSpriteAPI()!= null) w.getUnderSpriteAPI().setColor(c);
+        }
     }
     boolean pointIsClear(Vector2f at) {
         for(ShipAPI s : Global.getCombatEngine().getShips()) {

@@ -142,11 +142,11 @@ public class Faction {
                 if(faction.isValid) all.put(faction.id, faction);
             }
         } catch (JSONException e) {
-            Global.getLogger(Faction.class).error("JSONException", e);
+            //Global.getLogger(Faction.class).error("JSONException", e);
             all = null;
             return null;
         } catch (IOException e) {
-            Global.getLogger(Faction.class).error("IOException", e);
+            //Global.getLogger(Faction.class).error("IOException", e);
             all = null;
             return null;
         }
@@ -165,6 +165,28 @@ public class Faction {
     Set<String> fighters = new HashSet();
     Set<String> civilians = new HashSet();
     
+    final void incorporateVariantID(String id) {
+        if(id.equals("fallback")) return;
+        
+        FleetMemberType type = id.endsWith("_wing")
+                ? FleetMemberType.FIGHTER_WING : FleetMemberType.SHIP;
+
+        FleetMemberAPI member = Global.getFactory().createFleetMember(type, id);
+
+        if(member.isFighterWing()) {
+            fighters.add(id);
+        } else if(member.getHullSpec().getHints().contains(ShipTypeHints.CIVILIAN)) {
+            civilians.add(member.getHullId());
+            addVariant(member.getHullId(), id);
+        } else {
+            warships.add(member.getHullId());
+            addVariant(member.getHullId(), id);
+        }
+
+        if(member.getFleetPointCost() > mostFP) {
+            mostFP = member.getFleetPointCost();
+        } 
+    }
     void addVariant(String shipID, String variantID) {
         if(variantID.endsWith("_Hull")) return;
         
@@ -197,10 +219,7 @@ public class Faction {
         catch (JSONException e) { shipNamePrefix = ""; }
         
         try { description = json.getString("description"); }
-        catch (JSONException e) { description = ""; }
-        
-        if(!json.has("fleetCompositions")) { return; }
-        
+        catch (JSONException e) { description = ""; }        
         
         if(id.equals("templars")) {
             fighters.add("tem_teuton_fighter_wing");
@@ -241,28 +260,22 @@ public class Faction {
             warships.add("ii_titan");
         }
         
-        for(JSONObject fleet : getFleets(json.getJSONObject("fleetCompositions"))) {
-            for(String variant : getKeys(fleet.getJSONObject("ships"))) {
-                FleetMemberType type = variant.endsWith("_wing")
-                        ? FleetMemberType.FIGHTER_WING : FleetMemberType.SHIP;
-                
-                FleetMemberAPI member = Global.getFactory().createFleetMember(type, variant);
-                
-                if(member.isFighterWing()) {
-                    fighters.add(variant);
-                } else if(member.getHullSpec().getHints().contains(ShipTypeHints.CIVILIAN)) {
-                    civilians.add(member.getHullId());
-                    addVariant(member.getHullId(), variant);
-                } else {
-                    warships.add(member.getHullId());
-                    addVariant(member.getHullId(), variant);
+        
+        if(json.has("shipRoles")) {
+            for(JSONObject roles : getFleets(json.getJSONObject("shipRoles"))) {
+                for(String variant : getKeys(roles)) {
+                    incorporateVariantID(variant);
                 }
-                
-                if(member.getFleetPointCost() > mostFP) {
-                    mostFP = member.getFleetPointCost();
-                } 
+            }   
+        } else if(json.has("fleetCompositions")) {
+            for(JSONObject fleet : getFleets(json.getJSONObject("fleetCompositions"))) {
+                for(String variant : getKeys(fleet.getJSONObject("ships"))) {
+                    incorporateVariantID(variant);
+                }
             }
         }
+        
+        
         
         if(warships.isEmpty() || fighters.isEmpty()) return;
         

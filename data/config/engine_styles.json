@@ -8,7 +8,7 @@
 		"contrailColor":[160,240,220,5],
 		"type":"SMOKE"
 	},
-	"SUN_ICE_MISSILE":{
+	"OLD_SUN_ICE_MISSILE":{
 		"engineColor":[160,240,220,120],
 		"contrailParticleSizeMult":4,
 		"contrailParticleDuration":6.0,
@@ -16,6 +16,18 @@
 		"contrailAngularVelocityMult":0.0f,
 		"contrailColor":[203,248,235,30],
 		"type":"SMOKE"
+	},
+	"SUN_ICE_MISSILE":{
+		"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+		"engineColor":[160,240,220,120],
+		"contrailDuration":2,
+		"contrailWidthMult":1,
+		"contrailWidthAddedFractionAtEnd":0.5,  # can be negative. makes trail spread out/narrow at the end
+		"contrailMinSeg":5, # min segment length, in pixels
+		"contrailMaxSpeedMult":0.5f,
+		"contrailAngularVelocityMult":0.5f,
+		"contrailColor":[203,248,235,70],
+		"type":"SMOKE" # GLOW or SMOKE; additive or regular blend mode
 	},
 	"SUN_ICE_SYSTEM":{
 		"engineColor":[255,221,127,120],

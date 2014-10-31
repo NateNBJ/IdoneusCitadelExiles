@@ -8,6 +8,7 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 
 public class ICECampaignPlugin extends BaseCampaignPlugin {
+    
     @Override
     public String getId() {
         return null;
@@ -21,7 +22,7 @@ public class ICECampaignPlugin extends BaseCampaignPlugin {
     @Override
     public PluginPick<InteractionDialogPlugin> pickInteractionDialogPlugin(SectorEntityToken interactionTarget) {
         String name = interactionTarget.getFullName();
-        if (interactionTarget instanceof CampaignFleetAPI && name.equals("Idoneus Refugee Fleet")) {
+        if (interactionTarget instanceof CampaignFleetAPI && name.equals("Exiled Idoneus Colony Fleet")) {
             return new PluginPick<InteractionDialogPlugin>(new RefugeeFleetInteractionDialogPlugin(), PickPriority.MOD_SPECIFIC);
         }
         return null;

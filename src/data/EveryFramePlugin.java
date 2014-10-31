@@ -6,6 +6,7 @@ import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipCommand;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
+import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.ai.ship.BraindeadTempAI;
 import data.tools.JauntSession;
@@ -17,6 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 public class EveryFramePlugin implements EveryFrameCombatPlugin {
+    @Override
+    public void renderInWorldCoords(ViewportAPI viewport) { return; }
+    @Override
+    public void renderInUICoords(ViewportAPI viewport) { return; }
+    
     public interface ProjectileEffectAPI {
         void advance(float amount);
     }
@@ -162,7 +168,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         
         clearBonuses();
                 
-        if(engine.isPaused()) return;
+        if(engine == null || engine.isPaused()) return;
         
         checkFissionDrillUsageByPlayer();
         refundShieldUpkeepFlux(amount);

@@ -1,5 +1,11 @@
 {
 	"graphics":{
+		"stations":{
+			"sun_ice_idoneus_citadel":"graphics/sun_ice/stations/idoneus_citadel.png",
+		},
+		"illustrations":{
+			"cargo_loading":"graphics/illustrations/cargo_loading.jpg",
+		},
 	},
 	"plugins":{
 		"sun_ice_every_frame_script":"data.EveryFramePlugin",
