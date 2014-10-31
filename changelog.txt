@@ -1,5 +1,6 @@
 
 ----<  ICE version 0.2.0   >------------------------------------------------------------------------------
+
 ADDITIONS
 - Full compatibility with Starsector 0.65
 - A huge nomadic colony fleet with a fully functional market
