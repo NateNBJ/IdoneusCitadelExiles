@@ -53,7 +53,7 @@ public class NovaReactor extends BaseHullMod
 
         if(newArmor >= limit) return;
 
-        newArmor += ARMOR_REPAIR_MULTIPLIER * amount;
+        newArmor += ARMOR_REPAIR_MULTIPLIER * amount * ship.getCurrentCR();
         armorGrid.setArmorValue(x, y, Math.min(limit, newArmor));
         
          if(Math.random() < SPARK_CHANCE) {

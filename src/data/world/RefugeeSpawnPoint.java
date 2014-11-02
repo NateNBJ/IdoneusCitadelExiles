@@ -25,17 +25,6 @@ public class RefugeeSpawnPoint extends BaseSpawnPoint {
         Data.ExileMarket.setPrimaryEntity(fleet);
         fleet.setMarket(Data.ExileMarket);
         fleet.setInteractionImage("illustrations", "cargo_loading");
-
-//        BaseSpawnPoint spawn;
-//
-//        spawn = new GuardianSpawnPoint(getSector(), destination, 21.453f, 1, fleet);
-//        destination.addScript(spawn);
-//
-//        spawn = new RaiderSpawnPoint(getSector(), destination, 11.946f, 2, fleet);
-//        destination.addScript(spawn);
-//
-//        spawn = new ScoutSpawnPoint(getSector(), destination, 5.057f, 5, fleet);
-//        destination.addScript(spawn);
         
         Global.getSector().getEventManager().startEvent(
                 new CampaignEventTarget(fleet), "sun_ice_exodus", null);

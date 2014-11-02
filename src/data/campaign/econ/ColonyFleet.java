@@ -27,7 +27,7 @@ public class ColonyFleet extends BaseMarketConditionPlugin {
         float stabilityModification = -1;
         
         if(market.getPrimaryEntity() instanceof CampaignFleetAPI) {
-            stabilityModification += ((CampaignFleetAPI)market.getPrimaryEntity()).getFleetPoints() / 100f;
+            stabilityModification += ((CampaignFleetAPI)market.getPrimaryEntity()).getFleetPoints() / 130f;
         }
         
         market.getStability().modifyFlat(id, stabilityModification, "Fleet Size");

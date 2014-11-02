@@ -7,7 +7,7 @@ import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,58 +48,42 @@ public class Ulterius {
         Global.getSector().getEconomy().addMarket(Data.ExileMarket);
     }    
     public void createIdoneusCitadelMarket() {
-        MarketAPI market = Global.getFactory().createMarket(
-                "sun_ice_idoneus_citadel_market", "The Idoneus Citadel", 3);
-        market.setFactionId("sun_ici");
+        Data.CitadelMarket = Global.getFactory().createMarket(
+                "sun_ice_idoneus_citadel_market", "Idoneus Citadel", 3);
+        Data.CitadelMarket.setFactionId("sun_ici");
         
-        market.addSubmarket("open_market");
-        market.addSubmarket("generic_military");
-        market.addSubmarket("black_market");
-        market.addSubmarket("storage");
+        Data.CitadelMarket.addSubmarket("open_market");
+        Data.CitadelMarket.addSubmarket("generic_military");
+        Data.CitadelMarket.addSubmarket("black_market");
+        Data.CitadelMarket.addSubmarket("storage");
         
-        market.addCondition("population_5");
-        //market.addCondition("sun_ice_exotic_tech");
-        market.addCondition("orbital_station");
-        market.addCondition("spaceport");
-        market.addCondition("urbanized_polity");
-        market.addCondition("military_base");
-        market.addCondition("stealth_minefields");
-        market.addCondition("headquarters");
+        Data.CitadelMarket.addCondition("population_5");
+        //Data.CitadelMarket.addCondition("sun_ice_exotic_tech");
+        Data.CitadelMarket.addCondition("orbital_station");
+        Data.CitadelMarket.addCondition("spaceport");
+        Data.CitadelMarket.addCondition("urbanized_polity");
+        Data.CitadelMarket.addCondition("military_base");
+        Data.CitadelMarket.addCondition("stealth_minefields");
+        Data.CitadelMarket.addCondition("headquarters");
         
-        market.getTariff().modifyFlat("sun_ice_idoneus_citadel_market", 0.35f);
+        Data.CitadelMarket.getTariff().modifyFlat("sun_ice_idoneus_citadel_market", 0.35f);
         
-        market.setPrimaryEntity(Data.IdoneusCitadel);
-        Data.IdoneusCitadel.setMarket(market);
+        Data.CitadelMarket.setPrimaryEntity(Data.IdoneusCitadel);
+        Data.IdoneusCitadel.setMarket(Data.CitadelMarket);
         
-        Global.getSector().getEconomy().addMarket(market);
+        Global.getSector().getEconomy().addMarket(Data.CitadelMarket);
     }
     public StarSystemAPI createUlterius() {
         SectorAPI sector = Global.getSector();
         Data.Ulterius = sector.createStarSystem("Ulterius");
-
         Data.Ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
-        
-//        // create the star and generate the hyperspace anchor for this Ulterius
-//        PlanetAPI star = Ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
-//                200f, // radius (in pixels at default zoom)
-//                -16138, -24973);   // location in hyperspace
-        
-        
-        
-        
         PlanetAPI star = Data.Ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
                 200f, // radius (in pixels at default zoom)
                 -161380, -249730);   // location in hyperspace
         SectorEntityToken relay = Data.Ulterius.addCustomEntity("sun_ice_ulterius_relay",
                     "Ulterius Relay", "comm_relay", "independent");
         relay.setCircularOrbit(star, 150, 500, 200);
-        
-        
-        
-        
-
-        Data.Ulterius.setLightColor(new Color(255, 238, 193)); // light color in entire Ulterius, affects all entities
-
+        Data.Ulterius.setLightColor(new Color(255, 238, 193));
         Data.Ulterius.autogenerateHyperspaceJumpPoints(true, true);
         
         return Data.Ulterius;
@@ -122,11 +106,10 @@ public class Ulterius {
 //                system.getStar(), "stations", "sun_ice_idoneus_citadel", 160, 76,
 //                210, 900, "Idoneus Citadel", "sun_ici");
         
-        
+//        
         Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
                 "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
-        Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 21000, 900);
-        Data.IdoneusCitadel.setCustomDescriptionId("station_jangala");
+        Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 16000, 900);
         
         
 //        SHALOM = Ulterius.addCustomEntity("sun_ice_exiled_colony_ship", "Shalom class Colony Ship",
@@ -134,14 +117,27 @@ public class Ulterius {
 //        SHALOM.getLocation().set(IdoneusCitadel.getLocation());
         
         
+        
+//	PlanetAPI a1 = system.addPlanet("sun_ice_test", system.getStar(), "HRHRG", "rocky_metallic", 0, 150, 2900, 100);
+//        
+//        Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
+//                "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
+//        Data.IdoneusCitadel.setCircularOrbit(a1, 76, 210, 900);
+        
         createColonyFleetMarket();
         createIdoneusCitadelMarket();
+        
+//        a1.setMarket(Data.CitadelMarket);
+//        Data.CitadelMarket.setPrimaryEntity(a1);
         
 //        StarSystemAPI corvus = Global.getSector().getStarSystem("Corvus");
 //        corvus.addOrbitalStation("sun_ice_idoneus_citadel2", corvus.getStar(), 76, 700, 30, "Idoneus Citadel2", "sun_ice");
 //        makeTestStation();
         
         
+        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
+        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ici");
+        //SharedData.getData().getMarketsWithoutPatrolSpawn().add(Data.ExileMarket.getId());
         
 
         BaseSpawnPoint spawn;

@@ -20,7 +20,7 @@ public class RecallBeamEffect implements BeamEffectPlugin {
     
     ShipAPI ship;
     TreeMap<Integer, List<RecallTracker>> recallQueue;
-    IntervalTracker timer = new IntervalTracker(0.1f, 0.5f);
+    IntervalTracker doRecallTimer = new IntervalTracker(0.1f, 0.5f);
     CombatEngineAPI engine;
 
     void collectRecallRequests(WeaponAPI weapon) {
@@ -72,6 +72,6 @@ public class RecallBeamEffect implements BeamEffectPlugin {
         
         if(recallQueue == null) collectRecallRequests(beam.getWeapon());
         
-        if(timer.intervalElapsed()) selectAnAllyToRecall();
+        if(doRecallTimer.intervalElapsed()) selectAnAllyToRecall();
     }
 }

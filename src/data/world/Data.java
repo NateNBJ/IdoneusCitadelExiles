@@ -7,6 +7,7 @@ package data.world;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
@@ -24,7 +25,8 @@ public class Data {
             PhantomEntity;
     
     public static MarketAPI
-            ExileMarket;
+            ExileMarket,
+            CitadelMarket;
     
     public static StarSystemAPI
             Ulterius;
@@ -34,6 +36,10 @@ public class Data {
     
     public static Boolean
             SendTradeOffers;
+    
+    public static FactionAPI
+            Exiles,
+            Garrison;
     
     static Map<String, Object> map;
     
@@ -46,9 +52,12 @@ public class Data {
         IdoneusCitadel = (SectorEntityToken)get("IdoneusCitadel");
         PhantomEntity = (SectorEntityToken)get("PhantomEntity");
         ExileMarket = (MarketAPI)get("ExileMarket");
+        CitadelMarket = (MarketAPI)get("CitadelMarket");
         Ulterius = (StarSystemAPI)get("Ulterius");
         ExileFleet = (CampaignFleetAPI)get("ExileFleet");
         SendTradeOffers = (Boolean)get("SendTradeOffers", true);
+        Exiles = (FactionAPI)get("Exiles");
+        Garrison = (FactionAPI)get("Garrison");
         
         isLoaded = true;
     }
@@ -58,9 +67,12 @@ public class Data {
         put("IdoneusCitadel", IdoneusCitadel);
         put("PhantomEntity", PhantomEntity);
         put("ExileMarket", ExileMarket);
+        put("CitadelMarket", CitadelMarket);
         put("Ulterius", Ulterius);
         put("ExileFleet", ExileFleet);
         put("SendTradeOffers", SendTradeOffers);
+        put("Exiles", Exiles);
+        put("Garrison", Garrison);
     }
     static Object get(String key) {
         return get(key, null);

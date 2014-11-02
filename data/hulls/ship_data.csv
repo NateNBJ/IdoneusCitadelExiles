@@ -1,10 +1,10 @@
 name,id,designation,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,supplies/day,repair %/day,repair cost,CR to deploy,peak CR sec,CR loss/sec,hints,number
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Maintenance Drone,sun_ice_drone_mx,,,,225,120,30,300,0,,350,500,300,250,500,5,PHASE,sun_ice_phasecloak,,,,0,0,,,,,,,,,,,,,,,,9267.01
+Maintenance Drone,sun_ice_drone_mx,,,,225,120,30,300,0,,350,500,300,250,500,5,PHASE,sun_ice_phasecloak_drone,,,,0,0,,,,,,,,,,,,,,,,9267.01
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Phantom,sun_ice_phantom_wing,,sun_ice_fluxdrive,,450,100,200,600,80,0,175,180,25,100,180,30,NONE,,,,,,,1,1,,,,,8,,1.5,3,0,12,,,,9267.02
 Poltergeist,sun_ice_poltergeist_wing,,,,600,175,300,800,120,0,140,230,50,150,360,50,NONE,,,,,,,2,2,,,,,7,,1.5,5,0,14,,,,9267.03
-Stormwhisp,sun_ice_stormwhisp_wing,,,,675,150,500,900,150,0,120,120,80,130,200,70,PHASE,sun_ice_phasewarp,,,,0.2,0.05,2,2,,,,,7,,1.5,3,0,16,,,,9267.04
+Stormwhisp,sun_ice_stormwhisp_wing,,,,675,150,500,900,150,0,120,120,80,130,200,70,PHASE,sun_ice_phasewarp_fighter,,,,0.2,0.05,2,2,,,,,7,,1.5,3,0,16,,,,9267.04
 Umbra,sun_ice_umbra_wing,,sun_ice_divebomb,,900,600,100,1200,20,0,130,130,90,120,150,100,NONE,,,,,,,4,4,,,,,7,,1.5,5,0,24,,,,9267.05
 Attack Drone,sun_ice_drone_attack_wing,,,,190,75,100,250,40,0,120,100,80,100,180,20,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,9267.06
 PD Drone,sun_ice_drone_pd_wing,,,,375,100,100,500,40,0,160,180,120,150,360,15,NONE,,,,,,,1,1,,,,,7,,1,1,0,1,,,,9267.07

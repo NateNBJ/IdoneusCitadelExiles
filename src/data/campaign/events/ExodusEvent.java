@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class ExodusEvent extends BaseEventPlugin {
-    static final float DAYS_BETWEEN_TRADE_OFFERS = 12f;
+    static final float DAYS_BETWEEN_TRADE_OFFERS = 16f;
     static final float DAYS_BEFORE_INITIAL_TRADE_OFFERS = 3f;
     
     float elapsedDays = 0f;
@@ -60,6 +60,8 @@ public class ExodusEvent extends BaseEventPlugin {
         if(!exiles.isAlive() || theColonyShipDied()) {
             report("destroyed");
             Ulterius.resetColonyFleetMarket();
+            exiles.setMarket(null);
+            exiles.setName("Vagrant Fleet");
             Data.ExileFleet = null;
             ended = true;
         } else if(traveling && hasEnteredHyperspace &&
@@ -68,7 +70,7 @@ public class ExodusEvent extends BaseEventPlugin {
             hasEnteredHyperspace = traveling = false;
             elapsedDays = 0;
             dayOfNextTradeOffer = DAYS_BEFORE_INITIAL_TRADE_OFFERS;
-            daysToStay = 30 + (float)Math.random() * 60;
+            daysToStay = 20 + (float)Math.random() * 40;
         } else if(!traveling && elapsedDays > daysToStay) {
             previousSystem = destination.getBaseName();
             chooseNewHome();
@@ -76,6 +78,7 @@ public class ExodusEvent extends BaseEventPlugin {
             traveling = true;
         } else if(Data.SendTradeOffers && !traveling && elapsedDays >= dayOfNextTradeOffer
                 && !sector.getCurrentLocation().isHyperspace()
+                && exiles.getContainingLocation() == sector.getCurrentLocation()
                 && sector.getFaction("sun_ice").getRelationshipLevel("player").isAtWorst(RepLevel.SUSPICIOUS)) {
             report("tradeOffer");
             dayOfNextTradeOffer = elapsedDays + DAYS_BETWEEN_TRADE_OFFERS;
@@ -114,8 +117,8 @@ public class ExodusEvent extends BaseEventPlugin {
         destination = (StarSystemAPI) systems.get(new Random().nextInt(systems.size()));
 
         exiles.clearAssignments();
-        exiles.addAssignment(FleetAssignment.GO_TO_LOCATION, destination.getStar(), 100000);
-        exiles.addAssignment(FleetAssignment.RAID_SYSTEM, destination.getStar(), 100000);
+        exiles.addAssignment(FleetAssignment.GO_TO_LOCATION, destination.getStar(), 9999);
+        exiles.addAssignment(FleetAssignment.RAID_SYSTEM, destination.getStar(), 9999);
     }
     void report(String stage) {
         sector.reportEventStage(this, stage, exiles, MessagePriority.SECTOR);

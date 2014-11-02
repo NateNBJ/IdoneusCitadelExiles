@@ -1,4 +1,27 @@
 
+ADDITIONS
+- New mechanic added for the Exiled Idoneus Colony Fleet allowing it to merge with and detach smaller fleets
+	- Pursuit fleets will now detach from the colony fleet to run down enemy fleets it can't catch
+	- Vagrant fleets will now spawn from Idoneus Citadel, make their way to the colony fleet, and merge with it
+	- Lone duellists will occasionally branch off and terrorize the locals for a while
+	- These merges and separations follow the Law of Conservation of Matter and Energy, meaning the destruction
+	of ships in these smaller fleets weakens the colony fleet because those ships won't be re-added to it anymore
+- The two randomized missions have been re-added
+
+CONTENT CHANGES
+- Exiled Idoneus Colony Fleets now spawns with vanilla logistics ships
+- Maintenance drones are now bigger and easier to hit, with a new sprite
+
+BALANCE CHANGES
+- Maintenance drone phase cloaks now have a 2 second warm-up and cooldown time, during which they are vulnerable
+- Increased phase warp cooldown of Stormwhisps from 1 to 3 seconds
+- Abraxas armor regeneration now scales proportionally to CR, meaning an Abraxas with 0% CR won't regen at all
+
+BUGS FIXED
+- Exiled Idoneus Colony Fleet will no longer send trade notifications while in a system other than the player
+- Idoneus factions now offer bounties for both general enemies and specific fleets
+
+
 ----<  ICE version 0.2.0   >------------------------------------------------------------------------------
 
 ADDITIONS
@@ -18,6 +41,7 @@ AI IMPROVEMENTS
 BALANCE CHANGES
 - Doubled the price of all ships to reflect Starsector 0.65 changes
 - Greatly increased the deployment cost of all fighter wings to reflect Starsector 0.65 changes
+
 
 ----<  ICE version 0.1.0   >------------------------------------------------------------------------------
 

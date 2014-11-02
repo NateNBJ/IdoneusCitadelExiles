@@ -58,6 +58,9 @@ public class ICEModPlugin extends BaseModPlugin {
         lud = sector.getFaction("luddic_church");
         prt = sector.getFaction("pirates");
         player = sector.getFaction("player");
+        
+        Data.Exiles = ice;
+        Data.Garrison = ici;
 
         ice.setRelationship(hgm.getId(), RepLevel.HOSTILE);
         ice.setRelationship(prt.getId(), RepLevel.HOSTILE);
