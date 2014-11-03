@@ -99,7 +99,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         float wave2 = (0.5f + (float)Math.cos(time / 30) * 0.5f);
         float size = 1 - Data.ExileFleet.getFleetPoints() / 1000f;
         
-        float chance = 0.3f * size * wave1 * wave2;
+        float chance = 0.2f * size * wave1 * wave2;
         
         if(Math.random() > chance) return;
         

@@ -93,7 +93,7 @@
 		},
 		"combatCapital":{
 			"sun_ice_abraxas_Standard":10,
-			"sun_ice_apocrypha_Standard":10,
+			"sun_ice_apocrypha_Standard":6,
 			"sun_ice_voidreaver_Standard":6,
 			"fallback":{"combatLarge":2},
 		},
