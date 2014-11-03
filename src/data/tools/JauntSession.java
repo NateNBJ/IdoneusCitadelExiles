@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamagingProjectileAPI;
+import com.fs.starfarer.api.combat.MissileRenderDataAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import data.ai.ship.JauntTurnTempAI;
@@ -71,6 +72,12 @@ public class JauntSession {
             w.getSprite().setColor(c);
             if(w.getBarrelSpriteAPI() != null) w.getBarrelSpriteAPI().setColor(c);
             if(w.getUnderSpriteAPI()!= null) w.getUnderSpriteAPI().setColor(c);
+            
+            if(w.getMissileRenderData() != null) {
+                for(MissileRenderDataAPI m : w.getMissileRenderData()) {
+                    m.getSprite().setColor(c);
+                }
+            }
         }
     }
     boolean pointIsClear(Vector2f at) {

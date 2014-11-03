@@ -99,14 +99,6 @@ public class Ulterius {
         StarSystemAPI system = sector.getStarSystem("Arcadia");
         //StarSystemAPI system = sector.getStarSystem("Corvus");
         
-        
-        
-
-//        Data.IdoneusCitadel = system.addOrbitalStation("sun_ice_idoneus_citadel",
-//                system.getStar(), "stations", "sun_ice_idoneus_citadel", 160, 76,
-//                210, 900, "Idoneus Citadel", "sun_ici");
-        
-//        
         Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
                 "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
         Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 16000, 900);
@@ -116,38 +108,20 @@ public class Ulterius {
 //                "sun_ice_exiled_colony_ship", "sun_ice");
 //        SHALOM.getLocation().set(IdoneusCitadel.getLocation());
         
-        
-        
-//	PlanetAPI a1 = system.addPlanet("sun_ice_test", system.getStar(), "HRHRG", "rocky_metallic", 0, 150, 2900, 100);
-//        
-//        Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
-//                "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
-//        Data.IdoneusCitadel.setCircularOrbit(a1, 76, 210, 900);
-        
         createColonyFleetMarket();
         createIdoneusCitadelMarket();
-        
-//        a1.setMarket(Data.CitadelMarket);
-//        Data.CitadelMarket.setPrimaryEntity(a1);
-        
-//        StarSystemAPI corvus = Global.getSector().getStarSystem("Corvus");
-//        corvus.addOrbitalStation("sun_ice_idoneus_citadel2", corvus.getStar(), 76, 700, 30, "Idoneus Citadel2", "sun_ice");
-//        makeTestStation();
-        
         
         SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
         SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ici");
         //SharedData.getData().getMarketsWithoutPatrolSpawn().add(Data.ExileMarket.getId());
-        
 
         BaseSpawnPoint spawn;
-//64f
+
         spawn = new RefugeeSpawnPoint(sector, system, 64f, 1, Data.IdoneusCitadel);
         system.addScript(spawn);
-
         
-//        spawn = new BlockadeSpawnPoint(sector, Ulterius, 15, 1, IdoneusCitadel);
-//        Ulterius.addScript(spawn);
-//        spawn.spawnFleet();
+        spawn = new BlockadeSpawnPoint(sector, system, 15, 1, Data.IdoneusCitadel);
+        system.addScript(spawn);
+        spawn.spawnFleet();
     }
 }

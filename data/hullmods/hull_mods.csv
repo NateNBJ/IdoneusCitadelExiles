@@ -1,12 +1,19 @@
 name,id,unlocked,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,sprite
-Gravimetric Sensors,sun_ice_gravitonic_sensors_mod,FALSE,0,0,0,0,data.hullmods.GravimetricSensors,The Idoneus Fleet uses unconventional sensors that rely on graviton tracking. Modifies range of ballistic and energy weapons to be closer to 600 su by 50 percent. Also increases sensor range by 20 percent.,graphics/sun_ice/hullmods/gravimetric_sensors.png
-Reverberation Dampeners,sun_ice_reverb_dampeners_mod,FALSE,0,0,0,0,data.hullmods.ReverbDampeners,Reduces damage from collisions and kinetic damage by 75 percent. Does not apply to shields.,graphics/hullmods/generic_mod.png
-Graviton Deflector,sun_ice_graviton_deflector_mod,FALSE,0,0,0,0,data.hullmods.GravitonDeflector,"Deflects oncoming ordnance. Most effective with low flux. Disabled during venting, phasing, and while ship systems are active.",graphics/hullmods/generic_mod.png
-Nova Reactor,sun_ice_nova_reactor,FALSE,0,0,0,0,data.hullmods.NovaReactor,"Provides the energy to rapidly reconstruct the armor of every part of the ship but the nova reactor itself, located near the center.",graphics/hullmods/generic_mod.png
-Nutrition Resynthesis Annex,sun_ice_nutrition_resynth,FALSE,0,0,0,0,data.hullmods.NutritionResynth,"Reduces personell supply usage by 50 percent.
+Gravimetric Sensors,sun_ice_gravitonic_sensors_mod,FALSE,999,999,999,999,data.hullmods.GravimetricSensors,The Idoneus Fleet uses unconventional sensors that rely on graviton tracking. Modifies range of ballistic and energy weapons to be closer to 600 su by 50 percent. Also increases sensor range by 20 percent.,graphics/sun_ice/hullmods/gravimetric_sensors.png
+Reverberation Dampeners,sun_ice_reverb_dampeners_mod,FALSE,999,999,999,999,data.hullmods.ReverbDampeners,Reduces damage from collisions and kinetic damage by 75 percent. Does not apply to shields.,graphics/hullmods/generic_mod.png
+Graviton Deflector,sun_ice_graviton_deflector_mod,FALSE,999,999,999,999,data.hullmods.GravitonDeflector,"Deflects oncoming ordnance. Most effective with low flux. Disabled during venting, phasing, and while ship systems are active.",graphics/hullmods/generic_mod.png
+Nova Reactor,sun_ice_nova_reactor,FALSE,999,999,999,999,data.hullmods.NovaReactor,"Provides the energy to rapidly reconstruct the armor of every part of the ship but the nova reactor itself, located near the center.",graphics/hullmods/generic_mod.png
+Nutrition Resynthesis Annex,sun_ice_nutrition_resynth,FALSE,999,999,999,999,data.hullmods.NutritionResynth,"Reduces personell supply usage by 50 percent.
 
 [Bonus not shown in tooltips]",graphics/hullmods/generic_mod.png
+Recall Teleporter,sun_ice_recall_teleport_mod,FALSE,999,999,999,999,data.hullmods.RecallTeleporter,Allows friendly ships to teleport to a nearby location. Ships will only teleport if it brings them closer to their designated assignment.,graphics/hullmods/generic_mod.png
 Munitions AutoFac,sun_ice_munitions_autofac_mod,TRUE,5,10,20,40,data.hullmods.MunitionsAutoFac,"Refills one ordnance point worth of ammo every %s/%s/%s/%s seconds. The weapon with the least remaining ammo is refilled first.
 
 [Only compatible with ICE ships]",graphics/sun_ice/hullmods/munitions_autofac.png
 Tactical Ansible,sun_ice_tactical_ansible_mod,TRUE,20,25,30,35,data.hullmods.TacticalAnsible,Regenerates one command point per minute. Each controlled command relay increases the rate of command point regeneration by 200 percent.,graphics/sun_ice/hullmods/gravimetric_sensors.png
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,, ,,,,,,

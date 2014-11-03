@@ -9,6 +9,7 @@ ADDITIONS
 - The two randomized missions have been re-added
 
 CONTENT CHANGES
+- The Recall Teleporter is now a streamlined hullmod rather than an obtuse weapon
 - Exiled Idoneus Colony Fleets now spawns with vanilla logistics ships
 - Maintenance drones are now bigger and easier to hit, with a new sprite
 
@@ -20,6 +21,7 @@ BALANCE CHANGES
 BUGS FIXED
 - Exiled Idoneus Colony Fleet will no longer send trade notifications while in a system other than the player
 - Idoneus factions now offer bounties for both general enemies and specific fleets
+- Loaded missiles now become semi-transparent with the rest of the ship during phase jaunt
 
 
 ----<  ICE version 0.2.0   >------------------------------------------------------------------------------

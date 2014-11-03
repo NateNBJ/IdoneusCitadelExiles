@@ -75,11 +75,12 @@
   ],
   "builtInMods": [
     "sun_ice_gravitonic_sensors_mod",
-    "sun_ice_tactical_ansible_mod"
+    "sun_ice_tactical_ansible_mod",
+	"sun_ice_recall_teleport_mod",
   ],
   "builtInWeapons": {
 	"LIGHTS": "sun_ice_apocrypha_lights",
-    "WS0014": "sun_ice_recall"
+	"RECALL": "sun_ice_apocrypha_recall",
   },
   "center": [
     140,
@@ -348,7 +349,7 @@
     {
       "angle": 0,
       "arc": 360,
-      "id": "WS0014",
+      "id": "RECALL",
       "locations": [
         -61,
         -0

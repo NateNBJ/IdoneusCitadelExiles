@@ -65,7 +65,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         shipsToClearBonusesFrom.addAll(shipsToGiveFluxRefund);
         shipsToGiveFluxRefund.clear();
     }
-    
+
     boolean fissionDrillWeaponActivated = false;
     void checkFissionDrillUsageByPlayer() {
         ShipAPI ship = engine.getPlayerShip();
@@ -92,6 +92,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
 
     static List<RecallTracker> recalling = new LinkedList();
     public static void beginRecall(RecallTracker tracker) {
+        tracker.start();
         recalling.add(tracker);
     }
     void advanceActiveRecalls(float amount) {
@@ -104,6 +105,7 @@ public class EveryFramePlugin implements EveryFrameCombatPlugin {
         }
         
         for(RecallTracker t : toRemove) {
+            t.end();
             recalling.remove(t);
         }
         toRemove.clear();

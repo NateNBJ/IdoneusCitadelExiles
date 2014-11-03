@@ -1,33 +1,33 @@
-package data.weapons.beam;
+package data.tools;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BeamAPI;
-import com.fs.starfarer.api.combat.BeamEffectPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
 import data.EveryFramePlugin;
-import data.tools.IntervalTracker;
-import data.tools.RecallTracker;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 import org.lazywizard.lazylib.combat.AIUtils;
 
-public class RecallBeamEffect implements BeamEffectPlugin {
-    public static final float CHARGE_TIME = 2f;  
-    
-    ShipAPI ship;
-    TreeMap<Integer, List<RecallTracker>> recallQueue;
-    IntervalTracker doRecallTimer = new IntervalTracker(0.1f, 0.5f);
+public class RecallStarter {
+    TreeMap<Integer, List<RecallTracker>> recallQueue = new TreeMap();
     CombatEngineAPI engine;
 
-    void collectRecallRequests(WeaponAPI weapon) {
+    ShipAPI ship;
+    IntervalTracker requestCheckTimer = new IntervalTracker(0.3f);
+    IntervalTracker doRecallTimer = new IntervalTracker(0.1f, 0.5f);
+    
+    public RecallStarter(ShipAPI ship) {
+        this.ship = ship;
+        this.engine = Global.getCombatEngine();
+    }
+    
+    void collectRecallRequests() {
         recallQueue = new TreeMap();
         
         for(ShipAPI ally : AIUtils.getAlliesOnMap(ship)) {
-            RecallTracker t = new RecallTracker(ally, weapon);
+            RecallTracker t = new RecallTracker(ally, ship);
             if(t.getPriority() > 0) {
                 if(!recallQueue.containsKey(t.getPriority())) {
                     recallQueue.put(t.getPriority(), new LinkedList());
@@ -53,25 +53,9 @@ public class RecallBeamEffect implements BeamEffectPlugin {
             recallQueue.remove(recallQueue.lastKey());
         }
     }
-    
-    public static int getCumulativeRecallPriority(WeaponAPI wpn) {
-        int acc = 0;
-        
-        for(ShipAPI ally : AIUtils.getAlliesOnMap(wpn.getShip())) {
-            RecallTracker t = new RecallTracker(ally, wpn);
-            acc += t.getPriority(); 
-        }
-        
-        return acc;
-    }
-    
-    @Override
-    public void advance(float amount, CombatEngineAPI engine, BeamAPI beam) {
-        this.engine = engine;
-        this.ship = beam.getSource();
-        
-        if(recallQueue == null) collectRecallRequests(beam.getWeapon());
-        
+    public void advance() {
+        if(!ship.isAlive()) return;
+        if(requestCheckTimer.intervalElapsed()) collectRecallRequests();
         if(doRecallTimer.intervalElapsed()) selectAnAllyToRecall();
     }
 }

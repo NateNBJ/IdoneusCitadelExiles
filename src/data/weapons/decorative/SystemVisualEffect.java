@@ -10,25 +10,27 @@ public class SystemVisualEffect implements EveryFrameWeaponEffectPlugin {
     final static float DEACTIVATION_SPEED = 1;
 
     private float alpha = 0;
-	
+
     @Override
-	public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
-        if(engine.isPaused()) return;
-        
-		boolean on = weapon.getShip().getSystem().isOn()
+    public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
+        if (engine.isPaused()) {
+            return;
+        }
+
+        boolean on = weapon.getShip().getSystem().isOn()
                 && weapon.getShip().isAlive();
 
         if (alpha == 0 && !on) {
             weapon.getAnimation().setFrame(0);
             return;
         }
-        
+
         weapon.getSprite().setAdditiveBlend();
         weapon.getAnimation().setFrame(1);
-        
+
         alpha += EveryFramePlugin.getElapsed() * (on ? ACTIVATION_SPEED : -DEACTIVATION_SPEED);
         alpha = Math.max(Math.min(alpha, 1), 0);
-        
-        weapon.getAnimation().setAlphaMult(alpha);
-	}}
 
+        weapon.getAnimation().setAlphaMult(alpha);
+    }
+}

@@ -1,10 +1,12 @@
 package data.tools;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.CombatEngineAPI;
 
 public class IntervalTracker {
     float timeOfNextElapse, min, max;
     boolean includePausedTime;
+    CombatEngineAPI engine;
     
     final void init(float min, float max, boolean includePausedTime) {
         this.min = Math.min(min, max);
@@ -31,7 +33,8 @@ public class IntervalTracker {
     }
 
     public void reset() {
-        incrementInterval(Global.getCombatEngine().getTotalElapsedTime(includePausedTime));
+        engine = Global.getCombatEngine();
+        incrementInterval(engine.getTotalElapsedTime(includePausedTime));
     }
     public boolean intervalIsFixed() {
         return min == max;
@@ -53,7 +56,9 @@ public class IntervalTracker {
         max = Math.max(minIntervalDuration, maxIntervalDuration);
     }
     public boolean intervalElapsed() {
-        float time = Global.getCombatEngine().getTotalElapsedTime(includePausedTime);
+        if(engine != Global.getCombatEngine()) reset();
+        
+        float time = engine.getTotalElapsedTime(includePausedTime);
         
         if(timeOfNextElapse <= time) {
             incrementInterval(timeOfNextElapse);
