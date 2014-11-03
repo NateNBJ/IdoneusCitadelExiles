@@ -1,11 +1,15 @@
 
+----<  ICE version 0.3.0   >------------------------------------------------------------------------------
+
+Please Note: This version of ICE will cause crashes when used with Starsector 0.65a-RC1, but should work fine with 0.65.1a-RC1
+
 ADDITIONS
 - New mechanic added for the Exiled Idoneus Colony Fleet allowing it to merge with and detach smaller fleets
 	- Pursuit fleets will now detach from the colony fleet to run down enemy fleets it can't catch
 	- Vagrant fleets will now spawn from Idoneus Citadel, make their way to the colony fleet, and merge with it
 	- Lone duellists will occasionally branch off and terrorize the locals for a while
 	- These merges and separations follow the Law of Conservation of Matter and Energy, meaning the destruction
-	of ships in these smaller fleets weakens the colony fleet because those ships won't be re-added to it anymore
+	of ships in these smaller fleets weakens the colony fleet because those ships won't be able to merge with it
 - The two randomized missions have been re-added
 
 CONTENT CHANGES
@@ -25,6 +29,8 @@ BUGS FIXED
 
 
 ----<  ICE version 0.2.0   >------------------------------------------------------------------------------
+
+Please Note: This version of ICE will cause crashes when used with Starsector 0.65a-RC1, but should work fine with 0.65.1a-RC1
 
 ADDITIONS
 - Full compatibility with Starsector 0.65

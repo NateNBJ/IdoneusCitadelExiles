@@ -1,5 +1,6 @@
 {
     "displayName": "Standard",
+	"quality":0.5,
     "fluxCapacitors": 0,
     "fluxVents": 4,
     "hullId": "sun_ice_shiekwraith",

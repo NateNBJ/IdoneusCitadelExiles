@@ -1,5 +1,6 @@
 {
   "displayName": "Interceptor",
+	"quality":0.75,
   "fluxCapacitors": 0,
   "fluxVents": 0,
   "hullId": "sun_ice_phantom_wing",

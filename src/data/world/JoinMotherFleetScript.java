@@ -1,6 +1,7 @@
 package data.world;
 
 import com.fs.starfarer.api.Script;
+import com.fs.starfarer.api.campaign.CampaignEventListener.FleetDespawnReason;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -25,11 +26,13 @@ public class JoinMotherFleetScript implements Script {
         motherFleet.getCargo().addCrew(CrewXPLevel.VETERAN, childFleet.getCargo().getCrew(CrewXPLevel.VETERAN));
         motherFleet.getCargo().addCrew(CrewXPLevel.ELITE, childFleet.getCargo().getCrew(CrewXPLevel.ELITE));
         
-        for(FleetMemberAPI m : childFleet.getFleetData().getSnapshot()) {
+        for(FleetMemberAPI m : childFleet.getFleetData().getMembersListCopy()) {
             motherFleet.getFleetData().addFleetMember(m);
         }
         
         motherFleet.updateCounts();
         motherFleet.getFleetData().sort();
+        
+        childFleet.despawn(FleetDespawnReason.REACHED_DESTINATION, null);
     }
 }

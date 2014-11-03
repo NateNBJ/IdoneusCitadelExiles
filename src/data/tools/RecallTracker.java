@@ -20,7 +20,9 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class RecallTracker {
     public static final float CHARGE_TIME = 2f;  
-    public static final float MAX_RANGE = 1200f;
+    public static final float MAX_RANGE = 1500f;
+    public static final int JITTER_COUNT = 3;
+    public static final Color JITTER_COLOR = new Color(209, 255, 248, 255);
     public static boolean isRecalling(ShipAPI ship) {
         return RECALL_COUNT.containsKey(ship) && RECALL_COUNT.get(ship) > 0;
     }
@@ -30,6 +32,7 @@ public class RecallTracker {
         RECALL_COUNT.clear();
         RecallTeleporter.Starters.clear();
     }
+    
     static Map<ShipAPI, Vector2f> PREVIOUS_DESTINATION = new HashMap();
     static Map<ShipAPI, Integer> RECALL_COUNT = new HashMap();
     static Set<ShipAPI> ALREADY_TELEPORTING = new HashSet();
@@ -113,7 +116,7 @@ public class RecallTracker {
                 playTeleportSound();
                 ally.getLocation().set(recallLoc);
                 ally.getVelocity().scale(0);
-                ally.getMutableStats().getMaxSpeed().modifyMult("sun_ice_recall", progress);
+                ally.getMutableStats().getMaxSpeed().modifyMult("sun_ice_recall", 0);
                 ally.setAngularVelocity(0);
                 ally.setFacing(VectorUtils.getAngle(teleporter.getLocation(), recallLoc));
 
@@ -139,11 +142,14 @@ public class RecallTracker {
         ally.getSpriteAPI().setColor(new Color(1, 1, 1,
                 (float)Math.min(1, Math.pow(Math.abs(progress), 2))));
 
-        Vector2f jitterAnchor = (progress <= 0) ? ally.getLocation() : recallLoc;
-        Vector2f jitterLoc = MathUtils.getRandomPointInCircle(jitterAnchor,
-                (1 - Math.abs(progress)) * (ally.getCollisionRadius() / 30 + 5));
-        ally.getLocation().set(jitterLoc);
-        ally.setFacing((float)(ally.getFacing() + (0.5f - Math.random()) * 4 * Math.abs(progress)));
+//        Vector2f jitterAnchor = (progress <= 0) ? ally.getLocation() : recallLoc;
+//        Vector2f jitterLoc = MathUtils.getRandomPointInCircle(jitterAnchor,
+//                (1 - Math.abs(progress)) * (ally.getCollisionRadius() / 30 + 5));
+//        ally.getLocation().set(jitterLoc);
+        float jitterRange = (1 - Math.abs(progress)) * ally.getCollisionRadius() + 100;
+        float jitterAlpha = (1 - Math.abs(progress)) * Math.abs(progress);
+        ally.setJitter(JITTER_COLOR, jitterAlpha, 3, jitterRange);
+//        ally.setFacing((float)(ally.getFacing() + (0.5f - Math.random()) * 4 * Math.abs(progress)));
         ally.setCollisionClass(isComplete()
                 ? (ally.isFighter() ? CollisionClass.FIGHTER : CollisionClass.SHIP)
                 : CollisionClass.NONE);

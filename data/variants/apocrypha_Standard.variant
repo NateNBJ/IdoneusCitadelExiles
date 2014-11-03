@@ -1,5 +1,6 @@
 {
     "displayName": "Standard",
+	"quality":0.85,
     "fluxCapacitors": 0,
     "fluxVents": 6,
     "hullId": "sun_ice_apocrypha",

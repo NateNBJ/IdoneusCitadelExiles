@@ -1,5 +1,6 @@
 {
     "displayName": "Standard",
+	"quality":0.95,
     "fluxCapacitors": 0,
     "fluxVents": 1,
     "hullId": "sun_ice_nightseer",

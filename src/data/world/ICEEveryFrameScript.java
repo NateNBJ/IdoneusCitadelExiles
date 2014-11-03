@@ -6,12 +6,9 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.campaign.events.CampaignEventManagerAPI;
-import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Events;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import data.tools.IceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +22,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
     float elapsedDays = 0f;
     float dayOfNextUpdate = 0;
     float dayOfNextExodus = 3;
-    float dayOfNextPilgrimage = 0;
+    float dayOfNextCitadelBounty = 0;
     SectorAPI sector;
     CampaignFleetAPI pursuer;
     
@@ -40,29 +37,21 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         
         if(elapsedDays > dayOfNextUpdate) {
             dayOfNextUpdate = elapsedDays + AVG_UPDATE_INTERVAL * (0.5f + (float)Math.random());
-            
             Data.ExileMarket.reapplyConditions();
-            
             detachPursuitFleetIfApt();
             spawnVagrantFleetIfApt();
             detachDuellistIfApt();
-            offerBountyIfApt(Data.ExileMarket);
-            offerBountyIfApt(Data.CitadelMarket);
+        }
+        
+        if(elapsedDays > dayOfNextCitadelBounty) {
+            dayOfNextCitadelBounty = elapsedDays + 75 + (float)Math.random() * 50;
+            IceUtils.offerSystemBountyIfApt(Data.CitadelMarket, 1f);
         }
         
         doShalomVisibilityHack();
     }
-    
-    void offerBountyIfApt(MarketAPI market) {
-        CampaignEventManagerAPI mgt = Global.getSector().getEventManager();
-        
-        if(market != null && !market.getPrimaryEntity().isInHyperspace()
-                && !mgt.isOngoing(new CampaignEventTarget(market), Events.SYSTEM_BOUNTY)) {
-            mgt.startEvent(new CampaignEventTarget(market.getPrimaryEntity()), Events.SYSTEM_BOUNTY, null);
-        }
-    }
     void detachDuellistIfApt() {
-        if(Data.ExileFleet == null || !Data.ExileFleet.isAlive() || Math.random() < 0.95f
+        if(Data.ExileFleet == null || !Data.ExileFleet.isAlive() || Math.random() > 0.01f
                 || Data.ExileFleet.getFleetPoints() < MIN_COLONY_FLEET_FP + 20
                 || Data.ExileFleet.isInHyperspace())
             return;
@@ -97,7 +86,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         
         duelist.addAssignment(FleetAssignment.RAID_SYSTEM, Data.ExileFleet,
                 AVG_PURSUIT_DAYS * (0.5f + (float)Math.random()), "looking for a fight");
-        duelist.addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN,
+        duelist.addAssignment(FleetAssignment.GO_TO_LOCATION,
                 Data.ExileFleet, 9999, "returning to the Colony Fleet",
                 new JoinMotherFleetScript(Data.ExileFleet, duelist));
     }
@@ -105,10 +94,12 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         if(Data.ExileFleet == null) return;
         
         float time = sector.getClock().getElapsedDaysSince(0);
-        float chance = 0.2f
-            * (Data.ExileFleet.getFleetPoints() / 1000f)
-            * (0.25f + (float)Math.sin(time * 257) * 0.75f)
-            * (0.35f + (float)Math.cos(time * 30) * 0.65f);
+        
+        float wave1 = (0.5f + (float)Math.sin(time / 257) * 0.5f);
+        float wave2 = (0.5f + (float)Math.cos(time / 30) * 0.5f);
+        float size = 1 - Data.ExileFleet.getFleetPoints() / 1000f;
+        
+        float chance = 0.3f * size * wave1 * wave2;
         
         if(Math.random() > chance) return;
         
@@ -144,7 +135,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         pilgrims.getFleetData().sort();
         Data.IdoneusCitadel.getContainingLocation().spawnFleet(Data.IdoneusCitadel, 0, 0, pilgrims);
         
-        pilgrims.addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN,
+        pilgrims.addAssignment(FleetAssignment.GO_TO_LOCATION,
                 Data.ExileFleet, 9999, "rendezvousing with the Colony Fleet",
                 new JoinMotherFleetScript(Data.ExileFleet, pilgrims));
     }
@@ -202,7 +193,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         
         pursuer.addAssignment(FleetAssignment.INTERCEPT, target,
                 AVG_PURSUIT_DAYS * (0.5f + (float)Math.random()));
-        pursuer.addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN,
+        pursuer.addAssignment(FleetAssignment.GO_TO_LOCATION,
                 Data.ExileFleet, 9999, "returning to the Colony Fleet",
                 new JoinMotherFleetScript(Data.ExileFleet, pursuer));
     }

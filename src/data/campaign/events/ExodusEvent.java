@@ -10,6 +10,7 @@ import com.fs.starfarer.api.campaign.comm.MessagePriority;
 import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.events.BaseEventPlugin;
+import data.tools.IceUtils;
 import data.world.Data;
 import data.world.Ulterius;
 import java.util.ArrayList;
@@ -64,13 +65,13 @@ public class ExodusEvent extends BaseEventPlugin {
             exiles.setName("Vagrant Fleet");
             Data.ExileFleet = null;
             ended = true;
-        } else if(traveling && hasEnteredHyperspace &&
-                exiles.getContainingLocation() == destination) {
+        } else if(traveling && hasEnteredHyperspace && exiles.getContainingLocation() == destination) {
             report("arrive");
             hasEnteredHyperspace = traveling = false;
             elapsedDays = 0;
             dayOfNextTradeOffer = DAYS_BEFORE_INITIAL_TRADE_OFFERS;
-            daysToStay = 20 + (float)Math.random() * 40;
+            daysToStay = 75 + (float)Math.random() * 50;
+            IceUtils.offerSystemBountyIfApt(market, 0.6f);
         } else if(!traveling && elapsedDays > daysToStay) {
             previousSystem = destination.getBaseName();
             chooseNewHome();

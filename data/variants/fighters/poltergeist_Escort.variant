@@ -1,5 +1,6 @@
 {
   "displayName": "Escort",
+	"quality":0.5,
   "fluxCapacitors": 0,
   "fluxVents": 0,
   "hullId": "sun_ice_poltergeist_wing",

@@ -1,5 +1,6 @@
 {
     "displayName": "Standard",
+	"quality":0.65,
     "fluxCapacitors": 0,
     "fluxVents": 16,
     "hullId": "sun_ice_soulbane",

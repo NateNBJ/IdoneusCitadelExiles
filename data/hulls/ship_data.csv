@@ -19,8 +19,6 @@ Seraph,sun_ice_seraph,Support Frigate,sun_ice_drone_mx,3,825,300,150,1100,30,15,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Soulbane,sun_ice_soulbane,Elite Destroyer,sun_ice_repairarmor,14,4500,500,4000,6000,300,115,100,90,75,30,60,400,PHASE,sun_ice_phasewarp,,,,0.2,0.05,60,100,90,80,8,,5,70000,8,4,0,20,240,0.15,,9267.15
 Shiekwraith,sun_ice_shiekwraith,ECM Destroyer,sun_ice_fofinverter,10,3000,600,5000,4000,400,90,70,90,110,20,20,350,PHASE,sun_ice_phasecloak,,,,0.03,0.07,50,120,80,120,5,,4,26000,5,5,0,16,360,0.15,,9267.16
-Denizen,sun_ice_denizen_t,Tanker,,7,1800,100,1200,2400,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,350,10,2.5,,4,17000,2,3,0,25,,,CIVILIAN,9267.17
-Denizen,sun_ice_denizen_f,Freighter,,7,1500,120,1200,2000,50,15,60,20,10,10,6,450,NONE,,,,,,,8,12,10,900,2.5,,4,17000,2,3,0,25,,,CIVILIAN,9267.18
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Eidolon,sun_ice_eidolon,Support Cruiser,sun_ice_drone_mx,16,4500,400,2500,6000,100,105,50,45,45,20,20,900,PHASE,sun_ice_phasecloak,,,,0.07,0.05,30,120,350,240,6,,3,64000,8,3,0,12,360,0.1,CARRIER,9267.19
 Kelpie,sun_ice_kelpie,Blade Cruiser,sun_ice_inversionmatrix,15,9000,800,3000,12000,200,80,40,30,20,15,20,2200,PHASE,sun_ice_phasecloak,,,,0.15,0.08,80,180,200,170,10,,4,56000,10,4,0,16,420,0.25,,9267.2

@@ -1,6 +1,10 @@
 package data.tools;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.campaign.events.CampaignEventManagerAPI;
+import com.fs.starfarer.api.campaign.events.CampaignEventPlugin;
+import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.combat.ArmorGridAPI;
 import com.fs.starfarer.api.combat.BeamAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
@@ -11,6 +15,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Events;
 import data.EveryFramePlugin;
 import java.awt.Color;
 import java.io.IOException;
@@ -47,6 +52,16 @@ public class IceUtils {
         baseOverloadTimes.put(HullSize.DEFAULT, 6f);
     }
 
+    public static CampaignEventPlugin offerSystemBountyIfApt(MarketAPI market, float chance) {
+        CampaignEventManagerAPI mgt = Global.getSector().getEventManager();
+        
+        if(market != null && Math.random() < chance &&  !market.getPrimaryEntity().isInHyperspace()
+                && !mgt.isOngoing(new CampaignEventTarget(market), Events.SYSTEM_BOUNTY)) {
+            return mgt.startEvent(new CampaignEventTarget(market), Events.SYSTEM_BOUNTY, null);
+        }
+        
+        return null;
+    }
     public static float getEngineFractionDisabled(ShipAPI ship) {
         float maxThrust = 0;
         float onlineThrust = 0;

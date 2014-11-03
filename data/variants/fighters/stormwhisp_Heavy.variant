@@ -1,5 +1,6 @@
 {
   "displayName": "Heavy Fighter",
+	"quality":0.95,
   "fluxCapacitors": 0,
   "fluxVents": 0,
   "hullId": "sun_ice_stormwhisp_wing",
