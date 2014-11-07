@@ -122,7 +122,8 @@ public class ICEModPlugin extends BaseModPlugin {
     
     @Override
     public void onGameLoad() {
-        
+        if(EXERELIN_ENABLED) return;
+
         Data.load();
         
         if(Data.IdoneusCitadel == null) {
@@ -139,16 +140,16 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGame() {
-        Data.load(); // In order to initialize defaults
-        
-        if(!EXERELIN_ENABLED) {
-            new Ulterius().generate();
-            Global.getSector().registerPlugin(new ICECampaignPlugin());
-            Global.getSector().addScript(new ICEEveryFrameScript());
-        }
+        if(EXERELIN_ENABLED) return;
+
+        new Ulterius().generate();
+        Global.getSector().registerPlugin(new ICECampaignPlugin());
+        Global.getSector().addScript(new ICEEveryFrameScript());
     }
     @Override
     public void onNewGameAfterEconomyLoad() {
+        if(EXERELIN_ENABLED) return;
+
 //        for(MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
 //            float pop = (float) Math.pow(10, m.getSize());
 //            float demand = (m.hasCondition("military_base") ? 0.02f : 0.005f) * pop;
@@ -158,9 +159,10 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterTimePass() {
-        super.onNewGameAfterTimePass();
+        if(EXERELIN_ENABLED) return;
         
         initFactionRelations();
+        Data.save();
     }
 
     @Override

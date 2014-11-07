@@ -53,7 +53,7 @@ public class MxDroneAI extends BaseShipAI {
     static final float REPAIR_AMOUNT = 0.5f;
     static final float CR_PEAK_TIME_RECOVERY_RATE = 3f;
     static final float FLUX_PER_MX_PERFORMED = 1f;
-    static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 15f; // In seconds
+    static final float COOLDOWN_PER_OP_OF_AMMO_RESTORED = 45f; // In seconds
 
     static final Color SPARK_COLOR = new Color(255, 223, 128);
     static final String SPARK_SOUND_ID = "system_emp_emitter_loop";

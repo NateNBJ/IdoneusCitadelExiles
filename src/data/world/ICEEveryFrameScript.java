@@ -4,8 +4,10 @@ import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
+import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
+import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import data.tools.IceUtils;
@@ -21,8 +23,9 @@ public class ICEEveryFrameScript implements EveryFrameScript {
     
     float elapsedDays = 0f;
     float dayOfNextUpdate = 0;
-    float dayOfNextExodus = 3;
+    float dayOfNextExodusCheck = 3;
     float dayOfNextCitadelBounty = 0;
+    float lastDayOfLiveColony = -30;
     SectorAPI sector;
     CampaignFleetAPI pursuer;
     
@@ -35,9 +38,11 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         float days = sector.getClock().convertToDays(amount);
         elapsedDays += days;
         
+        if(Data.ExileFleet != null) lastDayOfLiveColony = elapsedDays;
+        
         if(elapsedDays > dayOfNextUpdate) {
             dayOfNextUpdate = elapsedDays + AVG_UPDATE_INTERVAL * (0.5f + (float)Math.random());
-            Data.ExileMarket.reapplyConditions();
+            if(pursuer == null) Data.ExileMarket.reapplyConditions();
             detachPursuitFleetIfApt();
             spawnVagrantFleetIfApt();
             detachDuellistIfApt();
@@ -48,7 +53,29 @@ public class ICEEveryFrameScript implements EveryFrameScript {
             IceUtils.offerSystemBountyIfApt(Data.CitadelMarket, 1f);
         }
         
+        if(elapsedDays > dayOfNextExodusCheck) {
+            dayOfNextExodusCheck = elapsedDays + 15 + (float)Math.random() * 15;
+            
+            if(Data.ExileFleet == null && elapsedDays - lastDayOfLiveColony > 30) {
+                spawnColonyFleet();
+            }
+        }
+        
         doShalomVisibilityHack();
+    }
+    void spawnColonyFleet() {
+        LocationAPI loc = Data.IdoneusCitadel.getContainingLocation();
+        CampaignFleetAPI fleet = sector.createFleet("sun_ice", "refugees");
+        loc.spawnFleet(Data.IdoneusCitadel, 0, 0, fleet);
+
+        Data.ExileFleet = fleet;
+        Data.ExileMarket.getConnectedEntities().clear();
+        Data.ExileMarket.setPrimaryEntity(fleet);
+        fleet.setMarket(Data.ExileMarket);
+        fleet.setInteractionImage("illustrations", "cargo_loading");
+        
+        Global.getSector().getEventManager().startEvent(
+                new CampaignEventTarget(fleet), "sun_ice_exodus", null);
     }
     void detachDuellistIfApt() {
         if(Data.ExileFleet == null || !Data.ExileFleet.isAlive() || Math.random() > 0.01f

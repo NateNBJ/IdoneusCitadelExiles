@@ -1,7 +1,18 @@
 
+----<  ICE version 0.3.1   >------------------------------------------------------------------------------
+
+CONTENT CHANGES
+- Idoneus Citadel is now located in Eos
+
+BALANCE CHANGES
+- Reduced ammo regeneration rate of maintenance drones to one third of previous rate
+
+BUGS FIXED
+- No longer corrupts save files
+
 ----<  ICE version 0.3.0   >------------------------------------------------------------------------------
 
-Please Note: This version of ICE will cause crashes when used with Starsector 0.65a-RC1, but should work fine with 0.65.1a-RC1
+Please Note: This version of ICE corrupts save files...
 
 ADDITIONS
 - New mechanic added for the Exiled Idoneus Colony Fleet allowing it to merge with and detach smaller fleets
@@ -30,7 +41,7 @@ BUGS FIXED
 
 ----<  ICE version 0.2.0   >------------------------------------------------------------------------------
 
-Please Note: This version of ICE will cause crashes when used with Starsector 0.65a-RC1, but should work fine with 0.65.1a-RC1
+Please Note: This version of ICE is completely broken
 
 ADDITIONS
 - Full compatibility with Starsector 0.65

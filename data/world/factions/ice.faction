@@ -1,6 +1,6 @@
 {
    id:"sun_ice",
-   "color":[31,84,77,255],
+   "color":[12,150,131,255],
    "entityNamePrefix":"Exiled Idoneus",
    "displayName":"Idoneus Exiles",
    "displayNameWithArticle":"the Idoneus Exiles",

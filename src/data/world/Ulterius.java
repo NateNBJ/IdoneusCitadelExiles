@@ -75,28 +75,28 @@ public class Ulterius {
     }
     public StarSystemAPI createUlterius() {
         SectorAPI sector = Global.getSector();
-        Data.Ulterius = sector.createStarSystem("Ulterius");
-        Data.Ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
-        PlanetAPI star = Data.Ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
+        StarSystemAPI ulterius = sector.createStarSystem("Ulterius");
+        ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
+        PlanetAPI star = ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
                 200f, // radius (in pixels at default zoom)
                 -161380, -249730);   // location in hyperspace
-        SectorEntityToken relay = Data.Ulterius.addCustomEntity("sun_ice_ulterius_relay",
+        SectorEntityToken relay = ulterius.addCustomEntity("sun_ice_ulterius_relay",
                     "Ulterius Relay", "comm_relay", "independent");
         relay.setCircularOrbit(star, 150, 500, 200);
-        Data.Ulterius.setLightColor(new Color(255, 238, 193));
-        Data.Ulterius.autogenerateHyperspaceJumpPoints(true, true);
+        ulterius.setLightColor(new Color(255, 238, 193));
+        ulterius.autogenerateHyperspaceJumpPoints(true, true);
         
-        return Data.Ulterius;
+        return ulterius;
     }
     
     public void generate() {
         SectorAPI sector = Global.getSector();
         
-        createUlterius();
-        Data.PhantomEntity = Data.Ulterius.getStar();
-        sector.removeStarSystem(Data.Ulterius);
+        StarSystemAPI ulterius = createUlterius();
+        Data.PhantomEntity = ulterius.getStar();
+        //sector.removeStarSystem(ulterius);
         
-        StarSystemAPI system = sector.getStarSystem("Arcadia");
+        StarSystemAPI system = sector.getStarSystem("Eos");
         //StarSystemAPI system = sector.getStarSystem("Corvus");
         
         Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
@@ -115,13 +115,13 @@ public class Ulterius {
         SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ici");
         //SharedData.getData().getMarketsWithoutPatrolSpawn().add(Data.ExileMarket.getId());
 
-        BaseSpawnPoint spawn;
-
-        spawn = new RefugeeSpawnPoint(sector, system, 64f, 1, Data.IdoneusCitadel);
-        system.addScript(spawn);
-        
-        spawn = new BlockadeSpawnPoint(sector, system, 15, 1, Data.IdoneusCitadel);
-        system.addScript(spawn);
-        spawn.spawnFleet();
+//        BaseSpawnPoint spawn;
+//
+//        spawn = new RefugeeSpawnPoint(sector, system, 64f, 1, Data.IdoneusCitadel);
+//        system.addScript(spawn);
+//        
+//        spawn = new BlockadeSpawnPoint(sector, system, 15, 1, Data.IdoneusCitadel);
+//        system.addScript(spawn);
+//        spawn.spawnFleet();
     }
 }
