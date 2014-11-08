@@ -1,4 +1,13 @@
 
+----<  ICE version 0.3.2   >------------------------------------------------------------------------------
+
+BUGS FIXED
+- All events associated with the colony fleet are now forced to end when it is destroyed, which should prevent
+many issues, including a crash
+- Notifications about the exiled colony fleet event will no longer be displayed in the intel screen when they
+are older than the week/month/cycle filter allows
+
+
 ----<  ICE version 0.3.1   >------------------------------------------------------------------------------
 
 CONTENT CHANGES
@@ -9,6 +18,7 @@ BALANCE CHANGES
 
 BUGS FIXED
 - No longer corrupts save files
+
 
 ----<  ICE version 0.3.0   >------------------------------------------------------------------------------
 

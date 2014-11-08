@@ -7,6 +7,7 @@ import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
+import com.fs.starfarer.api.campaign.events.CampaignEventPlugin;
 import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class ICEEveryFrameScript implements EveryFrameScript {
     static final float AVG_UPDATE_INTERVAL = 0.3f;
     static final float AVG_PILGRIMAGE_INTERVAL = 5.3f;
-    static final float MIN_COLONY_FLEET_FP = 150;
+    static final float MIN_COLONY_FLEET_FP = 175;
     static final float AVG_PURSUIT_DAYS = 8f;
     
     float elapsedDays = 0f;
@@ -241,7 +242,29 @@ public class ICEEveryFrameScript implements EveryFrameScript {
 //            Ulterius.SHALOM.setFacing(Ulterius.SHALOM.getFacing() + amount * 10);
 //        }
     }
-
+    void fixFoodShortageCrashHack() {
+        CampaignFleetAPI exiles = null;
+        int score = 0;
+        LocationAPI location = sector.getStarSystem("Askonia");
+        for(CampaignFleetAPI f :location.getFleets()) {
+            if(f.getFaction().getId().equals("sun_ice") && f.getFleetPoints() > score) {
+                score = f.getFleetPoints();
+                exiles = f;
+            }
+        }
+        Data.ExileFleet = exiles;
+        Data.ExileMarket.getConnectedEntities().clear();
+        Data.ExileMarket.setPrimaryEntity(exiles);
+        exiles.setMarket(Data.ExileMarket);
+        
+//        CampaignEventPlugin e = sector.getEventManager().getOngoingEvent(new CampaignEventTarget(Data.ExileFleet), "food_shortage");
+//        sector.getEventManager().endEvent(e);
+        
+        Ulterius.resetColonyFleetMarket();
+        exiles.setMarket(null);
+        Data.ExileFleet = null;
+    }
+    
     @Override
     public boolean isDone() { return false; }
 

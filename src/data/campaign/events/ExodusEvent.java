@@ -7,6 +7,8 @@ import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.comm.MessagePriority;
+import com.fs.starfarer.api.campaign.events.CampaignEventManagerAPI;
+import com.fs.starfarer.api.campaign.events.CampaignEventPlugin;
 import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.events.BaseEventPlugin;
@@ -60,6 +62,7 @@ public class ExodusEvent extends BaseEventPlugin {
         
         if(!exiles.isAlive() || theColonyShipDied()) {
             report("destroyed");
+            endColonyFleetEvents();
             Ulterius.resetColonyFleetMarket();
             exiles.setMarket(null);
             exiles.setName("Vagrant Fleet");
@@ -103,6 +106,11 @@ public class ExodusEvent extends BaseEventPlugin {
     }
 
     @Override
+    public boolean showAllMessagesIfOngoing() {
+        return false;
+    }
+    
+    @Override
     public Map<String, String> getTokenReplacements() {
 	Map<String, String> map = super.getTokenReplacements();
         map.put("$refugeSystem", destination.getBaseName());
@@ -130,5 +138,22 @@ public class ExodusEvent extends BaseEventPlugin {
         }
         
         return true;
+    }
+    
+    public static void endColonyFleetEvents() {
+        CampaignEventTarget target = new CampaignEventTarget(Data.ExileFleet);
+        CampaignEventManagerAPI mgt = Global.getSector().getEventManager();
+        String[] eventTypes = new String[] { "food_shortage", "system_bounty", 
+            "investigation", "investigation_smuggling", "recent_unrest",
+            "trade_disruption" };
+        
+        for(String type : eventTypes) {
+            CampaignEventPlugin event = mgt.getOngoingEvent(target, type);
+            if(event != null) {
+                event.advance(Global.getSector().getClock().getSecondsPerDay() * 60);
+                mgt.endEvent(event);
+                event.cleanup();
+            }
+        }
     }
 }
