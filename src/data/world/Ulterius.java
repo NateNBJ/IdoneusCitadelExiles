@@ -19,15 +19,18 @@ public class Ulterius {
     public static final int VENDOR_SUPPLIES = 2000;
     public static final int VENDOR_FUEL = 3000;
     public static final int VENDOR_MARINES = 100;
+    public static final int EXILE_MARKET_SIZE = 3;
 
     public static void resetColonyFleetMarket() {
         Data.ExileMarket.getConnectedEntities().clear();
         Data.ExileMarket.setPrimaryEntity(Data.PhantomEntity);
         Data.PhantomEntity.setMarket(Data.ExileMarket);
+        //Data.ExileMarket.setSize(0);    // too screwy at present
+        Data.ExileMarket.reapplyConditions();
     }
     public void createColonyFleetMarket() {
-        Data.ExileMarket = Global.getFactory().createMarket(
-                "sun_ice_colony_fleet_market", "The Exiled Idoneus Colony Fleet", 3);
+        Data.ExileMarket = Global.getFactory().createMarket("sun_ice_colony_fleet_market", 
+                "The Exiled Idoneus Colony Fleet", EXILE_MARKET_SIZE);
         Data.ExileMarket.setFactionId("sun_ice");
         
         Data.ExileMarket.addSubmarket("open_market");
@@ -79,10 +82,10 @@ public class Ulterius {
         ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
         PlanetAPI star = ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
                 200f, // radius (in pixels at default zoom)
-                -161380, -249730);   // location in hyperspace
-        SectorEntityToken relay = ulterius.addCustomEntity("sun_ice_ulterius_relay",
-                    "Ulterius Relay", "comm_relay", "independent");
-        relay.setCircularOrbit(star, 150, 500, 200);
+                -16138*3, -24973*3);   // location in hyperspace
+        //SectorEntityToken relay = ulterius.addCustomEntity("sun_ice_ulterius_relay",
+        //            "Ulterius Relay", "comm_relay", "independent");
+        //relay.setCircularOrbit(star, 150, 500, 200);
         ulterius.setLightColor(new Color(255, 238, 193));
         ulterius.autogenerateHyperspaceJumpPoints(true, true);
         

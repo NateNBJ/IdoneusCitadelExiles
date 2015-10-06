@@ -2,6 +2,8 @@ package data.world;
 
 import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.BaseCampaignEventListener;
+import com.fs.starfarer.api.campaign.CampaignEventListener;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.LocationAPI;
@@ -9,14 +11,17 @@ import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.events.CampaignEventPlugin;
 import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
+import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import data.tools.IceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ICEEveryFrameScript implements EveryFrameScript {
+public class ICEEveryFrameScript extends BaseCampaignEventListener implements EveryFrameScript {
     static final float AVG_UPDATE_INTERVAL = 0.3f;
     static final float AVG_PILGRIMAGE_INTERVAL = 5.3f;
     static final float MIN_COLONY_FLEET_FP = 175;
@@ -29,6 +34,11 @@ public class ICEEveryFrameScript implements EveryFrameScript {
     float lastDayOfLiveColony = -30;
     SectorAPI sector;
     CampaignFleetAPI pursuer;
+    
+    public ICEEveryFrameScript()
+    {
+        super(true);
+    }
     
     @Override
     public void advance(float amount) {
@@ -62,7 +72,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
             }
         }
         
-        doShalomVisibilityHack();
+        //doShalomVisibilityHack();
     }
     void spawnColonyFleet() {
         LocationAPI loc = Data.IdoneusCitadel.getContainingLocation();
@@ -74,6 +84,8 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         Data.ExileMarket.setPrimaryEntity(fleet);
         fleet.setMarket(Data.ExileMarket);
         fleet.setInteractionImage("illustrations", "cargo_loading");
+        //Data.ExileMarket.setSize(Ulterius.EXILE_MARKET_SIZE);
+        Data.ExileMarket.reapplyConditions();
         
         Global.getSector().getEventManager().startEvent(
                 new CampaignEventTarget(fleet), "sun_ice_exodus", null);
@@ -225,6 +237,7 @@ public class ICEEveryFrameScript implements EveryFrameScript {
                 Data.ExileFleet, 9999, "returning to the Colony Fleet",
                 new JoinMotherFleetScript(Data.ExileFleet, pursuer));
     }
+    /*
     void doShalomVisibilityHack() {
 //        if(Ulterius.COLONY_FLEET_MARKET.getPrimaryEntity() instanceof CampaignFleetAPI) {
 //            CampaignFleetAPI exiles = (CampaignFleetAPI)Ulterius.COLONY_FLEET_MARKET.getPrimaryEntity();
@@ -263,11 +276,33 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         Ulterius.resetColonyFleetMarket();
         exiles.setMarket(null);
         Data.ExileFleet = null;
-    }
+    }*/
     
     @Override
     public boolean isDone() { return false; }
 
     @Override
     public boolean runWhilePaused() { return false; }
+    
+    // purge trade fleets coming from Ulterius
+    // FIXME: can't remove food relief fleets without affecting the event
+    // FIXME: doesn't do anything about trade fleets coming from the other end
+    //    need to be able to figure out if destination is exile market somehow
+    @Override
+    public void reportFleetSpawned(CampaignFleetAPI fleet) {
+        if (Data.ExileFleet != null) return;
+        MemoryAPI memory = fleet.getMemoryWithoutUpdate();
+        String type = memory.contains(MemFlags.MEMORY_KEY_FLEET_TYPE) ? memory.getString(MemFlags.MEMORY_KEY_FLEET_TYPE) : null;
+        if (type == null) return;
+        if (!type.equals(FleetTypes.TRADE) && !type.equals(FleetTypes.TRADE_SMALL) && !type.equals(FleetTypes.TRADE_SMUGGLER))
+            return;
+        
+        String sourceMarket = memory.contains(MemFlags.MEMORY_KEY_SOURCE_MARKET) ? memory.getString(MemFlags.MEMORY_KEY_SOURCE_MARKET) : null;
+        if (sourceMarket != null && sourceMarket.equals(Data.ExileMarket.getId()))
+        {
+            Global.getLogger(this.getClass()).info("Force-despawning trade fleet " + fleet.getName());
+            fleet.despawn(CampaignEventListener.FleetDespawnReason.NO_REASON_PROVIDED, null);
+        }
+    }
+
 }
