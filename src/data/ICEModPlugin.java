@@ -37,10 +37,12 @@ import java.util.Iterator;
 import java.util.List;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
+import org.dark.shaders.util.TextureData;
 
 public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_ENABLED = false;
     public static boolean EXERELIN_ENABLED = false;
+	public static boolean exerelinCorvusMode = false;
     public static final boolean SMILE_FOR_CAMERA = false;
     public static final Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
     
@@ -102,6 +104,7 @@ public class ICEModPlugin extends BaseModPlugin {
             Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");
             ShaderLib.init();
             LightData.readLightDataCSV("data/lights/light_data.csv");
+			TextureData.readTextureDataCSV("data/lights/texture_data.csv");
 
             SHADER_LIB_ENABLED = true;
         } catch (Exception e) {
