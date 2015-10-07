@@ -52,7 +52,7 @@ public class Ulterius {
     }    
     public void createIdoneusCitadelMarket() {
         Data.CitadelMarket = Global.getFactory().createMarket(
-                "sun_ice_idoneus_citadel_market", "Idoneus Citadel", 3);
+                "sun_ice_idoneus_citadel_market", "Idoneus Citadel", 5);
         Data.CitadelMarket.setFactionId("sun_ici");
         
         Data.CitadelMarket.addSubmarket("open_market");
