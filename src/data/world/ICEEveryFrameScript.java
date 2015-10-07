@@ -67,7 +67,7 @@ public class ICEEveryFrameScript extends BaseCampaignEventListener implements Ev
         if(elapsedDays > dayOfNextExodusCheck) {
             dayOfNextExodusCheck = elapsedDays + 15 + (float)Math.random() * 15;
             
-            if(Data.ExileFleet == null && elapsedDays - lastDayOfLiveColony > 30) {
+            if(Data.ExileFleet == null && elapsedDays - lastDayOfLiveColony > 30 && Data.CitadelMarket.getFactionId().equals("sun_ici")) {
                 spawnColonyFleet();
             }
         }

@@ -32,6 +32,8 @@ import data.world.ICECampaignPlugin;
 import data.world.ICEEveryFrameScript;
 import data.world.Ulterius;
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +44,7 @@ import org.dark.shaders.util.TextureData;
 public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_ENABLED = false;
     public static boolean EXERELIN_ENABLED = false;
-	public static boolean exerelinCorvusMode = false;
+    public static boolean exerelinCorvusMode = false;
     public static final boolean SMILE_FOR_CAMERA = false;
     public static final Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
     
@@ -104,7 +106,7 @@ public class ICEModPlugin extends BaseModPlugin {
             Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");
             ShaderLib.init();
             LightData.readLightDataCSV("data/lights/light_data.csv");
-			TextureData.readTextureDataCSV("data/lights/texture_data.csv");
+            TextureData.readTextureDataCSV("data/lights/texture_data.csv");
 
             SHADER_LIB_ENABLED = true;
         } catch (Exception e) {
@@ -125,8 +127,13 @@ public class ICEModPlugin extends BaseModPlugin {
     
     @Override
     public void onGameLoad() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !isExerelinCorvusMode()) 
+		{
+			Global.getLogger(this.getClass()).info("In Exerelin, skipping ICE data load");
+			return;
+		}
 
+        Global.getLogger(this.getClass()).info("Loading ICE data");
         Data.load();
         
         if(Data.IdoneusCitadel == null) {
@@ -143,7 +150,7 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGame() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !isExerelinCorvusMode()) return;
 
         new Ulterius().generate();
         Global.getSector().registerPlugin(new ICECampaignPlugin());
@@ -151,8 +158,9 @@ public class ICEModPlugin extends BaseModPlugin {
     }
     @Override
     public void onNewGameAfterEconomyLoad() {
-        if(EXERELIN_ENABLED) return;
-
+        if (EXERELIN_ENABLED && !exerelinCorvusMode) return;
+        
+        initFactionRelations();
 //        for(MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
 //            float pop = (float) Math.pow(10, m.getSize());
 //            float demand = (m.hasCondition("military_base") ? 0.02f : 0.005f) * pop;
@@ -162,9 +170,8 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterTimePass() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !exerelinCorvusMode) return;
         
-        initFactionRelations();
         Data.save();
     }
 
@@ -225,5 +232,27 @@ public class ICEModPlugin extends BaseModPlugin {
         }
 
         return super.pickWeaponAutofireAI(weapon);
+    }
+    
+    public boolean isExerelinCorvusMode()
+    {
+        if (!EXERELIN_ENABLED) return false;
+        try {
+            Class<?> def = Global.getSettings().getScriptClassLoader().loadClass("exerelin.campaign.SectorManager");
+            Method method;  
+            try {  
+                method = def.getMethod("getCorvusMode");  
+                Object result = method.invoke(def);  
+                if ((boolean)result == true)  
+                {  
+                    exerelinCorvusMode = true; 
+                }  
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |  
+                     InvocationTargetException ex) {  
+            }
+        } catch (ClassNotFoundException ex) {
+            // shouldn't happen
+        }
+        return exerelinCorvusMode;
     }
 }
