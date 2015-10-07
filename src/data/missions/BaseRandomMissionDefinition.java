@@ -29,6 +29,10 @@ public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
         List<FactionAPI> acceptableFactions = new ArrayList();
         for(FactionAPI faction : Global.getSector().getAllFactions()) {
             if(!faction.isNeutralFaction() && !faction.isPlayerFaction()) {
+				String id = faction.getId();
+				if (id.equals("player_npc")) continue;
+				if (id.equals("merc_hostile")) continue;
+				if (id.equals("famous_bounty")) continue;
                 acceptableFactions.add(faction);
             }
         }
