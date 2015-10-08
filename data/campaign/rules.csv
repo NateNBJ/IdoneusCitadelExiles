@@ -1,0 +1,65 @@
+id,trigger,conditions,script,text,options,notes
+greetingICEFriendly,OpenCommLink,"$faction.id == sun_ice
+$faction.friendlyToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Greetings commander. It's good to finally run into someone who doesn't want to kill us.""",,
+greetingICEHostileWeaker,OpenCommLink,"$faction.id == sun_ice
+$faction.hostileToPlayer
+$relativeStrength < 0",$ignorePlayerCommRequests = true 1,"""So, another vulture has mistaken us for carrion. You're not the first to make that mistake. Do your worst.""",cutCommLink:Cut the comm link,same as defiant one for now
+greetingICEHostileWeakerDefiant,OpenCommLink,"$faction.id == sun_ice
+$faction.hostileToPlayer
+$relativeStrength < 0
+$weakerThanPlayerButHolding",$ignorePlayerCommRequests = true 1,"""So, another vulture has mistaken us for carrion. You're not the first to make that mistake. Do your worst.""",cutCommLink:Cut the comm link,
+greetingICEHostileStronger,OpenCommLink,"$faction.id == sun_ice
+$faction.hostileToPlayer
+$relativeStrength >= 0",$ignorePlayerCommRequests = true 1,"""I'll be frank with you. We need your cargo and I don't see much reason not to take it. Surrender now and your lives will be spared.""",cutCommLink:Cut the comm link,
+greetingICENeutral,OpenCommLink,"$faction.id == sun_ice
+$faction.neutralToPlayer",,"""Keep your fleet at a polite distance and we'll do the same. The last thing we need is another enemy.""",cutCommLink:Cut the comm link,
+,,,,,,
+greetingICIAllied,OpenCommLink,"$faction.id == sun_ici
+$faction.friendlyToPlayer
+$player.factionId == sun_ici","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Greetings, commander. It is always good to see a fellow guardian of the Citadel.""",,for Exerelin
+greetingICIFriendly,OpenCommLink,"$faction.id == sun_ici
+$faction.friendlyToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""The resources of the Citadel are at your disposal, commander, but remember; even you can overstay your welcome here. I hope you will forgive us our secrecy.""",,
+greetingICIHostileWeaker,OpenCommLink,"$faction.id == sun_ici
+$faction.hostileToPlayer
+$relativeStrength < 0",$ignorePlayerCommRequests = true 1,"""The fleets of the Idoneus Citadel do not interfere with the affairs of the sector. I suggest that you don't interfere with in ours.""",cutCommLink:Cut the comm link,
+greetingICIHostileWeakerDefiant,OpenCommLink,"$faction.id == sun_ici
+$faction.hostileToPlayer
+$relativeStrength < 0
+$weakerThanPlayerButHolding",$ignorePlayerCommRequests = true 1,"""The Citadel will not yield to outsiders, commander. We shall not succumb to you so easily.""",cutCommLink:Cut the comm link,
+greetingICIHostileStronger,OpenCommLink,"$faction.id == sun_ici
+$faction.hostileToPlayer
+$relativeStrength >= 0",$ignorePlayerCommRequests = true 1,"""You have trespassed, commander. I don't know what you're looking for near the Citadel, but your search ends here.""",cutCommLink:Cut the comm link,
+greetingICINeutral,OpenCommLink,"$faction.id == sun_ici
+$faction.neutralToPlayer",,"""The Idoneus Citadel does not deal with outsiders. You should leave before you encounter a Citadel fleet commander less forgiving than I.""",cutCommLink:Cut the comm link,
+,,,,,,
+,,,,,,
+flavorTextMarketICE,TradePanelFlavorText,"$global.tradePanelMode == MARKET
+$faction.id == sun_ice","AddText ""The docking bay of the colony ship is as cavernous as any a space station might find, yet still crowded for its size with all manner of ships. Traders have covered the market section with their makeshift stalls, hoping to strike a bargain that will keep the colony going a little longer. Ever so often an exile official hustles through the crowd to meet and greet a visiting VIP, while uniformed guards stand about watchfully, ready for action at the slightest hint of disorder."" textGrayColor",,,
+flavorTextMarketICI,TradePanelFlavorText,"$global.tradePanelMode == MARKET
+$faction.id == sun_ici","AddText ""Locals in all manner of clothing sift through the commercial district, a few stopping to gawk at the foreigner in their midst. The bright commercial billboards are interspersed with propaganda banners extolling the virtues of unity, national independence and a certain mistrust of outsiders. In the background, the security agent surreptitiously following you sends a clear message: visits may be permitted, but they are not encouraged."" textGrayColor",,,
+flavorTextMarketICIAllied,TradePanelFlavorText,"$global.tradePanelMode == MARKET
+$faction.id == sun_ici
+$player.factionId == sun_ici","AddText ""Locals in all manner of clothing sift through the commercial district, casting only the briefest glances at your uniformed figure. The bright commercial billboards are interspersed with propaganda banners extolling the virtues of unity, national independence and a certain mistrust of outsiders. Overhead, a security aerobot sweeps over the crowd, ever watchful for suspected criminals against the state."" textGrayColor",,,for Exerelin
+,,,,,,
+,,,,,,
+relLevelNeutralICE,RelationshipLevelDesc,"$faction.rel == NEUTRAL
+$faction.id == sun_ice",,"$TheFaction aren't sure of your trustworthiness just yet, but at least they don't consider you a threat. Their wandering colony will welcome your trade.",,
+relLevelFavorableICE,RelationshipLevelDesc,"$faction.rel == FAVORABLE
+$faction.id == sun_ice",,"You've done a few valuable favours for $theFaction, and they are grateful. Accordingly, they are willing to sell a few specimens of their advanced technology.",,
+relLevelWelcomingICE,RelationshipLevelDesc,"$faction.rel == WELCOMING
+$faction.id == sun_ice",,"Your assistance to $theFaction has been valuable, and they have reciprocated with greater access to the much-coveted Citadel technology.",,
+relLevelFriendlyICE,RelationshipLevelDesc,"$faction.rel == FRIENDLY
+$faction.id == sun_ice",,$TheFaction already trust you like they trust virtually no other outsider. You can count on high levels of cooperation and access to even more sophisticated hardware.,,
+relLevelCooperativeICE,RelationshipLevelDesc,"$faction.rel == COOPERATIVE
+$faction.id == sun_ice",,"You are the greatest ally of $theFaction, and their colony owes you a great debt. They will support you in any way they can.",,
+relLevelSuspiciousICE,RelationshipLevelDesc,"$faction.rel == SUSPICIOUS
+$faction.id == sun_ice",,"$TheFaction trust you as much as they do most others, which is to say: not much. Given their current circumstances, they're not prepared to cut you off, but they are watching.",,
+relLevelInhospitableICE,RelationshipLevelDesc,"$faction.rel == INHOSPITABLE
+$faction.id == sun_ice",,"$TheFaction are angered by your conduct, and the colony refuses to trade with you. It may be best to leave them alone till things cool down a little.",,
+relLevelHostileICE,RelationshipLevelDesc,"$faction.rel == HOSTILE
+$faction.id == sun_ice",,"$TheFaction consider you a military threat to their colony, and their forces will engage on sight. It's going to take some work to get back in their good graces.",,
+relLevelVengefulICE,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == sun_ice",,$TheFaction will not forget the wrongs you have committed against them in their hour of desperation. They will shoot to kill.,,

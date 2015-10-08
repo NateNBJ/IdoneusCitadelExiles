@@ -6,11 +6,14 @@ import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactory;
+import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
@@ -18,9 +21,31 @@ public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
         "sensor_array", "nav_buoy", "comm_relay"
     };
     
-    Random rand = new Random();
-    boolean flagshipChosen = false;
-    FactionAPI player, enemy;
+    protected static final Map<String, Float> QUALITY_FACTORS = new HashMap<>(16);
+    protected static final float QUALITY_FACTOR_DEFAULT = 0.7f;
+    protected Random rand = new Random();
+    protected boolean flagshipChosen = false;
+    protected FactionAPI player, enemy;
+    
+    static
+    {
+        QUALITY_FACTORS.put(Factions.DIKTAT, 0.5f);
+        QUALITY_FACTORS.put(Factions.HEGEMONY, 0.5f);
+        QUALITY_FACTORS.put(Factions.INDEPENDENT, 0.5f);
+        QUALITY_FACTORS.put(Factions.KOL, 0.5f);
+        QUALITY_FACTORS.put(Factions.LIONS_GUARD, 0.75f);
+        QUALITY_FACTORS.put(Factions.LUDDIC_CHURCH, 0.25f);
+        QUALITY_FACTORS.put(Factions.LUDDIC_PATH, 0f);
+        QUALITY_FACTORS.put(Factions.PIRATES, 0f);
+        QUALITY_FACTORS.put(Factions.TRITACHYON, 0.85f);
+        QUALITY_FACTORS.put("exigency", 1f);
+        QUALITY_FACTORS.put("exipirated", 0.6f);
+        QUALITY_FACTORS.put("tiandong", 0.55f);
+        QUALITY_FACTORS.put("sun_ice", 0.85f);
+        QUALITY_FACTORS.put("sun_ici", 0.75f);
+        QUALITY_FACTORS.put("spire", 0.8f);
+        QUALITY_FACTORS.put("darkspire", 0.8f);
+    }
     
     protected void chooseFactions(String playerFactionId, String enemyFactionId) {
         player = Global.getSector().getFaction(playerFactionId);
@@ -29,6 +54,10 @@ public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
         List<FactionAPI> acceptableFactions = new ArrayList();
         for(FactionAPI faction : Global.getSector().getAllFactions()) {
             if(!faction.isNeutralFaction() && !faction.isPlayerFaction()) {
+                String id = faction.getId();
+                if (id.equals("player_npc")) continue;
+                if (id.equals("merc_hostile")) continue;
+                if (id.equals("famous_bounty")) continue;
                 acceptableFactions.add(faction);
             }
         }
@@ -42,7 +71,11 @@ public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
                 acceptableFactions.get(rand.nextInt(acceptableFactions.size()));
     }
     int generateFleet(FactionAPI faction, MissionDefinitionAPI api, FleetSide side, int minFP) {
-        CampaignFleetAPI fleet = FleetFactory.createGenericFleet(faction.getId(), side.toString(), 1, minFP);
+        float qf = QUALITY_FACTOR_DEFAULT;
+        if (QUALITY_FACTORS.containsKey(player.getId()))
+            qf = QUALITY_FACTORS.get(player.getId());
+        
+        CampaignFleetAPI fleet = FleetFactory.createGenericFleet(faction.getId(), side.toString(), qf, minFP);
         fleet.getFleetData().sort();
         
         for(FleetMemberAPI m : fleet.getFleetData().getMembersListCopy()) {
@@ -74,8 +107,8 @@ public class BaseRandomMissionDefinition implements MissionDefinitionPlugin {
         int playerFP = generateFleet(player, api, FleetSide.PLAYER, (int)(size * difficulty));
         int enemyFP = generateFleet(enemy, api, FleetSide.ENEMY, size);
 
-        float width = 13000f + 13000f * (size / 200);
-        float height = 13000f + 13000f * (size / 200);
+        float width = 10000f + 10000f * (size / 100);
+        float height = 10000f + 10000f * (size / 100);
         api.initMap((float) -width / 2f, (float) width / 2f, (float) -height / 2f, (float) height / 2f);
 
         float minX = -width / 2;

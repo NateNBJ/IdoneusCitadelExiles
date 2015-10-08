@@ -42,6 +42,12 @@
 			"graphics/portraits/portrait_mercenary02.png",	 
       ],
    },
+   "custom":{
+		"exemptFromFoodShortages":true,
+		"noPatrols":true,
+		"ignoreTradeWithEnemiesForReputation":true,
+		#"postsNoBounties":true,
+	},
 	"shipRoles":{
 		"interceptor":{
 			"sun_ice_phantom_wing":10,
