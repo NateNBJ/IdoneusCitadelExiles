@@ -32,15 +32,19 @@ import data.world.ICECampaignPlugin;
 import data.world.ICEEveryFrameScript;
 import data.world.Ulterius;
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.dark.shaders.light.LightData;
 import org.dark.shaders.util.ShaderLib;
+import org.dark.shaders.util.TextureData;
 
 public class ICEModPlugin extends BaseModPlugin {
     public static boolean SHADER_LIB_ENABLED = false;
     public static boolean EXERELIN_ENABLED = false;
+    public static boolean exerelinCorvusMode = false;
     public static final boolean SMILE_FOR_CAMERA = false;
     public static final Color HEAL_TEXT_COLOR = new Color(0, 255, 100);
     
@@ -61,7 +65,7 @@ public class ICEModPlugin extends BaseModPlugin {
         Data.Garrison = ici;
 
         ice.setRelationship(hgm.getId(), RepLevel.HOSTILE);
-        ice.setRelationship(prt.getId(), RepLevel.SUSPICIOUS);
+        ice.setRelationship(prt.getId(), RepLevel.HOSTILE);
         ice.setRelationship(snd.getId(), RepLevel.HOSTILE);
         ice.setRelationship(lud.getId(), RepLevel.HOSTILE);
         ice.setRelationship(ind.getId(), RepLevel.SUSPICIOUS);
@@ -90,7 +94,7 @@ public class ICEModPlugin extends BaseModPlugin {
                 float relation = -0.5f;
                 relation -= faction.getRelationship(hgm.getId()) * 0.5f;
                 relation -= faction.getRelationship(lud.getId()) * 0.5f;
-                relation -= faction.getRelationship(snd.getId()) * 0.3f;
+                relation -= faction.getRelationship(prt.getId()) * 0.3f;
                 relation = Math.min(1, Math.max(-1, relation));
 
                 ice.setRelationship(faction.getId(), relation);
@@ -102,24 +106,17 @@ public class ICEModPlugin extends BaseModPlugin {
             Global.getSettings().getScriptClassLoader().loadClass("org.dark.shaders.util.ShaderLib");
             ShaderLib.init();
             LightData.readLightDataCSV("data/lights/light_data.csv");
+            TextureData.readTextureDataCSV("data/lights/texture_data.csv");
 
             SHADER_LIB_ENABLED = true;
         } catch (Exception e) {
         }
     }
-    static void checkForLazyLib() throws ClassNotFoundException {
-        try {
-            Global.getSettings().getScriptClassLoader().loadClass("org.lazywizard.lazylib.ModUtils");
-        } catch (ClassNotFoundException ex) {
-            String message = System.lineSeparator() + System.lineSeparator()
-                    + "LazyLib is required to run at least one of the mods you have installed."
-                    + System.lineSeparator() + System.lineSeparator()
-                    + "You can download LazyLib at http://fractalsoftworks.com/forum/index.php?topic=5444"
-                    + System.lineSeparator();
-            throw new ClassNotFoundException(message);
-        }
-    }
-    static void checkForExerelin() {
+
+    @Override
+    public void onApplicationLoad() {
+        tryToEnableLighting();
+        
         try {
             Global.getSettings().getScriptClassLoader().loadClass("data.scripts.world.ExerelinGen");
             EXERELIN_ENABLED = true;
@@ -129,16 +126,14 @@ public class ICEModPlugin extends BaseModPlugin {
     }
     
     @Override
-    public void onApplicationLoad() throws ClassNotFoundException {
-        checkForLazyLib();
-        checkForExerelin();
-        tryToEnableLighting();
-    }
-    
-    @Override
     public void onGameLoad() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !isExerelinCorvusMode()) 
+		{
+			Global.getLogger(this.getClass()).info("In Exerelin, skipping ICE data load");
+			return;
+		}
 
+        Global.getLogger(this.getClass()).info("Loading ICE data");
         Data.load();
         
         if(Data.IdoneusCitadel == null) {
@@ -155,7 +150,7 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGame() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !isExerelinCorvusMode()) return;
 
         new Ulterius().generate();
         Global.getSector().registerPlugin(new ICECampaignPlugin());
@@ -163,8 +158,9 @@ public class ICEModPlugin extends BaseModPlugin {
     }
     @Override
     public void onNewGameAfterEconomyLoad() {
-        if(EXERELIN_ENABLED) return;
-
+        if (EXERELIN_ENABLED && !exerelinCorvusMode) return;
+        
+        initFactionRelations();
 //        for(MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
 //            float pop = (float) Math.pow(10, m.getSize());
 //            float demand = (m.hasCondition("military_base") ? 0.02f : 0.005f) * pop;
@@ -174,9 +170,8 @@ public class ICEModPlugin extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterTimePass() {
-        if(EXERELIN_ENABLED) return;
+        if (EXERELIN_ENABLED && !exerelinCorvusMode) return;
         
-        initFactionRelations();
         Data.save();
     }
 
@@ -237,5 +232,27 @@ public class ICEModPlugin extends BaseModPlugin {
         }
 
         return super.pickWeaponAutofireAI(weapon);
+    }
+    
+    public boolean isExerelinCorvusMode()
+    {
+        if (!EXERELIN_ENABLED) return false;
+        try {
+            Class<?> def = Global.getSettings().getScriptClassLoader().loadClass("exerelin.campaign.SectorManager");
+            Method method;  
+            try {  
+                method = def.getMethod("getCorvusMode");  
+                Object result = method.invoke(def);  
+                if ((boolean)result == true)  
+                {  
+                    exerelinCorvusMode = true; 
+                }  
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |  
+                     InvocationTargetException ex) {  
+            }
+        } catch (ClassNotFoundException ex) {
+            // shouldn't happen
+        }
+        return exerelinCorvusMode;
     }
 }

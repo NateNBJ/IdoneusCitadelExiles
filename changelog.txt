@@ -1,10 +1,26 @@
-
 ----<  ICE version 0.3.3   >------------------------------------------------------------------------------
 
-Gate for Citadel [Duplication of jump messages due to extra use of system.autogenerateHyperspaceJumpPoints();
-- Seraph fuel/ly reduced from 9 to 6
-- Nightseer now has built-in armored weapon mounts
+CONTENT CHANGES
+- Remove ammo from ballistic weapons
+- Remove reference to ammo in Flamebolt description
+- Support for Nexerelin's Corvus mode
+- rules.csv with flavour text. Includes comm dialogue, trade panel texts, and exile relationship texts
+- Add ExileMarket console command (for debugging)
 
+BALANCE CHANGES
+- Fighter wings cost more to buy from store; less to deploy
+- Citadel market size 5 -> 4 (less distortion of overall economy)
+- Random mission: use quality factors by faction; maps scale better with battle size; code tweaks
+- Colony fleet market meets about half its own demand from built-in supply
+
+BUGS FIXED
+- Fix various issues with Exile colony fleet, Ulterius
+- Fix Umbra having decorative weapons in non-decorative mounts
+- Typos fixed
+- Apocrypha teleporter weapon mount is decorative as it should be
+- Decorative weapons use blank image for ShaderLib maps (fixes super brightness)
+- Random mission doesn't use certain special factions. Said factions being: player_npc (Nexerelin), merc_hostile
+and famous_bounty (SS+)
 
 
 ----<  ICE version 0.3.2   >------------------------------------------------------------------------------

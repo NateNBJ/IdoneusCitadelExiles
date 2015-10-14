@@ -3,8 +3,6 @@ package data.world;
 import java.awt.Color;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.JumpPointAPI;
-import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
@@ -21,15 +19,18 @@ public class Ulterius {
     public static final int VENDOR_SUPPLIES = 2000;
     public static final int VENDOR_FUEL = 3000;
     public static final int VENDOR_MARINES = 100;
+    public static final int EXILE_MARKET_SIZE = 3;
 
     public static void resetColonyFleetMarket() {
         Data.ExileMarket.getConnectedEntities().clear();
         Data.ExileMarket.setPrimaryEntity(Data.PhantomEntity);
         Data.PhantomEntity.setMarket(Data.ExileMarket);
+        //Data.ExileMarket.setSize(0);    // too screwy at present
+        Data.ExileMarket.reapplyConditions();
     }
     public void createColonyFleetMarket() {
-        Data.ExileMarket = Global.getFactory().createMarket(
-                "sun_ice_colony_fleet_market", "The Exiled Idoneus Colony Fleet", 3);
+        Data.ExileMarket = Global.getFactory().createMarket("sun_ice_colony_fleet_market", 
+                "The Exiled Idoneus Colony Fleet", EXILE_MARKET_SIZE);
         Data.ExileMarket.setFactionId("sun_ice");
         
         Data.ExileMarket.addSubmarket("open_market");
@@ -51,7 +52,7 @@ public class Ulterius {
     }    
     public void createIdoneusCitadelMarket() {
         Data.CitadelMarket = Global.getFactory().createMarket(
-                "sun_ice_idoneus_citadel_market", "Idoneus Citadel", 3);
+                "sun_ice_idoneus_citadel_market", "Idoneus Citadel", 4);
         Data.CitadelMarket.setFactionId("sun_ici");
         
         Data.CitadelMarket.addSubmarket("open_market");
@@ -81,10 +82,10 @@ public class Ulterius {
         ulterius.setBackgroundTextureFilename("graphics/backgrounds/background4.jpg");
         PlanetAPI star = ulterius.initStar("sun_ice_ulterius", "brown_dwarf_star", // id in planets.json
                 200f, // radius (in pixels at default zoom)
-                -161380, -249730);   // location in hyperspace
-        SectorEntityToken relay = ulterius.addCustomEntity("sun_ice_ulterius_relay",
-                    "Ulterius Relay", "comm_relay", "independent");
-        relay.setCircularOrbit(star, 150, 500, 200);
+                -16138*3, -24973*3);   // location in hyperspace
+        //SectorEntityToken relay = ulterius.addCustomEntity("sun_ice_ulterius_relay",
+        //            "Ulterius Relay", "comm_relay", "independent");
+        //relay.setCircularOrbit(star, 150, 500, 200);
         ulterius.setLightColor(new Color(255, 238, 193));
         ulterius.autogenerateHyperspaceJumpPoints(true, true);
         
@@ -96,21 +97,14 @@ public class Ulterius {
         
         StarSystemAPI ulterius = createUlterius();
         Data.PhantomEntity = ulterius.getStar();
+        //sector.removeStarSystem(ulterius);
         
         StarSystemAPI system = sector.getStarSystem("Eos");
         //StarSystemAPI system = sector.getStarSystem("Corvus");
-
-        JumpPointAPI jumpPoint = Global.getFactory().createJumpPoint("sun_ice_citadel_gate", "Idoneus Gate");
-        jumpPoint.setCircularOrbit(system.getStar(), 76, 18000, 1100);
-        jumpPoint.setStandardWormholeToHyperspaceVisual();
-        system.addEntity(jumpPoint);
-        //system.autogenerateHyperspaceJumpPoints();
-        jumpPoint.setAutoCreateEntranceFromHyperspace(true);
         
-
         Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
                 "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
-        Data.IdoneusCitadel.setCircularOrbit(jumpPoint, 152, 360, 16);
+        Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 16000, 900);
         
         
 //        SHALOM = Ulterius.addCustomEntity("sun_ice_exiled_colony_ship", "Shalom class Colony Ship",
@@ -120,7 +114,7 @@ public class Ulterius {
         createColonyFleetMarket();
         createIdoneusCitadelMarket();
         
-//        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
+        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
         SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ici");
         //SharedData.getData().getMarketsWithoutPatrolSpawn().add(Data.ExileMarket.getId());
 
