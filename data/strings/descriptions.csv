@@ -1,7 +1,7 @@
 id,type,text1,text2,text3,notes
 sun_ice_lighthexac,WEAPON,"Hex auto cannons are versatile weapons useful for dispatching fighters, destroying enemy missiles, and applying pressure to shielded targets.",Point Defense,,
 sun_ice_hexac,WEAPON,"Hex auto cannons are versatile weapons useful for dispatching fighters, destroying enemy missiles, and applying pressure to shielded targets.",Point Defense,,
-sun_ice_flamebolt,WEAPON,"The flamebolt cannon is limited by its short range and low ammo, but it packs enough of a punch to make up for it.",Strike,,
+sun_ice_flamebolt,WEAPON,"The flamebolt cannon is limited by its very short range, but it packs enough of a punch to make up for it.",Strike,,
 sun_ice_scatterpd,WEAPON,"Unlike most point defense solutions, this weapon specializes in destroying large swarms of missiles all at once.",Point Defense,,
 sun_ice_hypermassbomb,WEAPON,This heavy hitting bomb artificially increases in mass after release.,Strike,,
 sun_ice_boomerang,WEAPON,A two-stage missile weapon useful for circumventing shields.,Close Support,,
