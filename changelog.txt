@@ -1,4 +1,12 @@
 
+----<  ICE version 0.3.3   >------------------------------------------------------------------------------
+
+Gate for Citadel [Duplication of jump messages due to extra use of system.autogenerateHyperspaceJumpPoints();
+- Seraph fuel/ly reduced from 9 to 6
+- Nightseer now has built-in armored weapon mounts
+
+
+
 ----<  ICE version 0.3.2   >------------------------------------------------------------------------------
 
 BUGS FIXED

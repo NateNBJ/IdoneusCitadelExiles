@@ -61,7 +61,7 @@ public class ICEModPlugin extends BaseModPlugin {
         Data.Garrison = ici;
 
         ice.setRelationship(hgm.getId(), RepLevel.HOSTILE);
-        ice.setRelationship(prt.getId(), RepLevel.HOSTILE);
+        ice.setRelationship(prt.getId(), RepLevel.SUSPICIOUS);
         ice.setRelationship(snd.getId(), RepLevel.HOSTILE);
         ice.setRelationship(lud.getId(), RepLevel.HOSTILE);
         ice.setRelationship(ind.getId(), RepLevel.SUSPICIOUS);
@@ -90,7 +90,7 @@ public class ICEModPlugin extends BaseModPlugin {
                 float relation = -0.5f;
                 relation -= faction.getRelationship(hgm.getId()) * 0.5f;
                 relation -= faction.getRelationship(lud.getId()) * 0.5f;
-                relation -= faction.getRelationship(prt.getId()) * 0.3f;
+                relation -= faction.getRelationship(snd.getId()) * 0.3f;
                 relation = Math.min(1, Math.max(-1, relation));
 
                 ice.setRelationship(faction.getId(), relation);
@@ -107,17 +107,32 @@ public class ICEModPlugin extends BaseModPlugin {
         } catch (Exception e) {
         }
     }
-
-    @Override
-    public void onApplicationLoad() {
-        tryToEnableLighting();
-        
+    static void checkForLazyLib() throws ClassNotFoundException {
+        try {
+            Global.getSettings().getScriptClassLoader().loadClass("org.lazywizard.lazylib.ModUtils");
+        } catch (ClassNotFoundException ex) {
+            String message = System.lineSeparator() + System.lineSeparator()
+                    + "LazyLib is required to run at least one of the mods you have installed."
+                    + System.lineSeparator() + System.lineSeparator()
+                    + "You can download LazyLib at http://fractalsoftworks.com/forum/index.php?topic=5444"
+                    + System.lineSeparator();
+            throw new ClassNotFoundException(message);
+        }
+    }
+    static void checkForExerelin() {
         try {
             Global.getSettings().getScriptClassLoader().loadClass("data.scripts.world.ExerelinGen");
             EXERELIN_ENABLED = true;
         } catch (ClassNotFoundException ex) {
             EXERELIN_ENABLED = false;
         }
+    }
+    
+    @Override
+    public void onApplicationLoad() throws ClassNotFoundException {
+        checkForLazyLib();
+        checkForExerelin();
+        tryToEnableLighting();
     }
     
     @Override

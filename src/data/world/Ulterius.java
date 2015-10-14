@@ -3,6 +3,8 @@ package data.world;
 import java.awt.Color;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.JumpPointAPI;
+import com.fs.starfarer.api.campaign.OrbitAPI;
 import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
@@ -94,14 +96,21 @@ public class Ulterius {
         
         StarSystemAPI ulterius = createUlterius();
         Data.PhantomEntity = ulterius.getStar();
-        //sector.removeStarSystem(ulterius);
         
         StarSystemAPI system = sector.getStarSystem("Eos");
         //StarSystemAPI system = sector.getStarSystem("Corvus");
+
+        JumpPointAPI jumpPoint = Global.getFactory().createJumpPoint("sun_ice_citadel_gate", "Idoneus Gate");
+        jumpPoint.setCircularOrbit(system.getStar(), 76, 18000, 1100);
+        jumpPoint.setStandardWormholeToHyperspaceVisual();
+        system.addEntity(jumpPoint);
+        //system.autogenerateHyperspaceJumpPoints();
+        jumpPoint.setAutoCreateEntranceFromHyperspace(true);
         
+
         Data.IdoneusCitadel = system.addCustomEntity("sun_ice_idoneus_citadel",
                 "Idoneus Citadel", "sun_ice_idoneus_citadel", "sun_ici");
-        Data.IdoneusCitadel.setCircularOrbit(system.getStar(), 76, 16000, 900);
+        Data.IdoneusCitadel.setCircularOrbit(jumpPoint, 152, 360, 16);
         
         
 //        SHALOM = Ulterius.addCustomEntity("sun_ice_exiled_colony_ship", "Shalom class Colony Ship",
@@ -111,7 +120,7 @@ public class Ulterius {
         createColonyFleetMarket();
         createIdoneusCitadelMarket();
         
-        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
+//        SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ice");
         SharedData.getData().getPersonBountyEventData().addParticipatingFaction("sun_ici");
         //SharedData.getData().getMarketsWithoutPatrolSpawn().add(Data.ExileMarket.getId());
 

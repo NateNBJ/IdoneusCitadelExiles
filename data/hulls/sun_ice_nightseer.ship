@@ -17,12 +17,13 @@
   ],
   "builtInMods": [
     "sun_ice_gravitonic_sensors_mod",
+    "armoredweapons"
   ],
   "builtInWeapons": {
     "ATOP": "sun_ice_nightseer_atop",
-    "SYSTEM": "sun_ice_nightseer_system",
     "LIGHTS": "sun_ice_nightseer_lights",
-	"LIGHTS_TOP": "sun_ice_nightseer_lights_top",
+    "LIGHTS_TOP": "sun_ice_nightseer_lights_top",
+    "SYSTEM": "sun_ice_nightseer_system"
   },
   "center": [
     45.5,
@@ -111,7 +112,7 @@
       "size": "LARGE",
       "type": "DECORATIVE"
     },
-	{
+    {
       "angle": 0,
       "arc": 0,
       "id": "ATOP",
@@ -182,7 +183,7 @@
       "mount": "TURRET",
       "size": "SMALL",
       "type": "UNIVERSAL"
-    },
+    }
   ],
   "width": 90
 }

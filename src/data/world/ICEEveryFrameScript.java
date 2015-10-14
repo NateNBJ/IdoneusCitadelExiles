@@ -7,7 +7,6 @@ import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorAPI;
-import com.fs.starfarer.api.campaign.events.CampaignEventPlugin;
 import com.fs.starfarer.api.campaign.events.CampaignEventTarget;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
@@ -69,11 +68,11 @@ public class ICEEveryFrameScript implements EveryFrameScript {
         CampaignFleetAPI fleet = sector.createFleet("sun_ice", "refugees");
         loc.spawnFleet(Data.IdoneusCitadel, 0, 0, fleet);
 
-        Data.ExileFleet = fleet;
-        Data.ExileMarket.getConnectedEntities().clear();
-        Data.ExileMarket.setPrimaryEntity(fleet);
-        fleet.setMarket(Data.ExileMarket);
-        fleet.setInteractionImage("illustrations", "cargo_loading");
+//        Data.ExileFleet = fleet;
+//        Data.ExileMarket.getConnectedEntities().clear();
+//        Data.ExileMarket.setPrimaryEntity(fleet);
+//        fleet.setMarket(Data.ExileMarket);
+//        fleet.setInteractionImage("illustrations", "cargo_loading");
         
         Global.getSector().getEventManager().startEvent(
                 new CampaignEventTarget(fleet), "sun_ice_exodus", null);

@@ -35,6 +35,19 @@ public class ExodusEvent extends BaseEventPlugin {
     CampaignFleetAPI exiles;
     StarSystemAPI destination;
     SectorAPI sector;
+    
+    
+    private String PropTest;// <editor-fold defaultstate="collapsed" desc="Shows a comment!">
+    
+
+    public String getPropTest() {
+        return PropTest;
+    }
+
+    public void setPropTest(String PropTest) {
+        this.PropTest = PropTest;
+    }
+    // </editor-fold>    
 
     @Override
     public void init(String type, CampaignEventTarget eventTarget) {
