@@ -9,7 +9,7 @@ CONTENT CHANGES
 
 BALANCE CHANGES
 - Fighter wings cost more to buy from store; less to deploy
-- Citadel market size 3 -> 4 (less distortion of overall economy)
+- Citadel market size 3 -> 4
 - Random mission: use quality factors by faction; maps scale better with battle size; code tweaks
 - Colony fleet market meets about half its own demand from built-in supply
 
